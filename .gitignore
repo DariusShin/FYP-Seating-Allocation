@@ -44,9 +44,6 @@ Desktop.ini
 $RECYCLE.BIN/
 .DS_Store
 
-# Backup of the old frontend/ inner git repo (safe to delete once satisfied)
-.frontend-git-backup/
-
 # ---------- Logs ----------
 *.log
 npm-debug.log*
