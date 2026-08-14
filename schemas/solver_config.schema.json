@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "solver_config.schema.json",
+  "title": "Solver Configuration File",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "tiers",
+    "weights",
+    "desired_priority_rules",
+    "category_zone_costs",
+    "movement",
+    "emperor_pair_priorities",
+    "constraints",
+    "tie_break",
+    "solver"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "string"},
+    "tiers": {
+      "type": "object",
+      "required": ["EMPEROR", "BODHI", "MERIT"],
+      "additionalProperties": false,
+      "properties": {
+        "EMPEROR": {"$ref": "#/$defs/tier"},
+        "BODHI": {"$ref": "#/$defs/tier"},
+        "MERIT": {"$ref": "#/$defs/tier"}
+      }
+    },
+    "weights": {
+      "type": "object",
+      "required": [
+        "priority_seat_weight",
+        "category_zone_weight",
+        "movement_weight",
+        "activeness_weight"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "priority_seat_weight": {"$ref": "#/$defs/weight"},
+        "category_zone_weight": {"$ref": "#/$defs/weight"},
+        "movement_weight": {"$ref": "#/$defs/weight"},
+        "activeness_weight": {"$ref": "#/$defs/weight"}
+      }
+    },
+    "desired_priority_rules": {
+      "type": "object",
+      "required": ["accessible_rank", "monk_rank", "elderly_rank", "default_rank"],
+      "additionalProperties": false,
+      "properties": {
+        "accessible_rank": {"type": "integer", "minimum": 1},
+        "monk_rank": {"type": "integer", "minimum": 1},
+        "elderly_rank": {"type": "integer", "minimum": 1},
+        "default_rank": {"type": "integer", "minimum": 1}
+      }
+    },
+    "category_zone_costs": {
+      "type": "object",
+      "required": ["MONASTIC", "COMMITTEE", "VOLUNTEER", "GENERAL_DEVOTEE"],
+      "additionalProperties": false,
+      "properties": {
+        "MONASTIC": {"$ref": "#/$defs/zone_costs"},
+        "COMMITTEE": {"$ref": "#/$defs/zone_costs"},
+        "VOLUNTEER": {"$ref": "#/$defs/zone_costs"},
+        "GENERAL_DEVOTEE": {"$ref": "#/$defs/zone_costs"}
+      }
+    },
+    "movement": {
+      "type": "object",
+      "required": [
+        "fixed_move_penalty",
+        "row_distance_weight",
+        "column_distance_weight"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "fixed_move_penalty": {"type": "integer", "minimum": 0},
+        "row_distance_weight": {"type": "integer", "minimum": 0},
+        "column_distance_weight": {"type": "integer", "minimum": 0}
+      }
+    },
+    "emperor_pair_priorities": {
+      "type": "object",
+      "required": [
+        "1-2",
+        "3-4",
+        "5-6",
+        "7-8",
+        "9-10",
+        "11-12",
+        "13-14",
+        "15-16"
+      ],
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[0-9]{1,2}-[0-9]{1,2}$": {"type": "integer", "minimum": 1}
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "required": ["enforce_front_fill", "enforce_middle_fill", "normalize_penalties"],
+      "additionalProperties": false,
+      "properties": {
+        "enforce_front_fill": {"type": "boolean"},
+        "enforce_middle_fill": {"type": "boolean"},
+        "normalize_penalties": {"type": "boolean"}
+      }
+    },
+    "tie_break": {
+      "type": "object",
+      "required": ["main_objective_scale"],
+      "additionalProperties": false,
+      "properties": {
+        "main_objective_scale": {"type": "integer", "minimum": 1}
+      }
+    },
+    "solver": {
+      "type": "object",
+      "required": [
+        "require_optimal",
+        "max_time_seconds",
+        "num_search_workers",
+        "random_seed",
+        "log_search_progress"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "require_optimal": {"type": "boolean"},
+        "max_time_seconds": {"type": "integer", "minimum": 1},
+        "num_search_workers": {"type": "integer", "minimum": 1},
+        "random_seed": {"type": "integer"},
+        "log_search_progress": {"type": "boolean"}
+      }
+    }
+  },
+  "$defs": {
+    "tier": {
+      "type": "object",
+      "required": [
+        "min_contribution_rm",
+        "max_contribution_rm",
+        "seats_required"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "min_contribution_rm": {"type": "integer", "minimum": 0},
+        "max_contribution_rm": {"type": ["integer", "null"], "minimum": 0},
+        "seats_required": {"type": "integer", "minimum": 1, "maximum": 2}
+      }
+    },
+    "weight": {"type": "integer", "minimum": 0, "maximum": 100},
+    "zone_costs": {
+      "type": "object",
+      "required": ["RIGHT_CENTER", "LEFT_CENTER", "RIGHT_OUTER", "LEFT_OUTER"],
+      "additionalProperties": false,
+      "properties": {
+        "RIGHT_CENTER": {"type": "integer", "minimum": 0},
+        "LEFT_CENTER": {"type": "integer", "minimum": 0},
+        "RIGHT_OUTER": {"type": "integer", "minimum": 0},
+        "LEFT_OUTER": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "schema_version": "2.0.0",
+  "title": "PJ Kwan Inn Teng CP-SAT Seat Allocation Mathematical Model",
+  "case_study": "PJ Kwan Inn Teng",
+  "engine": "Google OR-Tools CP-SAT",
+  "sets": {
+    "P": "Single-seat participants: all Bodhi and Merit primary participants.",
+    "E": "Emperor allocation units: one unit per Emperor primary participant; each unit consumes exactly two physically adjacent seats.",
+    "S": "Physical seats: 256 seats over 16 rows with 16 seats per row; 24 seats are structurally blocked (rows 6 and 8: positions 5-12; rows 7 and 9: positions 5-6 and 11-12), leaving 232 assignable seats.",
+    "K": "Valid Emperor pairs: within-row adjacent seat pairs (positions 1-2, 3-4, 5-6, 7-8, 9-10, 11-12, 13-14, 15-16) over every row, excluding pairs that contain a blocked seat; positions 8-9 can never form a pair because of the centre aisle. |K| = 116 on the default hall.",
+    "R": "Rows: 16 rows, one-based row_number 1..16, zero-based row_index 0..15.",
+    "T": "Contribution tiers in precedence order: EMPEROR, BODHI, MERIT.",
+    "B": "Tier bands: demand-derived contiguous row blocks band[t] for each tier t, ordered EMPEROR before BODHI before MERIT from the front of the hall, with every row belonging to at most one tier (tier-exclusive rows). Bands are computed before model construction, not fixed venue zones.",
+    "Z": "Seating zones: LEFT_OUTER (positions 1-4), LEFT_CENTER (positions 5-8), RIGHT_CENTER (positions 9-12), RIGHT_OUTER (positions 13-16)."
+  },
+  "indices": {
+    "p": "index over single-seat participants in P",
+    "e": "index over Emperor allocation units in E",
+    "s": "index over physical seats in S",
+    "k": "index over valid Emperor pairs in K",
+    "r": "index over rows in R",
+    "t": "index over tiers in T",
+    "z": "index over zones in Z"
+  },
+  "input_parameters": {
+    "contribution[i]": "Integer ringgit contribution amount of participant or allocation unit i.",
+    "tier[i]": "Contribution tier of participant i, derived from configurable tier boundaries.",
+    "band[t]": "Demand-derived contiguous row block of tier t: rows are consumed front to back by the tiers in precedence order, the Emperor tier by valid-pair capacity and the single-seat tiers by non-blocked seat capacity; a tier's partially used last row still belongs exclusively to that tier. For the default 86/12/24 demand: EMPEROR rows 1-13, BODHI row 14, MERIT rows 15-16.",
+    "priority_rank[s]": "Seat priority rank 1..16 following the per-row pattern [16,14,12,10,8,6,4,2,1,3,5,7,9,11,13,15] from physical position 1 to 16; rank 1 is best (immediately right of the aisle), and the right seat outranks its mirrored left seat at every distance step.",
+    "pair_priority[k]": "Emperor pair priority, centre-out east first: positions 9-10 -> 1, 7-8 -> 2, 11-12 -> 3, 5-6 -> 4, 13-14 -> 5, 3-4 -> 6, 15-16 -> 7, 1-2 -> 8.",
+    "zone[s]": "Spatial zone of seat s.",
+    "is_accessible[s]": "1 if seat s is accessibility-compatible (positions 1, 8, 9, 16).",
+    "is_blocked[s]": "1 if seat s must never be assigned (the structural centre block of rows 6-9).",
+    "requires_accessible[i]": "1 if participant i requires an accessible seat.",
+    "desired_priority_rank[i]": "Desired seat rank: accessibility requirement -> 1, monk -> 1, elderly -> 3, general -> 10; when several rules apply the highest priority (lowest rank) wins.",
+    "activity[i]": "events_joined_last_2_years for participant i.",
+    "activity_target_rank[i]": "1 + round((max_rank - 1) * (max_activity - activity[i]) / max(1, max_activity - min_activity)) with max_rank = 16, computed with integer arithmetic (round half up).",
+    "previous_seat[i]": "Previous seat (or previous pair for Emperor units) of participant i, when a previous allocation exists.",
+    "W_priority, W_zone, W_movement, W_activeness": "Integer soft-constraint weights in [0, 100]; defaults 40, 25, 20, 15.",
+    "C_priority[p,s], C_zone[p,s], C_movement[p,s], C_activeness[p,s]": "Precomputed non-negative integer unweighted costs for assigning single-seat participant p to seat s.",
+    "C_priority_pair[e,k], C_zone_pair[e,k], C_movement_pair[e,k], C_activeness_pair[e,k]": "Precomputed non-negative integer unweighted costs for assigning Emperor unit e to pair k.",
+    "MAIN_OBJECTIVE_SCALE": "Integer scale (10000000) applied to the main weighted penalty so the deterministic tie-break term can never override it."
+  },
+  "decision_variables": {
+    "x[p,s]": "Boolean: 1 if single-seat participant p is assigned to seat s, else 0. Created only for eligible (p, s) combinations: seat row inside band[tier[p]] (further reduced to the rows implied by contribution-level packing when front-fill is enforced), seat not blocked, and seat accessible when requires_accessible[p] = 1.",
+    "y[e,k]": "Boolean: 1 if Emperor allocation unit e is assigned to valid pair k, else 0. Created only for eligible (e, k) combinations: pair rows inside band[EMPEROR] (level-reduced under front-fill), neither seat blocked, and the pair contains at least one accessible seat when requires_accessible[e] = 1.",
+    "row[p]": "Integer expression: assigned zero-based row of single-seat participant p = sum over s of x[p,s] * row_index[s].",
+    "row[e]": "Integer expression: assigned zero-based row of Emperor unit e = sum over k of y[e,k] * row_index[k].",
+    "boundary[t,g]": "Auxiliary integer row-boundary variable between consecutive distinct contribution levels g and g+1 inside tier t, used to encode contribution ordering linearly."
+  },
+  "hard_constraints": {
+    "HC1": "Every single-seat participant is assigned exactly once: for every p in P, sum over eligible s of x[p,s] = 1.",
+    "HC2": "Every Emperor allocation unit is assigned exactly one valid pair: for every e in E, sum over eligible k of y[e,k] = 1.",
+    "HC3": "Every physical seat has at most one occupant: for every s, sum over p of x[p,s] + sum over (e,k) with s in k of y[e,k] <= 1.",
+    "HC4": "Tier-band placement, band ordering, and tier-exclusive rows are enforced structurally: the bands are derived from demand before model construction (front-to-back packing in tier precedence order EMPEROR -> BODHI -> MERIT, a partial last row remaining exclusive to its tier), and variables are only created for rows inside the participant tier's band. Every Emperor row therefore precedes every Bodhi row, every Bodhi row precedes every Merit row, no row can host two tiers, and no invalid participant-seat variable exists in the model.",
+    "HC5": "Contribution ordering inside each tier: for units i, j in the same tier, contribution[i] > contribution[j] implies row[i] <= row[j]. Encoded linearly: sort the tier's distinct contribution values descending into levels; for each pair of consecutive levels g, g+1 add row[i] <= boundary[t,g] for all i in level g and boundary[t,g] <= row[j] for all j in level g+1. Transitivity over boundaries yields the full ordering. Units with equal contribution are not mutually ordered. Under front-fill the same ordering additionally prunes each unit's eligible rows to its contribution level's packing interval (a pure domain reduction that leaves the constraint intact).",
+    "HC6": "Emperor adjacency: every Emperor unit occupies exactly one predefined valid adjacent pair (implied by HC2 plus the construction of K).",
+    "HC7": "No centre-aisle crossing: the pair (position 8, position 9) is never a member of K, so no variable can represent an aisle-crossing pair.",
+    "HC8": "Accessibility: a participant with requires_accessible = 1 only receives variables on accessible seats (singles) or on pairs containing at least one accessible seat (Emperor units).",
+    "HC9": "Blocked seats: no variable is created on a blocked seat, so a blocked seat can never be assigned.",
+    "HC10": "Unique primary allocation: each primary participant maps to exactly one allocation unit (one single-seat unit or one Emperor pair unit) by construction, and HC1/HC2 assign that unit exactly once.",
+    "HC11": "Capacity validation before model construction: first 2 * |Emperor| + |Bodhi| + |Merit| <= available (non-blocked) seat count (CAPACITY_EXCEEDED); then the demand-derived bands must fit inside the hall's rows and each tier's demand — including accessible demand — must fit inside its own band (TIER_CAPACITY_EXCEEDED). Both failures return structured errors without invoking the solver.",
+    "HC12": "Integer-only model: every CP-SAT variable, coefficient, cost, weight, and objective term is an integer. No floating-point value enters the model.",
+    "HC13": "Front-fill rows (configurable via constraints.enforce_front_fill): inside each tier band every seat of row r outranks every seat of row r+1, so rows must fill front to back and empty seats can only appear in the last occupied row of a band. Because tier demand is known before solving, each band row's occupancy is fully determined by the band derivation. Encoded as exact equalities sum over row-r assignment variables == target(r) per band row, using pair variables for the Emperor band and seat variables for Bodhi and Merit.",
+    "HC14": "Middle-out fill (configurable via constraints.enforce_middle_fill): on each side of each row the occupied seats must form one contiguous block that starts at the centre aisle, so a row can never look like [X][ ][X] with a gap between the aisle and an outer occupied seat. Encoded by ordering each side's non-blocked seats outward from the aisle by physical_position and adding occ(outer) <= occ(inner) for every consecutive pair, where occ(s) = sum over p of x[p,s] + sum over (e,k) with s in k of y[e,k]. Transitivity along the chain yields the contiguous block. Uses physical_position, never priority_rank."
+  },
+  "soft_constraints": {
+    "SC1_priority_seat_mismatch": {
+      "single": "C_priority[p,s] = abs(desired_priority_rank[p] - priority_rank[s])",
+      "emperor": "C_priority_pair[e,k] = abs(desired_priority_rank[e] - pair_priority[k])",
+      "weight": "priority_seat_weight (default 40)"
+    },
+    "SC2_category_zone_mismatch": {
+      "single": "C_zone[p,s] = zone_cost[category[p]][zone[s]] from the configurable category-zone cost matrix in solver_config.json.",
+      "emperor": "C_zone_pair[e,k] = zone_cost[category[e]][zone[s1]] + zone_cost[category[e]][zone[s2]] for the two seats s1, s2 of pair k (a pair may span two zones).",
+      "weight": "category_zone_weight (default 25)"
+    },
+    "SC3_movement_after_regeneration": {
+      "single": "C_movement[p,s] = 0 when s is the previous seat of p; otherwise fixed_move_penalty + row_distance_weight * abs(previous_row[p] - row[s]) + column_distance_weight * abs(previous_position[p] - physical_position[s]). Zero for participants without a previous seat.",
+      "emperor": "C_movement_pair[e,k] = 0 when k equals the previous pair of e; otherwise fixed_move_penalty + row_distance_weight * abs(previous_row[e] - row[k]) + column_distance_weight * abs(previous_first_position[e] - first_position[k]). Zero for units without a previous pair.",
+      "weight": "movement_weight (default 20)",
+      "note": "When no previous allocation input exists, every movement cost is exactly zero."
+    },
+    "SC4_activeness_mismatch": {
+      "single": "C_activeness[p,s] = abs(activity_target_rank[p] - priority_rank[s])",
+      "emperor": "C_activeness_pair[e,k] = abs(activity_target_rank[e] - pair_priority[k])",
+      "weight": "activeness_weight (default 15)"
+    }
+  },
+  "penalty_normalization": {
+    "rationale": "The raw component scales are incomparable: movement can reach fixed_move_penalty + 12*15 + 1*15 = 215 while priority and activeness mismatches top out at 15 and the zone cost at 16. Without normalization a weight of 20 on movement dominates a weight of 40 on priority, so the configured weights do not mean what they say. With constraints.normalize_penalties enabled (the default), every raw component cost is rescaled to the integer range 0..100 by its theoretical maximum before weighting, making the four weights compare like for like.",
+    "formula": "N_c[i,o] = round(100 * C_c[i,o] / M_c) computed integer-only as (2 * 100 * C_c[i,o] + M_c) // (2 * M_c) (round half up), where M_c is the component's theoretical maximum.",
+    "component_maxima": "M_priority = max(max_rank - min(desired ranks), max(desired ranks) - min pair priority) = 15; M_zone = 2 * max matrix entry = 16 (a pair sums two seats); M_movement = fixed_move_penalty + row_distance_weight * (row_count - 1) + column_distance_weight * (seats_per_row - 1) = 215; M_activeness = max_rank - 1 = 15. The maxima used by a run are echoed in the result's constraint_config.component_maxima so validation can recompute every normalized value.",
+    "reporting": "Every assignment and the penalty summary report all three layers: unweighted raw costs, normalized costs, and weighted costs (weight * normalized). The solver objective uses the weighted normalized costs."
+  },
+  "objective_function": {
+    "single_seat_term": "Z_single = sum over (p,s) of x[p,s] * (W_priority * N_priority[p,s] + W_zone * N_zone[p,s] + W_movement * N_movement[p,s] + W_activeness * N_activeness[p,s]) where N_c is the normalized component cost (equal to the raw cost when normalization is disabled)",
+    "emperor_term": "Z_emperor = sum over (e,k) of y[e,k] * (W_priority * N_priority_pair[e,k] + W_zone * N_zone_pair[e,k] + W_movement * N_movement_pair[e,k] + W_activeness * N_activeness_pair[e,k])",
+    "main_penalty": "MainPenalty = Z_single + Z_emperor",
+    "tie_break": "TieBreakPenalty = sum over (p,s) of x[p,s] * unit_rank[p] * global_seat_index[s] + sum over (e,k) of y[e,k] * unit_rank[e] * global_pair_index[k], where unit_rank is the unit's 1-based position in participant-id order (1..122), global_seat_index is 0..255, and global_pair_index is 0..|K|-1. Weighting by unit_rank breaks the swap symmetry between equal-cost participants: exchanging units i, j between options a, b changes the term by (unit_rank[i] - unit_rank[j]) * (index_a - index_b) != 0, so the optimum is a unique canonical layout.",
+    "final_objective": "Minimize FinalObjective = MAIN_OBJECTIVE_SCALE * MainPenalty + TieBreakPenalty",
+    "tie_break_dominance_proof": "An upper bound on TieBreakPenalty is max_index * sum of unit ranks = 255 * (122 * 123 / 2) = 255 * 7503 = 1913265 < 10000000 = MAIN_OBJECTIVE_SCALE. The model builder also computes the exact bound at build time and refuses to run if it ever reaches the scale. Any two solutions whose MainPenalty differs by at least 1 differ by at least 10000000 in the scaled term, which strictly exceeds the largest achievable tie-break total, therefore the tie-break can only order solutions with identical MainPenalty and can never override a main-penalty difference."
+  },
+  "assumptions": [
+    "Exactly 122 primary participant records exist in the default scenario: 86 Emperor, 12 Bodhi, 24 Merit (208 occupied seats, 24 empty assignable seats).",
+    "Pair seating is exclusive to the Emperor tier; Bodhi and Merit participants always occupy single seats.",
+    "An Emperor adjacent guest is not an additional primary participant record; the guest only affects seat display names (a null guest name displays the primary name on both seats, mirroring the merged cells of the real PJKIT layouts).",
+    "Contribution amounts are integer ringgit values; no floating-point money is used.",
+    "The floor plan contains exactly 16 rows and 16 seats per row with one centre aisle between physical positions 8 and 9, and the structural blocked centre block in rows 6-9 (24 seats) observed in the real 2023 and 2024 PJKIT layouts.",
+    "Tier bands are demand-derived, not fixed venue zones: the same hall serves any tier mix whose bands fit its rows.",
+    "Physical adjacency is defined on physical_position, never on priority_rank.",
+    "The right (east) side of the hall outranks the mirrored left-side position, which is expressed through the priority-rank pattern and the category-zone cost matrix.",
+    "Previous allocations, when present, contain no duplicate physical seats.",
+    "The default deterministic dataset is designed so CP-SAT proves OPTIMAL well inside the 60-second time limit."
+  ],
+  "boundary_conditions": [
+    "Default-band derivation: Emperor pair capacity per row is 8 (full rows), 4 (rows 6 and 8), and 6 (rows 7 and 9); 86 pairs therefore fill rows 1-12 with the last 2 pairs on row 13. Bodhi's 12 seats take row 14 and Merit's 24 seats take rows 15-16 (16 + 8). The 24 empty assignable seats are pinned by HC13 to the bands' last rows: 12 on row 13, 4 on row 14, and 8 on row 16.",
+    "If total demand exceeds the 232 assignable seats, the solver returns CAPACITY_EXCEEDED before model construction.",
+    "If the demand-derived bands do not fit the hall's rows, or a tier's accessible demand exceeds the accessible capacity inside its band, the solver returns TIER_CAPACITY_EXCEEDED before model construction.",
+    "A blocked or insufficiently accessible band that makes assignment impossible yields INFEASIBLE or a structured capacity error, never an uncaught exception."
+  ],
+  "integer_scaling": {
+    "money": "Contributions are stored as integer ringgit.",
+    "costs": "All unweighted costs are computed with integer arithmetic (absolute differences, integer matrix lookups, integer distance formulas).",
+    "activity_target_rank_rounding": "round((max_rank - 1) * a / b) is computed as (2 * (max_rank - 1) * a + b) // (2 * b) (round half up) to keep the model integer-only.",
+    "weights": "Weights are integers in [0, 100].",
+    "objective": "FinalObjective = 10000000 * MainPenalty + TieBreakPenalty, all integer."
+  },
+  "expected_solver_statuses": {
+    "OPTIMAL": "Proven optimal solution; the only status reported as success.",
+    "FEASIBLE": "A solution exists but optimality is not proven; with require_optimal enabled the run returns the structured error OPTIMAL_NOT_PROVEN.",
+    "INFEASIBLE": "No assignment satisfies the hard constraints; returned as the structured error INFEASIBLE.",
+    "MODEL_INVALID": "The model definition is invalid; returned as the structured error MODEL_INVALID.",
+    "UNKNOWN": "The solver could not decide within its limits; returned as the structured error SOLVER_UNKNOWN."
+  }
+}

@@ -1,0 +1,4 @@
+ortools>=9.10
+jsonschema>=4.21
+pytest>=8.0
+psutil>=5.9

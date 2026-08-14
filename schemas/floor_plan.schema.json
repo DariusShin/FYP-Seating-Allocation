@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "floor_plan.schema.json",
+  "title": "Floor Plan File",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "row_count",
+    "seats_per_row",
+    "total_seats",
+    "aisle_after_position",
+    "seats"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "string"},
+    "row_count": {"type": "integer", "minimum": 1},
+    "seats_per_row": {"type": "integer", "minimum": 1},
+    "total_seats": {"type": "integer", "minimum": 1},
+    "aisle_after_position": {"type": "integer", "minimum": 1},
+    "seats": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/seat"}
+    }
+  },
+  "$defs": {
+    "seat": {
+      "type": "object",
+      "required": [
+        "seat_id",
+        "row_number",
+        "row_index",
+        "physical_position",
+        "priority_rank",
+        "side",
+        "zone",
+        "is_accessible",
+        "is_blocked"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "seat_id": {"type": "string", "pattern": "^R[0-9]{2}-S[0-9]{2}$"},
+        "row_number": {"type": "integer", "minimum": 1},
+        "row_index": {"type": "integer", "minimum": 0},
+        "physical_position": {"type": "integer", "minimum": 1},
+        "priority_rank": {"type": "integer", "minimum": 1},
+        "side": {"enum": ["LEFT", "RIGHT"]},
+        "zone": {
+          "enum": ["LEFT_OUTER", "LEFT_CENTER", "RIGHT_CENTER", "RIGHT_OUTER"]
+        },
+        "is_accessible": {"type": "boolean"},
+        "is_blocked": {"type": "boolean"}
+      }
+    }
+  }
+}

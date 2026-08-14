@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "participant.schema.json",
+  "title": "Mock Participants File",
+  "type": "object",
+  "required": ["schema_version", "seed", "participants"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "string"},
+    "seed": {"type": "integer"},
+    "participants": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/participant"}
+    }
+  },
+  "$defs": {
+    "participant": {
+      "type": "object",
+      "required": [
+        "participant_id",
+        "full_name",
+        "is_synthetic",
+        "contribution_amount_rm",
+        "contribution_tier",
+        "age",
+        "is_elderly",
+        "is_monk",
+        "requires_accessible_seat",
+        "participant_category",
+        "category_importance",
+        "events_joined_last_2_years",
+        "adjacent_person_name",
+        "previous_seat_ids"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "participant_id": {"type": "string", "pattern": "^P[0-9]{3}$"},
+        "full_name": {"type": "string", "minLength": 1},
+        "is_synthetic": {"type": "boolean"},
+        "contribution_amount_rm": {"type": "integer", "minimum": 500},
+        "contribution_tier": {"enum": ["EMPEROR", "BODHI", "MERIT"]},
+        "age": {"type": "integer", "minimum": 18, "maximum": 110},
+        "is_elderly": {"type": "boolean"},
+        "is_monk": {"type": "boolean"},
+        "requires_accessible_seat": {"type": "boolean"},
+        "participant_category": {
+          "enum": ["MONASTIC", "COMMITTEE", "VOLUNTEER", "GENERAL_DEVOTEE"]
+        },
+        "category_importance": {"type": "integer", "minimum": 1, "maximum": 4},
+        "events_joined_last_2_years": {"type": "integer", "minimum": 0},
+        "adjacent_person_name": {"type": ["string", "null"]},
+        "previous_seat_ids": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^R[0-9]{2}-S[0-9]{2}$"}
+        }
+      }
+    }
+  }
+}

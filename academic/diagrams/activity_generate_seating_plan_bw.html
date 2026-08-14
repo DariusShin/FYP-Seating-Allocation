@@ -1,0 +1,358 @@
+<title>Generate Seating Plan — Activity Diagram (B/W export)</title>
+<style>
+  :root{
+    --bg:#f4f5f7; --panel:#ffffff; --ink:#16181d; --muted:#5c6775; --line:#d3dae4;
+    --accent:#2f6fb2; --ok:#2f8a63;
+    --sans: ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono: ui-monospace,"SF Mono","Cascadia Code",Consolas,"Liberation Mono",monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0f131a; --panel:#161b24; --ink:#e6ebf2; --muted:#94a1b3; --line:#28313d; --accent:#5b9bd8; --ok:#5cbd8e; }
+  }
+  :root[data-theme="light"]{ --bg:#f4f5f7; --panel:#ffffff; --ink:#16181d; --muted:#5c6775; --line:#d3dae4; --accent:#2f6fb2; --ok:#2f8a63; }
+  :root[data-theme="dark"]{ --bg:#0f131a; --panel:#161b24; --ink:#e6ebf2; --muted:#94a1b3; --line:#28313d; --accent:#5b9bd8; --ok:#5cbd8e; }
+
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1180px;margin:0 auto;padding:32px 24px 56px;}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 6px;}
+  h1{font-size:26px;margin:0 0 6px;letter-spacing:-.01em;font-weight:650;}
+  .lede{margin:0;max-width:62ch;color:var(--muted);font-size:14.5px;}
+
+  .toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:20px 0 12px;
+           padding:12px 14px;background:var(--panel);border:1px solid var(--line);border-radius:12px;}
+  .toolbar label{font-size:13px;color:var(--muted);}
+  select{padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);font:inherit;font-size:14px;}
+  button{font:inherit;font-size:14px;padding:9px 16px;border-radius:9px;border:1px solid transparent;cursor:pointer;font-weight:600;}
+  button.primary{background:var(--accent);color:#fff;}
+  button.ghost{background:transparent;color:var(--ink);border-color:var(--line);}
+  button:hover{filter:brightness(1.05);}
+  button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .hint{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-left:auto;}
+
+  .status{min-height:20px;margin:0 0 14px;font-size:13.5px;color:var(--ok);font-weight:500;}
+  .status.warn{color:var(--accent);}
+
+  .canvas{background:#ffffff;border:1px solid var(--line);border-radius:12px;padding:8px;overflow-x:auto;}
+  .canvas svg{display:block;width:100%;height:auto;min-width:940px;}
+
+  #previewWrap{display:none;margin-top:22px;}
+  #previewWrap h2{font-size:14px;margin:0 0 4px;font-weight:600;}
+  #previewWrap p{margin:0 0 10px;font-size:13px;color:var(--muted);}
+  #preview{display:block;max-width:100%;height:auto;border:1px solid var(--line);border-radius:10px;background:#fff;}
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">UML Activity Diagram · Swimlanes · Black &amp; White</p>
+  <h1>Generate Seating Plan</h1>
+  <p class="lede">Monochrome, print-ready rendering. Copy straight to your clipboard for Canva,
+    or download a high-resolution PNG. Both are produced entirely in your browser.</p>
+
+  <div class="toolbar">
+    <button type="button" class="primary" id="copy">⧉ Copy PNG to clipboard</button>
+    <button type="button" class="ghost" id="dl">⬇ Download PNG</button>
+    <label for="scale">Resolution</label>
+    <select id="scale">
+      <option value="2">2×</option>
+      <option value="3" selected>3× (recommended)</option>
+      <option value="4">4× (print)</option>
+    </select>
+    <span class="hint" id="dims"></span>
+  </div>
+
+  <p class="status" id="status"></p>
+
+  <div class="canvas"><div id="diagram"></div></div>
+
+  <div id="previewWrap">
+    <h2>Generated PNG</h2>
+    <p>If the button above was blocked by the sandbox, right-click this image →
+      <b>Copy image</b> (then paste into Canva) or <b>Save image as…</b></p>
+    <img id="preview" alt="Exported activity diagram PNG"/>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- monochrome palette (per spec) ---------- */
+  const C = {
+    paper:"#ffffff", ink:"#000000",
+    node:"#ffffff", nodeBorder:"#000000",
+    decisionBg:"#ffffff", decisionBorder:"#000000",
+    terminal:"#000000", text:"#000000", label:"#000000",
+  };
+  const SANS = "'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+  const MONO = "Consolas, 'Courier New', monospace";
+
+  /* ---------- geometry ---------- */
+  const LANE_W = 268, LEFT = 26, HEADER_H = 68, TOP = 18, ROW_H = 90;
+  const NS = "http://www.w3.org/2000/svg";
+
+  const lanes = [
+    { lines:["Event","Administrator"] },
+    { lines:["Netizen eXperience","Event Management","Web App"] },
+    { lines:["Intelligent Seating","Allocation System"] },
+    { lines:["Seat Allocation","Engine"] },
+  ];
+  const NLANES = lanes.length;
+  const laneLeft = i => LEFT + i*LANE_W;
+  const laneCX   = i => laneLeft(i) + LANE_W/2;
+  const rowY     = r => TOP + HEADER_H + 48 + r*ROW_H;
+
+  const rawNodes = [
+    {id:"start",type:"terminal",variant:"start",lane:0,row:0,label:"Start"},
+    {id:"n1", type:"action",  lane:0,row:1, lines:["Request seating plan","generation"]},
+    {id:"n2", type:"action",  lane:1,row:2, lines:["Receive allocation input:","participants, seating layout,","constraints & previous plan"]},
+    {id:"n3", type:"action",  lane:2,row:3, lines:["Validate input data","and seating capacity"]},
+    {id:"n4", type:"decision",lane:2,row:4, lines:["Input valid and","allocation feasible?"]},
+    {id:"n5", type:"action",  lane:1,row:5, lines:["Return error or","infeasibility explanation"]},
+    {id:"n6", type:"terminal",variant:"final",lane:0,row:6,label:"Admin revises input"},
+    {id:"n7", type:"action",  lane:2,row:7, lines:["Build optimization model:","variables, hard &","weighted soft constraints"]},
+    {id:"n8", type:"action",  lane:3,row:8, lines:["Run CP-SAT solver","within time limit"]},
+    {id:"n9", type:"decision",lane:3,row:9, lines:["Valid seating plan","generated?"]},
+    {id:"n10",type:"action",  lane:1,row:10,lines:["Return solver status","and failure information"]},
+    {id:"n11",type:"terminal",variant:"final",lane:0,row:11,label:"Admin revises input"},
+    {id:"n12",type:"action",  lane:2,row:12,lines:["Extract and validate","seat assignments"]},
+    {id:"n13",type:"action",  lane:2,row:13,lines:["Prepare result, solver","status & quality metrics"]},
+    {id:"n14",type:"action",  lane:1,row:14,lines:["Store result as new","reviewable plan version"]},
+    {id:"n15",type:"action",  lane:1,row:15,lines:["Display seating plan","for admin review"]},
+    {id:"n16",type:"terminal",variant:"final",lane:0,row:16,label:"Plan ready for review"},
+  ];
+
+  const N = {};
+  rawNodes.forEach(n=>{
+    n.cx = laneCX(n.lane);
+    n.cy = rowY(n.row);
+    if(n.type==="action"){ n.halfW=108; n.h=n.lines.length*17+24; n.halfH=n.h/2; }
+    else if(n.type==="decision"){ n.halfW=80; n.halfH=40; }
+    else { n.r = n.variant==="final"?17:16; n.halfW=n.r; n.halfH=n.r; }
+    N[n.id]=n;
+  });
+
+  const edges = [
+    {a:"start",b:"n1"}, {a:"n1",b:"n2"}, {a:"n2",b:"n3"}, {a:"n3",b:"n4"},
+    {a:"n4",b:"n7", label:"Yes", side:"bottom"},
+    {a:"n4",b:"n5", label:"No",  side:"left"},
+    {a:"n5",b:"n6"}, {a:"n7",b:"n8"}, {a:"n8",b:"n9"},
+    {a:"n9",b:"n12",label:"Yes", side:"bottom"},
+    {a:"n9",b:"n10",label:"No",  side:"left"},
+    {a:"n10",b:"n11"}, {a:"n12",b:"n13"}, {a:"n13",b:"n14"},
+    {a:"n14",b:"n15"}, {a:"n15",b:"n16"},
+  ];
+
+  const port = (n,which)=>{
+    switch(which){
+      case "bottom": return {x:n.cx, y:n.cy+n.halfH};
+      case "top":    return {x:n.cx, y:n.cy-n.halfH};
+      case "left":   return {x:n.cx-n.halfW, y:n.cy};
+      case "right":  return {x:n.cx+n.halfW, y:n.cy};
+    }
+  };
+  function edgePoints(e){
+    const A=N[e.a], B=N[e.b], bTop=port(B,"top");
+    if(e.side==="left"||e.side==="right"){
+      const s=port(A,e.side);
+      return [[s.x,s.y],[bTop.x,s.y],[bTop.x,bTop.y]];
+    }
+    const s=port(A,"bottom");
+    if(Math.abs(s.x-bTop.x)<0.5) return [[s.x,s.y],[bTop.x,bTop.y]];
+    const yMid=(s.y+bTop.y)/2;
+    return [[s.x,s.y],[s.x,yMid],[bTop.x,yMid],[bTop.x,bTop.y]];
+  }
+  function labelPos(e){
+    const A=N[e.a], B=N[e.b];
+    if(e.side==="left"||e.side==="right"){
+      const s=port(A,e.side);
+      return {x:(s.x+B.cx)/2, y:s.y-7, anchor:"center"};
+    }
+    const s=port(A,"bottom");
+    return {x:s.x+9, y:s.y+16, anchor:"left"};
+  }
+
+  const W = LEFT*2 + NLANES*LANE_W;
+  let maxY = 0;
+  rawNodes.forEach(n=>{ maxY = Math.max(maxY, n.cy + n.halfH + (n.type==="terminal"?28:0)); });
+  const H = maxY + 34;
+
+  /* ==========================================================
+     ON-SCREEN SVG (for viewing)
+     ========================================================== */
+  const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  function buildSVG(){
+    const p=[];
+    p.push(`<svg xmlns="${NS}" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Activity diagram for generating a seating plan across four swimlanes.">`);
+    p.push(`<rect x="0" y="0" width="${W}" height="${H}" fill="${C.paper}"/>`);
+    p.push(`<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse"><path d="M0.5,0.8 L9.2,5 L0.5,9.2 L3.1,5 Z" fill="${C.ink}"/></marker></defs>`);
+    p.push(`<rect x="${LEFT}" y="${TOP}" width="${NLANES*LANE_W}" height="${H-TOP-14}" fill="${C.paper}" stroke="${C.ink}" stroke-width="1.4"/>`);
+    p.push(`<line x1="${LEFT}" y1="${TOP+HEADER_H}" x2="${LEFT+NLANES*LANE_W}" y2="${TOP+HEADER_H}" stroke="${C.ink}" stroke-width="1.4"/>`);
+    for(let i=1;i<NLANES;i++){ const x=laneLeft(i); p.push(`<line x1="${x}" y1="${TOP}" x2="${x}" y2="${H-14}" stroke="${C.ink}" stroke-width="1.4"/>`); }
+    lanes.forEach((l,i)=>{
+      const cx=laneCX(i), startY = TOP + HEADER_H/2 - (l.lines.length-1)*7.5 + 4;
+      const tspans = l.lines.map((ln,k)=>`<tspan x="${cx}" dy="${k===0?0:15}">${esc(ln)}</tspan>`).join("");
+      p.push(`<text x="${cx}" y="${startY}" text-anchor="middle" font-family="${SANS}" font-size="12.5" font-weight="700" fill="${C.text}">${tspans}</text>`);
+    });
+    edges.forEach(e=>{
+      const pts=edgePoints(e);
+      const d="M "+pts.map(pt=>pt.join(" ")).join(" L ");
+      p.push(`<path d="${d}" fill="none" stroke="${C.ink}" stroke-width="1.7" marker-end="url(#ah)"/>`);
+      if(e.label){ const q=labelPos(e); const anc=q.anchor==="left"?"start":"middle";
+        p.push(`<text x="${q.x}" y="${q.y}" text-anchor="${anc}" font-family="${MONO}" font-size="11" font-weight="700" fill="${C.label}">${esc(e.label)}</text>`); }
+    });
+    rawNodes.forEach(n=>{
+      if(n.type==="action"){
+        const x=n.cx-n.halfW, y=n.cy-n.halfH;
+        p.push(`<rect x="${x}" y="${y}" width="${n.halfW*2}" height="${n.h}" rx="9" fill="${C.node}" stroke="${C.nodeBorder}" stroke-width="1.5"/>`);
+        const sy=n.cy-(n.lines.length-1)*8.5;
+        const tspans=n.lines.map((ln,k)=>`<tspan x="${n.cx}" dy="${k===0?0:17}">${esc(ln)}</tspan>`).join("");
+        p.push(`<text x="${n.cx}" y="${sy+4.5}" text-anchor="middle" font-family="${SANS}" font-size="12.5" fill="${C.text}">${tspans}</text>`);
+      } else if(n.type==="decision"){
+        const pts=`${n.cx},${n.cy-n.halfH} ${n.cx+n.halfW},${n.cy} ${n.cx},${n.cy+n.halfH} ${n.cx-n.halfW},${n.cy}`;
+        p.push(`<polygon points="${pts}" fill="${C.decisionBg}" stroke="${C.decisionBorder}" stroke-width="1.6"/>`);
+        const sy=n.cy-(n.lines.length-1)*8;
+        const tspans=n.lines.map((ln,k)=>`<tspan x="${n.cx}" dy="${k===0?0:15}">${esc(ln)}</tspan>`).join("");
+        p.push(`<text x="${n.cx}" y="${sy+4}" text-anchor="middle" font-family="${SANS}" font-size="11.5" fill="${C.text}">${tspans}</text>`);
+      } else {
+        if(n.variant==="start"){ p.push(`<circle cx="${n.cx}" cy="${n.cy}" r="${n.r}" fill="${C.terminal}"/>`); }
+        else { p.push(`<circle cx="${n.cx}" cy="${n.cy}" r="${n.r}" fill="none" stroke="${C.terminal}" stroke-width="2"/><circle cx="${n.cx}" cy="${n.cy}" r="${n.r-6}" fill="${C.terminal}"/>`); }
+        p.push(`<text x="${n.cx}" y="${n.cy+n.r+15}" text-anchor="middle" font-family="${MONO}" font-size="10.5" fill="${C.text}">${esc(n.label)}</text>`);
+      }
+    });
+    p.push(`</svg>`);
+    return p.join("");
+  }
+  document.getElementById("diagram").innerHTML = buildSVG();
+
+  /* ==========================================================
+     CANVAS RENDER (for PNG export — no SVG image, no CSP issues)
+     ========================================================== */
+  function roundRect(ctx,x,y,w,h,r){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r);
+    ctx.arcTo(x,y,x+w,y,r);
+    ctx.closePath();
+  }
+  function multiline(ctx,lines,cx,baseY,lineH){
+    lines.forEach((ln,k)=>ctx.fillText(ln,cx,baseY+k*lineH));
+  }
+  function arrowhead(ctx,pts){
+    const n=pts.length, p=pts[n-1], q=pts[n-2];
+    const ang=Math.atan2(p[1]-q[1], p[0]-q[0]);
+    const L=10, Wd=4.6;
+    ctx.beginPath();
+    ctx.moveTo(p[0],p[1]);
+    ctx.lineTo(p[0]-L*Math.cos(ang)+Wd*Math.sin(ang), p[1]-L*Math.sin(ang)-Wd*Math.cos(ang));
+    ctx.lineTo(p[0]-L*Math.cos(ang)-Wd*Math.sin(ang), p[1]-L*Math.sin(ang)+Wd*Math.cos(ang));
+    ctx.closePath();
+    ctx.fillStyle=C.ink; ctx.fill();
+  }
+  function drawDiagram(ctx){
+    ctx.lineJoin="miter"; ctx.miterLimit=2; ctx.textBaseline="alphabetic";
+
+    // swimlane frame + header divider + lane dividers
+    ctx.strokeStyle=C.ink; ctx.lineWidth=1.4;
+    ctx.strokeRect(LEFT,TOP,NLANES*LANE_W,H-TOP-14);
+    ctx.beginPath(); ctx.moveTo(LEFT,TOP+HEADER_H); ctx.lineTo(LEFT+NLANES*LANE_W,TOP+HEADER_H); ctx.stroke();
+    for(let i=1;i<NLANES;i++){ const x=laneLeft(i); ctx.beginPath(); ctx.moveTo(x,TOP); ctx.lineTo(x,H-14); ctx.stroke(); }
+
+    // header labels
+    ctx.fillStyle=C.text; ctx.textAlign="center"; ctx.font=`700 12.5px ${SANS}`;
+    lanes.forEach((l,i)=>{ const cx=laneCX(i), startY=TOP+HEADER_H/2-(l.lines.length-1)*7.5+4; multiline(ctx,l.lines,cx,startY,15); });
+
+    // edges
+    ctx.strokeStyle=C.ink; ctx.lineWidth=1.7;
+    edges.forEach(e=>{
+      const pts=edgePoints(e);
+      ctx.beginPath(); ctx.moveTo(pts[0][0],pts[0][1]);
+      for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i][0],pts[i][1]);
+      ctx.stroke();
+      arrowhead(ctx,pts);
+      if(e.label){ const q=labelPos(e); ctx.fillStyle=C.label; ctx.font=`700 11px ${MONO}`;
+        ctx.textAlign=q.anchor==="left"?"left":"center"; ctx.fillText(e.label,q.x,q.y); }
+    });
+
+    // nodes
+    rawNodes.forEach(n=>{
+      if(n.type==="action"){
+        const x=n.cx-n.halfW, y=n.cy-n.halfH;
+        roundRect(ctx,x,y,n.halfW*2,n.h,9);
+        ctx.fillStyle=C.node; ctx.fill(); ctx.strokeStyle=C.nodeBorder; ctx.lineWidth=1.5; ctx.stroke();
+        ctx.fillStyle=C.text; ctx.textAlign="center"; ctx.font=`12.5px ${SANS}`;
+        multiline(ctx,n.lines,n.cx,n.cy-(n.lines.length-1)*8.5+4.5,17);
+      } else if(n.type==="decision"){
+        ctx.beginPath();
+        ctx.moveTo(n.cx,n.cy-n.halfH); ctx.lineTo(n.cx+n.halfW,n.cy);
+        ctx.lineTo(n.cx,n.cy+n.halfH); ctx.lineTo(n.cx-n.halfW,n.cy); ctx.closePath();
+        ctx.fillStyle=C.decisionBg; ctx.fill(); ctx.strokeStyle=C.decisionBorder; ctx.lineWidth=1.6; ctx.stroke();
+        ctx.fillStyle=C.text; ctx.textAlign="center"; ctx.font=`11.5px ${SANS}`;
+        multiline(ctx,n.lines,n.cx,n.cy-(n.lines.length-1)*8+4,15);
+      } else {
+        if(n.variant==="start"){
+          ctx.beginPath(); ctx.arc(n.cx,n.cy,n.r,0,Math.PI*2); ctx.fillStyle=C.terminal; ctx.fill();
+        } else {
+          ctx.beginPath(); ctx.arc(n.cx,n.cy,n.r,0,Math.PI*2); ctx.strokeStyle=C.terminal; ctx.lineWidth=2; ctx.stroke();
+          ctx.beginPath(); ctx.arc(n.cx,n.cy,n.r-6,0,Math.PI*2); ctx.fillStyle=C.terminal; ctx.fill();
+        }
+        ctx.fillStyle=C.text; ctx.textAlign="center"; ctx.font=`10.5px ${MONO}`;
+        ctx.fillText(n.label,n.cx,n.cy+n.r+15);
+      }
+    });
+  }
+
+  function renderBlob(scale){
+    const canvas=document.createElement("canvas");
+    canvas.width=Math.round(W*scale); canvas.height=Math.round(H*scale);
+    const ctx=canvas.getContext("2d");
+    ctx.fillStyle="#ffffff"; ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.scale(scale,scale);
+    drawDiagram(ctx);
+    return new Promise((res,rej)=>{ canvas.toBlob(b=>b?res(b):rej(new Error("toBlob failed")),"image/png"); });
+  }
+
+  /* ---------- UI wiring ---------- */
+  const scaleSel=document.getElementById("scale");
+  const dims=document.getElementById("dims");
+  const statusEl=document.getElementById("status");
+  const previewWrap=document.getElementById("previewWrap");
+  const previewImg=document.getElementById("preview");
+  let lastURL=null;
+
+  function setStatus(msg,warn){ statusEl.textContent=msg; statusEl.className="status"+(warn?" warn":""); }
+  function updateDims(){ const s=+scaleSel.value; dims.textContent=`Output ${Math.round(W*s)} × ${Math.round(H*s)} px`; }
+  scaleSel.addEventListener("change",updateDims); updateDims();
+
+  function showPreview(blob){
+    if(lastURL) URL.revokeObjectURL(lastURL);
+    lastURL=URL.createObjectURL(blob);
+    previewImg.src=lastURL; previewWrap.style.display="block";
+  }
+
+  document.getElementById("dl").addEventListener("click", async ()=>{
+    try{
+      const blob=await renderBlob(+scaleSel.value);
+      showPreview(blob);
+      const a=document.createElement("a");
+      a.href=lastURL; a.download="activity_generate_seating_plan.png";
+      document.body.appendChild(a); a.click(); a.remove();
+      setStatus("Download triggered. If nothing was saved, right-click the preview below → Save image as…", true);
+    }catch(err){ setStatus("Export failed: "+err.message+". Right-click the preview below to save.", true); }
+  });
+
+  document.getElementById("copy").addEventListener("click", async ()=>{
+    let blob;
+    try{ blob=await renderBlob(+scaleSel.value); showPreview(blob); }
+    catch(err){ setStatus("Could not render image: "+err.message, true); return; }
+    try{
+      if(!navigator.clipboard || typeof window.ClipboardItem==="undefined") throw new Error("Clipboard API unavailable");
+      await navigator.clipboard.write([ new ClipboardItem({ "image/png": blob }) ]);
+      setStatus("✓ Copied to clipboard — switch to Canva and paste with Ctrl / Cmd + V.");
+    }catch(err){
+      setStatus("Clipboard was blocked by the sandbox. Right-click the preview below → Copy image, then paste into Canva.", true);
+    }
+  });
+})();
+</script>

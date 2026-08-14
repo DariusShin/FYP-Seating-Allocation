@@ -1,0 +1,145 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-19T19:30:41+00:00",
+  "result_file": "output\\seat_allocation_result.json",
+  "overall_passed": true,
+  "summary": {
+    "total_checks": 22,
+    "passed_checks": 22,
+    "failed_checks": 0
+  },
+  "checks": [
+    {
+      "check_id": "C01",
+      "name": "Exactly 122 primary participants processed",
+      "passed": true,
+      "details": "assignments=122, unassigned=0"
+    },
+    {
+      "check_id": "C02",
+      "name": "Exactly 208 physical seats occupied",
+      "passed": true,
+      "details": "occupied=208"
+    },
+    {
+      "check_id": "C03",
+      "name": "Exactly 24 seats empty (and 24 blocked)",
+      "passed": true,
+      "details": "empty=24, blocked=24"
+    },
+    {
+      "check_id": "C04",
+      "name": "No physical seat duplicated",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "check_id": "C05",
+      "name": "Every Bodhi participant has exactly one seat",
+      "passed": true,
+      "details": "bodhi=12"
+    },
+    {
+      "check_id": "C06",
+      "name": "Every Merit participant has exactly one seat",
+      "passed": true,
+      "details": "merit=24"
+    },
+    {
+      "check_id": "C07",
+      "name": "Every Emperor allocation has exactly two seats",
+      "passed": true,
+      "details": "emperor=86"
+    },
+    {
+      "check_id": "C08",
+      "name": "Every Emperor pair is a valid adjacent pair",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "check_id": "C09",
+      "name": "No Emperor pair crosses the centre aisle",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "check_id": "C10",
+      "name": "Every allocation sits inside its tier's band; rows are tier-exclusive",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "check_id": "C11",
+      "name": "Tier bands are ordered Emperor before Bodhi before Merit",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "check_id": "C12",
+      "name": "Declared tier bands match the demand-derived front packing",
+      "passed": true,
+      "details": "declared={'EMPEROR': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], 'BODHI': [14], 'MERIT': [15, 16]}, recomputed={'EMPEROR': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], 'BODHI': [14], 'MERIT': [15, 16]}"
+    },
+    {
+      "check_id": "C13",
+      "name": "Contribution ordering holds inside each tier",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "check_id": "C14",
+      "name": "Accessibility requirements satisfied",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "check_id": "C15",
+      "name": "No blocked seat is used",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "check_id": "C16",
+      "name": "Penalty totals are internally consistent",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "check_id": "C17",
+      "name": "Reconstructed weighted objective matches solver objective",
+      "passed": true,
+      "details": "reconstructed=2074851028553, reported=2074851028553"
+    },
+    {
+      "check_id": "C18",
+      "name": "Result conforms to solver_result.schema.json",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "check_id": "C19",
+      "name": "Solver status is OPTIMAL",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "check_id": "C20",
+      "name": "Optimality gap equals zero",
+      "passed": true,
+      "details": "gap=0"
+    },
+    {
+      "check_id": "C21",
+      "name": "Rows fill front to back inside each tier band",
+      "passed": true,
+      "details": "violating_rows=0"
+    },
+    {
+      "check_id": "C22",
+      "name": "Row occupancy fills outward from the centre aisle",
+      "passed": true,
+      "details": "violating_seats=0"
+    }
+  ]
+}

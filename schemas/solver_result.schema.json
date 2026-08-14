@@ -1,0 +1,456 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "solver_result.schema.json",
+  "title": "Seat Allocation Solver Result",
+  "type": "object",
+  "oneOf": [
+    {"$ref": "#/$defs/success_result"},
+    {"$ref": "#/$defs/error_result"}
+  ],
+  "$defs": {
+    "success_result": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "run_id",
+        "generated_at",
+        "case_study",
+        "status",
+        "input_summary",
+        "weights",
+        "constraint_config",
+        "solver",
+        "penalty_summary",
+        "tier_bands",
+        "floor_plan",
+        "assignments",
+        "empty_seat_ids",
+        "unassigned_participants",
+        "hard_constraint_validation"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {"type": "string"},
+        "run_id": {"type": "string"},
+        "generated_at": {"type": "string"},
+        "case_study": {"type": "string"},
+        "status": {"const": "success"},
+        "input_summary": {
+          "type": "object",
+          "required": [
+            "primary_participant_count",
+            "emperor_count",
+            "bodhi_count",
+            "merit_count",
+            "required_seat_count",
+            "total_seat_count",
+            "blocked_seat_count",
+            "available_seat_count",
+            "empty_seat_count"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "primary_participant_count": {"type": "integer"},
+            "emperor_count": {"type": "integer"},
+            "bodhi_count": {"type": "integer"},
+            "merit_count": {"type": "integer"},
+            "required_seat_count": {"type": "integer"},
+            "total_seat_count": {"type": "integer"},
+            "blocked_seat_count": {"type": "integer"},
+            "available_seat_count": {"type": "integer"},
+            "empty_seat_count": {"type": "integer"}
+          }
+        },
+        "weights": {
+          "type": "object",
+          "required": [
+            "priority_seat_weight",
+            "category_zone_weight",
+            "movement_weight",
+            "activeness_weight"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "priority_seat_weight": {"type": "integer"},
+            "category_zone_weight": {"type": "integer"},
+            "movement_weight": {"type": "integer"},
+            "activeness_weight": {"type": "integer"}
+          }
+        },
+        "constraint_config": {
+          "type": "object",
+          "required": [
+            "enforce_front_fill",
+            "enforce_middle_fill",
+            "normalize_penalties",
+            "normalization_scale",
+            "component_maxima"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "enforce_front_fill": {"type": "boolean"},
+            "enforce_middle_fill": {"type": "boolean"},
+            "normalize_penalties": {"type": "boolean"},
+            "normalization_scale": {"type": "integer"},
+            "component_maxima": {"$ref": "#/$defs/penalty_components"}
+          }
+        },
+        "solver": {"$ref": "#/$defs/solver_stats"},
+        "tier_bands": {
+          "type": "object",
+          "required": ["EMPEROR", "BODHI", "MERIT"],
+          "additionalProperties": false,
+          "properties": {
+            "EMPEROR": {"type": "array", "items": {"type": "integer"}},
+            "BODHI": {"type": "array", "items": {"type": "integer"}},
+            "MERIT": {"type": "array", "items": {"type": "integer"}}
+          }
+        },
+        "penalty_summary": {
+          "type": "object",
+          "required": ["unweighted", "normalized", "weighted"],
+          "additionalProperties": false,
+          "properties": {
+            "unweighted": {"$ref": "#/$defs/penalty_components"},
+            "normalized": {"$ref": "#/$defs/penalty_components"},
+            "weighted": {
+              "type": "object",
+              "required": [
+                "priority_seat",
+                "category_zone",
+                "movement",
+                "activeness",
+                "tie_break",
+                "total"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "priority_seat": {"type": "integer"},
+                "category_zone": {"type": "integer"},
+                "movement": {"type": "integer"},
+                "activeness": {"type": "integer"},
+                "tie_break": {"type": "integer"},
+                "total": {"type": "integer"}
+              }
+            }
+          }
+        },
+        "floor_plan": {
+          "type": "object",
+          "required": [
+            "row_count",
+            "seats_per_row",
+            "total_seats",
+            "aisle_after_position",
+            "rows"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "row_count": {"type": "integer"},
+            "seats_per_row": {"type": "integer"},
+            "total_seats": {"type": "integer"},
+            "aisle_after_position": {"type": "integer"},
+            "rows": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["row_number", "tier_band", "seats"],
+                "additionalProperties": false,
+                "properties": {
+                  "row_number": {"type": "integer"},
+                  "tier_band": {"enum": ["EMPEROR", "BODHI", "MERIT", null]},
+                  "seats": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "seat_id",
+                        "physical_position",
+                        "priority_rank",
+                        "side",
+                        "zone",
+                        "is_accessible",
+                        "is_blocked",
+                        "occupancy_status",
+                        "participant_id",
+                        "display_name"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "seat_id": {"type": "string"},
+                        "physical_position": {"type": "integer"},
+                        "priority_rank": {"type": "integer"},
+                        "side": {"enum": ["LEFT", "RIGHT"]},
+                        "zone": {
+                          "enum": [
+                            "LEFT_OUTER",
+                            "LEFT_CENTER",
+                            "RIGHT_CENTER",
+                            "RIGHT_OUTER"
+                          ]
+                        },
+                        "is_accessible": {"type": "boolean"},
+                        "is_blocked": {"type": "boolean"},
+                        "occupancy_status": {"enum": ["OCCUPIED", "EMPTY", "BLOCKED"]},
+                        "participant_id": {"type": ["string", "null"]},
+                        "display_name": {"type": ["string", "null"]}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "assignments": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/assignment"}
+        },
+        "empty_seat_ids": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "unassigned_participants": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "hard_constraint_validation": {
+          "type": "object",
+          "required": [
+            "all_constraints_satisfied",
+            "duplicate_seat_count",
+            "unassigned_count",
+            "tier_band_violation_count",
+            "contribution_order_violation_count",
+            "emperor_adjacency_violation_count",
+            "aisle_crossing_violation_count",
+            "accessibility_violation_count",
+            "blocked_seat_violation_count",
+            "front_fill_violation_count",
+            "middle_fill_violation_count"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "all_constraints_satisfied": {"type": "boolean"},
+            "duplicate_seat_count": {"type": "integer"},
+            "unassigned_count": {"type": "integer"},
+            "tier_band_violation_count": {"type": "integer"},
+            "contribution_order_violation_count": {"type": "integer"},
+            "emperor_adjacency_violation_count": {"type": "integer"},
+            "aisle_crossing_violation_count": {"type": "integer"},
+            "accessibility_violation_count": {"type": "integer"},
+            "blocked_seat_violation_count": {"type": "integer"},
+            "front_fill_violation_count": {"type": "integer"},
+            "middle_fill_violation_count": {"type": "integer"}
+          }
+        }
+      }
+    },
+    "error_result": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "run_id",
+        "generated_at",
+        "case_study",
+        "status",
+        "error",
+        "solver"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {"type": "string"},
+        "run_id": {"type": "string"},
+        "generated_at": {"type": "string"},
+        "case_study": {"type": "string"},
+        "status": {"const": "error"},
+        "error": {
+          "type": "object",
+          "required": ["code", "message", "solver_status", "details"],
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "enum": [
+                "INVALID_INPUT",
+                "CAPACITY_EXCEEDED",
+                "TIER_CAPACITY_EXCEEDED",
+                "MODEL_INVALID",
+                "INFEASIBLE",
+                "OPTIMAL_NOT_PROVEN",
+                "SOLVER_UNKNOWN",
+                "OUTPUT_VALIDATION_FAILED"
+              ]
+            },
+            "message": {"type": "string"},
+            "solver_status": {"type": ["string", "null"]},
+            "details": {"type": "object"}
+          }
+        },
+        "solver": {
+          "type": "object",
+          "required": ["wall_time_seconds", "objective_value", "best_objective_bound"],
+          "additionalProperties": true,
+          "properties": {
+            "wall_time_seconds": {"type": ["number", "null"]},
+            "objective_value": {"type": ["integer", "null"]},
+            "best_objective_bound": {"type": ["integer", "null"]}
+          }
+        }
+      }
+    },
+    "solver_stats": {
+      "type": "object",
+      "required": [
+        "engine",
+        "status",
+        "objective_value",
+        "main_penalty",
+        "tie_break_penalty",
+        "main_objective_scale",
+        "best_objective_bound",
+        "optimality_gap",
+        "wall_time_seconds",
+        "user_time_seconds",
+        "num_conflicts",
+        "num_branches",
+        "num_boolean_variables",
+        "num_integer_variables",
+        "num_constraints",
+        "eligible_single_assignment_count",
+        "eligible_emperor_pair_count",
+        "peak_memory_rss_bytes",
+        "response_stats"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "engine": {"type": "string"},
+        "status": {"const": "OPTIMAL"},
+        "objective_value": {"type": "integer"},
+        "main_penalty": {"type": "integer"},
+        "tie_break_penalty": {"type": "integer"},
+        "main_objective_scale": {"type": "integer"},
+        "best_objective_bound": {"type": "integer"},
+        "optimality_gap": {"type": "integer"},
+        "wall_time_seconds": {"type": "number"},
+        "user_time_seconds": {"type": "number"},
+        "num_conflicts": {"type": "integer"},
+        "num_branches": {"type": "integer"},
+        "num_boolean_variables": {"type": "integer"},
+        "num_integer_variables": {"type": "integer"},
+        "num_constraints": {"type": "integer"},
+        "eligible_single_assignment_count": {"type": "integer"},
+        "eligible_emperor_pair_count": {"type": "integer"},
+        "peak_memory_rss_bytes": {"type": ["integer", "null"]},
+        "response_stats": {"type": "string"}
+      }
+    },
+    "assignment": {
+      "type": "object",
+      "required": [
+        "participant_id",
+        "full_name",
+        "contribution_tier",
+        "contribution_amount_rm",
+        "participant_category",
+        "is_monk",
+        "is_elderly",
+        "requires_accessible_seat",
+        "events_joined_last_2_years",
+        "allocation_type",
+        "seat_ids",
+        "seats",
+        "pair_priority",
+        "previous_seat_ids",
+        "moved",
+        "penalty"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "participant_id": {"type": "string"},
+        "full_name": {"type": "string"},
+        "contribution_tier": {"enum": ["EMPEROR", "BODHI", "MERIT"]},
+        "contribution_amount_rm": {"type": "integer"},
+        "participant_category": {
+          "enum": ["MONASTIC", "COMMITTEE", "VOLUNTEER", "GENERAL_DEVOTEE"]
+        },
+        "is_monk": {"type": "boolean"},
+        "is_elderly": {"type": "boolean"},
+        "requires_accessible_seat": {"type": "boolean"},
+        "events_joined_last_2_years": {"type": "integer"},
+        "allocation_type": {"enum": ["SINGLE", "EMPEROR_PAIR"]},
+        "seat_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": {"type": "string"}
+        },
+        "seats": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "required": [
+              "seat_id",
+              "row_number",
+              "physical_position",
+              "priority_rank",
+              "zone",
+              "display_name"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "seat_id": {"type": "string"},
+              "row_number": {"type": "integer"},
+              "physical_position": {"type": "integer"},
+              "priority_rank": {"type": "integer"},
+              "zone": {
+                "enum": ["LEFT_OUTER", "LEFT_CENTER", "RIGHT_CENTER", "RIGHT_OUTER"]
+              },
+              "display_name": {"type": "string"}
+            }
+          }
+        },
+        "pair_priority": {"type": ["integer", "null"]},
+        "previous_seat_ids": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "moved": {"type": ["boolean", "null"]},
+        "penalty": {
+          "type": "object",
+          "required": ["unweighted", "normalized", "weighted"],
+          "additionalProperties": false,
+          "properties": {
+            "unweighted": {"$ref": "#/$defs/penalty_components"},
+            "normalized": {"$ref": "#/$defs/penalty_components"},
+            "weighted": {"$ref": "#/$defs/penalty_components_with_total"}
+          }
+        }
+      }
+    },
+    "penalty_components": {
+      "type": "object",
+      "required": ["priority_seat", "category_zone", "movement", "activeness"],
+      "additionalProperties": false,
+      "properties": {
+        "priority_seat": {"type": "integer"},
+        "category_zone": {"type": "integer"},
+        "movement": {"type": "integer"},
+        "activeness": {"type": "integer"}
+      }
+    },
+    "penalty_components_with_total": {
+      "type": "object",
+      "required": ["priority_seat", "category_zone", "movement", "activeness", "total"],
+      "additionalProperties": false,
+      "properties": {
+        "priority_seat": {"type": "integer"},
+        "category_zone": {"type": "integer"},
+        "movement": {"type": "integer"},
+        "activeness": {"type": "integer"},
+        "total": {"type": "integer"}
+      }
+    }
+  }
+}
