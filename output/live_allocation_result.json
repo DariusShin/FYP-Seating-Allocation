@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
-  "run_id": "RUN-20260720T051034Z-720b2507",
-  "generated_at": "2026-07-20T05:10:34+00:00",
+  "run_id": "RUN-20260824T063553Z-7dc7f760",
+  "generated_at": "2026-08-24T06:35:53+00:00",
   "case_study": "PJ Kwan Inn Teng",
   "status": "success",
   "input_summary": {
@@ -16,10 +16,10 @@
     "empty_seat_count": 24
   },
   "weights": {
-    "priority_seat_weight": 10,
-    "category_zone_weight": 10,
-    "movement_weight": 10,
-    "activeness_weight": 70
+    "priority_seat_weight": 75,
+    "category_zone_weight": 13,
+    "movement_weight": 7,
+    "activeness_weight": 5
   },
   "constraint_config": {
     "enforce_front_fill": true,
@@ -36,44 +36,44 @@
   "solver": {
     "engine": "Google OR-Tools CP-SAT",
     "status": "OPTIMAL",
-    "objective_value": 2234001025493,
-    "main_penalty": 223400,
-    "tie_break_penalty": 1025493,
+    "objective_value": 2260411028282,
+    "main_penalty": 226041,
+    "tie_break_penalty": 1028282,
     "main_objective_scale": 10000000,
-    "best_objective_bound": 2234001025493,
+    "best_objective_bound": 2260411028282,
     "optimality_gap": 0,
-    "wall_time_seconds": 54.4886793,
-    "user_time_seconds": 54.488679600000005,
+    "wall_time_seconds": 0.200381,
+    "user_time_seconds": 0.200381,
     "num_conflicts": 0,
-    "num_branches": 2170,
+    "num_branches": 720,
     "num_boolean_variables": 1928,
     "num_integer_variables": 20,
     "num_constraints": 780,
     "eligible_single_assignment_count": 504,
     "eligible_emperor_pair_count": 1424,
-    "peak_memory_rss_bytes": 241246208,
-    "response_stats": "CpSolverResponse summary:\nstatus: OPTIMAL\nobjective: 2234001025493\nbest_bound: 2234001025493\nintegers: 1933\nbooleans: 1929\nconflicts: 0\nbranches: 2170\npropagations: 31742\ninteger_propagations: 33409\nrestarts: 0\nlp_iterations: 0\nwalltime: 54.4887\nusertime: 54.4887\ndeterministic_time: 144.484\ngap_integral: 914.806\nsolution_fingerprint: 0x87a3f4f2183720ee\n"
+    "peak_memory_rss_bytes": 185548800,
+    "response_stats": "CpSolverResponse summary:\nstatus: OPTIMAL\nobjective: 2260411028282\nbest_bound: 2260411028282\nintegers: 1933\nbooleans: 1929\nconflicts: 0\nbranches: 720\npropagations: 8944\ninteger_propagations: 9019\nrestarts: 0\nlp_iterations: 0\nwalltime: 0.200381\nusertime: 0.200381\ndeterministic_time: 1.01384\ngap_integral: 11.3632\nsolution_fingerprint: 0xeb8aaf8fb232e1ce\n"
   },
   "penalty_summary": {
     "unweighted": {
-      "priority_seat": 504,
-      "category_zone": 263,
-      "movement": 0,
-      "activeness": 371
+      "priority_seat": 371,
+      "category_zone": 245,
+      "movement": 628,
+      "activeness": 546
     },
     "normalized": {
-      "priority_seat": 3358,
-      "category_zone": 1671,
-      "movement": 0,
-      "activeness": 2473
+      "priority_seat": 2474,
+      "category_zone": 1558,
+      "movement": 291,
+      "activeness": 3640
     },
     "weighted": {
-      "priority_seat": 33580,
-      "category_zone": 16710,
-      "movement": 0,
-      "activeness": 173110,
-      "tie_break": 1025493,
-      "total": 1248893
+      "priority_seat": 185550,
+      "category_zone": 20254,
+      "movement": 2037,
+      "activeness": 18200,
+      "tie_break": 1028282,
+      "total": 1254323
     }
   },
   "tier_bands": {
@@ -341,8 +341,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P001",
-            "display_name": "Gan Li Hua"
+            "participant_id": "P018",
+            "display_name": "Yap Chee Keong"
           },
           {
             "seat_id": "R02-S04",
@@ -353,8 +353,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P001",
-            "display_name": "Gan Mei Ling"
+            "participant_id": "P018",
+            "display_name": "Yap Chee Keong"
           },
           {
             "seat_id": "R02-S05",
@@ -389,8 +389,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P051",
-            "display_name": "Ho Wei Ming"
+            "participant_id": "P031",
+            "display_name": "Goh Kok Seng"
           },
           {
             "seat_id": "R02-S08",
@@ -401,8 +401,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P051",
-            "display_name": "Lim Li Hua"
+            "participant_id": "P031",
+            "display_name": "Chan Swee Lin"
           },
           {
             "seat_id": "R02-S09",
@@ -437,8 +437,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P026",
-            "display_name": "Lee Ah Kow"
+            "participant_id": "P052",
+            "display_name": "Goh Meng Chye"
           },
           {
             "seat_id": "R02-S12",
@@ -449,8 +449,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P026",
-            "display_name": "Lee Ah Kow"
+            "participant_id": "P052",
+            "display_name": "Goh Meng Chye"
           },
           {
             "seat_id": "R02-S13",
@@ -461,8 +461,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P031",
-            "display_name": "Chan Swee Lin"
+            "participant_id": "P051",
+            "display_name": "Lim Li Hua"
           },
           {
             "seat_id": "R02-S14",
@@ -473,8 +473,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P031",
-            "display_name": "Goh Kok Seng"
+            "participant_id": "P051",
+            "display_name": "Ho Wei Ming"
           },
           {
             "seat_id": "R02-S15",
@@ -515,8 +515,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P032",
-            "display_name": "Teoh Li Hua"
+            "participant_id": "P025",
+            "display_name": "Sim Boon Huat"
           },
           {
             "seat_id": "R03-S02",
@@ -527,8 +527,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P032",
-            "display_name": "Teoh Li Hua"
+            "participant_id": "P025",
+            "display_name": "Tan Boon Huat"
           },
           {
             "seat_id": "R03-S03",
@@ -563,8 +563,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P018",
-            "display_name": "Yap Chee Keong"
+            "participant_id": "P042",
+            "display_name": "Cheah Bee Choo"
           },
           {
             "seat_id": "R03-S06",
@@ -575,8 +575,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P018",
-            "display_name": "Yap Chee Keong"
+            "participant_id": "P042",
+            "display_name": "Cheah Bee Choo"
           },
           {
             "seat_id": "R03-S07",
@@ -587,8 +587,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P079",
-            "display_name": "Ho Boon Huat"
+            "participant_id": "P001",
+            "display_name": "Gan Li Hua"
           },
           {
             "seat_id": "R03-S08",
@@ -599,8 +599,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P079",
-            "display_name": "Ho Lai Fun"
+            "participant_id": "P001",
+            "display_name": "Gan Mei Ling"
           },
           {
             "seat_id": "R03-S09",
@@ -611,8 +611,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P042",
-            "display_name": "Cheah Bee Choo"
+            "participant_id": "P033",
+            "display_name": "Gan Hock Seng"
           },
           {
             "seat_id": "R03-S10",
@@ -623,8 +623,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P042",
-            "display_name": "Cheah Bee Choo"
+            "participant_id": "P033",
+            "display_name": "Goh Siew Lan"
           },
           {
             "seat_id": "R03-S11",
@@ -659,8 +659,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P052",
-            "display_name": "Goh Meng Chye"
+            "participant_id": "P026",
+            "display_name": "Lee Ah Kow"
           },
           {
             "seat_id": "R03-S14",
@@ -671,8 +671,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P052",
-            "display_name": "Goh Meng Chye"
+            "participant_id": "P026",
+            "display_name": "Lee Ah Kow"
           },
           {
             "seat_id": "R03-S15",
@@ -683,8 +683,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P025",
-            "display_name": "Tan Boon Huat"
+            "participant_id": "P032",
+            "display_name": "Teoh Li Hua"
           },
           {
             "seat_id": "R03-S16",
@@ -695,8 +695,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P025",
-            "display_name": "Sim Boon Huat"
+            "participant_id": "P032",
+            "display_name": "Teoh Li Hua"
           }
         ]
       },
@@ -737,8 +737,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P057",
-            "display_name": "Cheah Hock Seng"
+            "participant_id": "P079",
+            "display_name": "Ho Boon Huat"
           },
           {
             "seat_id": "R04-S04",
@@ -749,8 +749,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P057",
-            "display_name": "Gan Siok Ching"
+            "participant_id": "P079",
+            "display_name": "Ho Lai Fun"
           },
           {
             "seat_id": "R04-S05",
@@ -761,8 +761,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P060",
-            "display_name": "Sim Sook Yee"
+            "participant_id": "P057",
+            "display_name": "Cheah Hock Seng"
           },
           {
             "seat_id": "R04-S06",
@@ -773,8 +773,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P060",
-            "display_name": "Sim Sook Yee"
+            "participant_id": "P057",
+            "display_name": "Gan Siok Ching"
           },
           {
             "seat_id": "R04-S07",
@@ -785,8 +785,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P039",
-            "display_name": "Lee Kok Seng"
+            "participant_id": "P060",
+            "display_name": "Sim Sook Yee"
           },
           {
             "seat_id": "R04-S08",
@@ -797,8 +797,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P039",
-            "display_name": "Gan Lai Fun"
+            "participant_id": "P060",
+            "display_name": "Sim Sook Yee"
           },
           {
             "seat_id": "R04-S09",
@@ -857,8 +857,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P033",
-            "display_name": "Gan Hock Seng"
+            "participant_id": "P039",
+            "display_name": "Gan Lai Fun"
           },
           {
             "seat_id": "R04-S14",
@@ -869,8 +869,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P033",
-            "display_name": "Goh Siew Lan"
+            "participant_id": "P039",
+            "display_name": "Lee Kok Seng"
           },
           {
             "seat_id": "R04-S15",
@@ -935,8 +935,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P070",
-            "display_name": "Goh Li Hua"
+            "participant_id": "P043",
+            "display_name": "Chan Yew Weng"
           },
           {
             "seat_id": "R05-S04",
@@ -947,8 +947,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P070",
-            "display_name": "Goh Li Hua"
+            "participant_id": "P043",
+            "display_name": "Lee Yoke Fong"
           },
           {
             "seat_id": "R05-S05",
@@ -959,8 +959,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P073",
-            "display_name": "Lee Mei Ling"
+            "participant_id": "P070",
+            "display_name": "Goh Li Hua"
           },
           {
             "seat_id": "R05-S06",
@@ -971,8 +971,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P073",
-            "display_name": "Tan Hock Seng"
+            "participant_id": "P070",
+            "display_name": "Goh Li Hua"
           },
           {
             "seat_id": "R05-S07",
@@ -983,8 +983,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P043",
-            "display_name": "Chan Yew Weng"
+            "participant_id": "P028",
+            "display_name": "Ho Kah Wai"
           },
           {
             "seat_id": "R05-S08",
@@ -995,8 +995,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P043",
-            "display_name": "Lee Yoke Fong"
+            "participant_id": "P028",
+            "display_name": "Ho Kah Wai"
           },
           {
             "seat_id": "R05-S09",
@@ -1031,8 +1031,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P030",
-            "display_name": "Loh Yoke Fong"
+            "participant_id": "P076",
+            "display_name": "Yap Li Hua"
           },
           {
             "seat_id": "R05-S12",
@@ -1043,8 +1043,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P030",
-            "display_name": "Loh Yoke Fong"
+            "participant_id": "P076",
+            "display_name": "Yap Li Hua"
           },
           {
             "seat_id": "R05-S13",
@@ -1109,8 +1109,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P081",
-            "display_name": "Foo Meng Chye"
+            "participant_id": "P073",
+            "display_name": "Lee Mei Ling"
           },
           {
             "seat_id": "R06-S02",
@@ -1121,8 +1121,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P081",
-            "display_name": "Khoo Guat Eng"
+            "participant_id": "P073",
+            "display_name": "Tan Hock Seng"
           },
           {
             "seat_id": "R06-S03",
@@ -1133,8 +1133,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P080",
-            "display_name": "Ho Kok Seng"
+            "participant_id": "P012",
+            "display_name": "Wong Keat Seng"
           },
           {
             "seat_id": "R06-S04",
@@ -1145,8 +1145,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P080",
-            "display_name": "Ho Kok Seng"
+            "participant_id": "P012",
+            "display_name": "Wong Keat Seng"
           },
           {
             "seat_id": "R06-S05",
@@ -1253,8 +1253,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P028",
-            "display_name": "Ho Kah Wai"
+            "participant_id": "P030",
+            "display_name": "Loh Yoke Fong"
           },
           {
             "seat_id": "R06-S14",
@@ -1265,8 +1265,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P028",
-            "display_name": "Ho Kah Wai"
+            "participant_id": "P030",
+            "display_name": "Loh Yoke Fong"
           },
           {
             "seat_id": "R06-S15",
@@ -1277,8 +1277,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P022",
-            "display_name": "Ong Chee Keong"
+            "participant_id": "P081",
+            "display_name": "Khoo Guat Eng"
           },
           {
             "seat_id": "R06-S16",
@@ -1289,8 +1289,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P022",
-            "display_name": "Ong Chee Keong"
+            "participant_id": "P081",
+            "display_name": "Foo Meng Chye"
           }
         ]
       },
@@ -1331,8 +1331,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P024",
-            "display_name": "Wong Yoke Fong"
+            "participant_id": "P080",
+            "display_name": "Ho Kok Seng"
           },
           {
             "seat_id": "R07-S04",
@@ -1343,8 +1343,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P024",
-            "display_name": "Wong Yoke Fong"
+            "participant_id": "P080",
+            "display_name": "Ho Kok Seng"
           },
           {
             "seat_id": "R07-S05",
@@ -1379,8 +1379,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P012",
-            "display_name": "Wong Keat Seng"
+            "participant_id": "P024",
+            "display_name": "Wong Yoke Fong"
           },
           {
             "seat_id": "R07-S08",
@@ -1391,8 +1391,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P012",
-            "display_name": "Wong Keat Seng"
+            "participant_id": "P024",
+            "display_name": "Wong Yoke Fong"
           },
           {
             "seat_id": "R07-S09",
@@ -1403,8 +1403,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P045",
-            "display_name": "Cheah Ah Kow"
+            "participant_id": "P041",
+            "display_name": "Goh Ah Kow"
           },
           {
             "seat_id": "R07-S10",
@@ -1415,8 +1415,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P045",
-            "display_name": "Chong Keat Seng"
+            "participant_id": "P041",
+            "display_name": "Lee Pei San"
           },
           {
             "seat_id": "R07-S11",
@@ -1451,8 +1451,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P076",
-            "display_name": "Yap Li Hua"
+            "participant_id": "P045",
+            "display_name": "Cheah Ah Kow"
           },
           {
             "seat_id": "R07-S14",
@@ -1463,8 +1463,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P076",
-            "display_name": "Yap Li Hua"
+            "participant_id": "P045",
+            "display_name": "Chong Keat Seng"
           },
           {
             "seat_id": "R07-S15",
@@ -1475,8 +1475,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P021",
-            "display_name": "Yap Poh Choo"
+            "participant_id": "P022",
+            "display_name": "Ong Chee Keong"
           },
           {
             "seat_id": "R07-S16",
@@ -1487,8 +1487,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P021",
-            "display_name": "Chong Guat Eng"
+            "participant_id": "P022",
+            "display_name": "Ong Chee Keong"
           }
         ]
       },
@@ -1649,8 +1649,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P041",
-            "display_name": "Goh Ah Kow"
+            "participant_id": "P074",
+            "display_name": "Sim Mei Ling"
           },
           {
             "seat_id": "R08-S14",
@@ -1661,8 +1661,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P041",
-            "display_name": "Lee Pei San"
+            "participant_id": "P074",
+            "display_name": "Sim Mei Ling"
           },
           {
             "seat_id": "R08-S15",
@@ -1727,8 +1727,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P072",
-            "display_name": "Khoo Yoke Fong"
+            "participant_id": "P008",
+            "display_name": "Goh Chun Hong"
           },
           {
             "seat_id": "R09-S04",
@@ -1739,8 +1739,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P072",
-            "display_name": "Khoo Yoke Fong"
+            "participant_id": "P008",
+            "display_name": "Goh Chun Hong"
           },
           {
             "seat_id": "R09-S05",
@@ -1799,8 +1799,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P074",
-            "display_name": "Sim Mei Ling"
+            "participant_id": "P059",
+            "display_name": "Ng Siok Ching"
           },
           {
             "seat_id": "R09-S10",
@@ -1811,8 +1811,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P074",
-            "display_name": "Sim Mei Ling"
+            "participant_id": "P059",
+            "display_name": "Tan Siew Lan"
           },
           {
             "seat_id": "R09-S11",
@@ -1847,8 +1847,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P059",
-            "display_name": "Ng Siok Ching"
+            "participant_id": "P072",
+            "display_name": "Khoo Yoke Fong"
           },
           {
             "seat_id": "R09-S14",
@@ -1859,8 +1859,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P059",
-            "display_name": "Tan Siew Lan"
+            "participant_id": "P072",
+            "display_name": "Khoo Yoke Fong"
           },
           {
             "seat_id": "R09-S15",
@@ -1871,8 +1871,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P034",
-            "display_name": "Loh Chun Hong"
+            "participant_id": "P021",
+            "display_name": "Yap Poh Choo"
           },
           {
             "seat_id": "R09-S16",
@@ -1883,8 +1883,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P034",
-            "display_name": "Loh Chun Hong"
+            "participant_id": "P021",
+            "display_name": "Chong Guat Eng"
           }
         ]
       },
@@ -1973,8 +1973,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P075",
-            "display_name": "Foo Ah Kow"
+            "participant_id": "P034",
+            "display_name": "Loh Chun Hong"
           },
           {
             "seat_id": "R10-S08",
@@ -1985,8 +1985,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P075",
-            "display_name": "Khoo Kok Seng"
+            "participant_id": "P034",
+            "display_name": "Loh Chun Hong"
           },
           {
             "seat_id": "R10-S09",
@@ -2021,8 +2021,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P008",
-            "display_name": "Goh Chun Hong"
+            "participant_id": "P006",
+            "display_name": "Lau Yoke Fong"
           },
           {
             "seat_id": "R10-S12",
@@ -2033,8 +2033,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P008",
-            "display_name": "Goh Chun Hong"
+            "participant_id": "P006",
+            "display_name": "Lau Yoke Fong"
           },
           {
             "seat_id": "R10-S13",
@@ -2123,8 +2123,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P047",
-            "display_name": "Sim Lai Fun"
+            "participant_id": "P064",
+            "display_name": "Ng Mei Ling"
           },
           {
             "seat_id": "R11-S04",
@@ -2135,8 +2135,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P047",
-            "display_name": "Chong Mei Ling"
+            "participant_id": "P064",
+            "display_name": "Ng Mei Ling"
           },
           {
             "seat_id": "R11-S05",
@@ -2147,8 +2147,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P083",
-            "display_name": "Lim Yoke Fong"
+            "participant_id": "P049",
+            "display_name": "Gan Boon Huat"
           },
           {
             "seat_id": "R11-S06",
@@ -2159,8 +2159,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P083",
-            "display_name": "Teoh Chee Keong"
+            "participant_id": "P049",
+            "display_name": "Chin Kok Seng"
           },
           {
             "seat_id": "R11-S07",
@@ -2171,8 +2171,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P064",
-            "display_name": "Ng Mei Ling"
+            "participant_id": "P083",
+            "display_name": "Lim Yoke Fong"
           },
           {
             "seat_id": "R11-S08",
@@ -2183,8 +2183,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P064",
-            "display_name": "Ng Mei Ling"
+            "participant_id": "P083",
+            "display_name": "Teoh Chee Keong"
           },
           {
             "seat_id": "R11-S09",
@@ -2195,8 +2195,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P069",
-            "display_name": "Tan Mei Ling"
+            "participant_id": "P023",
+            "display_name": "Foo Yew Weng"
           },
           {
             "seat_id": "R11-S10",
@@ -2207,8 +2207,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P069",
-            "display_name": "Goh Yoke Fong"
+            "participant_id": "P023",
+            "display_name": "Chin Poh Choo"
           },
           {
             "seat_id": "R11-S11",
@@ -2243,8 +2243,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P006",
-            "display_name": "Lau Yoke Fong"
+            "participant_id": "P075",
+            "display_name": "Khoo Kok Seng"
           },
           {
             "seat_id": "R11-S14",
@@ -2255,8 +2255,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P006",
-            "display_name": "Lau Yoke Fong"
+            "participant_id": "P075",
+            "display_name": "Foo Ah Kow"
           },
           {
             "seat_id": "R11-S15",
@@ -2345,8 +2345,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P049",
-            "display_name": "Gan Boon Huat"
+            "participant_id": "P017",
+            "display_name": "Ho Ah Kow"
           },
           {
             "seat_id": "R12-S06",
@@ -2357,8 +2357,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P049",
-            "display_name": "Chin Kok Seng"
+            "participant_id": "P017",
+            "display_name": "Chong Swee Lin"
           },
           {
             "seat_id": "R12-S07",
@@ -2393,8 +2393,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P017",
-            "display_name": "Chong Swee Lin"
+            "participant_id": "P007",
+            "display_name": "Lee Sook Yee"
           },
           {
             "seat_id": "R12-S10",
@@ -2405,8 +2405,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P017",
-            "display_name": "Ho Ah Kow"
+            "participant_id": "P007",
+            "display_name": "Goh Kah Wai"
           },
           {
             "seat_id": "R12-S11",
@@ -2441,8 +2441,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P007",
-            "display_name": "Lee Sook Yee"
+            "participant_id": "P069",
+            "display_name": "Tan Mei Ling"
           },
           {
             "seat_id": "R12-S14",
@@ -2453,8 +2453,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P007",
-            "display_name": "Goh Kah Wai"
+            "participant_id": "P069",
+            "display_name": "Goh Yoke Fong"
           },
           {
             "seat_id": "R12-S15",
@@ -2567,8 +2567,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P023",
-            "display_name": "Chin Poh Choo"
+            "participant_id": "P047",
+            "display_name": "Sim Lai Fun"
           },
           {
             "seat_id": "R13-S08",
@@ -2579,8 +2579,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P023",
-            "display_name": "Foo Yew Weng"
+            "participant_id": "P047",
+            "display_name": "Chong Mei Ling"
           },
           {
             "seat_id": "R13-S09",
@@ -2692,9 +2692,9 @@
             "zone": "LEFT_OUTER",
             "is_accessible": true,
             "is_blocked": false,
-            "occupancy_status": "OCCUPIED",
-            "participant_id": "P095",
-            "display_name": "Teoh Siok Ching"
+            "occupancy_status": "EMPTY",
+            "participant_id": null,
+            "display_name": null
           },
           {
             "seat_id": "R14-S02",
@@ -2704,9 +2704,9 @@
             "zone": "LEFT_OUTER",
             "is_accessible": false,
             "is_blocked": false,
-            "occupancy_status": "OCCUPIED",
-            "participant_id": "P098",
-            "display_name": "Loh Teck Meng"
+            "occupancy_status": "EMPTY",
+            "participant_id": null,
+            "display_name": null
           },
           {
             "seat_id": "R14-S03",
@@ -2717,8 +2717,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P093",
-            "display_name": "Tan Li Hua"
+            "participant_id": "P098",
+            "display_name": "Loh Teck Meng"
           },
           {
             "seat_id": "R14-S04",
@@ -2741,8 +2741,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P090",
-            "display_name": "Goh Swee Lin"
+            "participant_id": "P095",
+            "display_name": "Teoh Siok Ching"
           },
           {
             "seat_id": "R14-S06",
@@ -2801,8 +2801,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P092",
-            "display_name": "Goh Teck Meng"
+            "participant_id": "P094",
+            "display_name": "Venerable Jing Hai"
           },
           {
             "seat_id": "R14-S11",
@@ -2825,8 +2825,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P094",
-            "display_name": "Venerable Jing Hai"
+            "participant_id": "P090",
+            "display_name": "Goh Swee Lin"
           },
           {
             "seat_id": "R14-S13",
@@ -2836,9 +2836,9 @@
             "zone": "RIGHT_OUTER",
             "is_accessible": false,
             "is_blocked": false,
-            "occupancy_status": "EMPTY",
-            "participant_id": null,
-            "display_name": null
+            "occupancy_status": "OCCUPIED",
+            "participant_id": "P092",
+            "display_name": "Goh Teck Meng"
           },
           {
             "seat_id": "R14-S14",
@@ -2848,9 +2848,9 @@
             "zone": "RIGHT_OUTER",
             "is_accessible": false,
             "is_blocked": false,
-            "occupancy_status": "EMPTY",
-            "participant_id": null,
-            "display_name": null
+            "occupancy_status": "OCCUPIED",
+            "participant_id": "P093",
+            "display_name": "Tan Li Hua"
           },
           {
             "seat_id": "R14-S15",
@@ -2903,8 +2903,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P106",
-            "display_name": "Venerable Bao Sheng"
+            "participant_id": "P116",
+            "display_name": "Tan Kah Wai"
           },
           {
             "seat_id": "R15-S03",
@@ -2915,8 +2915,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P116",
-            "display_name": "Tan Kah Wai"
+            "participant_id": "P121",
+            "display_name": "Chin Hock Seng"
           },
           {
             "seat_id": "R15-S04",
@@ -2927,8 +2927,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P112",
-            "display_name": "Khoo Wei Ming"
+            "participant_id": "P103",
+            "display_name": "Sim Wei Ming"
           },
           {
             "seat_id": "R15-S05",
@@ -2951,8 +2951,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P104",
-            "display_name": "Teoh Guat Eng"
+            "participant_id": "P110",
+            "display_name": "Foo Poh Choo"
           },
           {
             "seat_id": "R15-S07",
@@ -2963,8 +2963,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P103",
-            "display_name": "Sim Wei Ming"
+            "participant_id": "P112",
+            "display_name": "Khoo Wei Ming"
           },
           {
             "seat_id": "R15-S08",
@@ -2999,8 +2999,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P110",
-            "display_name": "Foo Poh Choo"
+            "participant_id": "P106",
+            "display_name": "Venerable Bao Sheng"
           },
           {
             "seat_id": "R15-S11",
@@ -3011,8 +3011,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P113",
-            "display_name": "Cheah Chun Hong"
+            "participant_id": "P109",
+            "display_name": "Venerable De Cheng"
           },
           {
             "seat_id": "R15-S12",
@@ -3023,8 +3023,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P109",
-            "display_name": "Venerable De Cheng"
+            "participant_id": "P113",
+            "display_name": "Cheah Chun Hong"
           },
           {
             "seat_id": "R15-S13",
@@ -3047,8 +3047,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P121",
-            "display_name": "Chin Hock Seng"
+            "participant_id": "P104",
+            "display_name": "Teoh Guat Eng"
           },
           {
             "seat_id": "R15-S15",
@@ -3172,9 +3172,9 @@
             "zone": "LEFT_CENTER",
             "is_accessible": true,
             "is_blocked": false,
-            "occupancy_status": "EMPTY",
-            "participant_id": null,
-            "display_name": null
+            "occupancy_status": "OCCUPIED",
+            "participant_id": "P114",
+            "display_name": "Chan Hock Seng"
           },
           {
             "seat_id": "R16-S09",
@@ -3185,8 +3185,8 @@
             "is_accessible": true,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P114",
-            "display_name": "Chan Hock Seng"
+            "participant_id": "P101",
+            "display_name": "Venerable Hui Neng"
           },
           {
             "seat_id": "R16-S10",
@@ -3197,8 +3197,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P105",
-            "display_name": "Tan Ah Kow"
+            "participant_id": "P119",
+            "display_name": "Chin Yoke Fong"
           },
           {
             "seat_id": "R16-S11",
@@ -3209,8 +3209,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P122",
-            "display_name": "Chong Pei San"
+            "participant_id": "P099",
+            "display_name": "Ng Chee Keong"
           },
           {
             "seat_id": "R16-S12",
@@ -3221,8 +3221,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P101",
-            "display_name": "Venerable Hui Neng"
+            "participant_id": "P122",
+            "display_name": "Chong Pei San"
           },
           {
             "seat_id": "R16-S13",
@@ -3233,8 +3233,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P119",
-            "display_name": "Chin Yoke Fong"
+            "participant_id": "P105",
+            "display_name": "Tan Ah Kow"
           },
           {
             "seat_id": "R16-S14",
@@ -3257,8 +3257,8 @@
             "is_accessible": false,
             "is_blocked": false,
             "occupancy_status": "OCCUPIED",
-            "participant_id": "P099",
-            "display_name": "Ng Chee Keong"
+            "participant_id": "P107",
+            "display_name": "Sim Teck Meng"
           },
           {
             "seat_id": "R16-S16",
@@ -3268,9 +3268,9 @@
             "zone": "RIGHT_OUTER",
             "is_accessible": true,
             "is_blocked": false,
-            "occupancy_status": "OCCUPIED",
-            "participant_id": "P107",
-            "display_name": "Sim Teck Meng"
+            "occupancy_status": "EMPTY",
+            "participant_id": null,
+            "display_name": null
           }
         ]
       }
@@ -3289,52 +3289,52 @@
       "events_joined_last_2_years": 14,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R02-S03",
-        "R02-S04"
+        "R03-S07",
+        "R03-S08"
       ],
       "seats": [
         {
-          "seat_id": "R02-S03",
-          "row_number": 2,
-          "physical_position": 3,
-          "priority_rank": 12,
-          "zone": "LEFT_OUTER",
+          "seat_id": "R03-S07",
+          "row_number": 3,
+          "physical_position": 7,
+          "priority_rank": 4,
+          "zone": "LEFT_CENTER",
           "display_name": "Gan Li Hua"
         },
         {
-          "seat_id": "R02-S04",
-          "row_number": 2,
-          "physical_position": 4,
-          "priority_rank": 10,
-          "zone": "LEFT_OUTER",
+          "seat_id": "R03-S08",
+          "row_number": 3,
+          "physical_position": 8,
+          "priority_rank": 2,
+          "zone": "LEFT_CENTER",
           "display_name": "Gan Mei Ling"
         }
       ],
-      "pair_priority": 6,
+      "pair_priority": 2,
       "previous_seat_ids": [
-        "R02-S03",
-        "R02-S04"
+        "R03-S07",
+        "R03-S08"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 3,
-          "category_zone": 2,
+          "priority_seat": 1,
+          "category_zone": 4,
           "movement": 0,
-          "activeness": 0
+          "activeness": 4
         },
         "normalized": {
-          "priority_seat": 20,
-          "category_zone": 13,
+          "priority_seat": 7,
+          "category_zone": 25,
           "movement": 0,
-          "activeness": 0
+          "activeness": 27
         },
         "weighted": {
-          "priority_seat": 200,
-          "category_zone": 130,
+          "priority_seat": 525,
+          "category_zone": 325,
           "movement": 0,
-          "activeness": 0,
-          "total": 330
+          "activeness": 135,
+          "total": 985
         }
       }
     },
@@ -3391,11 +3391,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 400,
-          "category_zone": 250,
+          "priority_seat": 3000,
+          "category_zone": 325,
           "movement": 0,
           "activeness": 0,
-          "total": 650
+          "total": 3325
         }
       }
     },
@@ -3452,11 +3452,11 @@
           "activeness": 40
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 130,
+          "priority_seat": 975,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 2800,
-          "total": 3060
+          "activeness": 200,
+          "total": 1344
         }
       }
     },
@@ -3513,11 +3513,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 270,
-          "category_zone": 130,
+          "priority_seat": 2025,
+          "category_zone": 169,
           "movement": 0,
           "activeness": 0,
-          "total": 400
+          "total": 2194
         }
       }
     },
@@ -3574,11 +3574,11 @@
           "activeness": 67
         },
         "weighted": {
-          "priority_seat": 270,
-          "category_zone": 130,
+          "priority_seat": 2025,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 4690,
-          "total": 5090
+          "activeness": 335,
+          "total": 2529
         }
       }
     },
@@ -3594,52 +3594,52 @@
       "events_joined_last_2_years": 14,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R11-S13",
-        "R11-S14"
+        "R10-S11",
+        "R10-S12"
       ],
       "seats": [
         {
-          "seat_id": "R11-S13",
-          "row_number": 11,
-          "physical_position": 13,
-          "priority_rank": 9,
-          "zone": "RIGHT_OUTER",
+          "seat_id": "R10-S11",
+          "row_number": 10,
+          "physical_position": 11,
+          "priority_rank": 5,
+          "zone": "RIGHT_CENTER",
           "display_name": "Lau Yoke Fong"
         },
         {
-          "seat_id": "R11-S14",
-          "row_number": 11,
-          "physical_position": 14,
-          "priority_rank": 11,
-          "zone": "RIGHT_OUTER",
+          "seat_id": "R10-S12",
+          "row_number": 10,
+          "physical_position": 12,
+          "priority_rank": 7,
+          "zone": "RIGHT_CENTER",
           "display_name": "Lau Yoke Fong"
         }
       ],
-      "pair_priority": 5,
+      "pair_priority": 3,
       "previous_seat_ids": [
-        "R11-S13",
-        "R11-S14"
+        "R10-S11",
+        "R10-S12"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 5,
-          "category_zone": 6,
+          "priority_seat": 7,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 1
+          "activeness": 3
         },
         "normalized": {
-          "priority_seat": 33,
-          "category_zone": 38,
+          "priority_seat": 47,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 7
+          "activeness": 20
         },
         "weighted": {
-          "priority_seat": 330,
-          "category_zone": 380,
+          "priority_seat": 3525,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 490,
-          "total": 1200
+          "activeness": 100,
+          "total": 3625
         }
       }
     },
@@ -3655,52 +3655,52 @@
       "events_joined_last_2_years": 10,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R12-S13",
-        "R12-S14"
+        "R12-S09",
+        "R12-S10"
       ],
       "seats": [
         {
-          "seat_id": "R12-S13",
+          "seat_id": "R12-S09",
           "row_number": 12,
-          "physical_position": 13,
-          "priority_rank": 9,
-          "zone": "RIGHT_OUTER",
+          "physical_position": 9,
+          "priority_rank": 1,
+          "zone": "RIGHT_CENTER",
           "display_name": "Lee Sook Yee"
         },
         {
-          "seat_id": "R12-S14",
+          "seat_id": "R12-S10",
           "row_number": 12,
-          "physical_position": 14,
-          "priority_rank": 11,
-          "zone": "RIGHT_OUTER",
+          "physical_position": 10,
+          "priority_rank": 3,
+          "zone": "RIGHT_CENTER",
           "display_name": "Goh Kah Wai"
         }
       ],
-      "pair_priority": 5,
+      "pair_priority": 1,
       "previous_seat_ids": [
         "R12-S13",
         "R12-S14"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
           "priority_seat": 2,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 4
+          "category_zone": 4,
+          "movement": 24,
+          "activeness": 8
         },
         "normalized": {
           "priority_seat": 13,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 27
+          "category_zone": 25,
+          "movement": 11,
+          "activeness": 53
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 1890,
-          "total": 2020
+          "priority_seat": 975,
+          "category_zone": 325,
+          "movement": 77,
+          "activeness": 265,
+          "total": 1642
         }
       }
     },
@@ -3716,52 +3716,52 @@
       "events_joined_last_2_years": 17,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R10-S11",
-        "R10-S12"
+        "R09-S03",
+        "R09-S04"
       ],
       "seats": [
         {
-          "seat_id": "R10-S11",
-          "row_number": 10,
-          "physical_position": 11,
-          "priority_rank": 5,
-          "zone": "RIGHT_CENTER",
+          "seat_id": "R09-S03",
+          "row_number": 9,
+          "physical_position": 3,
+          "priority_rank": 12,
+          "zone": "LEFT_OUTER",
           "display_name": "Goh Chun Hong"
         },
         {
-          "seat_id": "R10-S12",
-          "row_number": 10,
-          "physical_position": 12,
-          "priority_rank": 7,
-          "zone": "RIGHT_CENTER",
+          "seat_id": "R09-S04",
+          "row_number": 9,
+          "physical_position": 4,
+          "priority_rank": 10,
+          "zone": "LEFT_OUTER",
           "display_name": "Goh Chun Hong"
         }
       ],
-      "pair_priority": 3,
+      "pair_priority": 6,
       "previous_seat_ids": [
-        "R10-S11",
-        "R10-S12"
+        "R09-S15",
+        "R09-S16"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
-          "priority_seat": 7,
-          "category_zone": 4,
-          "movement": 0,
-          "activeness": 1
+          "priority_seat": 4,
+          "category_zone": 2,
+          "movement": 32,
+          "activeness": 2
         },
         "normalized": {
-          "priority_seat": 47,
-          "category_zone": 25,
-          "movement": 0,
-          "activeness": 7
+          "priority_seat": 27,
+          "category_zone": 13,
+          "movement": 15,
+          "activeness": 13
         },
         "weighted": {
-          "priority_seat": 470,
-          "category_zone": 250,
-          "movement": 0,
-          "activeness": 490,
-          "total": 1210
+          "priority_seat": 2025,
+          "category_zone": 169,
+          "movement": 105,
+          "activeness": 65,
+          "total": 2364
         }
       }
     },
@@ -3818,11 +3818,11 @@
           "activeness": 33
         },
         "weighted": {
-          "priority_seat": 70,
-          "category_zone": 250,
+          "priority_seat": 525,
+          "category_zone": 325,
           "movement": 0,
-          "activeness": 2310,
-          "total": 2630
+          "activeness": 165,
+          "total": 1015
         }
       }
     },
@@ -3879,11 +3879,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 470,
+          "priority_seat": 3525,
           "category_zone": 0,
           "movement": 0,
           "activeness": 0,
-          "total": 470
+          "total": 3525
         }
       }
     },
@@ -3922,29 +3922,29 @@
       ],
       "pair_priority": 4,
       "previous_seat_ids": [
-        "R13-S05",
-        "R13-S06"
+        "R13-S11",
+        "R13-S12"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
           "priority_seat": 6,
           "category_zone": 4,
-          "movement": 0,
+          "movement": 26,
           "activeness": 7
         },
         "normalized": {
           "priority_seat": 40,
           "category_zone": 25,
-          "movement": 0,
+          "movement": 12,
           "activeness": 47
         },
         "weighted": {
-          "priority_seat": 400,
-          "category_zone": 250,
-          "movement": 0,
-          "activeness": 3290,
-          "total": 3940
+          "priority_seat": 3000,
+          "category_zone": 325,
+          "movement": 84,
+          "activeness": 235,
+          "total": 3644
         }
       }
     },
@@ -3960,52 +3960,52 @@
       "events_joined_last_2_years": 21,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R07-S07",
-        "R07-S08"
+        "R06-S03",
+        "R06-S04"
       ],
       "seats": [
         {
-          "seat_id": "R07-S07",
-          "row_number": 7,
-          "physical_position": 7,
-          "priority_rank": 4,
-          "zone": "LEFT_CENTER",
+          "seat_id": "R06-S03",
+          "row_number": 6,
+          "physical_position": 3,
+          "priority_rank": 12,
+          "zone": "LEFT_OUTER",
           "display_name": "Wong Keat Seng"
         },
         {
-          "seat_id": "R07-S08",
-          "row_number": 7,
-          "physical_position": 8,
-          "priority_rank": 2,
-          "zone": "LEFT_CENTER",
+          "seat_id": "R06-S04",
+          "row_number": 6,
+          "physical_position": 4,
+          "priority_rank": 10,
+          "zone": "LEFT_OUTER",
           "display_name": "Wong Keat Seng"
         }
       ],
-      "pair_priority": 2,
+      "pair_priority": 6,
       "previous_seat_ids": [
-        "R07-S07",
-        "R07-S08"
+        "R06-S03",
+        "R06-S04"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 8,
-          "category_zone": 4,
+          "priority_seat": 4,
+          "category_zone": 2,
           "movement": 0,
-          "activeness": 0
+          "activeness": 4
         },
         "normalized": {
-          "priority_seat": 53,
-          "category_zone": 25,
+          "priority_seat": 27,
+          "category_zone": 13,
           "movement": 0,
-          "activeness": 0
+          "activeness": 27
         },
         "weighted": {
-          "priority_seat": 530,
-          "category_zone": 250,
+          "priority_seat": 2025,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 0,
-          "total": 780
+          "activeness": 135,
+          "total": 2329
         }
       }
     },
@@ -4062,11 +4062,11 @@
           "activeness": 80
         },
         "weighted": {
-          "priority_seat": 600,
-          "category_zone": 130,
+          "priority_seat": 4500,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 5600,
-          "total": 6330
+          "activeness": 400,
+          "total": 5069
         }
       }
     },
@@ -4123,11 +4123,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 330,
+          "priority_seat": 2475,
           "category_zone": 0,
           "movement": 0,
           "activeness": 0,
-          "total": 330
+          "total": 2475
         }
       }
     },
@@ -4184,11 +4184,11 @@
           "activeness": 60
         },
         "weighted": {
-          "priority_seat": 200,
-          "category_zone": 130,
+          "priority_seat": 1500,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 4200,
-          "total": 4530
+          "activeness": 300,
+          "total": 1969
         }
       }
     },
@@ -4245,11 +4245,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 130,
+          "priority_seat": 975,
+          "category_zone": 169,
           "movement": 0,
           "activeness": 0,
-          "total": 260
+          "total": 1144
         }
       }
     },
@@ -4265,52 +4265,52 @@
       "events_joined_last_2_years": 7,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R12-S09",
-        "R12-S10"
+        "R12-S05",
+        "R12-S06"
       ],
       "seats": [
         {
-          "seat_id": "R12-S09",
+          "seat_id": "R12-S05",
           "row_number": 12,
-          "physical_position": 9,
-          "priority_rank": 1,
-          "zone": "RIGHT_CENTER",
-          "display_name": "Chong Swee Lin"
+          "physical_position": 5,
+          "priority_rank": 8,
+          "zone": "LEFT_CENTER",
+          "display_name": "Ho Ah Kow"
         },
         {
-          "seat_id": "R12-S10",
+          "seat_id": "R12-S06",
           "row_number": 12,
-          "physical_position": 10,
-          "priority_rank": 3,
-          "zone": "RIGHT_CENTER",
-          "display_name": "Ho Ah Kow"
+          "physical_position": 6,
+          "priority_rank": 6,
+          "zone": "LEFT_CENTER",
+          "display_name": "Chong Swee Lin"
         }
       ],
-      "pair_priority": 1,
+      "pair_priority": 4,
       "previous_seat_ids": [
         "R12-S09",
         "R12-S10"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
-          "priority_seat": 9,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 10
+          "priority_seat": 6,
+          "category_zone": 4,
+          "movement": 24,
+          "activeness": 7
         },
         "normalized": {
-          "priority_seat": 60,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 67
+          "priority_seat": 40,
+          "category_zone": 25,
+          "movement": 11,
+          "activeness": 47
         },
         "weighted": {
-          "priority_seat": 600,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 4690,
-          "total": 5290
+          "priority_seat": 3000,
+          "category_zone": 325,
+          "movement": 77,
+          "activeness": 235,
+          "total": 3637
         }
       }
     },
@@ -4326,52 +4326,52 @@
       "events_joined_last_2_years": 17,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R03-S05",
-        "R03-S06"
+        "R02-S03",
+        "R02-S04"
       ],
       "seats": [
         {
-          "seat_id": "R03-S05",
-          "row_number": 3,
-          "physical_position": 5,
-          "priority_rank": 8,
-          "zone": "LEFT_CENTER",
+          "seat_id": "R02-S03",
+          "row_number": 2,
+          "physical_position": 3,
+          "priority_rank": 12,
+          "zone": "LEFT_OUTER",
           "display_name": "Yap Chee Keong"
         },
         {
-          "seat_id": "R03-S06",
-          "row_number": 3,
-          "physical_position": 6,
-          "priority_rank": 6,
-          "zone": "LEFT_CENTER",
+          "seat_id": "R02-S04",
+          "row_number": 2,
+          "physical_position": 4,
+          "priority_rank": 10,
+          "zone": "LEFT_OUTER",
           "display_name": "Yap Chee Keong"
         }
       ],
-      "pair_priority": 4,
+      "pair_priority": 6,
       "previous_seat_ids": [
-        "R03-S05",
-        "R03-S06"
+        "R02-S03",
+        "R02-S04"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 6,
-          "category_zone": 4,
+          "priority_seat": 4,
+          "category_zone": 2,
           "movement": 0,
-          "activeness": 0
+          "activeness": 2
         },
         "normalized": {
-          "priority_seat": 40,
-          "category_zone": 25,
+          "priority_seat": 27,
+          "category_zone": 13,
           "movement": 0,
-          "activeness": 0
+          "activeness": 13
         },
         "weighted": {
-          "priority_seat": 400,
-          "category_zone": 250,
+          "priority_seat": 2025,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 0,
-          "total": 650
+          "activeness": 65,
+          "total": 2259
         }
       }
     },
@@ -4428,11 +4428,11 @@
           "activeness": 7
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 130,
+          "priority_seat": 975,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 490,
-          "total": 750
+          "activeness": 35,
+          "total": 1179
         }
       }
     },
@@ -4489,11 +4489,11 @@
           "activeness": 40
         },
         "weighted": {
-          "priority_seat": 200,
-          "category_zone": 130,
+          "priority_seat": 1500,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 2800,
-          "total": 3130
+          "activeness": 200,
+          "total": 1869
         }
       }
     },
@@ -4509,21 +4509,21 @@
       "events_joined_last_2_years": 6,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R07-S15",
-        "R07-S16"
+        "R09-S15",
+        "R09-S16"
       ],
       "seats": [
         {
-          "seat_id": "R07-S15",
-          "row_number": 7,
+          "seat_id": "R09-S15",
+          "row_number": 9,
           "physical_position": 15,
           "priority_rank": 13,
           "zone": "RIGHT_OUTER",
           "display_name": "Yap Poh Choo"
         },
         {
-          "seat_id": "R07-S16",
-          "row_number": 7,
+          "seat_id": "R09-S16",
+          "row_number": 9,
           "physical_position": 16,
           "priority_rank": 15,
           "zone": "RIGHT_OUTER",
@@ -4535,26 +4535,26 @@
         "R07-S15",
         "R07-S16"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
           "priority_seat": 3,
           "category_zone": 0,
-          "movement": 0,
+          "movement": 44,
           "activeness": 5
         },
         "normalized": {
           "priority_seat": 20,
           "category_zone": 0,
-          "movement": 0,
+          "movement": 20,
           "activeness": 33
         },
         "weighted": {
-          "priority_seat": 200,
+          "priority_seat": 1500,
           "category_zone": 0,
-          "movement": 0,
-          "activeness": 2310,
-          "total": 2510
+          "movement": 140,
+          "activeness": 165,
+          "total": 1805
         }
       }
     },
@@ -4570,21 +4570,21 @@
       "events_joined_last_2_years": 11,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R06-S15",
-        "R06-S16"
+        "R07-S15",
+        "R07-S16"
       ],
       "seats": [
         {
-          "seat_id": "R06-S15",
-          "row_number": 6,
+          "seat_id": "R07-S15",
+          "row_number": 7,
           "physical_position": 15,
           "priority_rank": 13,
           "zone": "RIGHT_OUTER",
           "display_name": "Ong Chee Keong"
         },
         {
-          "seat_id": "R06-S16",
-          "row_number": 6,
+          "seat_id": "R07-S16",
+          "row_number": 7,
           "physical_position": 16,
           "priority_rank": 15,
           "zone": "RIGHT_OUTER",
@@ -4593,29 +4593,29 @@
       ],
       "pair_priority": 7,
       "previous_seat_ids": [
-        "R06-S15",
-        "R06-S16"
+        "R05-S11",
+        "R05-S12"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
           "priority_seat": 3,
           "category_zone": 6,
-          "movement": 0,
+          "movement": 48,
           "activeness": 2
         },
         "normalized": {
           "priority_seat": 20,
           "category_zone": 38,
-          "movement": 0,
+          "movement": 22,
           "activeness": 13
         },
         "weighted": {
-          "priority_seat": 200,
-          "category_zone": 380,
-          "movement": 0,
-          "activeness": 910,
-          "total": 1490
+          "priority_seat": 1500,
+          "category_zone": 494,
+          "movement": 154,
+          "activeness": 65,
+          "total": 2213
         }
       }
     },
@@ -4631,52 +4631,52 @@
       "events_joined_last_2_years": 4,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R13-S07",
-        "R13-S08"
+        "R11-S09",
+        "R11-S10"
       ],
       "seats": [
         {
-          "seat_id": "R13-S07",
-          "row_number": 13,
-          "physical_position": 7,
-          "priority_rank": 4,
-          "zone": "LEFT_CENTER",
-          "display_name": "Chin Poh Choo"
+          "seat_id": "R11-S09",
+          "row_number": 11,
+          "physical_position": 9,
+          "priority_rank": 1,
+          "zone": "RIGHT_CENTER",
+          "display_name": "Foo Yew Weng"
         },
         {
-          "seat_id": "R13-S08",
-          "row_number": 13,
-          "physical_position": 8,
-          "priority_rank": 2,
-          "zone": "LEFT_CENTER",
-          "display_name": "Foo Yew Weng"
+          "seat_id": "R11-S10",
+          "row_number": 11,
+          "physical_position": 10,
+          "priority_rank": 3,
+          "zone": "RIGHT_CENTER",
+          "display_name": "Chin Poh Choo"
         }
       ],
-      "pair_priority": 2,
+      "pair_priority": 1,
       "previous_seat_ids": [
-        "R13-S07",
-        "R13-S08"
+        "R13-S09",
+        "R13-S10"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
-          "priority_seat": 1,
-          "category_zone": 4,
-          "movement": 0,
-          "activeness": 11
+          "priority_seat": 2,
+          "category_zone": 2,
+          "movement": 44,
+          "activeness": 12
         },
         "normalized": {
-          "priority_seat": 7,
-          "category_zone": 25,
-          "movement": 0,
-          "activeness": 73
+          "priority_seat": 13,
+          "category_zone": 13,
+          "movement": 20,
+          "activeness": 80
         },
         "weighted": {
-          "priority_seat": 70,
-          "category_zone": 250,
-          "movement": 0,
-          "activeness": 5110,
-          "total": 5430
+          "priority_seat": 975,
+          "category_zone": 169,
+          "movement": 140,
+          "activeness": 400,
+          "total": 1684
         }
       }
     },
@@ -4692,52 +4692,52 @@
       "events_joined_last_2_years": 8,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R07-S03",
-        "R07-S04"
+        "R07-S07",
+        "R07-S08"
       ],
       "seats": [
         {
-          "seat_id": "R07-S03",
+          "seat_id": "R07-S07",
           "row_number": 7,
-          "physical_position": 3,
-          "priority_rank": 12,
-          "zone": "LEFT_OUTER",
+          "physical_position": 7,
+          "priority_rank": 4,
+          "zone": "LEFT_CENTER",
           "display_name": "Wong Yoke Fong"
         },
         {
-          "seat_id": "R07-S04",
+          "seat_id": "R07-S08",
           "row_number": 7,
-          "physical_position": 4,
-          "priority_rank": 10,
-          "zone": "LEFT_OUTER",
+          "physical_position": 8,
+          "priority_rank": 2,
+          "zone": "LEFT_CENTER",
           "display_name": "Wong Yoke Fong"
         }
       ],
-      "pair_priority": 6,
+      "pair_priority": 2,
       "previous_seat_ids": [
-        "R07-S03",
-        "R07-S04"
+        "R07-S07",
+        "R07-S08"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 3,
-          "category_zone": 2,
+          "priority_seat": 1,
+          "category_zone": 4,
           "movement": 0,
-          "activeness": 5
+          "activeness": 9
         },
         "normalized": {
-          "priority_seat": 20,
-          "category_zone": 13,
+          "priority_seat": 7,
+          "category_zone": 25,
           "movement": 0,
-          "activeness": 33
+          "activeness": 60
         },
         "weighted": {
-          "priority_seat": 200,
-          "category_zone": 130,
+          "priority_seat": 525,
+          "category_zone": 325,
           "movement": 0,
-          "activeness": 2310,
-          "total": 2640
+          "activeness": 300,
+          "total": 1150
         }
       }
     },
@@ -4753,52 +4753,52 @@
       "events_joined_last_2_years": 13,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R03-S15",
-        "R03-S16"
+        "R03-S01",
+        "R03-S02"
       ],
       "seats": [
         {
-          "seat_id": "R03-S15",
+          "seat_id": "R03-S01",
           "row_number": 3,
-          "physical_position": 15,
-          "priority_rank": 13,
-          "zone": "RIGHT_OUTER",
-          "display_name": "Tan Boon Huat"
+          "physical_position": 1,
+          "priority_rank": 16,
+          "zone": "LEFT_OUTER",
+          "display_name": "Sim Boon Huat"
         },
         {
-          "seat_id": "R03-S16",
+          "seat_id": "R03-S02",
           "row_number": 3,
-          "physical_position": 16,
-          "priority_rank": 15,
-          "zone": "RIGHT_OUTER",
-          "display_name": "Sim Boon Huat"
+          "physical_position": 2,
+          "priority_rank": 14,
+          "zone": "LEFT_OUTER",
+          "display_name": "Tan Boon Huat"
         }
       ],
-      "pair_priority": 7,
+      "pair_priority": 8,
       "previous_seat_ids": [
-        "R03-S15",
-        "R03-S16"
+        "R03-S01",
+        "R03-S02"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 3,
-          "category_zone": 0,
+          "priority_seat": 2,
+          "category_zone": 2,
           "movement": 0,
-          "activeness": 0
+          "activeness": 1
         },
         "normalized": {
-          "priority_seat": 20,
-          "category_zone": 0,
+          "priority_seat": 13,
+          "category_zone": 13,
           "movement": 0,
-          "activeness": 0
+          "activeness": 7
         },
         "weighted": {
-          "priority_seat": 200,
-          "category_zone": 0,
+          "priority_seat": 975,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 0,
-          "total": 200
+          "activeness": 35,
+          "total": 1179
         }
       }
     },
@@ -4814,52 +4814,52 @@
       "events_joined_last_2_years": 19,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R02-S11",
-        "R02-S12"
+        "R03-S13",
+        "R03-S14"
       ],
       "seats": [
         {
-          "seat_id": "R02-S11",
-          "row_number": 2,
-          "physical_position": 11,
-          "priority_rank": 5,
-          "zone": "RIGHT_CENTER",
+          "seat_id": "R03-S13",
+          "row_number": 3,
+          "physical_position": 13,
+          "priority_rank": 9,
+          "zone": "RIGHT_OUTER",
           "display_name": "Lee Ah Kow"
         },
         {
-          "seat_id": "R02-S12",
-          "row_number": 2,
-          "physical_position": 12,
-          "priority_rank": 7,
-          "zone": "RIGHT_CENTER",
+          "seat_id": "R03-S14",
+          "row_number": 3,
+          "physical_position": 14,
+          "priority_rank": 11,
+          "zone": "RIGHT_OUTER",
           "display_name": "Lee Ah Kow"
         }
       ],
-      "pair_priority": 3,
+      "pair_priority": 5,
       "previous_seat_ids": [
         "R02-S11",
         "R02-S12"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
-          "priority_seat": 7,
+          "priority_seat": 5,
           "category_zone": 2,
-          "movement": 0,
-          "activeness": 0
+          "movement": 34,
+          "activeness": 2
         },
         "normalized": {
-          "priority_seat": 47,
+          "priority_seat": 33,
           "category_zone": 13,
-          "movement": 0,
-          "activeness": 0
+          "movement": 16,
+          "activeness": 13
         },
         "weighted": {
-          "priority_seat": 470,
-          "category_zone": 130,
-          "movement": 0,
-          "activeness": 0,
-          "total": 600
+          "priority_seat": 2475,
+          "category_zone": 169,
+          "movement": 112,
+          "activeness": 65,
+          "total": 2821
         }
       }
     },
@@ -4916,11 +4916,11 @@
           "activeness": 53
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 130,
+          "priority_seat": 975,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 3710,
-          "total": 3970
+          "activeness": 265,
+          "total": 1409
         }
       }
     },
@@ -4936,52 +4936,52 @@
       "events_joined_last_2_years": 10,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R06-S13",
-        "R06-S14"
+        "R05-S07",
+        "R05-S08"
       ],
       "seats": [
         {
-          "seat_id": "R06-S13",
-          "row_number": 6,
-          "physical_position": 13,
-          "priority_rank": 9,
-          "zone": "RIGHT_OUTER",
+          "seat_id": "R05-S07",
+          "row_number": 5,
+          "physical_position": 7,
+          "priority_rank": 4,
+          "zone": "LEFT_CENTER",
           "display_name": "Ho Kah Wai"
         },
         {
-          "seat_id": "R06-S14",
-          "row_number": 6,
-          "physical_position": 14,
-          "priority_rank": 11,
-          "zone": "RIGHT_OUTER",
+          "seat_id": "R05-S08",
+          "row_number": 5,
+          "physical_position": 8,
+          "priority_rank": 2,
+          "zone": "LEFT_CENTER",
           "display_name": "Ho Kah Wai"
         }
       ],
-      "pair_priority": 5,
+      "pair_priority": 2,
       "previous_seat_ids": [
-        "R06-S13",
-        "R06-S14"
+        "R05-S07",
+        "R05-S08"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 2,
-          "category_zone": 0,
+          "priority_seat": 1,
+          "category_zone": 4,
           "movement": 0,
-          "activeness": 4
+          "activeness": 7
         },
         "normalized": {
-          "priority_seat": 13,
-          "category_zone": 0,
+          "priority_seat": 7,
+          "category_zone": 25,
           "movement": 0,
-          "activeness": 27
+          "activeness": 47
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 0,
+          "priority_seat": 525,
+          "category_zone": 325,
           "movement": 0,
-          "activeness": 1890,
-          "total": 2020
+          "activeness": 235,
+          "total": 1085
         }
       }
     },
@@ -5038,11 +5038,11 @@
           "activeness": 20
         },
         "weighted": {
-          "priority_seat": 270,
-          "category_zone": 130,
+          "priority_seat": 2025,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 1400,
-          "total": 1800
+          "activeness": 100,
+          "total": 2294
         }
       }
     },
@@ -5058,52 +5058,52 @@
       "events_joined_last_2_years": 17,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R05-S11",
-        "R05-S12"
+        "R06-S13",
+        "R06-S14"
       ],
       "seats": [
         {
-          "seat_id": "R05-S11",
-          "row_number": 5,
-          "physical_position": 11,
-          "priority_rank": 5,
-          "zone": "RIGHT_CENTER",
+          "seat_id": "R06-S13",
+          "row_number": 6,
+          "physical_position": 13,
+          "priority_rank": 9,
+          "zone": "RIGHT_OUTER",
           "display_name": "Loh Yoke Fong"
         },
         {
-          "seat_id": "R05-S12",
-          "row_number": 5,
-          "physical_position": 12,
-          "priority_rank": 7,
-          "zone": "RIGHT_CENTER",
+          "seat_id": "R06-S14",
+          "row_number": 6,
+          "physical_position": 14,
+          "priority_rank": 11,
+          "zone": "RIGHT_OUTER",
           "display_name": "Loh Yoke Fong"
         }
       ],
-      "pair_priority": 3,
+      "pair_priority": 5,
       "previous_seat_ids": [
-        "R05-S11",
-        "R05-S12"
+        "R06-S13",
+        "R06-S14"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 7,
+          "priority_seat": 5,
           "category_zone": 2,
           "movement": 0,
           "activeness": 1
         },
         "normalized": {
-          "priority_seat": 47,
+          "priority_seat": 33,
           "category_zone": 13,
           "movement": 0,
           "activeness": 7
         },
         "weighted": {
-          "priority_seat": 470,
-          "category_zone": 130,
+          "priority_seat": 2475,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 490,
-          "total": 1090
+          "activeness": 35,
+          "total": 2679
         }
       }
     },
@@ -5119,52 +5119,52 @@
       "events_joined_last_2_years": 13,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R02-S13",
-        "R02-S14"
+        "R02-S07",
+        "R02-S08"
       ],
       "seats": [
         {
-          "seat_id": "R02-S13",
+          "seat_id": "R02-S07",
           "row_number": 2,
-          "physical_position": 13,
-          "priority_rank": 9,
-          "zone": "RIGHT_OUTER",
-          "display_name": "Chan Swee Lin"
+          "physical_position": 7,
+          "priority_rank": 4,
+          "zone": "LEFT_CENTER",
+          "display_name": "Goh Kok Seng"
         },
         {
-          "seat_id": "R02-S14",
+          "seat_id": "R02-S08",
           "row_number": 2,
-          "physical_position": 14,
-          "priority_rank": 11,
-          "zone": "RIGHT_OUTER",
-          "display_name": "Goh Kok Seng"
+          "physical_position": 8,
+          "priority_rank": 2,
+          "zone": "LEFT_CENTER",
+          "display_name": "Chan Swee Lin"
         }
       ],
-      "pair_priority": 5,
+      "pair_priority": 2,
       "previous_seat_ids": [
-        "R02-S13",
-        "R02-S14"
+        "R02-S07",
+        "R02-S08"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 2,
-          "category_zone": 0,
+          "priority_seat": 1,
+          "category_zone": 4,
           "movement": 0,
-          "activeness": 2
+          "activeness": 5
         },
         "normalized": {
-          "priority_seat": 13,
-          "category_zone": 0,
+          "priority_seat": 7,
+          "category_zone": 25,
           "movement": 0,
-          "activeness": 13
+          "activeness": 33
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 0,
+          "priority_seat": 525,
+          "category_zone": 325,
           "movement": 0,
-          "activeness": 910,
-          "total": 1040
+          "activeness": 165,
+          "total": 1015
         }
       }
     },
@@ -5180,52 +5180,52 @@
       "events_joined_last_2_years": 0,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R03-S01",
-        "R03-S02"
+        "R03-S15",
+        "R03-S16"
       ],
       "seats": [
         {
-          "seat_id": "R03-S01",
+          "seat_id": "R03-S15",
           "row_number": 3,
-          "physical_position": 1,
-          "priority_rank": 16,
-          "zone": "LEFT_OUTER",
+          "physical_position": 15,
+          "priority_rank": 13,
+          "zone": "RIGHT_OUTER",
           "display_name": "Teoh Li Hua"
         },
         {
-          "seat_id": "R03-S02",
+          "seat_id": "R03-S16",
           "row_number": 3,
-          "physical_position": 2,
-          "priority_rank": 14,
-          "zone": "LEFT_OUTER",
+          "physical_position": 16,
+          "priority_rank": 15,
+          "zone": "RIGHT_OUTER",
           "display_name": "Teoh Li Hua"
         }
       ],
-      "pair_priority": 8,
+      "pair_priority": 7,
       "previous_seat_ids": [
-        "R03-S01",
-        "R03-S02"
+        "R03-S15",
+        "R03-S16"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 2,
-          "category_zone": 6,
+          "priority_seat": 3,
+          "category_zone": 2,
           "movement": 0,
-          "activeness": 8
+          "activeness": 9
         },
         "normalized": {
-          "priority_seat": 13,
-          "category_zone": 38,
+          "priority_seat": 20,
+          "category_zone": 13,
           "movement": 0,
-          "activeness": 53
+          "activeness": 60
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 380,
+          "priority_seat": 1500,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 3710,
-          "total": 4220
+          "activeness": 300,
+          "total": 1969
         }
       }
     },
@@ -5241,52 +5241,52 @@
       "events_joined_last_2_years": 11,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R04-S13",
-        "R04-S14"
+        "R03-S09",
+        "R03-S10"
       ],
       "seats": [
         {
-          "seat_id": "R04-S13",
-          "row_number": 4,
-          "physical_position": 13,
-          "priority_rank": 9,
-          "zone": "RIGHT_OUTER",
+          "seat_id": "R03-S09",
+          "row_number": 3,
+          "physical_position": 9,
+          "priority_rank": 1,
+          "zone": "RIGHT_CENTER",
           "display_name": "Gan Hock Seng"
         },
         {
-          "seat_id": "R04-S14",
-          "row_number": 4,
-          "physical_position": 14,
-          "priority_rank": 11,
-          "zone": "RIGHT_OUTER",
+          "seat_id": "R03-S10",
+          "row_number": 3,
+          "physical_position": 10,
+          "priority_rank": 3,
+          "zone": "RIGHT_CENTER",
           "display_name": "Goh Siew Lan"
         }
       ],
-      "pair_priority": 5,
+      "pair_priority": 1,
       "previous_seat_ids": [
-        "R04-S13",
-        "R04-S14"
+        "R03-S13",
+        "R03-S14"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
           "priority_seat": 2,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 4
+          "category_zone": 4,
+          "movement": 24,
+          "activeness": 8
         },
         "normalized": {
           "priority_seat": 13,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 27
+          "category_zone": 25,
+          "movement": 11,
+          "activeness": 53
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 1890,
-          "total": 2020
+          "priority_seat": 975,
+          "category_zone": 325,
+          "movement": 77,
+          "activeness": 265,
+          "total": 1642
         }
       }
     },
@@ -5302,52 +5302,52 @@
       "events_joined_last_2_years": 0,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R09-S15",
-        "R09-S16"
+        "R10-S07",
+        "R10-S08"
       ],
       "seats": [
         {
-          "seat_id": "R09-S15",
-          "row_number": 9,
-          "physical_position": 15,
-          "priority_rank": 13,
-          "zone": "RIGHT_OUTER",
+          "seat_id": "R10-S07",
+          "row_number": 10,
+          "physical_position": 7,
+          "priority_rank": 4,
+          "zone": "LEFT_CENTER",
           "display_name": "Loh Chun Hong"
         },
         {
-          "seat_id": "R09-S16",
-          "row_number": 9,
-          "physical_position": 16,
-          "priority_rank": 15,
-          "zone": "RIGHT_OUTER",
+          "seat_id": "R10-S08",
+          "row_number": 10,
+          "physical_position": 8,
+          "priority_rank": 2,
+          "zone": "LEFT_CENTER",
           "display_name": "Loh Chun Hong"
         }
       ],
-      "pair_priority": 7,
+      "pair_priority": 2,
       "previous_seat_ids": [
-        "R09-S15",
-        "R09-S16"
+        "R10-S07",
+        "R10-S08"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 3,
-          "category_zone": 6,
+          "priority_seat": 8,
+          "category_zone": 4,
           "movement": 0,
-          "activeness": 9
+          "activeness": 14
         },
         "normalized": {
-          "priority_seat": 20,
-          "category_zone": 38,
+          "priority_seat": 53,
+          "category_zone": 25,
           "movement": 0,
-          "activeness": 60
+          "activeness": 93
         },
         "weighted": {
-          "priority_seat": 200,
-          "category_zone": 380,
+          "priority_seat": 3975,
+          "category_zone": 325,
           "movement": 0,
-          "activeness": 4200,
-          "total": 4780
+          "activeness": 465,
+          "total": 4765
         }
       }
     },
@@ -5404,11 +5404,11 @@
           "activeness": 13
         },
         "weighted": {
-          "priority_seat": 200,
+          "priority_seat": 1500,
           "category_zone": 0,
           "movement": 0,
-          "activeness": 910,
-          "total": 1110
+          "activeness": 65,
+          "total": 1565
         }
       }
     },
@@ -5465,11 +5465,11 @@
           "activeness": 7
         },
         "weighted": {
-          "priority_seat": 130,
+          "priority_seat": 975,
           "category_zone": 0,
           "movement": 0,
-          "activeness": 490,
-          "total": 620
+          "activeness": 35,
+          "total": 1010
         }
       }
     },
@@ -5526,11 +5526,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 130,
+          "priority_seat": 975,
+          "category_zone": 169,
           "movement": 0,
           "activeness": 0,
-          "total": 260
+          "total": 1144
         }
       }
     },
@@ -5587,11 +5587,11 @@
           "activeness": 33
         },
         "weighted": {
-          "priority_seat": 270,
-          "category_zone": 130,
+          "priority_seat": 2025,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 2310,
-          "total": 2710
+          "activeness": 165,
+          "total": 2359
         }
       }
     },
@@ -5607,52 +5607,52 @@
       "events_joined_last_2_years": 21,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R04-S07",
-        "R04-S08"
+        "R04-S13",
+        "R04-S14"
       ],
       "seats": [
         {
-          "seat_id": "R04-S07",
+          "seat_id": "R04-S13",
           "row_number": 4,
-          "physical_position": 7,
-          "priority_rank": 4,
-          "zone": "LEFT_CENTER",
-          "display_name": "Lee Kok Seng"
+          "physical_position": 13,
+          "priority_rank": 9,
+          "zone": "RIGHT_OUTER",
+          "display_name": "Gan Lai Fun"
         },
         {
-          "seat_id": "R04-S08",
+          "seat_id": "R04-S14",
           "row_number": 4,
-          "physical_position": 8,
-          "priority_rank": 2,
-          "zone": "LEFT_CENTER",
-          "display_name": "Gan Lai Fun"
+          "physical_position": 14,
+          "priority_rank": 11,
+          "zone": "RIGHT_OUTER",
+          "display_name": "Lee Kok Seng"
         }
       ],
-      "pair_priority": 2,
+      "pair_priority": 5,
       "previous_seat_ids": [
-        "R04-S07",
-        "R04-S08"
+        "R04-S13",
+        "R04-S14"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 8,
-          "category_zone": 4,
+          "priority_seat": 5,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 0
+          "activeness": 3
         },
         "normalized": {
-          "priority_seat": 53,
-          "category_zone": 25,
+          "priority_seat": 33,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 0
+          "activeness": 20
         },
         "weighted": {
-          "priority_seat": 530,
-          "category_zone": 250,
+          "priority_seat": 2475,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 0,
-          "total": 780
+          "activeness": 100,
+          "total": 2575
         }
       }
     },
@@ -5709,11 +5709,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 600,
-          "category_zone": 130,
+          "priority_seat": 4500,
+          "category_zone": 169,
           "movement": 0,
           "activeness": 0,
-          "total": 730
+          "total": 4669
         }
       }
     },
@@ -5729,52 +5729,52 @@
       "events_joined_last_2_years": 12,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R08-S13",
-        "R08-S14"
+        "R07-S09",
+        "R07-S10"
       ],
       "seats": [
         {
-          "seat_id": "R08-S13",
-          "row_number": 8,
-          "physical_position": 13,
-          "priority_rank": 9,
-          "zone": "RIGHT_OUTER",
+          "seat_id": "R07-S09",
+          "row_number": 7,
+          "physical_position": 9,
+          "priority_rank": 1,
+          "zone": "RIGHT_CENTER",
           "display_name": "Goh Ah Kow"
         },
         {
-          "seat_id": "R08-S14",
-          "row_number": 8,
-          "physical_position": 14,
-          "priority_rank": 11,
-          "zone": "RIGHT_OUTER",
+          "seat_id": "R07-S10",
+          "row_number": 7,
+          "physical_position": 10,
+          "priority_rank": 3,
+          "zone": "RIGHT_CENTER",
           "display_name": "Lee Pei San"
         }
       ],
-      "pair_priority": 5,
+      "pair_priority": 1,
       "previous_seat_ids": [
         "R08-S13",
         "R08-S14"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
           "priority_seat": 2,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 3
+          "category_zone": 4,
+          "movement": 36,
+          "activeness": 7
         },
         "normalized": {
           "priority_seat": 13,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 20
+          "category_zone": 25,
+          "movement": 17,
+          "activeness": 47
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 1400,
-          "total": 1530
+          "priority_seat": 975,
+          "category_zone": 325,
+          "movement": 119,
+          "activeness": 235,
+          "total": 1654
         }
       }
     },
@@ -5790,52 +5790,52 @@
       "events_joined_last_2_years": 18,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R03-S09",
-        "R03-S10"
+        "R03-S05",
+        "R03-S06"
       ],
       "seats": [
         {
-          "seat_id": "R03-S09",
+          "seat_id": "R03-S05",
           "row_number": 3,
-          "physical_position": 9,
-          "priority_rank": 1,
-          "zone": "RIGHT_CENTER",
+          "physical_position": 5,
+          "priority_rank": 8,
+          "zone": "LEFT_CENTER",
           "display_name": "Cheah Bee Choo"
         },
         {
-          "seat_id": "R03-S10",
+          "seat_id": "R03-S06",
           "row_number": 3,
-          "physical_position": 10,
-          "priority_rank": 3,
-          "zone": "RIGHT_CENTER",
+          "physical_position": 6,
+          "priority_rank": 6,
+          "zone": "LEFT_CENTER",
           "display_name": "Cheah Bee Choo"
         }
       ],
-      "pair_priority": 1,
+      "pair_priority": 4,
       "previous_seat_ids": [
         "R03-S09",
         "R03-S10"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
-          "priority_seat": 9,
-          "category_zone": 2,
-          "movement": 0,
-          "activeness": 3
+          "priority_seat": 6,
+          "category_zone": 4,
+          "movement": 24,
+          "activeness": 0
         },
         "normalized": {
-          "priority_seat": 60,
-          "category_zone": 13,
-          "movement": 0,
-          "activeness": 20
+          "priority_seat": 40,
+          "category_zone": 25,
+          "movement": 11,
+          "activeness": 0
         },
         "weighted": {
-          "priority_seat": 600,
-          "category_zone": 130,
-          "movement": 0,
-          "activeness": 1400,
-          "total": 2130
+          "priority_seat": 3000,
+          "category_zone": 325,
+          "movement": 77,
+          "activeness": 0,
+          "total": 3402
         }
       }
     },
@@ -5851,52 +5851,52 @@
       "events_joined_last_2_years": 21,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R05-S07",
-        "R05-S08"
+        "R05-S03",
+        "R05-S04"
       ],
       "seats": [
         {
-          "seat_id": "R05-S07",
+          "seat_id": "R05-S03",
           "row_number": 5,
-          "physical_position": 7,
-          "priority_rank": 4,
-          "zone": "LEFT_CENTER",
+          "physical_position": 3,
+          "priority_rank": 12,
+          "zone": "LEFT_OUTER",
           "display_name": "Chan Yew Weng"
         },
         {
-          "seat_id": "R05-S08",
+          "seat_id": "R05-S04",
           "row_number": 5,
-          "physical_position": 8,
-          "priority_rank": 2,
-          "zone": "LEFT_CENTER",
+          "physical_position": 4,
+          "priority_rank": 10,
+          "zone": "LEFT_OUTER",
           "display_name": "Lee Yoke Fong"
         }
       ],
-      "pair_priority": 2,
+      "pair_priority": 6,
       "previous_seat_ids": [
-        "R05-S07",
-        "R05-S08"
+        "R05-S03",
+        "R05-S04"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 8,
-          "category_zone": 4,
+          "priority_seat": 4,
+          "category_zone": 2,
           "movement": 0,
-          "activeness": 0
+          "activeness": 4
         },
         "normalized": {
-          "priority_seat": 53,
-          "category_zone": 25,
+          "priority_seat": 27,
+          "category_zone": 13,
           "movement": 0,
-          "activeness": 0
+          "activeness": 27
         },
         "weighted": {
-          "priority_seat": 530,
-          "category_zone": 250,
+          "priority_seat": 2025,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 0,
-          "total": 780
+          "activeness": 135,
+          "total": 2329
         }
       }
     },
@@ -5953,11 +5953,11 @@
           "activeness": 7
         },
         "weighted": {
-          "priority_seat": 200,
-          "category_zone": 130,
+          "priority_seat": 1500,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 490,
-          "total": 820
+          "activeness": 35,
+          "total": 1704
         }
       }
     },
@@ -5973,52 +5973,52 @@
       "events_joined_last_2_years": 22,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R07-S09",
-        "R07-S10"
+        "R07-S13",
+        "R07-S14"
       ],
       "seats": [
         {
-          "seat_id": "R07-S09",
+          "seat_id": "R07-S13",
           "row_number": 7,
-          "physical_position": 9,
-          "priority_rank": 1,
-          "zone": "RIGHT_CENTER",
+          "physical_position": 13,
+          "priority_rank": 9,
+          "zone": "RIGHT_OUTER",
           "display_name": "Cheah Ah Kow"
         },
         {
-          "seat_id": "R07-S10",
+          "seat_id": "R07-S14",
           "row_number": 7,
-          "physical_position": 10,
-          "priority_rank": 3,
-          "zone": "RIGHT_CENTER",
+          "physical_position": 14,
+          "priority_rank": 11,
+          "zone": "RIGHT_OUTER",
           "display_name": "Chong Keat Seng"
         }
       ],
-      "pair_priority": 1,
+      "pair_priority": 5,
       "previous_seat_ids": [
         "R07-S09",
         "R07-S10"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
-          "priority_seat": 9,
+          "priority_seat": 5,
           "category_zone": 2,
-          "movement": 0,
-          "activeness": 0
+          "movement": 24,
+          "activeness": 4
         },
         "normalized": {
-          "priority_seat": 60,
+          "priority_seat": 33,
           "category_zone": 13,
-          "movement": 0,
-          "activeness": 0
+          "movement": 11,
+          "activeness": 27
         },
         "weighted": {
-          "priority_seat": 600,
-          "category_zone": 130,
-          "movement": 0,
-          "activeness": 0,
-          "total": 730
+          "priority_seat": 2475,
+          "category_zone": 169,
+          "movement": 77,
+          "activeness": 135,
+          "total": 2856
         }
       }
     },
@@ -6075,11 +6075,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 70,
-          "category_zone": 250,
+          "priority_seat": 525,
+          "category_zone": 325,
           "movement": 0,
           "activeness": 0,
-          "total": 320
+          "total": 850
         }
       }
     },
@@ -6095,52 +6095,52 @@
       "events_joined_last_2_years": 6,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R11-S03",
-        "R11-S04"
+        "R13-S07",
+        "R13-S08"
       ],
       "seats": [
         {
-          "seat_id": "R11-S03",
-          "row_number": 11,
-          "physical_position": 3,
-          "priority_rank": 12,
-          "zone": "LEFT_OUTER",
+          "seat_id": "R13-S07",
+          "row_number": 13,
+          "physical_position": 7,
+          "priority_rank": 4,
+          "zone": "LEFT_CENTER",
           "display_name": "Sim Lai Fun"
         },
         {
-          "seat_id": "R11-S04",
-          "row_number": 11,
-          "physical_position": 4,
-          "priority_rank": 10,
-          "zone": "LEFT_OUTER",
+          "seat_id": "R13-S08",
+          "row_number": 13,
+          "physical_position": 8,
+          "priority_rank": 2,
+          "zone": "LEFT_CENTER",
           "display_name": "Chong Mei Ling"
         }
       ],
-      "pair_priority": 6,
+      "pair_priority": 2,
       "previous_seat_ids": [
-        "R11-S03",
-        "R11-S04"
+        "R12-S05",
+        "R12-S06"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
-          "priority_seat": 3,
-          "category_zone": 2,
-          "movement": 0,
-          "activeness": 6
+          "priority_seat": 1,
+          "category_zone": 4,
+          "movement": 34,
+          "activeness": 10
         },
         "normalized": {
-          "priority_seat": 20,
-          "category_zone": 13,
-          "movement": 0,
-          "activeness": 40
+          "priority_seat": 7,
+          "category_zone": 25,
+          "movement": 16,
+          "activeness": 67
         },
         "weighted": {
-          "priority_seat": 200,
-          "category_zone": 130,
-          "movement": 0,
-          "activeness": 2800,
-          "total": 3130
+          "priority_seat": 525,
+          "category_zone": 325,
+          "movement": 112,
+          "activeness": 335,
+          "total": 1297
         }
       }
     },
@@ -6197,11 +6197,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 70,
-          "category_zone": 250,
+          "priority_seat": 525,
+          "category_zone": 325,
           "movement": 0,
           "activeness": 0,
-          "total": 320
+          "total": 850
         }
       }
     },
@@ -6217,21 +6217,21 @@
       "events_joined_last_2_years": 9,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R12-S05",
-        "R12-S06"
+        "R11-S05",
+        "R11-S06"
       ],
       "seats": [
         {
-          "seat_id": "R12-S05",
-          "row_number": 12,
+          "seat_id": "R11-S05",
+          "row_number": 11,
           "physical_position": 5,
           "priority_rank": 8,
           "zone": "LEFT_CENTER",
           "display_name": "Gan Boon Huat"
         },
         {
-          "seat_id": "R12-S06",
-          "row_number": 12,
+          "seat_id": "R11-S06",
+          "row_number": 11,
           "physical_position": 6,
           "priority_rank": 6,
           "zone": "LEFT_CENTER",
@@ -6240,8 +6240,8 @@
       ],
       "pair_priority": 4,
       "previous_seat_ids": [
-        "R12-S05",
-        "R12-S06"
+        "R11-S05",
+        "R11-S06"
       ],
       "moved": false,
       "penalty": {
@@ -6258,11 +6258,11 @@
           "activeness": 40
         },
         "weighted": {
-          "priority_seat": 400,
-          "category_zone": 250,
+          "priority_seat": 3000,
+          "category_zone": 325,
           "movement": 0,
-          "activeness": 2800,
-          "total": 3450
+          "activeness": 200,
+          "total": 3525
         }
       }
     },
@@ -6320,10 +6320,10 @@
         },
         "weighted": {
           "priority_seat": 0,
-          "category_zone": 130,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 2310,
-          "total": 2440
+          "activeness": 165,
+          "total": 334
         }
       }
     },
@@ -6339,52 +6339,52 @@
       "events_joined_last_2_years": 18,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R02-S07",
-        "R02-S08"
+        "R02-S13",
+        "R02-S14"
       ],
       "seats": [
         {
-          "seat_id": "R02-S07",
+          "seat_id": "R02-S13",
           "row_number": 2,
-          "physical_position": 7,
-          "priority_rank": 4,
-          "zone": "LEFT_CENTER",
-          "display_name": "Ho Wei Ming"
+          "physical_position": 13,
+          "priority_rank": 9,
+          "zone": "RIGHT_OUTER",
+          "display_name": "Lim Li Hua"
         },
         {
-          "seat_id": "R02-S08",
+          "seat_id": "R02-S14",
           "row_number": 2,
-          "physical_position": 8,
-          "priority_rank": 2,
-          "zone": "LEFT_CENTER",
-          "display_name": "Lim Li Hua"
+          "physical_position": 14,
+          "priority_rank": 11,
+          "zone": "RIGHT_OUTER",
+          "display_name": "Ho Wei Ming"
         }
       ],
-      "pair_priority": 2,
+      "pair_priority": 5,
       "previous_seat_ids": [
-        "R02-S07",
-        "R02-S08"
+        "R02-S13",
+        "R02-S14"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 8,
-          "category_zone": 4,
+          "priority_seat": 5,
+          "category_zone": 2,
           "movement": 0,
-          "activeness": 2
+          "activeness": 1
         },
         "normalized": {
-          "priority_seat": 53,
-          "category_zone": 25,
+          "priority_seat": 33,
+          "category_zone": 13,
           "movement": 0,
-          "activeness": 13
+          "activeness": 7
         },
         "weighted": {
-          "priority_seat": 530,
-          "category_zone": 250,
+          "priority_seat": 2475,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 910,
-          "total": 1690
+          "activeness": 35,
+          "total": 2679
         }
       }
     },
@@ -6400,52 +6400,52 @@
       "events_joined_last_2_years": 13,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R03-S13",
-        "R03-S14"
+        "R02-S11",
+        "R02-S12"
       ],
       "seats": [
         {
-          "seat_id": "R03-S13",
-          "row_number": 3,
-          "physical_position": 13,
-          "priority_rank": 9,
-          "zone": "RIGHT_OUTER",
+          "seat_id": "R02-S11",
+          "row_number": 2,
+          "physical_position": 11,
+          "priority_rank": 5,
+          "zone": "RIGHT_CENTER",
           "display_name": "Goh Meng Chye"
         },
         {
-          "seat_id": "R03-S14",
-          "row_number": 3,
-          "physical_position": 14,
-          "priority_rank": 11,
-          "zone": "RIGHT_OUTER",
+          "seat_id": "R02-S12",
+          "row_number": 2,
+          "physical_position": 12,
+          "priority_rank": 7,
+          "zone": "RIGHT_CENTER",
           "display_name": "Goh Meng Chye"
         }
       ],
-      "pair_priority": 5,
+      "pair_priority": 3,
       "previous_seat_ids": [
-        "R03-S13",
-        "R03-S14"
+        "R03-S05",
+        "R03-S06"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
-          "priority_seat": 2,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 2
+          "priority_seat": 0,
+          "category_zone": 4,
+          "movement": 38,
+          "activeness": 4
         },
         "normalized": {
-          "priority_seat": 13,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 13
+          "priority_seat": 0,
+          "category_zone": 25,
+          "movement": 18,
+          "activeness": 27
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 910,
-          "total": 1040
+          "priority_seat": 0,
+          "category_zone": 325,
+          "movement": 126,
+          "activeness": 135,
+          "total": 586
         }
       }
     },
@@ -6502,11 +6502,11 @@
           "activeness": 60
         },
         "weighted": {
-          "priority_seat": 200,
+          "priority_seat": 1500,
           "category_zone": 0,
           "movement": 0,
-          "activeness": 4200,
-          "total": 4400
+          "activeness": 300,
+          "total": 1800
         }
       }
     },
@@ -6563,11 +6563,11 @@
           "activeness": 53
         },
         "weighted": {
-          "priority_seat": 200,
-          "category_zone": 130,
+          "priority_seat": 1500,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 3710,
-          "total": 4040
+          "activeness": 265,
+          "total": 1934
         }
       }
     },
@@ -6624,11 +6624,11 @@
           "activeness": 67
         },
         "weighted": {
-          "priority_seat": 470,
+          "priority_seat": 3525,
           "category_zone": 0,
           "movement": 0,
-          "activeness": 4690,
-          "total": 5160
+          "activeness": 335,
+          "total": 3860
         }
       }
     },
@@ -6685,11 +6685,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 330,
+          "priority_seat": 2475,
           "category_zone": 0,
           "movement": 0,
           "activeness": 0,
-          "total": 330
+          "total": 2475
         }
       }
     },
@@ -6705,52 +6705,52 @@
       "events_joined_last_2_years": 3,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R04-S03",
-        "R04-S04"
+        "R04-S05",
+        "R04-S06"
       ],
       "seats": [
         {
-          "seat_id": "R04-S03",
+          "seat_id": "R04-S05",
           "row_number": 4,
-          "physical_position": 3,
-          "priority_rank": 12,
-          "zone": "LEFT_OUTER",
+          "physical_position": 5,
+          "priority_rank": 8,
+          "zone": "LEFT_CENTER",
           "display_name": "Cheah Hock Seng"
         },
         {
-          "seat_id": "R04-S04",
+          "seat_id": "R04-S06",
           "row_number": 4,
-          "physical_position": 4,
-          "priority_rank": 10,
-          "zone": "LEFT_OUTER",
+          "physical_position": 6,
+          "priority_rank": 6,
+          "zone": "LEFT_CENTER",
           "display_name": "Gan Siok Ching"
         }
       ],
-      "pair_priority": 6,
+      "pair_priority": 4,
       "previous_seat_ids": [
-        "R04-S03",
-        "R04-S04"
+        "R04-S05",
+        "R04-S06"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 4,
-          "category_zone": 6,
+          "priority_seat": 6,
+          "category_zone": 4,
           "movement": 0,
-          "activeness": 8
+          "activeness": 10
         },
         "normalized": {
-          "priority_seat": 27,
-          "category_zone": 38,
+          "priority_seat": 40,
+          "category_zone": 25,
           "movement": 0,
-          "activeness": 53
+          "activeness": 67
         },
         "weighted": {
-          "priority_seat": 270,
-          "category_zone": 380,
+          "priority_seat": 3000,
+          "category_zone": 325,
           "movement": 0,
-          "activeness": 3710,
-          "total": 4360
+          "activeness": 335,
+          "total": 3660
         }
       }
     },
@@ -6807,11 +6807,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 400,
-          "category_zone": 250,
+          "priority_seat": 3000,
+          "category_zone": 325,
           "movement": 0,
           "activeness": 0,
-          "total": 650
+          "total": 3325
         }
       }
     },
@@ -6827,52 +6827,52 @@
       "events_joined_last_2_years": 8,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R09-S13",
-        "R09-S14"
+        "R09-S09",
+        "R09-S10"
       ],
       "seats": [
         {
-          "seat_id": "R09-S13",
+          "seat_id": "R09-S09",
           "row_number": 9,
-          "physical_position": 13,
-          "priority_rank": 9,
-          "zone": "RIGHT_OUTER",
+          "physical_position": 9,
+          "priority_rank": 1,
+          "zone": "RIGHT_CENTER",
           "display_name": "Ng Siok Ching"
         },
         {
-          "seat_id": "R09-S14",
+          "seat_id": "R09-S10",
           "row_number": 9,
-          "physical_position": 14,
-          "priority_rank": 11,
-          "zone": "RIGHT_OUTER",
+          "physical_position": 10,
+          "priority_rank": 3,
+          "zone": "RIGHT_CENTER",
           "display_name": "Tan Siew Lan"
         }
       ],
-      "pair_priority": 5,
+      "pair_priority": 1,
       "previous_seat_ids": [
         "R09-S13",
         "R09-S14"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
           "priority_seat": 2,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 6
+          "category_zone": 4,
+          "movement": 24,
+          "activeness": 10
         },
         "normalized": {
           "priority_seat": 13,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 40
+          "category_zone": 25,
+          "movement": 11,
+          "activeness": 67
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 2800,
-          "total": 2930
+          "priority_seat": 975,
+          "category_zone": 325,
+          "movement": 77,
+          "activeness": 335,
+          "total": 1712
         }
       }
     },
@@ -6888,31 +6888,31 @@
       "events_joined_last_2_years": 16,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R04-S05",
-        "R04-S06"
+        "R04-S07",
+        "R04-S08"
       ],
       "seats": [
         {
-          "seat_id": "R04-S05",
+          "seat_id": "R04-S07",
           "row_number": 4,
-          "physical_position": 5,
-          "priority_rank": 8,
+          "physical_position": 7,
+          "priority_rank": 4,
           "zone": "LEFT_CENTER",
           "display_name": "Sim Sook Yee"
         },
         {
-          "seat_id": "R04-S06",
+          "seat_id": "R04-S08",
           "row_number": 4,
-          "physical_position": 6,
-          "priority_rank": 6,
+          "physical_position": 8,
+          "priority_rank": 2,
           "zone": "LEFT_CENTER",
           "display_name": "Sim Sook Yee"
         }
       ],
-      "pair_priority": 4,
+      "pair_priority": 2,
       "previous_seat_ids": [
-        "R04-S05",
-        "R04-S06"
+        "R04-S07",
+        "R04-S08"
       ],
       "moved": false,
       "penalty": {
@@ -6920,20 +6920,20 @@
           "priority_seat": 1,
           "category_zone": 4,
           "movement": 0,
-          "activeness": 1
+          "activeness": 3
         },
         "normalized": {
           "priority_seat": 7,
           "category_zone": 25,
           "movement": 0,
-          "activeness": 7
+          "activeness": 20
         },
         "weighted": {
-          "priority_seat": 70,
-          "category_zone": 250,
+          "priority_seat": 525,
+          "category_zone": 325,
           "movement": 0,
-          "activeness": 490,
-          "total": 810
+          "activeness": 100,
+          "total": 950
         }
       }
     },
@@ -6990,11 +6990,11 @@
           "activeness": 47
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 130,
+          "priority_seat": 975,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 3290,
-          "total": 3550
+          "activeness": 235,
+          "total": 1379
         }
       }
     },
@@ -7051,11 +7051,11 @@
           "activeness": 13
         },
         "weighted": {
-          "priority_seat": 200,
-          "category_zone": 380,
+          "priority_seat": 1500,
+          "category_zone": 494,
           "movement": 0,
-          "activeness": 910,
-          "total": 1490
+          "activeness": 65,
+          "total": 2059
         }
       }
     },
@@ -7113,10 +7113,10 @@
         },
         "weighted": {
           "priority_seat": 0,
-          "category_zone": 130,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 3290,
-          "total": 3420
+          "activeness": 235,
+          "total": 404
         }
       }
     },
@@ -7132,52 +7132,52 @@
       "events_joined_last_2_years": 20,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R11-S07",
-        "R11-S08"
+        "R11-S03",
+        "R11-S04"
       ],
       "seats": [
         {
-          "seat_id": "R11-S07",
+          "seat_id": "R11-S03",
           "row_number": 11,
-          "physical_position": 7,
-          "priority_rank": 4,
-          "zone": "LEFT_CENTER",
+          "physical_position": 3,
+          "priority_rank": 12,
+          "zone": "LEFT_OUTER",
           "display_name": "Ng Mei Ling"
         },
         {
-          "seat_id": "R11-S08",
+          "seat_id": "R11-S04",
           "row_number": 11,
-          "physical_position": 8,
-          "priority_rank": 2,
-          "zone": "LEFT_CENTER",
+          "physical_position": 4,
+          "priority_rank": 10,
+          "zone": "LEFT_OUTER",
           "display_name": "Ng Mei Ling"
         }
       ],
-      "pair_priority": 2,
+      "pair_priority": 6,
       "previous_seat_ids": [
-        "R11-S07",
-        "R11-S08"
+        "R11-S03",
+        "R11-S04"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 8,
-          "category_zone": 4,
+          "priority_seat": 4,
+          "category_zone": 2,
           "movement": 0,
-          "activeness": 0
+          "activeness": 4
         },
         "normalized": {
-          "priority_seat": 53,
-          "category_zone": 25,
+          "priority_seat": 27,
+          "category_zone": 13,
           "movement": 0,
-          "activeness": 0
+          "activeness": 27
         },
         "weighted": {
-          "priority_seat": 530,
-          "category_zone": 250,
+          "priority_seat": 2025,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 0,
-          "total": 780
+          "activeness": 135,
+          "total": 2329
         }
       }
     },
@@ -7234,11 +7234,11 @@
           "activeness": 20
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 130,
+          "priority_seat": 975,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 1400,
-          "total": 1660
+          "activeness": 100,
+          "total": 1244
         }
       }
     },
@@ -7296,10 +7296,10 @@
         },
         "weighted": {
           "priority_seat": 0,
-          "category_zone": 130,
+          "category_zone": 169,
           "movement": 0,
           "activeness": 0,
-          "total": 130
+          "total": 169
         }
       }
     },
@@ -7356,11 +7356,11 @@
           "activeness": 53
         },
         "weighted": {
-          "priority_seat": 200,
-          "category_zone": 130,
+          "priority_seat": 1500,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 3710,
-          "total": 4040
+          "activeness": 265,
+          "total": 1934
         }
       }
     },
@@ -7417,11 +7417,11 @@
           "activeness": 53
         },
         "weighted": {
-          "priority_seat": 330,
-          "category_zone": 130,
+          "priority_seat": 2475,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 3710,
-          "total": 4170
+          "activeness": 265,
+          "total": 2909
         }
       }
     },
@@ -7437,52 +7437,52 @@
       "events_joined_last_2_years": 22,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R11-S09",
-        "R11-S10"
+        "R12-S13",
+        "R12-S14"
       ],
       "seats": [
         {
-          "seat_id": "R11-S09",
-          "row_number": 11,
-          "physical_position": 9,
-          "priority_rank": 1,
-          "zone": "RIGHT_CENTER",
+          "seat_id": "R12-S13",
+          "row_number": 12,
+          "physical_position": 13,
+          "priority_rank": 9,
+          "zone": "RIGHT_OUTER",
           "display_name": "Tan Mei Ling"
         },
         {
-          "seat_id": "R11-S10",
-          "row_number": 11,
-          "physical_position": 10,
-          "priority_rank": 3,
-          "zone": "RIGHT_CENTER",
+          "seat_id": "R12-S14",
+          "row_number": 12,
+          "physical_position": 14,
+          "priority_rank": 11,
+          "zone": "RIGHT_OUTER",
           "display_name": "Goh Yoke Fong"
         }
       ],
-      "pair_priority": 1,
+      "pair_priority": 5,
       "previous_seat_ids": [
         "R11-S09",
         "R11-S10"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
-          "priority_seat": 9,
+          "priority_seat": 5,
           "category_zone": 2,
-          "movement": 0,
-          "activeness": 0
+          "movement": 36,
+          "activeness": 4
         },
         "normalized": {
-          "priority_seat": 60,
+          "priority_seat": 33,
           "category_zone": 13,
-          "movement": 0,
-          "activeness": 0
+          "movement": 17,
+          "activeness": 27
         },
         "weighted": {
-          "priority_seat": 600,
-          "category_zone": 130,
-          "movement": 0,
-          "activeness": 0,
-          "total": 730
+          "priority_seat": 2475,
+          "category_zone": 169,
+          "movement": 119,
+          "activeness": 135,
+          "total": 2898
         }
       }
     },
@@ -7498,52 +7498,52 @@
       "events_joined_last_2_years": 1,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R05-S03",
-        "R05-S04"
+        "R05-S05",
+        "R05-S06"
       ],
       "seats": [
         {
-          "seat_id": "R05-S03",
+          "seat_id": "R05-S05",
           "row_number": 5,
-          "physical_position": 3,
-          "priority_rank": 12,
-          "zone": "LEFT_OUTER",
+          "physical_position": 5,
+          "priority_rank": 8,
+          "zone": "LEFT_CENTER",
           "display_name": "Goh Li Hua"
         },
         {
-          "seat_id": "R05-S04",
+          "seat_id": "R05-S06",
           "row_number": 5,
-          "physical_position": 4,
-          "priority_rank": 10,
-          "zone": "LEFT_OUTER",
+          "physical_position": 6,
+          "priority_rank": 6,
+          "zone": "LEFT_CENTER",
           "display_name": "Goh Li Hua"
         }
       ],
-      "pair_priority": 6,
+      "pair_priority": 4,
       "previous_seat_ids": [
-        "R05-S03",
-        "R05-S04"
+        "R05-S05",
+        "R05-S06"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 3,
-          "category_zone": 2,
+          "priority_seat": 1,
+          "category_zone": 4,
           "movement": 0,
-          "activeness": 9
+          "activeness": 11
         },
         "normalized": {
-          "priority_seat": 20,
-          "category_zone": 13,
+          "priority_seat": 7,
+          "category_zone": 25,
           "movement": 0,
-          "activeness": 60
+          "activeness": 73
         },
         "weighted": {
-          "priority_seat": 200,
-          "category_zone": 130,
+          "priority_seat": 525,
+          "category_zone": 325,
           "movement": 0,
-          "activeness": 4200,
-          "total": 4530
+          "activeness": 365,
+          "total": 1215
         }
       }
     },
@@ -7600,11 +7600,11 @@
           "activeness": 80
         },
         "weighted": {
-          "priority_seat": 470,
+          "priority_seat": 3525,
           "category_zone": 0,
           "movement": 0,
-          "activeness": 5600,
-          "total": 6070
+          "activeness": 400,
+          "total": 3925
         }
       }
     },
@@ -7620,52 +7620,52 @@
       "events_joined_last_2_years": 14,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R09-S03",
-        "R09-S04"
+        "R09-S13",
+        "R09-S14"
       ],
       "seats": [
         {
-          "seat_id": "R09-S03",
+          "seat_id": "R09-S13",
           "row_number": 9,
-          "physical_position": 3,
-          "priority_rank": 12,
-          "zone": "LEFT_OUTER",
+          "physical_position": 13,
+          "priority_rank": 9,
+          "zone": "RIGHT_OUTER",
           "display_name": "Khoo Yoke Fong"
         },
         {
-          "seat_id": "R09-S04",
+          "seat_id": "R09-S14",
           "row_number": 9,
-          "physical_position": 4,
-          "priority_rank": 10,
-          "zone": "LEFT_OUTER",
+          "physical_position": 14,
+          "priority_rank": 11,
+          "zone": "RIGHT_OUTER",
           "display_name": "Khoo Yoke Fong"
         }
       ],
-      "pair_priority": 6,
+      "pair_priority": 5,
       "previous_seat_ids": [
-        "R09-S03",
-        "R09-S04"
+        "R09-S09",
+        "R09-S10"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
-          "priority_seat": 4,
-          "category_zone": 12,
-          "movement": 0,
-          "activeness": 0
+          "priority_seat": 5,
+          "category_zone": 6,
+          "movement": 24,
+          "activeness": 1
         },
         "normalized": {
-          "priority_seat": 27,
-          "category_zone": 75,
-          "movement": 0,
-          "activeness": 0
+          "priority_seat": 33,
+          "category_zone": 38,
+          "movement": 11,
+          "activeness": 7
         },
         "weighted": {
-          "priority_seat": 270,
-          "category_zone": 750,
-          "movement": 0,
-          "activeness": 0,
-          "total": 1020
+          "priority_seat": 2475,
+          "category_zone": 494,
+          "movement": 77,
+          "activeness": 35,
+          "total": 3081
         }
       }
     },
@@ -7681,52 +7681,52 @@
       "events_joined_last_2_years": 17,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R05-S05",
-        "R05-S06"
+        "R06-S01",
+        "R06-S02"
       ],
       "seats": [
         {
-          "seat_id": "R05-S05",
-          "row_number": 5,
-          "physical_position": 5,
-          "priority_rank": 8,
-          "zone": "LEFT_CENTER",
+          "seat_id": "R06-S01",
+          "row_number": 6,
+          "physical_position": 1,
+          "priority_rank": 16,
+          "zone": "LEFT_OUTER",
           "display_name": "Lee Mei Ling"
         },
         {
-          "seat_id": "R05-S06",
-          "row_number": 5,
-          "physical_position": 6,
-          "priority_rank": 6,
-          "zone": "LEFT_CENTER",
+          "seat_id": "R06-S02",
+          "row_number": 6,
+          "physical_position": 2,
+          "priority_rank": 14,
+          "zone": "LEFT_OUTER",
           "display_name": "Tan Hock Seng"
         }
       ],
-      "pair_priority": 4,
+      "pair_priority": 8,
       "previous_seat_ids": [
-        "R05-S05",
-        "R05-S06"
+        "R06-S01",
+        "R06-S02"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 6,
-          "category_zone": 4,
+          "priority_seat": 2,
+          "category_zone": 2,
           "movement": 0,
-          "activeness": 0
+          "activeness": 4
         },
         "normalized": {
-          "priority_seat": 40,
-          "category_zone": 25,
+          "priority_seat": 13,
+          "category_zone": 13,
           "movement": 0,
-          "activeness": 0
+          "activeness": 27
         },
         "weighted": {
-          "priority_seat": 400,
-          "category_zone": 250,
+          "priority_seat": 975,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 0,
-          "total": 650
+          "activeness": 135,
+          "total": 1279
         }
       }
     },
@@ -7742,52 +7742,52 @@
       "events_joined_last_2_years": 21,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R09-S09",
-        "R09-S10"
+        "R08-S13",
+        "R08-S14"
       ],
       "seats": [
         {
-          "seat_id": "R09-S09",
-          "row_number": 9,
-          "physical_position": 9,
-          "priority_rank": 1,
-          "zone": "RIGHT_CENTER",
+          "seat_id": "R08-S13",
+          "row_number": 8,
+          "physical_position": 13,
+          "priority_rank": 9,
+          "zone": "RIGHT_OUTER",
           "display_name": "Sim Mei Ling"
         },
         {
-          "seat_id": "R09-S10",
-          "row_number": 9,
-          "physical_position": 10,
-          "priority_rank": 3,
-          "zone": "RIGHT_CENTER",
+          "seat_id": "R08-S14",
+          "row_number": 8,
+          "physical_position": 14,
+          "priority_rank": 11,
+          "zone": "RIGHT_OUTER",
           "display_name": "Sim Mei Ling"
         }
       ],
-      "pair_priority": 1,
+      "pair_priority": 5,
       "previous_seat_ids": [
-        "R09-S09",
-        "R09-S10"
+        "R09-S03",
+        "R09-S04"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
-          "priority_seat": 9,
+          "priority_seat": 5,
           "category_zone": 2,
-          "movement": 0,
-          "activeness": 1
+          "movement": 42,
+          "activeness": 3
         },
         "normalized": {
-          "priority_seat": 60,
+          "priority_seat": 33,
           "category_zone": 13,
-          "movement": 0,
-          "activeness": 7
+          "movement": 20,
+          "activeness": 20
         },
         "weighted": {
-          "priority_seat": 600,
-          "category_zone": 130,
-          "movement": 0,
-          "activeness": 490,
-          "total": 1220
+          "priority_seat": 2475,
+          "category_zone": 169,
+          "movement": 140,
+          "activeness": 100,
+          "total": 2884
         }
       }
     },
@@ -7803,52 +7803,52 @@
       "events_joined_last_2_years": 20,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R10-S07",
-        "R10-S08"
+        "R11-S13",
+        "R11-S14"
       ],
       "seats": [
         {
-          "seat_id": "R10-S07",
-          "row_number": 10,
-          "physical_position": 7,
-          "priority_rank": 4,
-          "zone": "LEFT_CENTER",
-          "display_name": "Foo Ah Kow"
+          "seat_id": "R11-S13",
+          "row_number": 11,
+          "physical_position": 13,
+          "priority_rank": 9,
+          "zone": "RIGHT_OUTER",
+          "display_name": "Khoo Kok Seng"
         },
         {
-          "seat_id": "R10-S08",
-          "row_number": 10,
-          "physical_position": 8,
-          "priority_rank": 2,
-          "zone": "LEFT_CENTER",
-          "display_name": "Khoo Kok Seng"
+          "seat_id": "R11-S14",
+          "row_number": 11,
+          "physical_position": 14,
+          "priority_rank": 11,
+          "zone": "RIGHT_OUTER",
+          "display_name": "Foo Ah Kow"
         }
       ],
-      "pair_priority": 2,
+      "pair_priority": 5,
       "previous_seat_ids": [
-        "R10-S07",
-        "R10-S08"
+        "R11-S13",
+        "R11-S14"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 8,
-          "category_zone": 4,
+          "priority_seat": 5,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 0
+          "activeness": 3
         },
         "normalized": {
-          "priority_seat": 53,
-          "category_zone": 25,
+          "priority_seat": 33,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 0
+          "activeness": 20
         },
         "weighted": {
-          "priority_seat": 530,
-          "category_zone": 250,
+          "priority_seat": 2475,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 0,
-          "total": 780
+          "activeness": 100,
+          "total": 2575
         }
       }
     },
@@ -7864,52 +7864,52 @@
       "events_joined_last_2_years": 6,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R07-S13",
-        "R07-S14"
+        "R05-S11",
+        "R05-S12"
       ],
       "seats": [
         {
-          "seat_id": "R07-S13",
-          "row_number": 7,
-          "physical_position": 13,
-          "priority_rank": 9,
-          "zone": "RIGHT_OUTER",
+          "seat_id": "R05-S11",
+          "row_number": 5,
+          "physical_position": 11,
+          "priority_rank": 5,
+          "zone": "RIGHT_CENTER",
           "display_name": "Yap Li Hua"
         },
         {
-          "seat_id": "R07-S14",
-          "row_number": 7,
-          "physical_position": 14,
-          "priority_rank": 11,
-          "zone": "RIGHT_OUTER",
+          "seat_id": "R05-S12",
+          "row_number": 5,
+          "physical_position": 12,
+          "priority_rank": 7,
+          "zone": "RIGHT_CENTER",
           "display_name": "Yap Li Hua"
         }
       ],
-      "pair_priority": 5,
+      "pair_priority": 3,
       "previous_seat_ids": [
         "R07-S13",
         "R07-S14"
       ],
-      "moved": false,
+      "moved": true,
       "penalty": {
         "unweighted": {
-          "priority_seat": 2,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 7
+          "priority_seat": 0,
+          "category_zone": 4,
+          "movement": 46,
+          "activeness": 9
         },
         "normalized": {
-          "priority_seat": 13,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 47
+          "priority_seat": 0,
+          "category_zone": 25,
+          "movement": 21,
+          "activeness": 60
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 3290,
-          "total": 3420
+          "priority_seat": 0,
+          "category_zone": 325,
+          "movement": 147,
+          "activeness": 300,
+          "total": 772
         }
       }
     },
@@ -7966,11 +7966,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 270,
-          "category_zone": 130,
+          "priority_seat": 2025,
+          "category_zone": 169,
           "movement": 0,
           "activeness": 0,
-          "total": 400
+          "total": 2194
         }
       }
     },
@@ -8028,10 +8028,10 @@
         },
         "weighted": {
           "priority_seat": 0,
-          "category_zone": 250,
+          "category_zone": 325,
           "movement": 0,
-          "activeness": 490,
-          "total": 740
+          "activeness": 35,
+          "total": 360
         }
       }
     },
@@ -8047,52 +8047,52 @@
       "events_joined_last_2_years": 21,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R03-S07",
-        "R03-S08"
+        "R04-S03",
+        "R04-S04"
       ],
       "seats": [
         {
-          "seat_id": "R03-S07",
-          "row_number": 3,
-          "physical_position": 7,
-          "priority_rank": 4,
-          "zone": "LEFT_CENTER",
+          "seat_id": "R04-S03",
+          "row_number": 4,
+          "physical_position": 3,
+          "priority_rank": 12,
+          "zone": "LEFT_OUTER",
           "display_name": "Ho Boon Huat"
         },
         {
-          "seat_id": "R03-S08",
-          "row_number": 3,
-          "physical_position": 8,
-          "priority_rank": 2,
-          "zone": "LEFT_CENTER",
+          "seat_id": "R04-S04",
+          "row_number": 4,
+          "physical_position": 4,
+          "priority_rank": 10,
+          "zone": "LEFT_OUTER",
           "display_name": "Ho Lai Fun"
         }
       ],
-      "pair_priority": 2,
+      "pair_priority": 6,
       "previous_seat_ids": [
-        "R03-S07",
-        "R03-S08"
+        "R04-S03",
+        "R04-S04"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 8,
-          "category_zone": 4,
+          "priority_seat": 4,
+          "category_zone": 2,
           "movement": 0,
-          "activeness": 0
+          "activeness": 4
         },
         "normalized": {
-          "priority_seat": 53,
-          "category_zone": 25,
+          "priority_seat": 27,
+          "category_zone": 13,
           "movement": 0,
-          "activeness": 0
+          "activeness": 27
         },
         "weighted": {
-          "priority_seat": 530,
-          "category_zone": 250,
+          "priority_seat": 2025,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 0,
-          "total": 780
+          "activeness": 135,
+          "total": 2329
         }
       }
     },
@@ -8108,21 +8108,21 @@
       "events_joined_last_2_years": 15,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R06-S03",
-        "R06-S04"
+        "R07-S03",
+        "R07-S04"
       ],
       "seats": [
         {
-          "seat_id": "R06-S03",
-          "row_number": 6,
+          "seat_id": "R07-S03",
+          "row_number": 7,
           "physical_position": 3,
           "priority_rank": 12,
           "zone": "LEFT_OUTER",
           "display_name": "Ho Kok Seng"
         },
         {
-          "seat_id": "R06-S04",
-          "row_number": 6,
+          "seat_id": "R07-S04",
+          "row_number": 7,
           "physical_position": 4,
           "priority_rank": 10,
           "zone": "LEFT_OUTER",
@@ -8131,8 +8131,8 @@
       ],
       "pair_priority": 6,
       "previous_seat_ids": [
-        "R06-S03",
-        "R06-S04"
+        "R07-S03",
+        "R07-S04"
       ],
       "moved": false,
       "penalty": {
@@ -8149,11 +8149,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 270,
-          "category_zone": 130,
+          "priority_seat": 2025,
+          "category_zone": 169,
           "movement": 0,
           "activeness": 0,
-          "total": 400
+          "total": 2194
         }
       }
     },
@@ -8169,52 +8169,52 @@
       "events_joined_last_2_years": 0,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R06-S01",
-        "R06-S02"
+        "R06-S15",
+        "R06-S16"
       ],
       "seats": [
         {
-          "seat_id": "R06-S01",
+          "seat_id": "R06-S15",
           "row_number": 6,
-          "physical_position": 1,
-          "priority_rank": 16,
-          "zone": "LEFT_OUTER",
-          "display_name": "Foo Meng Chye"
+          "physical_position": 15,
+          "priority_rank": 13,
+          "zone": "RIGHT_OUTER",
+          "display_name": "Khoo Guat Eng"
         },
         {
-          "seat_id": "R06-S02",
+          "seat_id": "R06-S16",
           "row_number": 6,
-          "physical_position": 2,
-          "priority_rank": 14,
-          "zone": "LEFT_OUTER",
-          "display_name": "Khoo Guat Eng"
+          "physical_position": 16,
+          "priority_rank": 15,
+          "zone": "RIGHT_OUTER",
+          "display_name": "Foo Meng Chye"
         }
       ],
-      "pair_priority": 8,
+      "pair_priority": 7,
       "previous_seat_ids": [
-        "R06-S01",
-        "R06-S02"
+        "R06-S15",
+        "R06-S16"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 2,
-          "category_zone": 2,
+          "priority_seat": 3,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 8
+          "activeness": 9
         },
         "normalized": {
-          "priority_seat": 13,
-          "category_zone": 13,
+          "priority_seat": 20,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 53
+          "activeness": 60
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 130,
+          "priority_seat": 1500,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 3710,
-          "total": 3970
+          "activeness": 300,
+          "total": 1800
         }
       }
     },
@@ -8271,11 +8271,11 @@
           "activeness": 20
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 130,
+          "priority_seat": 975,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 1400,
-          "total": 1660
+          "activeness": 100,
+          "total": 1244
         }
       }
     },
@@ -8291,31 +8291,31 @@
       "events_joined_last_2_years": 18,
       "allocation_type": "EMPEROR_PAIR",
       "seat_ids": [
-        "R11-S05",
-        "R11-S06"
+        "R11-S07",
+        "R11-S08"
       ],
       "seats": [
         {
-          "seat_id": "R11-S05",
+          "seat_id": "R11-S07",
           "row_number": 11,
-          "physical_position": 5,
-          "priority_rank": 8,
+          "physical_position": 7,
+          "priority_rank": 4,
           "zone": "LEFT_CENTER",
           "display_name": "Lim Yoke Fong"
         },
         {
-          "seat_id": "R11-S06",
+          "seat_id": "R11-S08",
           "row_number": 11,
-          "physical_position": 6,
-          "priority_rank": 6,
+          "physical_position": 8,
+          "priority_rank": 2,
           "zone": "LEFT_CENTER",
           "display_name": "Teoh Chee Keong"
         }
       ],
-      "pair_priority": 4,
+      "pair_priority": 2,
       "previous_seat_ids": [
-        "R11-S05",
-        "R11-S06"
+        "R11-S07",
+        "R11-S08"
       ],
       "moved": false,
       "penalty": {
@@ -8323,20 +8323,20 @@
           "priority_seat": 1,
           "category_zone": 4,
           "movement": 0,
-          "activeness": 0
+          "activeness": 2
         },
         "normalized": {
           "priority_seat": 7,
           "category_zone": 25,
           "movement": 0,
-          "activeness": 0
+          "activeness": 13
         },
         "weighted": {
-          "priority_seat": 70,
-          "category_zone": 250,
+          "priority_seat": 525,
+          "category_zone": 325,
           "movement": 0,
-          "activeness": 0,
-          "total": 320
+          "activeness": 65,
+          "total": 915
         }
       }
     },
@@ -8393,11 +8393,11 @@
           "activeness": 7
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 130,
+          "priority_seat": 975,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 490,
-          "total": 750
+          "activeness": 35,
+          "total": 1179
         }
       }
     },
@@ -8454,11 +8454,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 400,
-          "category_zone": 250,
+          "priority_seat": 3000,
+          "category_zone": 325,
           "movement": 0,
           "activeness": 0,
-          "total": 650
+          "total": 3325
         }
       }
     },
@@ -8515,11 +8515,11 @@
           "activeness": 33
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 130,
+          "priority_seat": 975,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 2310,
-          "total": 2570
+          "activeness": 165,
+          "total": 1309
         }
       }
     },
@@ -8566,11 +8566,11 @@
           "activeness": 73
         },
         "weighted": {
-          "priority_seat": 70,
-          "category_zone": 130,
+          "priority_seat": 525,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 5110,
-          "total": 5310
+          "activeness": 365,
+          "total": 1059
         }
       }
     },
@@ -8617,11 +8617,11 @@
           "activeness": 20
         },
         "weighted": {
-          "priority_seat": 70,
-          "category_zone": 130,
+          "priority_seat": 525,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 1400,
-          "total": 1600
+          "activeness": 100,
+          "total": 794
         }
       }
     },
@@ -8669,10 +8669,10 @@
         },
         "weighted": {
           "priority_seat": 0,
-          "category_zone": 60,
+          "category_zone": 78,
           "movement": 0,
-          "activeness": 910,
-          "total": 970
+          "activeness": 65,
+          "total": 143
         }
       }
     },
@@ -8688,42 +8688,42 @@
       "events_joined_last_2_years": 1,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R14-S05"
+        "R14-S12"
       ],
       "seats": [
         {
-          "seat_id": "R14-S05",
+          "seat_id": "R14-S12",
           "row_number": 14,
-          "physical_position": 5,
-          "priority_rank": 8,
-          "zone": "LEFT_CENTER",
+          "physical_position": 12,
+          "priority_rank": 7,
+          "zone": "RIGHT_CENTER",
           "display_name": "Goh Swee Lin"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R14-S05"
+        "R14-S12"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 2,
-          "category_zone": 2,
+          "priority_seat": 3,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 7
+          "activeness": 8
         },
         "normalized": {
-          "priority_seat": 13,
-          "category_zone": 13,
+          "priority_seat": 20,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 47
+          "activeness": 53
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 130,
+          "priority_seat": 1500,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 3290,
-          "total": 3550
+          "activeness": 265,
+          "total": 1765
         }
       }
     },
@@ -8770,11 +8770,11 @@
           "activeness": 40
         },
         "weighted": {
-          "priority_seat": 130,
+          "priority_seat": 975,
           "category_zone": 0,
           "movement": 0,
-          "activeness": 2800,
-          "total": 2930
+          "activeness": 200,
+          "total": 1175
         }
       }
     },
@@ -8790,42 +8790,42 @@
       "events_joined_last_2_years": 19,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R14-S10"
+        "R14-S13"
       ],
       "seats": [
         {
-          "seat_id": "R14-S10",
+          "seat_id": "R14-S13",
           "row_number": 14,
-          "physical_position": 10,
-          "priority_rank": 3,
-          "zone": "RIGHT_CENTER",
+          "physical_position": 13,
+          "priority_rank": 9,
+          "zone": "RIGHT_OUTER",
           "display_name": "Goh Teck Meng"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R14-S10"
+        "R14-S13"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 7,
-          "category_zone": 2,
+          "priority_seat": 1,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 0
+          "activeness": 6
         },
         "normalized": {
-          "priority_seat": 47,
-          "category_zone": 13,
+          "priority_seat": 7,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 0
+          "activeness": 40
         },
         "weighted": {
-          "priority_seat": 470,
-          "category_zone": 130,
+          "priority_seat": 525,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 0,
-          "total": 600
+          "activeness": 200,
+          "total": 725
         }
       }
     },
@@ -8841,42 +8841,42 @@
       "events_joined_last_2_years": 4,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R14-S03"
+        "R14-S14"
       ],
       "seats": [
         {
-          "seat_id": "R14-S03",
+          "seat_id": "R14-S14",
           "row_number": 14,
-          "physical_position": 3,
-          "priority_rank": 12,
-          "zone": "LEFT_OUTER",
+          "physical_position": 14,
+          "priority_rank": 11,
+          "zone": "RIGHT_OUTER",
           "display_name": "Tan Li Hua"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R14-S03"
+        "R14-S14"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 2,
-          "category_zone": 1,
+          "priority_seat": 1,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 1
+          "activeness": 2
         },
         "normalized": {
-          "priority_seat": 13,
-          "category_zone": 6,
+          "priority_seat": 7,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 7
+          "activeness": 13
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 60,
+          "priority_seat": 525,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 490,
-          "total": 680
+          "activeness": 65,
+          "total": 590
         }
       }
     },
@@ -8892,42 +8892,42 @@
       "events_joined_last_2_years": 10,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R14-S12"
+        "R14-S10"
       ],
       "seats": [
         {
-          "seat_id": "R14-S12",
+          "seat_id": "R14-S10",
           "row_number": 14,
-          "physical_position": 12,
-          "priority_rank": 7,
+          "physical_position": 10,
+          "priority_rank": 3,
           "zone": "RIGHT_CENTER",
           "display_name": "Venerable Jing Hai"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R14-S12"
+        "R14-S10"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 6,
+          "priority_seat": 2,
           "category_zone": 0,
           "movement": 0,
-          "activeness": 2
+          "activeness": 6
         },
         "normalized": {
-          "priority_seat": 40,
+          "priority_seat": 13,
           "category_zone": 0,
           "movement": 0,
-          "activeness": 13
+          "activeness": 40
         },
         "weighted": {
-          "priority_seat": 400,
+          "priority_seat": 975,
           "category_zone": 0,
           "movement": 0,
-          "activeness": 910,
-          "total": 1310
+          "activeness": 200,
+          "total": 1175
         }
       }
     },
@@ -8943,42 +8943,42 @@
       "events_joined_last_2_years": 0,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R14-S01"
+        "R14-S05"
       ],
       "seats": [
         {
-          "seat_id": "R14-S01",
+          "seat_id": "R14-S05",
           "row_number": 14,
-          "physical_position": 1,
-          "priority_rank": 16,
-          "zone": "LEFT_OUTER",
+          "physical_position": 5,
+          "priority_rank": 8,
+          "zone": "LEFT_CENTER",
           "display_name": "Teoh Siok Ching"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R14-S01"
+        "R14-S05"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 6,
-          "category_zone": 3,
+          "priority_seat": 2,
+          "category_zone": 2,
           "movement": 0,
-          "activeness": 0
+          "activeness": 8
         },
         "normalized": {
-          "priority_seat": 40,
-          "category_zone": 19,
+          "priority_seat": 13,
+          "category_zone": 13,
           "movement": 0,
-          "activeness": 0
+          "activeness": 53
         },
         "weighted": {
-          "priority_seat": 400,
-          "category_zone": 190,
+          "priority_seat": 975,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 0,
-          "total": 590
+          "activeness": 265,
+          "total": 1409
         }
       }
     },
@@ -9026,10 +9026,10 @@
         },
         "weighted": {
           "priority_seat": 0,
-          "category_zone": 130,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 3710,
-          "total": 3840
+          "activeness": 265,
+          "total": 434
         }
       }
     },
@@ -9076,11 +9076,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 270,
-          "category_zone": 130,
+          "priority_seat": 2025,
+          "category_zone": 169,
           "movement": 0,
           "activeness": 0,
-          "total": 400
+          "total": 2194
         }
       }
     },
@@ -9096,42 +9096,42 @@
       "events_joined_last_2_years": 1,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R14-S02"
+        "R14-S03"
       ],
       "seats": [
         {
-          "seat_id": "R14-S02",
+          "seat_id": "R14-S03",
           "row_number": 14,
-          "physical_position": 2,
-          "priority_rank": 14,
+          "physical_position": 3,
+          "priority_rank": 12,
           "zone": "LEFT_OUTER",
           "display_name": "Loh Teck Meng"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R14-S02"
+        "R14-S03"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 4,
+          "priority_seat": 2,
           "category_zone": 1,
           "movement": 0,
-          "activeness": 1
+          "activeness": 3
         },
         "normalized": {
-          "priority_seat": 27,
+          "priority_seat": 13,
           "category_zone": 6,
           "movement": 0,
-          "activeness": 7
+          "activeness": 20
         },
         "weighted": {
-          "priority_seat": 270,
-          "category_zone": 60,
+          "priority_seat": 975,
+          "category_zone": 78,
           "movement": 0,
-          "activeness": 490,
-          "total": 820
+          "activeness": 100,
+          "total": 1153
         }
       }
     },
@@ -9147,42 +9147,42 @@
       "events_joined_last_2_years": 5,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R16-S15"
+        "R16-S11"
       ],
       "seats": [
         {
-          "seat_id": "R16-S15",
+          "seat_id": "R16-S11",
           "row_number": 16,
-          "physical_position": 15,
-          "priority_rank": 13,
-          "zone": "RIGHT_OUTER",
+          "physical_position": 11,
+          "priority_rank": 5,
+          "zone": "RIGHT_CENTER",
           "display_name": "Ng Chee Keong"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R16-S15"
+        "R16-S11"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 10,
-          "category_zone": 0,
+          "priority_seat": 2,
+          "category_zone": 2,
           "movement": 0,
-          "activeness": 0
+          "activeness": 8
         },
         "normalized": {
-          "priority_seat": 67,
-          "category_zone": 0,
+          "priority_seat": 13,
+          "category_zone": 13,
           "movement": 0,
-          "activeness": 0
+          "activeness": 53
         },
         "weighted": {
-          "priority_seat": 670,
-          "category_zone": 0,
+          "priority_seat": 975,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 0,
-          "total": 670
+          "activeness": 265,
+          "total": 1409
         }
       }
     },
@@ -9229,11 +9229,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 130,
+          "priority_seat": 975,
+          "category_zone": 169,
           "movement": 0,
           "activeness": 0,
-          "total": 260
+          "total": 1144
         }
       }
     },
@@ -9249,42 +9249,42 @@
       "events_joined_last_2_years": 12,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R16-S12"
+        "R16-S09"
       ],
       "seats": [
         {
-          "seat_id": "R16-S12",
+          "seat_id": "R16-S09",
           "row_number": 16,
-          "physical_position": 12,
-          "priority_rank": 7,
+          "physical_position": 9,
+          "priority_rank": 1,
           "zone": "RIGHT_CENTER",
           "display_name": "Venerable Hui Neng"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R16-S12"
+        "R16-S09"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 6,
-          "category_zone": 0,
-          "movement": 0,
-          "activeness": 1
-        },
-        "normalized": {
-          "priority_seat": 40,
+          "priority_seat": 0,
           "category_zone": 0,
           "movement": 0,
           "activeness": 7
         },
-        "weighted": {
-          "priority_seat": 400,
+        "normalized": {
+          "priority_seat": 0,
           "category_zone": 0,
           "movement": 0,
-          "activeness": 490,
-          "total": 890
+          "activeness": 47
+        },
+        "weighted": {
+          "priority_seat": 0,
+          "category_zone": 0,
+          "movement": 0,
+          "activeness": 235,
+          "total": 235
         }
       }
     },
@@ -9331,11 +9331,11 @@
           "activeness": 7
         },
         "weighted": {
-          "priority_seat": 400,
-          "category_zone": 60,
+          "priority_seat": 3000,
+          "category_zone": 78,
           "movement": 0,
-          "activeness": 490,
-          "total": 950
+          "activeness": 35,
+          "total": 3113
         }
       }
     },
@@ -9351,42 +9351,42 @@
       "events_joined_last_2_years": 20,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R15-S07"
+        "R15-S04"
       ],
       "seats": [
         {
-          "seat_id": "R15-S07",
+          "seat_id": "R15-S04",
           "row_number": 15,
-          "physical_position": 7,
-          "priority_rank": 4,
-          "zone": "LEFT_CENTER",
+          "physical_position": 4,
+          "priority_rank": 10,
+          "zone": "LEFT_OUTER",
           "display_name": "Sim Wei Ming"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R15-S07"
+        "R15-S04"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 6,
-          "category_zone": 2,
+          "priority_seat": 0,
+          "category_zone": 1,
           "movement": 0,
-          "activeness": 2
+          "activeness": 8
         },
         "normalized": {
-          "priority_seat": 40,
-          "category_zone": 13,
+          "priority_seat": 0,
+          "category_zone": 6,
           "movement": 0,
-          "activeness": 13
+          "activeness": 53
         },
         "weighted": {
-          "priority_seat": 400,
-          "category_zone": 130,
+          "priority_seat": 0,
+          "category_zone": 78,
           "movement": 0,
-          "activeness": 910,
-          "total": 1440
+          "activeness": 265,
+          "total": 343
         }
       }
     },
@@ -9402,42 +9402,42 @@
       "events_joined_last_2_years": 14,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R15-S06"
+        "R15-S14"
       ],
       "seats": [
         {
-          "seat_id": "R15-S06",
+          "seat_id": "R15-S14",
           "row_number": 15,
-          "physical_position": 6,
-          "priority_rank": 6,
-          "zone": "LEFT_CENTER",
+          "physical_position": 14,
+          "priority_rank": 11,
+          "zone": "RIGHT_OUTER",
           "display_name": "Teoh Guat Eng"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R15-S06"
+        "R15-S14"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 4,
-          "category_zone": 2,
+          "priority_seat": 1,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 0
+          "activeness": 5
         },
         "normalized": {
-          "priority_seat": 27,
-          "category_zone": 13,
+          "priority_seat": 7,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 0
+          "activeness": 33
         },
         "weighted": {
-          "priority_seat": 270,
-          "category_zone": 130,
+          "priority_seat": 525,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 0,
-          "total": 400
+          "activeness": 165,
+          "total": 690
         }
       }
     },
@@ -9453,42 +9453,42 @@
       "events_joined_last_2_years": 17,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R16-S10"
+        "R16-S13"
       ],
       "seats": [
         {
-          "seat_id": "R16-S10",
+          "seat_id": "R16-S13",
           "row_number": 16,
-          "physical_position": 10,
-          "priority_rank": 3,
-          "zone": "RIGHT_CENTER",
+          "physical_position": 13,
+          "priority_rank": 9,
+          "zone": "RIGHT_OUTER",
           "display_name": "Tan Ah Kow"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R16-S10"
+        "R16-S13"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 7,
-          "category_zone": 2,
+          "priority_seat": 1,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 1
+          "activeness": 5
         },
         "normalized": {
-          "priority_seat": 47,
-          "category_zone": 13,
+          "priority_seat": 7,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 7
+          "activeness": 33
         },
         "weighted": {
-          "priority_seat": 470,
-          "category_zone": 130,
+          "priority_seat": 525,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 490,
-          "total": 1090
+          "activeness": 165,
+          "total": 690
         }
       }
     },
@@ -9504,42 +9504,42 @@
       "events_joined_last_2_years": 3,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R15-S02"
+        "R15-S10"
       ],
       "seats": [
         {
-          "seat_id": "R15-S02",
+          "seat_id": "R15-S10",
           "row_number": 15,
-          "physical_position": 2,
-          "priority_rank": 14,
-          "zone": "LEFT_OUTER",
+          "physical_position": 10,
+          "priority_rank": 3,
+          "zone": "RIGHT_CENTER",
           "display_name": "Venerable Bao Sheng"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R15-S02"
+        "R15-S10"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 13,
-          "category_zone": 8,
+          "priority_seat": 2,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 0
+          "activeness": 11
         },
         "normalized": {
-          "priority_seat": 87,
-          "category_zone": 50,
+          "priority_seat": 13,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 0
+          "activeness": 73
         },
         "weighted": {
-          "priority_seat": 870,
-          "category_zone": 500,
+          "priority_seat": 975,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 0,
-          "total": 1370
+          "activeness": 365,
+          "total": 1340
         }
       }
     },
@@ -9555,42 +9555,42 @@
       "events_joined_last_2_years": 2,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R16-S16"
+        "R16-S15"
       ],
       "seats": [
         {
-          "seat_id": "R16-S16",
+          "seat_id": "R16-S15",
           "row_number": 16,
-          "physical_position": 16,
-          "priority_rank": 15,
+          "physical_position": 15,
+          "priority_rank": 13,
           "zone": "RIGHT_OUTER",
           "display_name": "Sim Teck Meng"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R16-S16"
+        "R16-S15"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 5,
+          "priority_seat": 3,
           "category_zone": 0,
           "movement": 0,
-          "activeness": 0
+          "activeness": 2
         },
         "normalized": {
-          "priority_seat": 33,
+          "priority_seat": 20,
           "category_zone": 0,
           "movement": 0,
-          "activeness": 0
+          "activeness": 13
         },
         "weighted": {
-          "priority_seat": 330,
+          "priority_seat": 1500,
           "category_zone": 0,
           "movement": 0,
-          "activeness": 0,
-          "total": 330
+          "activeness": 65,
+          "total": 1565
         }
       }
     },
@@ -9637,11 +9637,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 70,
+          "priority_seat": 525,
           "category_zone": 0,
           "movement": 0,
           "activeness": 0,
-          "total": 70
+          "total": 525
         }
       }
     },
@@ -9657,42 +9657,42 @@
       "events_joined_last_2_years": 10,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R15-S12"
+        "R15-S11"
       ],
       "seats": [
         {
-          "seat_id": "R15-S12",
+          "seat_id": "R15-S11",
           "row_number": 15,
-          "physical_position": 12,
-          "priority_rank": 7,
+          "physical_position": 11,
+          "priority_rank": 5,
           "zone": "RIGHT_CENTER",
           "display_name": "Venerable De Cheng"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R15-S12"
+        "R15-S11"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 6,
+          "priority_seat": 4,
           "category_zone": 0,
           "movement": 0,
-          "activeness": 2
+          "activeness": 4
         },
         "normalized": {
-          "priority_seat": 40,
+          "priority_seat": 27,
           "category_zone": 0,
           "movement": 0,
-          "activeness": 13
+          "activeness": 27
         },
         "weighted": {
-          "priority_seat": 400,
+          "priority_seat": 2025,
           "category_zone": 0,
           "movement": 0,
-          "activeness": 910,
-          "total": 1310
+          "activeness": 135,
+          "total": 2160
         }
       }
     },
@@ -9708,42 +9708,42 @@
       "events_joined_last_2_years": 22,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R15-S10"
+        "R15-S06"
       ],
       "seats": [
         {
-          "seat_id": "R15-S10",
+          "seat_id": "R15-S06",
           "row_number": 15,
-          "physical_position": 10,
-          "priority_rank": 3,
-          "zone": "RIGHT_CENTER",
+          "physical_position": 6,
+          "priority_rank": 6,
+          "zone": "LEFT_CENTER",
           "display_name": "Foo Poh Choo"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R15-S10"
+        "R15-S06"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 7,
+          "priority_seat": 4,
           "category_zone": 2,
           "movement": 0,
-          "activeness": 2
+          "activeness": 5
         },
         "normalized": {
-          "priority_seat": 47,
+          "priority_seat": 27,
           "category_zone": 13,
           "movement": 0,
-          "activeness": 13
+          "activeness": 33
         },
         "weighted": {
-          "priority_seat": 470,
-          "category_zone": 130,
+          "priority_seat": 2025,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 910,
-          "total": 1510
+          "activeness": 165,
+          "total": 2359
         }
       }
     },
@@ -9790,11 +9790,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 200,
+          "priority_seat": 1500,
           "category_zone": 0,
           "movement": 0,
           "activeness": 0,
-          "total": 200
+          "total": 1500
         }
       }
     },
@@ -9810,42 +9810,42 @@
       "events_joined_last_2_years": 9,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R15-S04"
+        "R15-S07"
       ],
       "seats": [
         {
-          "seat_id": "R15-S04",
+          "seat_id": "R15-S07",
           "row_number": 15,
-          "physical_position": 4,
-          "priority_rank": 10,
-          "zone": "LEFT_OUTER",
+          "physical_position": 7,
+          "priority_rank": 4,
+          "zone": "LEFT_CENTER",
           "display_name": "Khoo Wei Ming"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R15-S04"
+        "R15-S07"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 7,
-          "category_zone": 1,
+          "priority_seat": 1,
+          "category_zone": 2,
           "movement": 0,
-          "activeness": 0
+          "activeness": 6
         },
         "normalized": {
-          "priority_seat": 47,
-          "category_zone": 6,
+          "priority_seat": 7,
+          "category_zone": 13,
           "movement": 0,
-          "activeness": 0
+          "activeness": 40
         },
         "weighted": {
-          "priority_seat": 470,
-          "category_zone": 60,
+          "priority_seat": 525,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 0,
-          "total": 530
+          "activeness": 200,
+          "total": 894
         }
       }
     },
@@ -9861,42 +9861,42 @@
       "events_joined_last_2_years": 18,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R15-S11"
+        "R15-S12"
       ],
       "seats": [
         {
-          "seat_id": "R15-S11",
+          "seat_id": "R15-S12",
           "row_number": 15,
-          "physical_position": 11,
-          "priority_rank": 5,
+          "physical_position": 12,
+          "priority_rank": 7,
           "zone": "RIGHT_CENTER",
           "display_name": "Cheah Chun Hong"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R15-S11"
+        "R15-S12"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 5,
+          "priority_seat": 3,
           "category_zone": 2,
           "movement": 0,
-          "activeness": 1
+          "activeness": 3
         },
         "normalized": {
-          "priority_seat": 33,
+          "priority_seat": 20,
           "category_zone": 13,
           "movement": 0,
-          "activeness": 7
+          "activeness": 20
         },
         "weighted": {
-          "priority_seat": 330,
-          "category_zone": 130,
+          "priority_seat": 1500,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 490,
-          "total": 950
+          "activeness": 100,
+          "total": 1769
         }
       }
     },
@@ -9912,42 +9912,42 @@
       "events_joined_last_2_years": 10,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R16-S09"
+        "R16-S08"
       ],
       "seats": [
         {
-          "seat_id": "R16-S09",
+          "seat_id": "R16-S08",
           "row_number": 16,
-          "physical_position": 9,
-          "priority_rank": 1,
-          "zone": "RIGHT_CENTER",
+          "physical_position": 8,
+          "priority_rank": 2,
+          "zone": "LEFT_CENTER",
           "display_name": "Chan Hock Seng"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R16-S09"
+        "R16-S08"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 0,
+          "priority_seat": 1,
           "category_zone": 2,
           "movement": 0,
-          "activeness": 8
+          "activeness": 7
         },
         "normalized": {
-          "priority_seat": 0,
+          "priority_seat": 7,
           "category_zone": 13,
           "movement": 0,
-          "activeness": 53
+          "activeness": 47
         },
         "weighted": {
-          "priority_seat": 0,
-          "category_zone": 130,
+          "priority_seat": 525,
+          "category_zone": 169,
           "movement": 0,
-          "activeness": 3710,
-          "total": 3840
+          "activeness": 235,
+          "total": 929
         }
       }
     },
@@ -9994,11 +9994,11 @@
           "activeness": 13
         },
         "weighted": {
-          "priority_seat": 930,
-          "category_zone": 60,
+          "priority_seat": 6975,
+          "category_zone": 78,
           "movement": 0,
-          "activeness": 910,
-          "total": 1900
+          "activeness": 65,
+          "total": 7118
         }
       }
     },
@@ -10014,42 +10014,42 @@
       "events_joined_last_2_years": 5,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R15-S03"
+        "R15-S02"
       ],
       "seats": [
         {
-          "seat_id": "R15-S03",
+          "seat_id": "R15-S02",
           "row_number": 15,
-          "physical_position": 3,
-          "priority_rank": 12,
+          "physical_position": 2,
+          "priority_rank": 14,
           "zone": "LEFT_OUTER",
           "display_name": "Tan Kah Wai"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R15-S03"
+        "R15-S02"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 2,
+          "priority_seat": 4,
           "category_zone": 1,
           "movement": 0,
           "activeness": 1
         },
         "normalized": {
-          "priority_seat": 13,
+          "priority_seat": 27,
           "category_zone": 6,
           "movement": 0,
           "activeness": 7
         },
         "weighted": {
-          "priority_seat": 130,
-          "category_zone": 60,
+          "priority_seat": 2025,
+          "category_zone": 78,
           "movement": 0,
-          "activeness": 490,
-          "total": 680
+          "activeness": 35,
+          "total": 2138
         }
       }
     },
@@ -10099,8 +10099,8 @@
           "priority_seat": 0,
           "category_zone": 0,
           "movement": 0,
-          "activeness": 5110,
-          "total": 5110
+          "activeness": 365,
+          "total": 365
         }
       }
     },
@@ -10147,11 +10147,11 @@
           "activeness": 7
         },
         "weighted": {
-          "priority_seat": 70,
-          "category_zone": 60,
+          "priority_seat": 525,
+          "category_zone": 78,
           "movement": 0,
-          "activeness": 490,
-          "total": 620
+          "activeness": 35,
+          "total": 638
         }
       }
     },
@@ -10167,42 +10167,42 @@
       "events_joined_last_2_years": 7,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R16-S13"
+        "R16-S10"
       ],
       "seats": [
         {
-          "seat_id": "R16-S13",
+          "seat_id": "R16-S10",
           "row_number": 16,
-          "physical_position": 13,
-          "priority_rank": 9,
-          "zone": "RIGHT_OUTER",
+          "physical_position": 10,
+          "priority_rank": 3,
+          "zone": "RIGHT_CENTER",
           "display_name": "Chin Yoke Fong"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R16-S13"
+        "R16-S10"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 6,
-          "category_zone": 3,
+          "priority_seat": 0,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 2
+          "activeness": 8
         },
         "normalized": {
-          "priority_seat": 40,
-          "category_zone": 19,
+          "priority_seat": 0,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 13
+          "activeness": 53
         },
         "weighted": {
-          "priority_seat": 400,
-          "category_zone": 190,
+          "priority_seat": 0,
+          "category_zone": 0,
           "movement": 0,
-          "activeness": 910,
-          "total": 1500
+          "activeness": 265,
+          "total": 265
         }
       }
     },
@@ -10249,11 +10249,11 @@
           "activeness": 0
         },
         "weighted": {
-          "priority_seat": 70,
-          "category_zone": 130,
+          "priority_seat": 525,
+          "category_zone": 169,
           "movement": 0,
           "activeness": 0,
-          "total": 200
+          "total": 694
         }
       }
     },
@@ -10269,42 +10269,42 @@
       "events_joined_last_2_years": 7,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R15-S14"
+        "R15-S03"
       ],
       "seats": [
         {
-          "seat_id": "R15-S14",
+          "seat_id": "R15-S03",
           "row_number": 15,
-          "physical_position": 14,
-          "priority_rank": 11,
-          "zone": "RIGHT_OUTER",
+          "physical_position": 3,
+          "priority_rank": 12,
+          "zone": "LEFT_OUTER",
           "display_name": "Chin Hock Seng"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R15-S14"
+        "R15-S03"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 1,
-          "category_zone": 0,
+          "priority_seat": 2,
+          "category_zone": 1,
           "movement": 0,
-          "activeness": 0
+          "activeness": 1
         },
         "normalized": {
-          "priority_seat": 7,
-          "category_zone": 0,
+          "priority_seat": 13,
+          "category_zone": 6,
           "movement": 0,
-          "activeness": 0
+          "activeness": 7
         },
         "weighted": {
-          "priority_seat": 70,
-          "category_zone": 0,
+          "priority_seat": 975,
+          "category_zone": 78,
           "movement": 0,
-          "activeness": 0,
-          "total": 70
+          "activeness": 35,
+          "total": 1088
         }
       }
     },
@@ -10320,42 +10320,42 @@
       "events_joined_last_2_years": 15,
       "allocation_type": "SINGLE",
       "seat_ids": [
-        "R16-S11"
+        "R16-S12"
       ],
       "seats": [
         {
-          "seat_id": "R16-S11",
+          "seat_id": "R16-S12",
           "row_number": 16,
-          "physical_position": 11,
-          "priority_rank": 5,
+          "physical_position": 12,
+          "priority_rank": 7,
           "zone": "RIGHT_CENTER",
           "display_name": "Chong Pei San"
         }
       ],
       "pair_priority": null,
       "previous_seat_ids": [
-        "R16-S11"
+        "R16-S12"
       ],
       "moved": false,
       "penalty": {
         "unweighted": {
-          "priority_seat": 5,
+          "priority_seat": 3,
           "category_zone": 1,
           "movement": 0,
           "activeness": 1
         },
         "normalized": {
-          "priority_seat": 33,
+          "priority_seat": 20,
           "category_zone": 6,
           "movement": 0,
           "activeness": 7
         },
         "weighted": {
-          "priority_seat": 330,
-          "category_zone": 60,
+          "priority_seat": 1500,
+          "category_zone": 78,
           "movement": 0,
-          "activeness": 490,
-          "total": 880
+          "activeness": 35,
+          "total": 1613
         }
       }
     }
@@ -10373,8 +10373,8 @@
     "R13-S14",
     "R13-S15",
     "R13-S16",
-    "R14-S13",
-    "R14-S14",
+    "R14-S01",
+    "R14-S02",
     "R14-S15",
     "R14-S16",
     "R16-S01",
@@ -10384,7 +10384,7 @@
     "R16-S05",
     "R16-S06",
     "R16-S07",
-    "R16-S08"
+    "R16-S16"
   ],
   "unassigned_participants": [],
   "hard_constraint_validation": {

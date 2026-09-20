@@ -1,0 +1,865 @@
+{
+  "suite": "core",
+  "environment": {
+    "python": "3.14.7",
+    "ortools": "9.15.6755",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "solve_budget_seconds": 3.0
+  },
+  "summary": {
+    "runs": 20,
+    "min": 0.0055285419803112745,
+    "max": 0.45759916701354086,
+    "median": 0.04434975000913255,
+    "iqr": 0.1953036037448328,
+    "p95": 0.40681395799038,
+    "status_counts": {
+      "CAPACITY_EXCEEDED": 1,
+      "INFEASIBLE": 1,
+      "INVALID_INPUT": 1,
+      "OPTIMAL": 17
+    },
+    "status_rates": {
+      "CAPACITY_EXCEEDED": 0.05,
+      "INFEASIBLE": 0.05,
+      "INVALID_INPUT": 0.05,
+      "OPTIMAL": 0.85
+    },
+    "process_peak_rss_bytes": 275562496
+  },
+  "runs": [
+    {
+      "scenario": "DS-01",
+      "seed": 20260919,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 1,
+      "required_physical_seats": 1,
+      "input_sha256": "9a6970b9f3abb96ff10f40fc7d851e82431985ec4fec8ae80a70baa4b35be52c",
+      "end_to_end_seconds": 0.03590124999755062,
+      "status": "OPTIMAL",
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "normalized_penalties": {
+        "contribution_seat": 0,
+        "activeness": 0,
+        "category_zone": 13
+      },
+      "proof": [
+        {
+          "stage": "weighted_preferences",
+          "status": "OPTIMAL",
+          "value": 260,
+          "best_bound": 260.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        }
+      ],
+      "movement": {
+        "moved_units": 0,
+        "unaffected_moved_units": 0,
+        "moved_physical_seats": 0,
+        "distance_doubled": 0
+      },
+      "repair_scope": null,
+      "phase_timing": {
+        "input_validation": 0.006257499975617975,
+        "model_build": 0.003469292016234249,
+        "solver": 0.015716,
+        "independent_validation": 0.00625116698211059
+      }
+    },
+    {
+      "scenario": "DS-02",
+      "seed": 20260920,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 2,
+      "required_physical_seats": 2,
+      "input_sha256": "1c41c4a18924ed69d36b54ccd007e1d6fd5b330f762dd84c381881875e70fb67",
+      "end_to_end_seconds": 0.017933082999661565,
+      "status": "OPTIMAL",
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "normalized_penalties": {
+        "contribution_seat": 9,
+        "activeness": 0,
+        "category_zone": 26
+      },
+      "proof": [
+        {
+          "stage": "weighted_preferences",
+          "status": "OPTIMAL",
+          "value": 880,
+          "best_bound": 880.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        }
+      ],
+      "movement": {
+        "moved_units": 0,
+        "unaffected_moved_units": 0,
+        "moved_physical_seats": 0,
+        "distance_doubled": 0
+      },
+      "repair_scope": null,
+      "phase_timing": {
+        "input_validation": 0.005852917005540803,
+        "model_build": 0.001785208994988352,
+        "solver": 0.0032110000000000003,
+        "independent_validation": 0.006080583989387378
+      }
+    },
+    {
+      "scenario": "DS-03",
+      "seed": 20260921,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 1,
+      "required_physical_seats": 2,
+      "input_sha256": "48922245575dd581f3142a2e897d977162f48cb451b23345b7d60a8e6b743d11",
+      "end_to_end_seconds": 0.01772691702353768,
+      "status": "OPTIMAL",
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "normalized_penalties": {
+        "contribution_seat": 4,
+        "activeness": 0,
+        "category_zone": 0
+      },
+      "proof": [
+        {
+          "stage": "weighted_preferences",
+          "status": "OPTIMAL",
+          "value": 160,
+          "best_bound": 160.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        }
+      ],
+      "movement": {
+        "moved_units": 0,
+        "unaffected_moved_units": 0,
+        "moved_physical_seats": 0,
+        "distance_doubled": 0
+      },
+      "repair_scope": null,
+      "phase_timing": {
+        "input_validation": 0.005723750015022233,
+        "model_build": 0.0016126659756992012,
+        "solver": 0.002003,
+        "independent_validation": 0.007299374992726371
+      }
+    },
+    {
+      "scenario": "DS-04",
+      "seed": 20260922,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 3,
+      "required_physical_seats": 4,
+      "input_sha256": "6bcc2e2b44e552a21d76af60371c53126fecb32f7615dadeb31145e9e90b6bfd",
+      "end_to_end_seconds": 0.023416707990691066,
+      "status": "OPTIMAL",
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "normalized_penalties": {
+        "contribution_seat": 13,
+        "activeness": 0,
+        "category_zone": 0
+      },
+      "proof": [
+        {
+          "stage": "weighted_preferences",
+          "status": "OPTIMAL",
+          "value": 520,
+          "best_bound": 520.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        }
+      ],
+      "movement": {
+        "moved_units": 0,
+        "unaffected_moved_units": 0,
+        "moved_physical_seats": 0,
+        "distance_doubled": 0
+      },
+      "repair_scope": null,
+      "phase_timing": {
+        "input_validation": 0.006416375021217391,
+        "model_build": 0.0022708330070599914,
+        "solver": 0.005724000000000001,
+        "independent_validation": 0.0075442499946802855
+      }
+    },
+    {
+      "scenario": "DS-05",
+      "seed": 20260923,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 85,
+      "required_physical_seats": 120,
+      "input_sha256": "b70f8480b3b74ee32272852133eadfeb8f9f4627f986f3f165e65e52b3c759fe",
+      "end_to_end_seconds": 0.2842330829880666,
+      "status": "OPTIMAL",
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "normalized_penalties": {
+        "contribution_seat": 2264,
+        "activeness": 1683,
+        "category_zone": 1469
+      },
+      "proof": [
+        {
+          "stage": "weighted_preferences",
+          "status": "OPTIMAL",
+          "value": 170430,
+          "best_bound": 170430.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        }
+      ],
+      "movement": {
+        "moved_units": 0,
+        "unaffected_moved_units": 0,
+        "moved_physical_seats": 0,
+        "distance_doubled": 0
+      },
+      "repair_scope": null,
+      "phase_timing": {
+        "input_validation": 0.00878599999123253,
+        "model_build": 0.039771542011294514,
+        "solver": 0.21012,
+        "independent_validation": 0.015475749998586252
+      }
+    },
+    {
+      "scenario": "DS-06",
+      "seed": 20260924,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 100,
+      "required_physical_seats": 140,
+      "input_sha256": "a395a1b3a937b573f9d8548ae6f9281c2e03b0ec748a523f6a6755d79169f0d4",
+      "end_to_end_seconds": 0.17813645899877883,
+      "status": "OPTIMAL",
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "normalized_penalties": {
+        "contribution_seat": 2739,
+        "activeness": 2037,
+        "category_zone": 1739
+      },
+      "proof": [
+        {
+          "stage": "weighted_preferences",
+          "status": "OPTIMAL",
+          "value": 205450,
+          "best_bound": 205450.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        }
+      ],
+      "movement": {
+        "moved_units": 0,
+        "unaffected_moved_units": 0,
+        "moved_physical_seats": 0,
+        "distance_doubled": 0
+      },
+      "repair_scope": null,
+      "phase_timing": {
+        "input_validation": 0.008703416009666398,
+        "model_build": 0.04064258301514201,
+        "solver": 0.105032,
+        "independent_validation": 0.015030500013381243
+      }
+    },
+    {
+      "scenario": "DS-07",
+      "seed": 20260925,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 95,
+      "required_physical_seats": 140,
+      "input_sha256": "d194bb9c661bddbc3ac22cc00684baf47352fe7a5d25ec75560ef40a497efdc5",
+      "end_to_end_seconds": 0.2157200830115471,
+      "status": "OPTIMAL",
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "normalized_penalties": {
+        "contribution_seat": 2657,
+        "activeness": 1554,
+        "category_zone": 1482
+      },
+      "proof": [
+        {
+          "stage": "weighted_preferences",
+          "status": "OPTIMAL",
+          "value": 182540,
+          "best_bound": 182540.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        }
+      ],
+      "movement": {
+        "moved_units": 0,
+        "unaffected_moved_units": 0,
+        "moved_physical_seats": 0,
+        "distance_doubled": 0
+      },
+      "repair_scope": null,
+      "phase_timing": {
+        "input_validation": 0.008892707992345095,
+        "model_build": 0.0427157910016831,
+        "solver": 0.140992,
+        "independent_validation": 0.014361833978909999
+      }
+    },
+    {
+      "scenario": "DS-08",
+      "seed": 20260926,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 100,
+      "required_physical_seats": 150,
+      "input_sha256": "23d77b99250d13945adba8a019993d1a5c3513f44baa62244f0eb301a012f33e",
+      "end_to_end_seconds": 0.2051680000149645,
+      "status": "OPTIMAL",
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "normalized_penalties": {
+        "contribution_seat": 2922,
+        "activeness": 1970,
+        "category_zone": 1960
+      },
+      "proof": [
+        {
+          "stage": "weighted_preferences",
+          "status": "OPTIMAL",
+          "value": 215180,
+          "best_bound": 215180.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        }
+      ],
+      "movement": {
+        "moved_units": 0,
+        "unaffected_moved_units": 0,
+        "moved_physical_seats": 0,
+        "distance_doubled": 0
+      },
+      "repair_scope": null,
+      "phase_timing": {
+        "input_validation": 0.008097458019619808,
+        "model_build": 0.04494925000471994,
+        "solver": 0.126527,
+        "independent_validation": 0.014571084000635892
+      }
+    },
+    {
+      "scenario": "DS-09",
+      "seed": 20260927,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 96,
+      "required_physical_seats": 152,
+      "input_sha256": "5139cb8fbbf442b8443e0200492094fc4113042516d5a1cb8aaf08ca88aefec3",
+      "end_to_end_seconds": 0.19721366700832732,
+      "status": "OPTIMAL",
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "normalized_penalties": {
+        "contribution_seat": 2826,
+        "activeness": 1861,
+        "category_zone": 1508
+      },
+      "proof": [
+        {
+          "stage": "weighted_preferences",
+          "status": "OPTIMAL",
+          "value": 199030,
+          "best_bound": 199030.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        }
+      ],
+      "movement": {
+        "moved_units": 0,
+        "unaffected_moved_units": 0,
+        "moved_physical_seats": 0,
+        "distance_doubled": 0
+      },
+      "repair_scope": null,
+      "phase_timing": {
+        "input_validation": 0.007953374995850027,
+        "model_build": 0.04588958399835974,
+        "solver": 0.119525,
+        "independent_validation": 0.014106167014688253
+      }
+    },
+    {
+      "scenario": "DS-10",
+      "seed": 20260928,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 140,
+      "required_physical_seats": 210,
+      "input_sha256": "2be632649cff579fdf2bbf638606a1d6a49fbe7509e99c9671e975f2b4c95a83",
+      "end_to_end_seconds": 0.45759916701354086,
+      "status": "OPTIMAL",
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "normalized_penalties": {
+        "contribution_seat": 4078,
+        "activeness": 2949,
+        "category_zone": 2268
+      },
+      "proof": [
+        {
+          "stage": "weighted_preferences",
+          "status": "OPTIMAL",
+          "value": 296950,
+          "best_bound": 296950.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        }
+      ],
+      "movement": {
+        "moved_units": 0,
+        "unaffected_moved_units": 0,
+        "moved_physical_seats": 0,
+        "distance_doubled": 0
+      },
+      "repair_scope": null,
+      "phase_timing": {
+        "input_validation": 0.008904999995138496,
+        "model_build": 0.08159191699814983,
+        "solver": 0.334938,
+        "independent_validation": 0.018458916019881144
+      }
+    },
+    {
+      "scenario": "DS-11",
+      "seed": 20260929,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 160,
+      "required_physical_seats": 240,
+      "input_sha256": "4bf3a34c9fa7a05ee4ed9cfe2c33faaba69f777d4b449da75878994e246190bf",
+      "end_to_end_seconds": 0.3968775410030503,
+      "status": "OPTIMAL",
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "normalized_penalties": {
+        "contribution_seat": 4417,
+        "activeness": 3170,
+        "category_zone": 2540
+      },
+      "proof": [
+        {
+          "stage": "weighted_preferences",
+          "status": "OPTIMAL",
+          "value": 322580,
+          "best_bound": 322580.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        }
+      ],
+      "movement": {
+        "moved_units": 0,
+        "unaffected_moved_units": 0,
+        "moved_physical_seats": 0,
+        "distance_doubled": 0
+      },
+      "repair_scope": null,
+      "phase_timing": {
+        "input_validation": 0.009366207988932729,
+        "model_build": 0.10351466698921286,
+        "solver": 0.24549200000000002,
+        "independent_validation": 0.02014491701265797
+      }
+    },
+    {
+      "scenario": "DS-12",
+      "seed": 20260930,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 140,
+      "required_physical_seats": 240,
+      "input_sha256": "fe9848b4d2d9700b9e555396f734a11459e97025caa21589e8e2c2d7b7cd88cf",
+      "end_to_end_seconds": 0.40681395799038,
+      "status": "OPTIMAL",
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "normalized_penalties": {
+        "contribution_seat": 4739,
+        "activeness": 2658,
+        "category_zone": 2272
+      },
+      "proof": [
+        {
+          "stage": "weighted_preferences",
+          "status": "OPTIMAL",
+          "value": 314740,
+          "best_bound": 314740.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        }
+      ],
+      "movement": {
+        "moved_units": 0,
+        "unaffected_moved_units": 0,
+        "moved_physical_seats": 0,
+        "distance_doubled": 0
+      },
+      "repair_scope": null,
+      "phase_timing": {
+        "input_validation": 0.009012458001961932,
+        "model_build": 0.09876629099017009,
+        "solver": 0.265478,
+        "independent_validation": 0.018273624998982996
+      }
+    },
+    {
+      "scenario": "DS-13",
+      "seed": 20260931,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 16,
+      "required_physical_seats": 19,
+      "input_sha256": "b70e0a22c61fc6fd3d567e532e8050be2cf477094022c6163d41e089bab4e6f9",
+      "end_to_end_seconds": 0.043064875004347414,
+      "status": "OPTIMAL",
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "normalized_penalties": {
+        "contribution_seat": 364,
+        "activeness": 207,
+        "category_zone": 303
+      },
+      "proof": [
+        {
+          "stage": "weighted_preferences",
+          "status": "OPTIMAL",
+          "value": 26830,
+          "best_bound": 26830.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        }
+      ],
+      "movement": {
+        "moved_units": 0,
+        "unaffected_moved_units": 0,
+        "moved_physical_seats": 0,
+        "distance_doubled": 0
+      },
+      "repair_scope": null,
+      "phase_timing": {
+        "input_validation": 0.005933749984251335,
+        "model_build": 0.004966957989381626,
+        "solver": 0.023089000000000002,
+        "independent_validation": 0.007213917007902637
+      }
+    },
+    {
+      "scenario": "DS-14",
+      "seed": 20260932,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 20,
+      "required_physical_seats": 24,
+      "input_sha256": "26fc2bc52aca7d4617882d67aa7b6e278ef937e45750b5ee6851004f1265fd8e",
+      "end_to_end_seconds": 0.037917958019534126,
+      "status": "OPTIMAL",
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "normalized_penalties": {
+        "contribution_seat": 291,
+        "activeness": 256,
+        "category_zone": 328
+      },
+      "proof": [
+        {
+          "stage": "weighted_preferences",
+          "status": "OPTIMAL",
+          "value": 25880,
+          "best_bound": 25880.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        }
+      ],
+      "movement": {
+        "moved_units": 0,
+        "unaffected_moved_units": 0,
+        "moved_physical_seats": 0,
+        "distance_doubled": 0
+      },
+      "repair_scope": null,
+      "phase_timing": {
+        "input_validation": 0.00614312500692904,
+        "model_build": 0.00557991600362584,
+        "solver": 0.016666,
+        "independent_validation": 0.0074741250136867166
+      }
+    },
+    {
+      "scenario": "DS-15",
+      "seed": 20260933,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 60,
+      "required_physical_seats": 78,
+      "input_sha256": "f42fd829f19f70b8331d00c44406235f3636a984e953dafa5411d6b9bab5443d",
+      "end_to_end_seconds": 0.0457193749898579,
+      "status": "OPTIMAL",
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "normalized_penalties": {
+        "contribution_seat": 1249,
+        "activeness": 1138,
+        "category_zone": 1237
+      },
+      "proof": [
+        {
+          "stage": "unaffected_moved_units",
+          "status": "OPTIMAL",
+          "value": 0,
+          "best_bound": 0.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        },
+        {
+          "stage": "distance_doubled",
+          "status": "OPTIMAL",
+          "value": 0,
+          "best_bound": 0.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        },
+        {
+          "stage": "local_packing",
+          "status": "OPTIMAL",
+          "value": 0,
+          "best_bound": 0.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        },
+        {
+          "stage": "weighted_preferences",
+          "status": "OPTIMAL",
+          "value": 108840,
+          "best_bound": 108840.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        }
+      ],
+      "movement": {
+        "moved_units": 0,
+        "unaffected_moved_units": 0,
+        "moved_physical_seats": 0,
+        "distance_doubled": 0
+      },
+      "repair_scope": 0,
+      "phase_timing": {
+        "input_validation": 0.007083082979079336,
+        "model_build": 0.011052708985516801,
+        "solver": 0.011054,
+        "independent_validation": 0.010376167017966509
+      }
+    },
+    {
+      "scenario": "DS-16",
+      "seed": 20260934,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 61,
+      "required_physical_seats": 80,
+      "input_sha256": "4cde1ee0a83da674e82ee4e5f869eb3849d3412eaaffa92b02327a37a0a83a47",
+      "end_to_end_seconds": 0.045634625013917685,
+      "status": "OPTIMAL",
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "normalized_penalties": {
+        "contribution_seat": 1272,
+        "activeness": 822,
+        "category_zone": 1013
+      },
+      "proof": [
+        {
+          "stage": "unaffected_moved_units",
+          "status": "OPTIMAL",
+          "value": 0,
+          "best_bound": 0.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        },
+        {
+          "stage": "distance_doubled",
+          "status": "OPTIMAL",
+          "value": 0,
+          "best_bound": 0.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        },
+        {
+          "stage": "local_packing",
+          "status": "OPTIMAL",
+          "value": 0,
+          "best_bound": 0.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        },
+        {
+          "stage": "weighted_preferences",
+          "status": "OPTIMAL",
+          "value": 95800,
+          "best_bound": 95800.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        }
+      ],
+      "movement": {
+        "moved_units": 0,
+        "unaffected_moved_units": 0,
+        "moved_physical_seats": 0,
+        "distance_doubled": 0
+      },
+      "repair_scope": 0,
+      "phase_timing": {
+        "input_validation": 0.006941042025573552,
+        "model_build": 0.010906124982284382,
+        "solver": 0.011008,
+        "independent_validation": 0.010557041998254135
+      }
+    },
+    {
+      "scenario": "DS-17",
+      "seed": 20260935,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 0,
+      "required_physical_seats": 0,
+      "input_sha256": "35ad512977de986bd75fbba80121705023f3d3f8fbf8086c25aaf908b41d11f3",
+      "end_to_end_seconds": 0.015010000002803281,
+      "status": "OPTIMAL",
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "normalized_penalties": {
+        "contribution_seat": 0,
+        "activeness": 0,
+        "category_zone": 0
+      },
+      "proof": [
+        {
+          "stage": "weighted_preferences",
+          "status": "OPTIMAL",
+          "value": 0,
+          "best_bound": 0.0,
+          "absolute_gap": 0,
+          "relative_gap": 0.0
+        }
+      ],
+      "movement": {
+        "moved_units": 0,
+        "unaffected_moved_units": 0,
+        "moved_physical_seats": 0,
+        "distance_doubled": 0
+      },
+      "repair_scope": null,
+      "phase_timing": {
+        "input_validation": 0.005411332997027785,
+        "model_build": 0.0013171669852454215,
+        "solver": 0.001642,
+        "independent_validation": 0.005819125013658777
+      }
+    },
+    {
+      "scenario": "DS-18",
+      "seed": 20260936,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 121,
+      "required_physical_seats": 242,
+      "input_sha256": "0d3b04dea76bfd8bff1b8e3d099f8017cb50bfac7b29cdbb0a6300aa809670f5",
+      "end_to_end_seconds": 0.008488999999826774,
+      "status": "CAPACITY_EXCEEDED",
+      "error": {
+        "code": "CAPACITY_EXCEEDED",
+        "message": "Physical seat demand exceeds assignable capacity",
+        "details": {
+          "required": 242,
+          "available": 240
+        },
+        "solver_status": null
+      }
+    },
+    {
+      "scenario": "DS-19",
+      "seed": 20260937,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 1,
+      "required_physical_seats": 1,
+      "input_sha256": "1e29ea4512c473986b33ea694e3a576bf0f68b49977a29d3f2d2cf2b07506b0e",
+      "end_to_end_seconds": 0.009592625021468848,
+      "status": "INFEASIBLE",
+      "error": {
+        "code": "INFEASIBLE",
+        "message": "No valid allocation established under the current compulsory rules. Check accessibility, pairing, contribution order and initial packing.",
+        "details": {
+          "attempts": [
+            {
+              "scope": null,
+              "status": "INFEASIBLE"
+            }
+          ],
+          "proof": [
+            {
+              "stage": "weighted_preferences",
+              "status": "INFEASIBLE",
+              "value": null,
+              "best_bound": null
+            }
+          ]
+        },
+        "solver_status": "INFEASIBLE"
+      }
+    },
+    {
+      "scenario": "DS-20",
+      "seed": 20260938,
+      "layout_version_id": "pjkit-2026-v1",
+      "registration_units": 2,
+      "required_physical_seats": 2,
+      "input_sha256": "c9dbebadb69b5ac3b34523e06b87d011959a0339027803790801bcb3bcc9bbff",
+      "end_to_end_seconds": 0.0055285419803112745,
+      "status": "INVALID_INPUT",
+      "error": {
+        "code": "INVALID_INPUT",
+        "message": "Request schema validation failed",
+        "details": {
+          "problems": [
+            "['participants', 0, 'requires_accessible_seat']: 'false' is not of type 'boolean'"
+          ]
+        },
+        "solver_status": null
+      }
+    }
+  ],
+  "deployment_measurements": "Not collected; requires deployed Lambda cold/warm invocations."
+}

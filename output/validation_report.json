@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-19T19:30:41+00:00",
-  "result_file": "output\\seat_allocation_result.json",
+  "generated_at": "2026-08-24T06:33:53+00:00",
+  "result_file": "output/seat_allocation_result.json",
   "overall_passed": true,
   "summary": {
     "total_checks": 22,

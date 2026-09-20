@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
-  "run_id": "RUN-20260719T192710Z-2c8ba8c6",
-  "generated_at": "2026-07-19T19:27:10+00:00",
+  "run_id": "RUN-20260824T063347Z-b8f2c52d",
+  "generated_at": "2026-08-24T06:33:47+00:00",
   "case_study": "PJ Kwan Inn Teng",
   "status": "success",
   "input_summary": {
@@ -42,17 +42,17 @@
     "main_objective_scale": 10000000,
     "best_objective_bound": 2074851028553,
     "optimality_gap": 0,
-    "wall_time_seconds": 2.0385231,
-    "user_time_seconds": 2.0385234000000003,
+    "wall_time_seconds": 0.408526,
+    "user_time_seconds": 0.408526,
     "num_conflicts": 0,
-    "num_branches": 2626,
+    "num_branches": 1588,
     "num_boolean_variables": 1928,
     "num_integer_variables": 20,
     "num_constraints": 780,
     "eligible_single_assignment_count": 504,
     "eligible_emperor_pair_count": 1424,
-    "peak_memory_rss_bytes": 168357888,
-    "response_stats": "CpSolverResponse summary:\nstatus: OPTIMAL\nobjective: 2074851028553\nbest_bound: 2074851028553\nintegers: 1933\nbooleans: 1929\nconflicts: 0\nbranches: 2626\npropagations: 39203\ninteger_propagations: 41497\nrestarts: 0\nlp_iterations: 0\nwalltime: 2.03852\nusertime: 2.03852\ndeterministic_time: 2.39694\ngap_integral: 24.1815\nsolution_fingerprint: 0x8145dd1dd481508d\n"
+    "peak_memory_rss_bytes": 190251008,
+    "response_stats": "CpSolverResponse summary:\nstatus: OPTIMAL\nobjective: 2074851028553\nbest_bound: 2074851028553\nintegers: 1933\nbooleans: 1929\nconflicts: 0\nbranches: 1588\npropagations: 22160\ninteger_propagations: 23011\nrestarts: 0\nlp_iterations: 0\nwalltime: 0.408526\nusertime: 0.408526\ndeterministic_time: 2.39349\ngap_integral: 29.9539\nsolution_fingerprint: 0x15f05dc59a524247\n"
   },
   "penalty_summary": {
     "unweighted": {
