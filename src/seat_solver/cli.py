@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import argparse
 import sys
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 
 from seat_solver.models import (
@@ -26,7 +26,7 @@ from seat_solver.validator import validate_result
 
 
 def _now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+    return datetime.now(datetime.UTC).isoformat(timespec="seconds")
 
 
 def _load_error(path: Path, exc: Exception) -> dict:
@@ -39,7 +39,7 @@ def _load_error(path: Path, exc: Exception) -> dict:
     )
 
 
-def run_solve(args: argparse.Namespace) -> int:
+def run_legacy_solve(args: argparse.Namespace) -> int:
     try:
         participants = load_participants(args.participants)
         floor_plan = load_floor_plan(args.floor_plan)
@@ -91,6 +91,13 @@ def run_validate(args: argparse.Namespace) -> int:
         print(f"error: {report['error']}", file=sys.stderr)
         return 1
 
+    if result.get("schema_version") == "2.0.0":
+        from seat_solver.production_validator import audit_result
+
+        report = audit_result(result)
+        write_json(args.output, report)
+        print("validation " + ("PASSED" if report["passed"] else "FAILED"))
+        return 0 if report["passed"] else 1
     report = validate_result(result, _now_iso(), result_file=str(args.result))
     write_json(args.output, report)
     summary = report["summary"]
@@ -106,7 +113,29 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="seat_solver.cli", description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    solve_parser = subparsers.add_parser("solve", help="run the CP-SAT solver")
+    production_parser = subparsers.add_parser(
+        "solve", help="solve a versioned production request (never publish)"
+    )
+    production_parser.add_argument("--request", type=Path, required=True)
+    production_parser.add_argument("--output", type=Path, required=True)
+
+    def production_handler(args):
+        from seat_solver.production import error, solve
+
+        try:
+            result = solve(read_json(args.request))
+        except (OSError, ValueError) as exc:
+            result = error("INVALID_INPUT", str(exc))
+        write_json(args.output, result)
+        print(
+            result.get("solver", {}).get("status", result.get("error", {}).get("code"))
+        )
+        return 0 if result["status"] == "success" else 1
+
+    production_parser.set_defaults(handler=production_handler)
+    solve_parser = subparsers.add_parser(
+        "legacy-solve", help="historical v1 reproduction only"
+    )
     solve_parser.add_argument("--participants", type=Path, required=True)
     solve_parser.add_argument("--floor-plan", type=Path, required=True)
     solve_parser.add_argument("--config", type=Path, required=True)
@@ -114,7 +143,7 @@ def main(argv: list[str] | None = None) -> int:
     solve_parser.add_argument(
         "--output", type=Path, default=Path("output/seat_allocation_result.json")
     )
-    solve_parser.set_defaults(handler=run_solve)
+    solve_parser.set_defaults(handler=run_legacy_solve)
 
     validate_parser = subparsers.add_parser(
         "validate", help="independently validate a result file"

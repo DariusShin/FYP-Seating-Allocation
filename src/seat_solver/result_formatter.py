@@ -17,10 +17,10 @@ from seat_solver.cost_calculator import (
 )
 from seat_solver.models import (
     CASE_STUDY_NAME,
+    SCHEMA_VERSION,
     FloorPlan,
     Participant,
     Seat,
-    SCHEMA_VERSION,
     SolverConfig,
 )
 from seat_solver.preprocessing import SeatPair, TierBands

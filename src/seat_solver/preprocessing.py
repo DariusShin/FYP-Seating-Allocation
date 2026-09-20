@@ -22,12 +22,12 @@ from dataclasses import dataclass
 
 from seat_solver.models import (
     CATEGORY_NAMES,
+    TIER_NAMES,
     FloorPlan,
     Participant,
     PreviousAllocation,
     Seat,
     SolverConfig,
-    TIER_NAMES,
 )
 
 

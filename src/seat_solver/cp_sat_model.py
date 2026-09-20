@@ -23,7 +23,7 @@ from dataclasses import dataclass, field
 from ortools.sat.python import cp_model
 
 from seat_solver.cost_calculator import CostBreakdown, CostCalculator, PenaltyScaler
-from seat_solver.models import FloorPlan, SolverConfig, TIER_NAMES
+from seat_solver.models import TIER_NAMES, FloorPlan, SolverConfig
 from seat_solver.preprocessing import (
     EmperorUnit,
     SeatPair,
