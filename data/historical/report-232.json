@@ -1,6 +1,8 @@
 {
+  "schema_version": "1.0.0",
   "row_count": 16,
   "seats_per_row": 16,
+  "total_seats": 256,
   "aisle_after_position": 8,
   "seats": [
     {
@@ -22,7 +24,7 @@
       "priority_rank": 14,
       "side": "LEFT",
       "zone": "LEFT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -88,7 +90,7 @@
       "priority_rank": 2,
       "side": "LEFT",
       "zone": "LEFT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -99,7 +101,7 @@
       "priority_rank": 1,
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -165,7 +167,7 @@
       "priority_rank": 13,
       "side": "RIGHT",
       "zone": "RIGHT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -198,7 +200,7 @@
       "priority_rank": 14,
       "side": "LEFT",
       "zone": "LEFT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -264,7 +266,7 @@
       "priority_rank": 2,
       "side": "LEFT",
       "zone": "LEFT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -275,7 +277,7 @@
       "priority_rank": 1,
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -341,7 +343,7 @@
       "priority_rank": 13,
       "side": "RIGHT",
       "zone": "RIGHT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -374,7 +376,7 @@
       "priority_rank": 14,
       "side": "LEFT",
       "zone": "LEFT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -440,7 +442,7 @@
       "priority_rank": 2,
       "side": "LEFT",
       "zone": "LEFT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -451,7 +453,7 @@
       "priority_rank": 1,
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -517,7 +519,7 @@
       "priority_rank": 13,
       "side": "RIGHT",
       "zone": "RIGHT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -550,7 +552,7 @@
       "priority_rank": 14,
       "side": "LEFT",
       "zone": "LEFT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -616,7 +618,7 @@
       "priority_rank": 2,
       "side": "LEFT",
       "zone": "LEFT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -627,7 +629,7 @@
       "priority_rank": 1,
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -693,7 +695,7 @@
       "priority_rank": 13,
       "side": "RIGHT",
       "zone": "RIGHT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -726,7 +728,7 @@
       "priority_rank": 14,
       "side": "LEFT",
       "zone": "LEFT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -792,7 +794,7 @@
       "priority_rank": 2,
       "side": "LEFT",
       "zone": "LEFT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -803,7 +805,7 @@
       "priority_rank": 1,
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -869,7 +871,7 @@
       "priority_rank": 13,
       "side": "RIGHT",
       "zone": "RIGHT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -902,7 +904,7 @@
       "priority_rank": 14,
       "side": "LEFT",
       "zone": "LEFT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -968,7 +970,7 @@
       "priority_rank": 2,
       "side": "LEFT",
       "zone": "LEFT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": true
     },
     {
@@ -979,7 +981,7 @@
       "priority_rank": 1,
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": true
     },
     {
@@ -1045,7 +1047,7 @@
       "priority_rank": 13,
       "side": "RIGHT",
       "zone": "RIGHT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -1078,7 +1080,7 @@
       "priority_rank": 14,
       "side": "LEFT",
       "zone": "LEFT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -1112,7 +1114,7 @@
       "side": "LEFT",
       "zone": "LEFT_CENTER",
       "is_accessible": false,
-      "is_blocked": false
+      "is_blocked": true
     },
     {
       "seat_id": "R07-S06",
@@ -1123,7 +1125,7 @@
       "side": "LEFT",
       "zone": "LEFT_CENTER",
       "is_accessible": false,
-      "is_blocked": false
+      "is_blocked": true
     },
     {
       "seat_id": "R07-S07",
@@ -1144,7 +1146,7 @@
       "priority_rank": 2,
       "side": "LEFT",
       "zone": "LEFT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -1155,7 +1157,7 @@
       "priority_rank": 1,
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -1178,7 +1180,7 @@
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
       "is_accessible": false,
-      "is_blocked": false
+      "is_blocked": true
     },
     {
       "seat_id": "R07-S12",
@@ -1189,7 +1191,7 @@
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
       "is_accessible": false,
-      "is_blocked": false
+      "is_blocked": true
     },
     {
       "seat_id": "R07-S13",
@@ -1221,7 +1223,7 @@
       "priority_rank": 13,
       "side": "RIGHT",
       "zone": "RIGHT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -1254,7 +1256,7 @@
       "priority_rank": 14,
       "side": "LEFT",
       "zone": "LEFT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -1320,7 +1322,7 @@
       "priority_rank": 2,
       "side": "LEFT",
       "zone": "LEFT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": true
     },
     {
@@ -1331,7 +1333,7 @@
       "priority_rank": 1,
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": true
     },
     {
@@ -1397,7 +1399,7 @@
       "priority_rank": 13,
       "side": "RIGHT",
       "zone": "RIGHT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -1430,7 +1432,7 @@
       "priority_rank": 14,
       "side": "LEFT",
       "zone": "LEFT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -1464,7 +1466,7 @@
       "side": "LEFT",
       "zone": "LEFT_CENTER",
       "is_accessible": false,
-      "is_blocked": false
+      "is_blocked": true
     },
     {
       "seat_id": "R09-S06",
@@ -1475,7 +1477,7 @@
       "side": "LEFT",
       "zone": "LEFT_CENTER",
       "is_accessible": false,
-      "is_blocked": false
+      "is_blocked": true
     },
     {
       "seat_id": "R09-S07",
@@ -1496,7 +1498,7 @@
       "priority_rank": 2,
       "side": "LEFT",
       "zone": "LEFT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -1507,7 +1509,7 @@
       "priority_rank": 1,
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -1530,7 +1532,7 @@
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
       "is_accessible": false,
-      "is_blocked": false
+      "is_blocked": true
     },
     {
       "seat_id": "R09-S12",
@@ -1541,7 +1543,7 @@
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
       "is_accessible": false,
-      "is_blocked": false
+      "is_blocked": true
     },
     {
       "seat_id": "R09-S13",
@@ -1573,7 +1575,7 @@
       "priority_rank": 13,
       "side": "RIGHT",
       "zone": "RIGHT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -1606,7 +1608,7 @@
       "priority_rank": 14,
       "side": "LEFT",
       "zone": "LEFT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -1672,7 +1674,7 @@
       "priority_rank": 2,
       "side": "LEFT",
       "zone": "LEFT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -1683,7 +1685,7 @@
       "priority_rank": 1,
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -1749,7 +1751,7 @@
       "priority_rank": 13,
       "side": "RIGHT",
       "zone": "RIGHT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -1782,7 +1784,7 @@
       "priority_rank": 14,
       "side": "LEFT",
       "zone": "LEFT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -1848,7 +1850,7 @@
       "priority_rank": 2,
       "side": "LEFT",
       "zone": "LEFT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -1859,7 +1861,7 @@
       "priority_rank": 1,
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -1925,7 +1927,7 @@
       "priority_rank": 13,
       "side": "RIGHT",
       "zone": "RIGHT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -1958,7 +1960,7 @@
       "priority_rank": 14,
       "side": "LEFT",
       "zone": "LEFT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -2024,7 +2026,7 @@
       "priority_rank": 2,
       "side": "LEFT",
       "zone": "LEFT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -2035,7 +2037,7 @@
       "priority_rank": 1,
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -2101,7 +2103,7 @@
       "priority_rank": 13,
       "side": "RIGHT",
       "zone": "RIGHT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -2134,7 +2136,7 @@
       "priority_rank": 14,
       "side": "LEFT",
       "zone": "LEFT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -2200,7 +2202,7 @@
       "priority_rank": 2,
       "side": "LEFT",
       "zone": "LEFT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -2211,7 +2213,7 @@
       "priority_rank": 1,
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -2277,7 +2279,7 @@
       "priority_rank": 13,
       "side": "RIGHT",
       "zone": "RIGHT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -2310,7 +2312,7 @@
       "priority_rank": 14,
       "side": "LEFT",
       "zone": "LEFT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -2376,7 +2378,7 @@
       "priority_rank": 2,
       "side": "LEFT",
       "zone": "LEFT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -2387,7 +2389,7 @@
       "priority_rank": 1,
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -2453,7 +2455,7 @@
       "priority_rank": 13,
       "side": "RIGHT",
       "zone": "RIGHT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -2486,7 +2488,7 @@
       "priority_rank": 14,
       "side": "LEFT",
       "zone": "LEFT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -2552,7 +2554,7 @@
       "priority_rank": 2,
       "side": "LEFT",
       "zone": "LEFT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -2563,7 +2565,7 @@
       "priority_rank": 1,
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -2629,7 +2631,7 @@
       "priority_rank": 13,
       "side": "RIGHT",
       "zone": "RIGHT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -2662,7 +2664,7 @@
       "priority_rank": 14,
       "side": "LEFT",
       "zone": "LEFT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -2728,7 +2730,7 @@
       "priority_rank": 2,
       "side": "LEFT",
       "zone": "LEFT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -2739,7 +2741,7 @@
       "priority_rank": 1,
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
-      "is_accessible": false,
+      "is_accessible": true,
       "is_blocked": false
     },
     {
@@ -2805,7 +2807,7 @@
       "priority_rank": 13,
       "side": "RIGHT",
       "zone": "RIGHT_OUTER",
-      "is_accessible": true,
+      "is_accessible": false,
       "is_blocked": false
     },
     {
@@ -2819,46 +2821,5 @@
       "is_accessible": true,
       "is_blocked": false
     }
-  ],
-  "layout_version_id": "pjkit-2026-v1",
-  "accessible_positions": [
-    1,
-    2,
-    15,
-    16
-  ],
-  "approved_pairs": [
-    [
-      1,
-      2
-    ],
-    [
-      3,
-      4
-    ],
-    [
-      5,
-      6
-    ],
-    [
-      7,
-      8
-    ],
-    [
-      9,
-      10
-    ],
-    [
-      11,
-      12
-    ],
-    [
-      13,
-      14
-    ],
-    [
-      15,
-      16
-    ]
   ]
 }

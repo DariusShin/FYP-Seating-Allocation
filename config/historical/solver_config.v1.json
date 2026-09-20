@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "tiers": {
+    "EMPEROR": {
+      "min_contribution_rm": 2000,
+      "max_contribution_rm": null,
+      "seats_required": 2
+    },
+    "BODHI": {
+      "min_contribution_rm": 1000,
+      "max_contribution_rm": 1999,
+      "seats_required": 1
+    },
+    "MERIT": {
+      "min_contribution_rm": 500,
+      "max_contribution_rm": 999,
+      "seats_required": 1
+    }
+  },
+  "weights": {
+    "priority_seat_weight": 40,
+    "category_zone_weight": 25,
+    "movement_weight": 20,
+    "activeness_weight": 15
+  },
+  "desired_priority_rules": {
+    "accessible_rank": 1,
+    "monk_rank": 1,
+    "elderly_rank": 3,
+    "default_rank": 10
+  },
+  "category_zone_costs": {
+    "MONASTIC": {
+      "RIGHT_CENTER": 0,
+      "LEFT_CENTER": 2,
+      "RIGHT_OUTER": 4,
+      "LEFT_OUTER": 8
+    },
+    "COMMITTEE": {
+      "RIGHT_CENTER": 0,
+      "LEFT_CENTER": 2,
+      "RIGHT_OUTER": 3,
+      "LEFT_OUTER": 6
+    },
+    "VOLUNTEER": {
+      "RIGHT_CENTER": 1,
+      "LEFT_CENTER": 2,
+      "RIGHT_OUTER": 1,
+      "LEFT_OUTER": 3
+    },
+    "GENERAL_DEVOTEE": {
+      "RIGHT_CENTER": 2,
+      "LEFT_CENTER": 2,
+      "RIGHT_OUTER": 0,
+      "LEFT_OUTER": 1
+    }
+  },
+  "movement": {
+    "fixed_move_penalty": 20,
+    "row_distance_weight": 12,
+    "column_distance_weight": 1
+  },
+  "emperor_pair_priorities": {
+    "1-2": 8,
+    "3-4": 6,
+    "5-6": 4,
+    "7-8": 2,
+    "9-10": 1,
+    "11-12": 3,
+    "13-14": 5,
+    "15-16": 7
+  },
+  "constraints": {
+    "enforce_front_fill": true,
+    "enforce_middle_fill": true,
+    "normalize_penalties": true
+  },
+  "tie_break": {
+    "main_objective_scale": 10000000
+  },
+  "solver": {
+    "require_optimal": true,
+    "max_time_seconds": 60,
+    "num_search_workers": 8,
+    "random_seed": 20260707,
+    "log_search_progress": false
+  }
+}

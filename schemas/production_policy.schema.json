@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "production_policy.schema.json",
+  "title": "Immutable pjkit-v2 policy contract",
+  "description": "Policy semantics are versioned. Update this contract and version together for future policy amendments.",
+  "const": {
+    "policy_version_id": "pjkit-v2",
+    "normalization_version": "desirability-v1",
+    "tier_order": [
+      "EMPEROR",
+      "MERIT",
+      "BODHI"
+    ],
+    "tier_minimums": {
+      "EMPEROR": 5000,
+      "MERIT": 3000,
+      "BODHI": 2000
+    },
+    "rank_weights": [
+      40,
+      30,
+      20,
+      10
+    ],
+    "initial_packing": "STRICT",
+    "repair_local_packing": true,
+    "shared_tier_preference": "SOFT_IN_CONTRIBUTION",
+    "accessible_shared_tier_exemption": true,
+    "category_zone_costs": {
+      "MONASTIC": {
+        "RIGHT_CENTER": 0,
+        "LEFT_CENTER": 2,
+        "RIGHT_OUTER": 4,
+        "LEFT_OUTER": 8
+      },
+      "COMMITTEE": {
+        "RIGHT_CENTER": 0,
+        "LEFT_CENTER": 2,
+        "RIGHT_OUTER": 3,
+        "LEFT_OUTER": 6
+      },
+      "VOLUNTEER": {
+        "RIGHT_CENTER": 1,
+        "LEFT_CENTER": 2,
+        "RIGHT_OUTER": 1,
+        "LEFT_OUTER": 3
+      },
+      "GENERAL_DEVOTEE": {
+        "RIGHT_CENTER": 2,
+        "LEFT_CENTER": 2,
+        "RIGHT_OUTER": 0,
+        "LEFT_OUTER": 1
+      }
+    }
+  }
+}

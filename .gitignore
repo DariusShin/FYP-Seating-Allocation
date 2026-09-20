@@ -50,3 +50,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+
+# Runtime production plan history is local application data, not a fixture.
+output/*.sqlite3
+output/*.sqlite3-*

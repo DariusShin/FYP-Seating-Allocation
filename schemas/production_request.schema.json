@@ -1,0 +1,346 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "2.0.0"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generation_mode": {
+      "enum": [
+        "INITIAL",
+        "REGENERATE_DRAFT",
+        "REPAIR_PUBLISHED",
+        "FULL_REGENERATION"
+      ]
+    },
+    "layout_version_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "policy_version_id": {
+      "const": "pjkit-v2"
+    },
+    "baseline_plan_version_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "preference_profile_version": {
+      "const": "ranked-v1"
+    },
+    "preferences": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "enum": [
+              "contribution_seat",
+              "activeness",
+              "category_zone"
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "key",
+          "enabled"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "participants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "participant_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "full_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "registration_status": {
+            "enum": [
+              "CONFIRMED",
+              "REPLACEMENT_CONFIRMED",
+              "PENDING",
+              "WAITLISTED",
+              "CANCELLED",
+              "ABSENT",
+              "REPLACED"
+            ]
+          },
+          "replacement_for_participant_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "contribution_tier": {
+            "enum": [
+              "EMPEROR",
+              "MERIT",
+              "BODHI"
+            ]
+          },
+          "contribution_amount_rm": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "requires_accessible_seat": {
+            "type": "boolean"
+          },
+          "participant_category": {
+            "enum": [
+              "MONASTIC",
+              "COMMITTEE",
+              "VOLUNTEER",
+              "GENERAL_DEVOTEE"
+            ]
+          },
+          "events_joined_last_2_years": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "age": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 120
+          },
+          "adjacent_person_name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "participant_id",
+          "full_name",
+          "registration_status",
+          "replacement_for_participant_id",
+          "contribution_tier",
+          "contribution_amount_rm",
+          "requires_accessible_seat",
+          "participant_category",
+          "events_joined_last_2_years",
+          "age",
+          "adjacent_person_name"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "layout": {
+      "type": "object",
+      "properties": {
+        "layout_version_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "row_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "seats_per_row": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 32
+        },
+        "aisle_after_position": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "accessible_positions": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "uniqueItems": true
+        },
+        "approved_pairs": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "uniqueItems": true
+        },
+        "seats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "seat_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "row_number": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "row_index": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "physical_position": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "priority_rank": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "side": {
+                "enum": [
+                  "LEFT",
+                  "RIGHT"
+                ]
+              },
+              "zone": {
+                "enum": [
+                  "LEFT_OUTER",
+                  "LEFT_CENTER",
+                  "RIGHT_CENTER",
+                  "RIGHT_OUTER"
+                ]
+              },
+              "is_accessible": {
+                "type": "boolean"
+              },
+              "is_blocked": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "seat_id",
+              "row_number",
+              "row_index",
+              "physical_position",
+              "priority_rank",
+              "side",
+              "zone",
+              "is_accessible",
+              "is_blocked"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "layout_version_id",
+        "row_count",
+        "seats_per_row",
+        "aisle_after_position",
+        "accessible_positions",
+        "approved_pairs",
+        "seats"
+      ],
+      "additionalProperties": false
+    },
+    "solver": {
+      "type": "object",
+      "properties": {
+        "max_time_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 300
+        },
+        "num_search_workers": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        },
+        "random_seed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "require_optimal": {
+          "type": "boolean"
+        },
+        "canonicalize": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "max_time_seconds",
+        "num_search_workers",
+        "random_seed",
+        "require_optimal",
+        "canonicalize"
+      ],
+      "additionalProperties": false
+    },
+    "event_details": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "time": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "timezone": {
+          "type": "string",
+          "minLength": 1
+        },
+        "venue": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "date",
+        "time",
+        "timezone",
+        "venue"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "event_id",
+    "generation_mode",
+    "layout_version_id",
+    "policy_version_id",
+    "baseline_plan_version_id",
+    "preference_profile_version",
+    "preferences",
+    "participants",
+    "layout",
+    "solver"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

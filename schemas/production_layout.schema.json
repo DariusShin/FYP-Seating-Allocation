@@ -1,0 +1,114 @@
+{
+  "type": "object",
+  "properties": {
+    "layout_version_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "row_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 64
+    },
+    "seats_per_row": {
+      "type": "integer",
+      "minimum": 2,
+      "maximum": 32
+    },
+    "aisle_after_position": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "accessible_positions": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "uniqueItems": true
+    },
+    "approved_pairs": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "minItems": 2,
+        "maxItems": 2
+      },
+      "uniqueItems": true
+    },
+    "seats": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "seat_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "row_number": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "row_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "physical_position": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "priority_rank": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "side": {
+            "enum": [
+              "LEFT",
+              "RIGHT"
+            ]
+          },
+          "zone": {
+            "enum": [
+              "LEFT_OUTER",
+              "LEFT_CENTER",
+              "RIGHT_CENTER",
+              "RIGHT_OUTER"
+            ]
+          },
+          "is_accessible": {
+            "type": "boolean"
+          },
+          "is_blocked": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "seat_id",
+          "row_number",
+          "row_index",
+          "physical_position",
+          "priority_rank",
+          "side",
+          "zone",
+          "is_accessible",
+          "is_blocked"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "layout_version_id",
+    "row_count",
+    "seats_per_row",
+    "aisle_after_position",
+    "accessible_positions",
+    "approved_pairs",
+    "seats"
+  ],
+  "additionalProperties": false
+}
