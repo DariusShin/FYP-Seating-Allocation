@@ -1,130 +1,56 @@
-# PJ Kwan Inn Teng — CP-SAT Seat Allocation Prototype
+# PJKIT seating allocation — production v2
 
-A Python prototype that uses Google OR-Tools CP-SAT to generate an optimized,
-constraint-compliant seating allocation for the PJ Kwan Inn Teng FYP case
-study: 100 primary participants (8 Emperor × 2 seats, 32 Bodhi, 60 Merit)
-allocated onto a 10-row × 12-seat hall with a centre aisle, tier row zones,
-contribution ordering, accessibility, and four weighted soft constraints.
+A Python OR-Tools CP-SAT solver and Next.js review application for versioned seating allocation. Current venue: **16 × 16**, **16 blocked**, **240 assignable**. Emperor → Merit → Bodhi can share boundary rows. Tiers come from registration records; minimum contributions are RM5,000 / RM3,000 / RM2,000, with no assumed upper bounds.
 
-## Quick start
+Production ordinary preferences are **contribution-to-seat matching, activeness and category suitability**. Administrators order and enable them; the backend maps enabled ranks to 40/30/20. These are relative coefficients, not percentages. Published repair separately protects movement count, then movement distance, then local packing.
+
+## Run locally
 
 ```bash
-python -m venv .venv
-.venv\Scripts\activate        # Windows
-pip install -r requirements.txt
-pip install -e .
-```
-
-Generate the deterministic dataset (seed `20260707`):
-
-```bash
-python -m seat_solver.data_generator --count 100 --seed 20260707 --output data/mock_participants.json
-python -m seat_solver.floor_plan_generator --rows 10 --seats-per-row 12 --output data/floor_plan.json
-```
-
-Solve, validate, and benchmark:
-
-```bash
-python -m seat_solver.cli solve \
-  --participants data/mock_participants.json \
-  --floor-plan data/floor_plan.json \
-  --previous-allocation data/previous_allocation.json \
-  --config config/solver_config.json \
-  --output output/seat_allocation_result.json
-
-python -m seat_solver.cli validate \
-  --result output/seat_allocation_result.json \
-  --output output/validation_report.json
-
-python -m seat_solver.benchmark \
-  --participants data/mock_participants.json \
-  --floor-plan data/floor_plan.json \
-  --config config/solver_config.json \
-  --previous-allocation data/previous_allocation.json \
-  --runs 10 \
-  --output output/performance_report.json
-```
-
-Run the tests:
-
-```bash
-pytest -q
-```
-
-## Layout
-
-| Path | Purpose |
-|---|---|
-| `docs/mathematical_model.json` | Full mathematical model: sets, variables, hard/soft constraints, objective, tie-break dominance proof |
-| `docs/code_overview.md` | Per-module code walkthrough with Mermaid execution-flow diagrams and the module dependency graph |
-| `config/solver_config.json` | Tier boundaries, weights, category-zone cost matrix, movement costs, solver parameters |
-| `schemas/` | JSON Schemas for participants, floor plan, config, and result documents |
-| `src/seat_solver/` | Solver package: generators, preprocessing, cost matrices, CP-SAT model, solving, formatting, validation, benchmark, CLI |
-| `tests/` | pytest suite covering data generation, floor plan, hard/soft constraints, statuses, schemas, regeneration |
-| `output/` | Result, validation report, and performance report (generated) |
-
-## Design notes
-
-- **Integer-only model (HC12):** every CP-SAT variable, cost, weight, and
-  objective coefficient is an integer; money is integer ringgit.
-- **Emperor pairs:** each Emperor registration is one two-seat allocation
-  unit assigned to a predefined valid adjacent pair (`y[e,k]` variables);
-  positions 6–7 never pair because of the centre aisle.
-- **Structural hard constraints:** tier row zones, accessibility, and
-  blocked seats are enforced by never creating ineligible variables.
-- **Contribution ordering (HC5):** linear boundary-variable encoding between
-  consecutive contribution levels inside each tier.
-- **Front-fill rows (HC13):** inside each tier zone every seat of row r
-  outranks every seat of row r+1, so rows fill front to back and empty seats
-  are pinned to the last occupied row of each zone (configurable via
-  `constraints.enforce_front_fill`).
-- **Penalty normalization:** raw component costs have incomparable scales
-  (movement reaches 139 while priority mismatch tops out at 11), so each
-  component is rescaled to 0–100 integers by its theoretical maximum before
-  weighting (`constraints.normalize_penalties`); the weights then compare
-  like for like. Results report unweighted, normalized, and weighted layers.
-- **Deterministic tie-break:** the objective is
-  `1_000_000 × MainPenalty + TieBreak`, where the tie-break is strictly
-  dominated by any main-penalty difference (proof in
-  `docs/mathematical_model.json`) and makes the optimum a unique canonical
-  layout.
-- **Success = proven optimal:** a run is reported as success only when
-  CP-SAT returns `OPTIMAL`; everything else becomes a structured JSON error
-  (`OPTIMAL_NOT_PROVEN`, `INFEASIBLE`, `TIER_CAPACITY_EXCEEDED`, …).
-- **Independent validation:** after extraction the result document itself is
-  re-audited (duplicates, adjacency, aisle, tier zones, ordering,
-  accessibility, blocked seats, penalty totals, objective reconstruction,
-  JSON Schema) before it is accepted.
-
-The output JSON is designed to be renderable by the Buddy seat-map prototype
-(`https://buddy-prototype-three.vercel.app/seat`) without a runtime dependency
-on it.
-
-## Frontend visualization
-
-`frontend/` contains a Next.js 16 + Tailwind CSS v4 + shadcn/ui prototype that
-renders `output/seat_allocation_result.json` in the style of the Buddy seat
-page: altar/stage marker, 10 × 12 seat grid with the centre aisle, gold /
-silver / bronze tier colours, elderly (★), monastic (☸), accessible (♿) and
-moved (↻) markers, per-seat penalty tooltips, distribution and solver stats
-sidebars, and a filterable assignments table.
-
-It also supports **in-browser regeneration**: the "Reallocation weights" panel
-exposes the four soft-constraint weights as sliders and a "Regenerate seating
-plan" button. The button POSTs to `/api/solve`, which runs the Python CP-SAT
-solver with the adjusted weights and the *currently displayed plan as the
-previous allocation* — raising the movement weight therefore reallocates with
-minimal participant movement.
-
-```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -e '.[dev]'
+PYTHONPATH=src .venv/bin/python -m seat_solver.cli solve --request data/production_request.json --output /tmp/pjkit-draft.json
+PYTHONPATH=src .venv/bin/python -m seat_solver.cli validate --result /tmp/pjkit-draft.json --output /tmp/pjkit-audit.json
 cd frontend
 npm install
-npm run dev   # http://localhost:3000/seat
+npm run dev
 ```
 
-The `/seat` page reads `../output/seat_allocation_result.json` at request
-time when it exists (re-running the solver refreshes the page) and falls back
-to the bundled snapshot in `frontend/src/data/`. Environment overrides:
-`SEAT_RESULT_PATH` (result file), `SEAT_SOLVER_ROOT` (repo root used by
-`/api/solve`), and `SEAT_SOLVER_PYTHON` (Python executable; defaults to the
-repo's `.venv`).
+Open `/seat`. With no saved plan, select **Generate draft**. Generation never publishes. Review the saved draft, validate/save manual edits if needed, then **Submit for review → Approve revision → Publish approved revision**. `/my-seat?participant=P001` is a local administrator preview; production participant identity is read from the host's signed session, not this query parameter.
+
+A production solve may return OPTIMAL or FEASIBLE after independent validation. The latter is valid but has an incomplete optimality proof. Canonicalization completion is reported separately. A manual edit is labelled MANUALLY_MODIFIED while retaining generation provenance.
+
+Draft regeneration has no movement baseline. **Repair published plan** uses the server's explicit published pointer, never client assignments. Absences may leave vacancies. Registration changes can be entered in the workspace and submitted into a new draft; previously published seats stay visible until explicit publication.
+
+## Configuration and integration
+
+- Request/schema: `data/production_request.json`, `schemas/production_request.schema.json`.
+- Versioned policy: `config/production_policy.json` (`config/solver_config.json` contains the same v2 reference contract).
+- Current layout: `data/layouts/production_2026.json`; historical report fixture: `data/historical/report-232.json`.
+- Runtime local store: `output/plans.sqlite3` (override `SEAT_PLAN_DB`). SQLite transactions protect approval/publication and stale-pointer checks.
+- Override server event input using `SEAT_EVENT_REQUEST`; later saved drafts retain their event participant data. Host deployments should supply their event-data adapter.
+- `SEAT_SOLVER_ROOT` and `SEAT_SOLVER_PYTHON` locate the Python service.
+- Production requires `SEAT_HOST_SECRET` and a host-issued signed HttpOnly `seat_session` cookie. No unauthenticated production admin fallback is enabled. See [integration](docs/integration.md).
+
+The default example is synthetic: **56 Emperor + 24 Merit + 16 Bodhi registrations**, 96 units consuming 152 seats. This is not the report's unconfirmed 150-person benchmark split.
+
+## Verification and evaluation
+
+```bash
+PYTHONPATH=src .venv/bin/python -m pytest -q
+npm --prefix frontend test
+npm --prefix frontend run typecheck
+npm --prefix frontend run lint
+npm --prefix frontend run build
+PYTHONPATH=src .venv/bin/python -m seat_solver.evaluation --suite core --budget 3 --output output/evaluation/core-v2.json
+PYTHONPATH=src .venv/bin/python -m seat_solver.evaluation --suite profiles --budget 3 --output output/evaluation/profiles-v2.json
+PYTHONPATH=src .venv/bin/python -m seat_solver.evaluation --suite random --runs 100 --budget 3 --output output/evaluation/random-v2.json
+```
+
+See [evaluation methodology](docs/evaluation.md), [mathematical model](docs/mathematical_model.md), [machine-readable formulation](docs/mathematical_model.json), [code overview](docs/code_overview.md), and [report amendments/traceability](docs/requirements-traceability.md).
+
+## Legacy reproduction
+
+The older modules and their tests are retained as historical v1 reproduction, not the production API. `legacy-solve` accepts the old file flags, using `config/historical/solver_config.v1.json` and `data/historical/report-232.json`. Legacy mock data, old result files and bundled frontend snapshots are never automatically imported or published. Their 122-unit/208-seat scenario and exclusive-row assumptions do not define v2 behaviour.
+
+AWS/host deployment is a separate environment-dependent acceptance gate; no Lambda latency or production cloud persistence is claimed by local tests.
