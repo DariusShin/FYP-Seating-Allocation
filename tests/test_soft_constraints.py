@@ -5,11 +5,10 @@ from __future__ import annotations
 from dataclasses import replace
 
 import pytest
+from conftest import make_participant
 
 from seat_solver.cost_calculator import activity_target_rank, desired_priority_rank
 from seat_solver.solver import solve_seat_allocation
-
-from conftest import make_participant
 
 
 @pytest.fixture(scope="module")

@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from seat_solver.solver import solve_seat_allocation
-
 from conftest import make_participant
+
+from seat_solver.solver import solve_seat_allocation
 
 
 def test_default_scenario_is_optimal(default_result):

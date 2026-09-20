@@ -37,22 +37,22 @@ def participants_payload():
 
 @pytest.fixture(scope="session")
 def floor_plan():
-    return load_floor_plan(ROOT / "data" / "floor_plan.json")
+    return load_floor_plan(ROOT / "data" / "historical" / "report-232.json")
 
 
 @pytest.fixture(scope="session")
 def floor_plan_payload():
-    return read_json(ROOT / "data" / "floor_plan.json")
+    return read_json(ROOT / "data" / "historical" / "report-232.json")
 
 
 @pytest.fixture(scope="session")
 def config():
-    return load_solver_config(ROOT / "config" / "solver_config.json")
+    return load_solver_config(ROOT / "config" / "historical" / "solver_config.v1.json")
 
 
 @pytest.fixture(scope="session")
 def config_payload():
-    return read_json(ROOT / "config" / "solver_config.json")
+    return read_json(ROOT / "config" / "historical" / "solver_config.v1.json")
 
 
 @pytest.fixture(scope="session")
