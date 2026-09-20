@@ -3,21 +3,22 @@
 import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import type { Assignment, TierName } from "@/lib/allocation-types";
 
-import { CATEGORY_LABELS, formatRM, seatNumber, TIER_STYLES } from "./seat-theme";
+import {
+  CATEGORY_LABELS,
+  formatRM,
+  seatNumber,
+  TIER_STYLES,
+} from "./seat-theme";
 
-type TierFilter = "ALL" | TierName;
+type TierFilter = "ALL" | "UNASSIGNED" | TierName;
 
 const PAGE_SIZE = 15;
 
@@ -26,21 +27,36 @@ export function AssignmentsTable({
   seatsPerRow,
   selectedId,
   onSelect,
+  isDraft = false,
 }: {
+  isDraft?: boolean;
   assignments: Assignment[];
   seatsPerRow: number;
   selectedId: string | null;
   onSelect: (participantId: string | null) => void;
 }) {
+  const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<TierFilter>("ALL");
   const [page, setPage] = useState(0);
 
   const visible = useMemo(
     () =>
-      filter === "ALL"
-        ? assignments
-        : assignments.filter((a) => a.contribution_tier === filter),
-    [assignments, filter],
+      assignments.filter((a) => {
+        const tierMatch =
+          filter === "ALL" ||
+          (filter === "UNASSIGNED"
+            ? !a.seat_ids.length
+            : a.contribution_tier === filter);
+        const text = [
+          a.full_name,
+          a.participant_id,
+          ...a.seats.map((s) => s.display_name),
+        ]
+          .join(" ")
+          .toLowerCase();
+        return tierMatch && text.includes(query.trim().toLowerCase());
+      }),
+    [assignments, filter, query],
   );
 
   const pageCount = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
@@ -59,7 +75,10 @@ export function AssignmentsTable({
         <CardTitle className="text-sm">
           Participants ({visible.length})
         </CardTitle>
-        <Tabs value={filter} onValueChange={(value) => changeFilter(value as TierFilter)}>
+        <Tabs
+          value={filter}
+          onValueChange={(value) => changeFilter(value as TierFilter)}
+        >
           <TabsList className="h-8">
             <TabsTrigger className="h-6 px-2 text-xs" value="ALL">
               All
@@ -73,10 +92,21 @@ export function AssignmentsTable({
             <TabsTrigger className="h-6 px-2 text-xs" value="MERIT">
               Merit
             </TabsTrigger>
+            <TabsTrigger value="UNASSIGNED">Unassigned</TabsTrigger>
           </TabsList>
         </Tabs>
       </CardHeader>
       <CardContent>
+        <Input
+          aria-label="Search registrations"
+          placeholder="Search name, guest or ID…"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setPage(0);
+          }}
+          className="mb-4"
+        />
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-card">
@@ -84,15 +114,29 @@ export function AssignmentsTable({
                 <th className="py-2 pr-2 font-medium">ID</th>
                 <th className="py-2 pr-2 font-medium">Name</th>
                 <th className="py-2 pr-2 font-medium">Tier</th>
-                <th className="py-2 pr-2 text-right font-medium">Contribution</th>
+                <th className="py-2 pr-2 text-right font-medium">
+                  Contribution
+                </th>
                 <th className="py-2 pr-2 font-medium">Category</th>
                 <th className="py-2 pr-2 font-medium">Seats</th>
                 <th className="py-2 pr-2 font-medium">Flags</th>
-                <th className="py-2 pr-2 text-right font-medium">Penalty</th>
+                <th className="py-2 pr-2 text-right font-medium">
+                  {isDraft ? "Status" : "Penalty"}
+                </th>
                 <th className="py-2 font-medium">Moved</th>
               </tr>
             </thead>
             <tbody>
+              {!paged.length && (
+                <tr>
+                  <td
+                    colSpan={9}
+                    className="py-8 text-center text-muted-foreground"
+                  >
+                    No registrations match. Try another name or filter.
+                  </td>
+                </tr>
+              )}
               {paged.map((assignment) => {
                 const tier = TIER_STYLES[assignment.contribution_tier];
                 const selected = assignment.participant_id === selectedId;
@@ -114,13 +158,28 @@ export function AssignmentsTable({
                       {assignment.participant_id}
                     </td>
                     <td className="py-1.5 pr-2 font-medium">
-                      {assignment.full_name}
+                      <button
+                        type="button"
+                        className="text-left underline-offset-4 hover:underline"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onSelect(assignment.participant_id);
+                        }}
+                      >
+                        {assignment.full_name}
+                      </button>
                       {guest && (
-                        <span className="text-muted-foreground"> + {guest}</span>
+                        <span className="text-muted-foreground">
+                          {" "}
+                          + {guest}
+                        </span>
                       )}
                     </td>
                     <td className="py-1.5 pr-2">
-                      <Badge variant="outline" className={cn("font-normal", tier.badge)}>
+                      <Badge
+                        variant="outline"
+                        className={cn("font-normal", tier.badge)}
+                      >
                         {tier.label}
                       </Badge>
                     </td>
@@ -134,6 +193,7 @@ export function AssignmentsTable({
                       className="py-1.5 pr-2 tabular-nums"
                       title={assignment.seat_ids.join(" ")}
                     >
+                      {!assignment.seat_ids.length && "Unassigned"}
                       {assignment.seats
                         .map((seat) =>
                           seatNumber(
@@ -151,14 +211,16 @@ export function AssignmentsTable({
                       {assignment.requires_accessible_seat && "♿"}
                     </td>
                     <td className="py-1.5 pr-2 text-right tabular-nums">
-                      {assignment.penalty.weighted.total}
+                      {isDraft ? "Draft" : assignment.penalty.weighted.total}
                     </td>
                     <td className="py-1.5">
-                      {assignment.moved === null
+                      {isDraft
                         ? "—"
-                        : assignment.moved
-                          ? "↻ yes"
-                          : "kept"}
+                        : assignment.moved === null
+                          ? "—"
+                          : assignment.moved
+                            ? "↻ yes"
+                            : "kept"}
                     </td>
                   </tr>
                 );

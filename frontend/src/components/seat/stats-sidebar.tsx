@@ -42,7 +42,6 @@ export function StatsSidebar({ result }: { result: AllocationResult }) {
       label: COMPONENT_LABELS.category_zone,
       value: weighted.category_zone,
     },
-    { key: "movement", label: COMPONENT_LABELS.movement, value: weighted.movement },
     {
       key: "activeness",
       label: COMPONENT_LABELS.activeness,
@@ -122,11 +121,11 @@ export function StatsSidebar({ result }: { result: AllocationResult }) {
             }
           />
           <Stat
-            label="Front-fill rows (HC13)"
+            label="Front-fill rows (C15)"
             value={result.constraint_config.enforce_front_fill ? "enforced" : "off"}
           />
           <Stat
-            label="Middle-out fill (HC14)"
+            label="Middle-out fill (C16)"
             value={result.constraint_config.enforce_middle_fill ? "enforced" : "off"}
           />
           <Stat
@@ -162,17 +161,13 @@ export function StatsSidebar({ result }: { result: AllocationResult }) {
             </div>
           ))}
           <Separator />
-          <Stat label="Tie-break" value={formatNumber(weighted.tie_break)} />
           <Stat label="Weighted total" value={formatNumber(weighted.total)} />
           <div className="flex flex-wrap gap-1 pt-1">
             <Badge variant="secondary" className="font-normal">
-              priority ×{result.weights.priority_seat_weight}
+              contribution ×{result.weights.priority_seat_weight}
             </Badge>
             <Badge variant="secondary" className="font-normal">
               zone ×{result.weights.category_zone_weight}
-            </Badge>
-            <Badge variant="secondary" className="font-normal">
-              move ×{result.weights.movement_weight}
             </Badge>
             <Badge variant="secondary" className="font-normal">
               active ×{result.weights.activeness_weight}

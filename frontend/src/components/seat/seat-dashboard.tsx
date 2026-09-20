@@ -1,17 +1,20 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { BarChart3, Users } from "lucide-react";
-
+import Link from "next/link";
+import {
+  Armchair,
+  ArrowUpRight,
+  BarChart3,
+  PanelLeftClose,
+  PanelLeftOpen,
+  RotateCcw,
+  Undo2,
+  Users,
+} from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -23,20 +26,36 @@ import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import type { AllocationResult, Assignment } from "@/lib/allocation-types";
-
+import {
+  draftAssignments,
+  initialPlacements,
+  placeParticipant,
+  removeParticipant,
+  type EditOutcome,
+  type SeatPlacements,
+} from "@/lib/seat-editor";
+import { cn } from "@/lib/utils";
 import { AssignmentsTable } from "./assignments-table";
-import { ParticipantDialog } from "./participant-dialog";
-import { SeatLegend } from "./seat-legend";
+import { ParticipantPicker } from "./participant-picker";
+import { SeatAssignmentDialog } from "./seat-assignment-dialog";
 import { SeatMap } from "./seat-map";
-import { HIGHLIGHT_OPTIONS, type HighlightMode } from "./seat-theme";
+import {
+  HIGHLIGHT_OPTIONS,
+  TIER_STYLES,
+  type HighlightMode,
+} from "./seat-theme";
 import { StatsSidebar } from "./stats-sidebar";
+import { RegistrationEditor } from "./registration-editor";
+import { PlanActions } from "./plan-actions";
 import { WeightControls } from "./weight-controls";
 
 export function SeatDashboard({
@@ -45,231 +64,414 @@ export function SeatDashboard({
   initialResult: AllocationResult;
 }) {
   const [result, setResult] = useState(initialResult);
+  const [placements, setPlacements] = useState(() =>
+    initialPlacements(initialResult),
+  );
+  const [history, setHistory] = useState<SeatPlacements[]>([]);
   const [highlight, setHighlight] = useState<HighlightMode>("none");
   const [showNames, setShowNames] = useState(true);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [statsOpen, setStatsOpen] = useState(false);
-  const [participantsOpen, setParticipantsOpen] = useState(false);
-
-  const assignmentBySeat = useMemo(() => {
-    const map = new Map<string, Assignment>();
-    for (const assignment of result.assignments) {
-      for (const seatId of assignment.seat_ids) {
-        map.set(seatId, assignment);
-      }
-    }
-    return map;
-  }, [result.assignments]);
-
-  const selected = useMemo(
-    () =>
-      result.assignments.find((a) => a.participant_id === selectedId) ?? null,
-    [result.assignments, selectedId],
+  const [selectedSeatId, setSelectedSeatId] = useState<string | null>(null);
+  const [focusedId, setFocusedId] = useState<string | null>(null);
+  const [panel, setPanel] = useState<"participants" | "stats" | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [solving, setSolving] = useState(false);
+  const [notice, setNotice] = useState<{
+    message: string;
+    error: boolean;
+  } | null>(null);
+  const assignments = useMemo(
+    () => draftAssignments(result, placements),
+    [result, placements],
   );
+  const assignmentBySeat = useMemo(
+    () =>
+      new Map(
+        assignments.flatMap((a) =>
+          a.seat_ids.map((s) => [s, a] as [string, Assignment]),
+        ),
+      ),
+    [assignments],
+  );
+  const baseline = useMemo(() => initialPlacements(result), [result]);
+  const dirty = JSON.stringify(placements) !== JSON.stringify(baseline);
+  const unassigned = assignments.filter((a) => !a.seat_ids.length);
+  const blocked = result.floor_plan.rows
+    .flatMap((r) => r.seats)
+    .filter((s) => s.is_blocked).length;
+  const occupied = assignmentBySeat.size;
 
-  const summary = result.input_summary;
-
+  function commit(outcome: EditOutcome) {
+    if ("error" in outcome) {
+      setNotice({ message: outcome.error, error: true });
+      return;
+    }
+    if (outcome.placements !== placements) {
+      setHistory((h) => [...h.slice(-49), placements]);
+      setPlacements(outcome.placements);
+    }
+    setNotice({ message: outcome.message, error: false });
+    setSelectedSeatId(null);
+  }
+  function regenerate(next: AllocationResult) {
+    setResult(next);
+    setPlacements(initialPlacements(next));
+    setHistory([]);
+    setFocusedId(null);
+    setSelectedSeatId(null);
+    setNotice({
+      message: "Plan version loaded. Guest seats change only after explicit publication.",
+      error: false,
+    });
+  }
+  function undo() {
+    const previous = history.at(-1);
+    if (previous) {
+      setPlacements(previous);
+      setHistory((h) => h.slice(0, -1));
+      setNotice({ message: "Last change undone.", error: false });
+    }
+  }
   return (
     <TooltipProvider>
-      <div className="min-h-screen bg-background">
-        <header className="sticky top-0 z-20 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
-          <div className="flex w-full flex-wrap items-center justify-between gap-2 px-4 py-3">
+      <div className="flex min-h-dvh flex-col bg-background lg:h-dvh lg:overflow-hidden">
+        <header className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b px-4 py-3 lg:px-6">
+          <div className="flex items-center gap-3">
+            <span className="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <Armchair className="size-5" />
+            </span>
             <div>
-              <h1 className="text-lg font-semibold leading-tight">
-                Seat Allocation
-              </h1>
+              <h1 className="text-sm font-semibold">Seat allocation</h1>
               <p className="text-xs text-muted-foreground">
-                {result.case_study} · {summary.required_seat_count}/
-                {summary.total_seat_count} seats filled ·{" "}
-                {summary.empty_seat_count} empty ·{" "}
-                {result.unassigned_participants.length} unassigned
+                PJ Kwan Inn Teng · Event workspace
               </p>
             </div>
-            <div className="flex flex-wrap items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                className="h-8 gap-1.5 text-xs"
-                onClick={() => setParticipantsOpen(true)}
-              >
-                <Users className="size-4" />
-                Participants
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="h-8 gap-1.5 text-xs"
-                onClick={() => setStatsOpen(true)}
-              >
-                <BarChart3 className="size-4" />
-                Statistics
-              </Button>
-              <a
-                href="/my-seat"
-                className="text-xs text-muted-foreground underline-offset-2 hover:underline"
-              >
-                Guest view →
-              </a>
-              <Badge className="bg-emerald-600 text-white hover:bg-emerald-600 dark:bg-emerald-500">
-                {result.solver.status}
-              </Badge>
-              <Badge variant="outline" className="font-normal">
-                {result.floor_plan.row_count} rows ·{" "}
-                {result.floor_plan.seats_per_row} seats/row
-              </Badge>
-            </div>
           </div>
+          <nav
+            aria-label="Workspace"
+            className="flex flex-wrap items-center gap-2"
+          >
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setPanel("participants")}
+            >
+              <Users data-icon="inline-start" />
+              Participants
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => setPanel("stats")}>
+              <BarChart3 data-icon="inline-start" />
+              Statistics
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/my-seat">
+                Guest view
+                <ArrowUpRight data-icon="inline-end" />
+              </Link>
+            </Button>
+          </nav>
         </header>
-
-        <main className="w-full px-4 py-4">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
-            <aside className="w-full space-y-4 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:w-80 lg:shrink-0 lg:overflow-y-auto lg:pb-4">
-              <div>
-                <h2 className="text-sm font-semibold">Configuration</h2>
-                <p className="text-xs text-muted-foreground">
-                  Set what matters most, then regenerate the plan.
-                </p>
-              </div>
-
-              <WeightControls result={result} onResult={setResult} />
-
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm">Display options</CardTitle>
-                  <CardDescription className="text-xs">
-                    Change how the map is drawn — this does not re-run the
-                    solver.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-1.5">
-                    <Label
-                      htmlFor="highlight"
-                      className="text-xs text-muted-foreground"
-                    >
-                      Highlight
-                    </Label>
-                    <Select
-                      value={highlight}
-                      onValueChange={(value) =>
-                        setHighlight(value as HighlightMode)
-                      }
-                    >
-                      <SelectTrigger
-                        id="highlight"
-                        size="sm"
-                        className="w-full text-xs"
-                      >
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {HIGHLIGHT_OPTIONS.map((option) => (
-                          <SelectItem
-                            key={option.value}
-                            value={option.value}
-                            className="text-xs"
-                          >
-                            {option.label}
+        <div className="flex shrink-0 flex-wrap items-center gap-x-6 gap-y-2 border-b bg-muted/30 px-4 py-2.5 text-xs lg:px-6">
+          <span>
+            <strong className="tabular-nums">{occupied}</strong> /{" "}
+            {result.input_summary.total_seat_count - blocked} seats assigned
+          </span>
+          <span className="text-muted-foreground">
+            {result.input_summary.total_seat_count - blocked - occupied}{" "}
+            available
+          </span>
+          <button
+            className="underline-offset-4 hover:underline"
+            onClick={() => setPanel("participants")}
+          >
+            {unassigned.length} unassigned registrations
+          </button>
+          <span className="ml-auto">
+            <Badge variant={dirty ? "secondary" : "outline"}>
+              {dirty ? "Unsaved manual draft" : result.publication_status ?? "Draft"}
+            </Badge>
+          </span>
+        </div>
+        <div className="px-4 py-2"><PlanActions result={result} assignments={assignments} dirty={dirty} onResult={regenerate}/><RegistrationEditor key={result.plan_version_id} result={result} onResult={regenerate}/></div>
+        <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
+          <aside
+            className={cn(
+              "shrink-0 border-b bg-sidebar lg:overflow-y-auto lg:border-r lg:border-b-0",
+              sidebarOpen ? "lg:w-72" : "lg:w-14",
+            )}
+          >
+            <div className="flex items-center justify-between p-3">
+              {sidebarOpen && (
+                <h2 className="pl-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Configuration
+                </h2>
+              )}
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                aria-label={
+                  sidebarOpen
+                    ? "Collapse configuration"
+                    : "Expand configuration"
+                }
+                aria-expanded={sidebarOpen}
+                onClick={() => setSidebarOpen((v) => !v)}
+              >
+                {sidebarOpen ? <PanelLeftClose /> : <PanelLeftOpen />}
+              </Button>
+            </div>
+            {sidebarOpen && (
+              <div className="flex flex-col gap-5 px-4 pb-5">
+                <WeightControls
+                  key={result.run_id}
+                  result={result}
+                  previousAssignments={assignments.filter(
+                    (a) => a.seat_ids.length,
+                  )}
+                  hasDraft={dirty}
+                  onResult={regenerate}
+                  onSolvingChange={setSolving}
+                />
+                <Separator />
+                <div className="flex flex-col gap-3">
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    Display
+                  </h3>
+                  <Label htmlFor="highlight">Highlight guests</Label>
+                  <Select
+                    value={highlight}
+                    onValueChange={(v) => setHighlight(v as HighlightMode)}
+                  >
+                    <SelectTrigger id="highlight" className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {HIGHLIGHT_OPTIONS.map((o) => (
+                          <SelectItem key={o.value} value={o.value}>
+                            {o.label}
                           </SelectItem>
                         ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                   <div className="flex items-center justify-between">
-                    <Label
-                      htmlFor="show-names"
-                      className="text-xs text-muted-foreground"
-                    >
-                      Show names
-                    </Label>
+                    <Label htmlFor="show-names">Show names</Label>
                     <Switch
                       id="show-names"
                       checked={showNames}
                       onCheckedChange={setShowNames}
                     />
                   </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm">Legend</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <SeatLegend />
-                </CardContent>
-              </Card>
-            </aside>
-
-            <div className="min-w-0 flex-1">
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm">Hall Seat Map</CardTitle>
-                  <CardDescription className="text-xs">
-                    {summary.required_seat_count} occupied ·{" "}
-                    {summary.empty_seat_count} empty · aisle between positions{" "}
-                    {result.floor_plan.aisle_after_position} and{" "}
-                    {result.floor_plan.aisle_after_position + 1} · front rows
-                    fill first · seats fill outward from the aisle · click a seat
-                    for details
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <SeatMap
-                    result={result}
-                    assignmentBySeat={assignmentBySeat}
-                    showNames={showNames}
-                    highlight={highlight}
-                    selectedId={selectedId}
-                    onSelect={setSelectedId}
+                </div>
+                <Separator />
+                <div className="flex flex-col gap-3">
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    Registration tiers
+                  </h3>
+                  {(["EMPEROR", "MERIT", "BODHI"] as const).map((tier) => {
+                    const all = assignments.filter(
+                      (a) => a.contribution_tier === tier,
+                    );
+                    return (
+                      <div
+                        key={tier}
+                        className="flex items-center gap-2 text-xs"
+                      >
+                        <span
+                          className={cn(
+                            "size-2 rounded-full",
+                            TIER_STYLES[tier].dot,
+                          )}
+                        />
+                        <span>
+                          {TIER_STYLES[tier].label}
+                          {tier === "EMPEROR" ? " · pairs" : ""}
+                        </span>
+                        <span className="ml-auto tabular-nums text-muted-foreground">
+                          {all.filter((a) => a.seat_ids.length).length} /{" "}
+                          {all.length}
+                        </span>
+                      </div>
+                    );
+                  })}
+                  <p className="text-[11px] leading-relaxed text-muted-foreground">
+                    ★ Elderly · ☸ Monastic · ♿ Accessible
+                    <br />
+                    {blocked} structural seats are blocked.
+                  </p>
+                </div>
+              </div>
+            )}
+          </aside>
+          <main className="min-w-0 flex-1 lg:overflow-y-auto">
+            <div className="flex flex-col gap-5 p-4 lg:p-6">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h2 className="text-lg font-semibold tracking-tight">
+                    Hall seating plan
+                  </h2>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {result.floor_plan.row_count} rows ·{" "}
+                    {result.floor_plan.seats_per_row} seats per row · Facing the
+                    altar
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={!history.length || solving}
+                    onClick={undo}
+                  >
+                    <Undo2 data-icon="inline-start" />
+                    Undo
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={!dirty || solving}
+                    onClick={() =>
+                      commit({
+                        placements: baseline,
+                        message:
+                          "Manual changes discarded. Published plan restored.",
+                      })
+                    }
+                  >
+                    <RotateCcw data-icon="inline-start" />
+                    Discard changes
+                  </Button>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-full max-w-sm">
+                  <ParticipantPicker
+                    participants={assignments}
+                    value={focusedId}
+                    onChange={setFocusedId}
+                    placeholder="Find a participant on the map…"
                   />
-                </CardContent>
-              </Card>
+                </div>
+                {focusedId && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setFocusedId(null)}
+                  >
+                    Clear
+                  </Button>
+                )}
+              </div>
+              {focusedId && !placements[focusedId]?.length && (
+                <Alert>
+                  <AlertDescription>
+                    This participant is unassigned. Click an available seat and
+                    select their name to assign them.
+                  </AlertDescription>
+                </Alert>
+              )}
+              {dirty && (
+                <Alert>
+                  <AlertDescription>
+                    Manual draft · Changes stay in this tab. Validate and save to
+                    create a reviewable version; generation may rearrange seats
+                    and reassign removed registrations.
+                  </AlertDescription>
+                </Alert>
+              )}
+              {notice && (
+                <Alert variant={notice.error ? "destructive" : "default"}>
+                  <AlertDescription aria-live="polite">
+                    {notice.message}
+                  </AlertDescription>
+                </Alert>
+              )}
+              <SeatMap
+                result={result}
+                assignmentBySeat={assignmentBySeat}
+                showNames={showNames}
+                highlight={highlight}
+                selectedSeatId={selectedSeatId}
+                focusedId={focusedId}
+                onSelect={setSelectedSeatId}
+                onMove={(id, seat) =>
+                  commit(placeParticipant(result, placements, id, seat))
+                }
+                validateDrop={(id, seat) => {
+                  const outcome = placeParticipant(
+                    result,
+                    placements,
+                    id,
+                    seat,
+                  );
+                  return "error" in outcome ? outcome.error : null;
+                }}
+                disabled={solving}
+              />
+              <p className="text-center text-[11px] text-muted-foreground">
+                {dirty
+                  ? "Manual placements have not been checked for tier order, contribution order or front-to-back packing."
+                  : `Published allocation · ${result.solver.status} · ${result.assignments.length} registrations · ${result.input_summary.required_seat_count} people`}
+              </p>
             </div>
-          </div>
-
-          <p className="pt-6 pb-4 text-center text-[11px] text-muted-foreground">
-            Rendered from the CP-SAT solver output · objective{" "}
-            {result.solver.objective_value.toLocaleString("en-MY")} · proven{" "}
-            {result.solver.status} with gap {result.solver.optimality_gap} ·{" "}
-            {result.solver.engine}
-          </p>
-        </main>
-
-        <ParticipantDialog
-          assignment={selected}
+          </main>
+        </div>
+        {selectedSeatId && (
+          <SeatAssignmentDialog
+            key={selectedSeatId}
+            seatId={selectedSeatId}
+            result={result}
+            placements={placements}
+            assignments={assignments}
+            onClose={() => setSelectedSeatId(null)}
+            onCommit={commit}
+            onRemove={(id) =>
+              commit({
+                placements: removeParticipant(placements, id),
+                message:
+                  "Assignment removed. The registration is available in the participant dropdown. Undo restores it.",
+              })
+            }
+          />
+        )}
+        <Dialog
+          open={panel !== null}
           onOpenChange={(open) => {
-            if (!open) setSelectedId(null);
+            if (!open) setPanel(null);
           }}
-        />
-
-        <Dialog open={statsOpen} onOpenChange={setStatsOpen}>
-          <DialogContent className="max-h-[85vh] gap-4 overflow-y-auto sm:max-w-lg">
+        >
+          <DialogContent
+            className={cn(
+              "max-h-[85dvh] overflow-y-auto",
+              panel === "participants" ? "sm:max-w-5xl" : "sm:max-w-lg",
+            )}
+          >
             <DialogHeader>
-              <DialogTitle>Generation statistics</DialogTitle>
+              <DialogTitle>
+                {panel === "participants"
+                  ? "Participants"
+                  : "Generation statistics"}
+              </DialogTitle>
               <DialogDescription>
-                Distribution, solver metrics, and the weighted penalty breakdown
-                for the current plan.
+                {panel === "participants"
+                  ? "Find registrations, inspect current placements and return to the map."
+                  : "Metrics from the saved plan version. Unsaved manual changes are not included."}
               </DialogDescription>
             </DialogHeader>
-            <StatsSidebar result={result} />
-          </DialogContent>
-        </Dialog>
-
-        <Dialog open={participantsOpen} onOpenChange={setParticipantsOpen}>
-          <DialogContent className="max-h-[85vh] gap-4 overflow-y-auto sm:max-w-4xl">
-            <DialogHeader>
-              <DialogTitle>Participants</DialogTitle>
-              <DialogDescription>
-                Every assignment in the current plan. Click a row for details.
-              </DialogDescription>
-            </DialogHeader>
-            <AssignmentsTable
-              assignments={result.assignments}
-              seatsPerRow={result.floor_plan.seats_per_row}
-              selectedId={selectedId}
-              onSelect={setSelectedId}
-            />
+            {panel === "participants" ? (
+              <AssignmentsTable
+                assignments={assignments}
+                seatsPerRow={result.floor_plan.seats_per_row}
+                selectedId={focusedId}
+                isDraft={dirty}
+                onSelect={(id) => {
+                  setFocusedId(id);
+                  setPanel(null);
+                }}
+              />
+            ) : (
+              <StatsSidebar result={result} />
+            )}
           </DialogContent>
         </Dialog>
       </div>

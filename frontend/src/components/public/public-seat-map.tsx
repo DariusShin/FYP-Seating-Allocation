@@ -1,110 +1,97 @@
 "use client";
 
 import { Fragment } from "react";
-
 import { cn } from "@/lib/utils";
-import type { AllocationResult, Assignment } from "@/lib/allocation-types";
+import type { PublishedAllocation } from "@/lib/public-allocation-types";
 
-import { seatNumber, TIER_STYLES } from "../seat/seat-theme";
-
-/**
- * Read-only floor plan for the public seat view. Unlike the admin SeatMap it
- * hides every other guest's identity: occupied seats render as neutral cells
- * and only the signed-in participant's seat(s) are coloured, ringed, and
- * labelled with a name.
- */
+/** No guest names appear on the hall map, including companion names. */
 export function PublicSeatMap({
-  result,
-  mySeatIds,
-  assignment,
+	floor,
+	mySeatIds,
 }: {
-  result: AllocationResult;
-  mySeatIds: Set<string>;
-  assignment: Assignment | null;
+	floor: NonNullable<PublishedAllocation["floor_plan"]>;
+	mySeatIds: Set<string>;
 }) {
-  const { rows, aisle_after_position, seats_per_row } = result.floor_plan;
-  const tierStyle = assignment ? TIER_STYLES[assignment.contribution_tier] : null;
-
-  return (
-    <div className="space-y-1.5">
-      <div className="mb-3 rounded-lg border border-amber-500/40 bg-gradient-to-r from-amber-100 via-amber-50 to-amber-100 py-2 text-center text-xs font-semibold tracking-[0.3em] text-amber-900 dark:from-amber-400/20 dark:via-amber-400/10 dark:to-amber-400/20 dark:text-amber-200">
-        ALTAR / STAGE
-      </div>
-
-      {rows.map((row) => (
-        <div key={row.row_number} className="flex items-stretch gap-1">
-          <div className="flex w-9 shrink-0 flex-col items-center justify-center rounded-md bg-muted/50 text-[10px] font-semibold text-muted-foreground">
-            R{String(row.row_number).padStart(2, "0")}
-          </div>
-          {row.seats.map((seat) => {
-            const mine = mySeatIds.has(seat.seat_id);
-            const number = seatNumber(
-              row.row_number,
-              seat.priority_rank,
-              seats_per_row,
-            );
-            return (
-              <Fragment key={seat.seat_id}>
-                {seat.physical_position === aisle_after_position + 1 && (
-                  <div className="w-4 shrink-0 border-x border-dashed border-muted-foreground/25 sm:w-7" />
-                )}
-                <div
-                  className={cn(
-                    "flex h-11 min-w-0 flex-1 flex-col justify-between overflow-hidden rounded-md border px-1 py-0.5 sm:h-13",
-                    mine && tierStyle
-                      ? cn(
-                          tierStyle.cell,
-                          "animate-pulse ring-2 ring-ring ring-offset-1 ring-offset-background",
-                        )
-                      : seat.occupancy_status === "BLOCKED"
-                        ? "border-destructive/40 bg-destructive/10 text-destructive"
-                        : seat.occupancy_status === "OCCUPIED"
-                          ? "border-border bg-muted/60 text-muted-foreground"
-                          : "border-dashed border-muted-foreground/30 bg-muted/30 text-muted-foreground/70",
-                  )}
-                >
-                  <span className="text-[9px] leading-none opacity-80">
-                    {number}
-                  </span>
-                  <span className="truncate text-[10px] font-medium leading-tight">
-                    {mine
-                      ? (seat.display_name ?? "")
-                      : seat.occupancy_status === "BLOCKED"
-                        ? "✕"
-                        : ""}
-                  </span>
-                </div>
-              </Fragment>
-            );
-          })}
-        </div>
-      ))}
-
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pt-3 text-[11px] text-muted-foreground">
-        <span className="flex items-center gap-1.5">
-          <span
-            className={cn(
-              "size-3 rounded-sm border ring-1 ring-ring",
-              tierStyle ? tierStyle.cell.split(" hover:")[0] : "bg-muted",
-            )}
-          />
-          Your seat
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span className="size-3 rounded-sm border bg-muted/60" />
-          Other guests
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span className="size-3 rounded-sm border border-dashed border-muted-foreground/40 bg-muted/30" />
-          Empty
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span className="flex size-3 items-center justify-center rounded-sm border border-destructive/40 bg-destructive/10 text-[8px] text-destructive">
-            ✕
-          </span>
-          Blocked
-        </span>
-      </div>
-    </div>
-  );
+	return (
+		<div className="space-y-3">
+			<div className="rounded-lg border bg-muted/40 py-3 text-center text-sm font-semibold tracking-widest">
+				三宝佛 · 佛台 / Altar
+			</div>
+			<div className="flex justify-around text-xs text-muted-foreground">
+				<span>西单 · West</span>
+				<span>中央走道 · Centre aisle</span>
+				<span>东单 · East</span>
+			</div>
+			<div
+				className="space-y-1.5"
+				aria-label="全厅座位图 / Full hall seating plan"
+			>
+				{floor.rows.map((row) => (
+					<div
+						key={row.row_number}
+						className="flex items-center gap-0.5 sm:gap-1"
+					>
+						<span className="w-9 shrink-0 text-center text-[9px] sm:w-12 sm:text-xs">
+							西单{row.row_number}
+						</span>
+						{row.seats.map((seat) => {
+							const mine = mySeatIds.has(seat.seat_id);
+							const blocked = seat.occupancy_status === "BLOCKED";
+							const side =
+								seat.physical_position <= floor.aisle_after_position
+									? "西单"
+									: "东单";
+							const label = `${side} 第${row.row_number}排 · 实体位置 ${seat.physical_position}${mine ? " · 您的座位" : blocked ? " · 障碍物" : ""}`;
+							return (
+								<Fragment key={seat.seat_id}>
+									{seat.physical_position ===
+										floor.aisle_after_position + 1 && (
+										<div className="w-2 shrink-0 self-stretch border-x border-dashed border-muted-foreground/25 sm:w-5" />
+									)}
+									<div
+										title={label}
+										aria-label={label}
+										className={cn(
+											"flex h-7 min-w-0 flex-1 items-center justify-center rounded border text-[9px] font-medium tabular-nums sm:h-8 sm:text-xs lg:h-[clamp(1.5rem,3.4vh,2.75rem)]",
+											mine
+												? "border-emerald-700 bg-emerald-600 font-bold text-white ring-1 ring-emerald-700"
+												: blocked
+													? "border-destructive/30 bg-destructive/10 text-destructive"
+													: seat.occupancy_status === "OCCUPIED"
+														? "border-border bg-muted text-muted-foreground"
+														: "border-dashed border-muted-foreground/30 text-muted-foreground",
+										)}
+									>
+										{blocked ? "×" : seat.physical_position}
+									</div>
+								</Fragment>
+							);
+						})}
+						<span className="w-9 shrink-0 text-center text-[9px] sm:w-12 sm:text-xs">
+							东单{row.row_number}
+						</span>
+					</div>
+				))}
+			</div>
+			<div className="flex flex-wrap gap-x-4 gap-y-2 text-[11px] text-muted-foreground">
+				<span className="flex items-center gap-1.5">
+					<span className="size-3 rounded bg-emerald-600" />
+					您的座位 / Your seats
+				</span>
+				<span className="flex items-center gap-1.5">
+					<span className="size-3 rounded border bg-muted" />
+					已安排 / Occupied
+				</span>
+				<span className="flex items-center gap-1.5">
+					<span className="size-3 rounded border border-dashed" />
+					空位 / Empty
+				</span>
+				<span>× 障碍物 / Obstacle</span>
+			</div>
+			<p className="text-[11px] text-muted-foreground">
+				数字为每排从左至右的实体位置（1–{floor.seats_per_row}）。Numbers show
+				physical positions from left to right.
+			</p>
+		</div>
+	);
 }

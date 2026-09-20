@@ -44,9 +44,9 @@ export const CATEGORY_LABELS: Record<Assignment["participant_category"], string>
   GENERAL_DEVOTEE: "General devotee",
 };
 
-/** Plain-language names for the four soft-constraint penalty components. */
+/** Plain-language names for current preference components and historical aliases. */
 export const COMPONENT_LABELS: Record<string, string> = {
-  priority_seat: "Care & accessibility",
+  priority_seat: "Contribution-to-seat matching",
   category_zone: "Preferred areas",
   movement: "Seat changes",
   activeness: "Participation",

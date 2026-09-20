@@ -1,52 +1,47 @@
 import { NextResponse } from "next/server";
 import { identity, runProduction, sameOrigin } from "@/lib/production-service";
 export const runtime = "nodejs";
-export const maxDuration = 330;
+export async function GET() {
+	const user = await identity();
+	if (user?.role !== "admin")
+		return NextResponse.json(
+			{ error: "Administrative access required" },
+			{ status: 403 },
+		);
+	return NextResponse.json(
+		await runProduction({ command: "history", event_id: user.event_id }),
+	);
+}
 export async function POST(request: Request) {
 	const user = await identity();
 	if (user?.role !== "admin" || !sameOrigin(request))
 		return NextResponse.json(
-			{ error: { message: "Administrative access required" } },
+			{ error: "Administrative access required" },
 			{ status: 403 },
 		);
 	try {
 		const body = await request.json();
 		const allowed = new Set([
-			"generation_mode",
-			"preferences",
-			"preference_profile_version",
-			"baseline_plan_version_id",
-			"participants",
+			"command",
+			"plan_version_id",
+			"validation_revision",
+			"assignments",
 		]);
 		if (
 			!body ||
 			typeof body !== "object" ||
 			Array.isArray(body) ||
 			Object.keys(body).some((k) => !allowed.has(k)) ||
-			!Array.isArray(body.preferences) ||
-			body.preferences.length !== 3 ||
-			body.preference_profile_version !== "ranked-v1" ||
-			![
-				"INITIAL",
-				"REGENERATE_DRAFT",
-				"REPAIR_PUBLISHED",
-				"FULL_REGENERATION",
-			].includes(body.generation_mode)
-		) {
+			!["manual", "submit", "approve", "publish", "reject", "get"].includes(
+				body.command,
+			)
+		)
 			return NextResponse.json(
-				{
-					error: {
-						code: "INVALID_INPUT",
-						message:
-							"Send a mode and ranked-v1 preferences; raw weights and seat-map baselines are not accepted.",
-					},
-				},
+				{ error: { message: "Invalid plan operation" } },
 				{ status: 400 },
 			);
-		}
 		const result = await runProduction<{ status: string }>({
 			...body,
-			command: "solve",
 			event_id: user.event_id,
 			actor: user.actor,
 		});
@@ -55,11 +50,7 @@ export async function POST(request: Request) {
 		});
 	} catch (cause) {
 		return NextResponse.json(
-			{
-				error: {
-					message: cause instanceof Error ? cause.message : "Invalid request",
-				},
-			},
+			{ error: { message: String(cause) } },
 			{ status: 400 },
 		);
 	}
