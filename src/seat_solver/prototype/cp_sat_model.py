@@ -5,7 +5,7 @@ Builds a pure-integer assignment model:
 - ``x[p, s]`` Boolean assignment variables for single-seat participants,
   created only for eligible seats (HC1, HC3, HC4, HC8, HC9). Eligibility is
   restricted to the participant tier's demand-derived band rows, which
-  enforces band ordering (EMPEROR before BODHI before MERIT) and
+  enforces band ordering (EMPEROR before MERIT before BODHI) and
   tier-exclusive rows by construction.
 - ``y[e, k]`` Boolean pair-assignment variables for Emperor allocation units,
   created only for eligible valid pairs inside the Emperor band
@@ -22,9 +22,9 @@ from dataclasses import dataclass, field
 
 from ortools.sat.python import cp_model
 
-from seat_solver.cost_calculator import CostBreakdown, CostCalculator, PenaltyScaler
-from seat_solver.models import TIER_NAMES, FloorPlan, SolverConfig
-from seat_solver.preprocessing import (
+from seat_solver.prototype.cost_calculator import CostBreakdown, CostCalculator, PenaltyScaler
+from seat_solver.prototype.models import TIER_NAMES, FloorPlan, SolverConfig
+from seat_solver.prototype.preprocessing import (
     EmperorUnit,
     SeatPair,
     SingleUnit,
@@ -262,7 +262,7 @@ def _add_front_fill(
             single_row_vars.setdefault((tier, seat.row_number), []).append(
                 single_vars[(pid, seat.seat_id)]
             )
-    for tier in ("BODHI", "MERIT"):
+    for tier in ("MERIT", "BODHI"):
         for row_number, target in targets[tier].items():
             model.Add(sum(single_row_vars.get((tier, row_number), [])) == target)
 

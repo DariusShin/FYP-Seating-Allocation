@@ -19,15 +19,15 @@ import random
 from dataclasses import replace
 from pathlib import Path
 
-from seat_solver.floor_plan_generator import generate_floor_plan
-from seat_solver.models import (
+from seat_solver.prototype.floor_plan_generator import generate_floor_plan
+from seat_solver.prototype.models import (
     CATEGORY_IMPORTANCE,
     SCHEMA_VERSION,
     FloorPlan,
     Participant,
     write_json,
 )
-from seat_solver.preprocessing import SeatPair, compute_tier_bands
+from seat_solver.prototype.preprocessing import SeatPair, compute_tier_bands
 
 DEFAULT_SEED = 20260707
 DEFAULT_COUNT = 122
@@ -125,8 +125,8 @@ def generate_participants(
 ) -> list[Participant]:
     """Generate the deterministic 122-record dataset.
 
-    The tier split is fixed at 86 Emperor, 12 Bodhi, and 24 Merit so the seat
-    demand is exactly 86*2 + 12 + 24 = 208 of the 232 assignable seats.
+    The tier split is fixed at 86 Emperor, 24 Merit, and 12 Bodhi so the seat
+    demand is exactly 86*2 + 24 + 12 = 208 of the 232 assignable seats.
     """
     if count != DEFAULT_COUNT:
         raise ValueError(
@@ -135,12 +135,12 @@ def generate_participants(
     rng = random.Random(seed)
 
     tiers = (
-        ["EMPEROR"] * EMPEROR_COUNT + ["BODHI"] * BODHI_COUNT + ["MERIT"] * MERIT_COUNT
+        ["EMPEROR"] * EMPEROR_COUNT + ["MERIT"] * MERIT_COUNT + ["BODHI"] * BODHI_COUNT
     )
     contributions = (
         [rng.choice(EMPEROR_CONTRIBUTION_CHOICES) for _ in range(EMPEROR_COUNT)]
-        + [rng.choice(BODHI_CONTRIBUTION_CHOICES) for _ in range(BODHI_COUNT)]
         + [rng.choice(MERIT_CONTRIBUTION_CHOICES) for _ in range(MERIT_COUNT)]
+        + [rng.choice(BODHI_CONTRIBUTION_CHOICES) for _ in range(BODHI_COUNT)]
     )
 
     # One pool covers primary names plus guest names for half the Emperors.
@@ -149,7 +149,7 @@ def generate_participants(
     lay_names = name_pool[:count]
     guest_names = name_pool[count:]
 
-    # Monks live among the Bodhi and Merit tiers in this synthetic dataset.
+    # Monks live among the Merit and Bodhi tiers in this synthetic dataset.
     monk_candidates = list(range(EMPEROR_COUNT, count))
     monk_indices = set(rng.sample(monk_candidates, MONK_COUNT))
 
@@ -308,7 +308,7 @@ def build_previous_allocation(
     for index, participant in emperor_holder.items():
         allocation[participant.participant_id] = pair_by_index[index].seat_ids
 
-    for tier in ("BODHI", "MERIT"):
+    for tier in ("MERIT", "BODHI"):
         members = [p for p in participants if p.contribution_tier == tier]
         members.sort(key=lambda p: (-p.contribution_amount_rm, p.participant_id))
         seats = [
@@ -323,18 +323,30 @@ def build_previous_allocation(
             seat.seat_id: participant for participant, seat in zip(members, seats)
         }
         seat_by_id = {seat.seat_id: seat for seat in seats}
-        for seat_id in sorted(holder):
+        # Same-row swap repair: a participant requiring an accessible seat who
+        # lands on a non-accessible seat swaps with the best-ranked accessible
+        # seat in the same row held by a participant who does not need one.
+        # Ordering depends only on the row, so same-row swaps preserve the
+        # contribution-ordering hard constraint.
+        for seat_id in sorted(holder, key=lambda s: seat_by_id[s].priority_rank):
             participant = holder[seat_id]
             seat = seat_by_id[seat_id]
             if participant.requires_accessible_seat and not seat.is_accessible:
-                swap_id = next(
+                candidates = [
                     other_id
-                    for other_id in sorted(holder)
+                    for other_id in holder
                     if seat_by_id[other_id].row_number == seat.row_number
                     and seat_by_id[other_id].is_accessible
                     and not holder[other_id].requires_accessible_seat
-                )
-                holder[seat_id], holder[swap_id] = holder[swap_id], participant
+                ]
+                if candidates:
+                    swap_id = min(
+                        candidates, key=lambda s: seat_by_id[s].priority_rank
+                    )
+                    holder[seat_id], holder[swap_id] = (
+                        holder[swap_id],
+                        participant,
+                    )
         for seat_id, participant in holder.items():
             allocation[participant.participant_id] = (seat_id,)
 

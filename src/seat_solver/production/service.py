@@ -4,12 +4,11 @@ import copy
 import json
 import os
 import sys
-from pathlib import Path
 
-from seat_solver.models import read_json
-from seat_solver.plan_store import PlanStore, participant_view
-from seat_solver.policy import ROOT, DomainError
-from seat_solver.production import error, solve
+from seat_solver.prototype.models import read_json
+from seat_solver.production.plan_store import PlanStore, participant_view
+from seat_solver.production.policy import ROOT, DomainError
+from seat_solver.production.production import error, solve
 
 
 def dispatch(body, store=None):
@@ -21,6 +20,61 @@ def dispatch(body, store=None):
     command = body.get("command")
     event = body.get("event_id", "PJKIT-2026")
     actor = body.get("actor", "local-cli")
+    if command and command.startswith("workspace_"):
+        from seat_solver.production.workspace import WorkspaceStore
+
+        return WorkspaceStore(store).action(event, actor, body)
+    if command == "setup":
+        req = read_json(
+            os.environ.get(
+                "SEAT_EVENT_REQUEST", str(ROOT / "data/production_request.json")
+            )
+        )
+        layout = req["layout"]
+        return {
+            "floor_plan": {
+                **layout,
+                "total_seats": len(layout["seats"]),
+                "rows": [
+                    {
+                        "row_number": r,
+                        "tier_band": None,
+                        "seats": [
+                            {
+                                **s,
+                                "occupancy_status": "BLOCKED"
+                                if s["is_blocked"]
+                                else "EMPTY",
+                                "participant_id": None,
+                                "display_name": None,
+                            }
+                            for s in layout["seats"]
+                            if s["row_number"] == r
+                        ],
+                    }
+                    for r in range(1, layout["row_count"] + 1)
+                ],
+            },
+            "registrations": len(req["participants"]),
+        }
+    if command == "venue":
+        plan = store.published(event)
+        if not plan:
+            return {"status": "unpublished"}
+        return {
+            "status": "published",
+            "floor_plan": plan["floor_plan"],
+            "published_at": plan["published_at"],
+            "pair_display": {
+                a["participant_id"]: {
+                    "primary_name": plan.get("operations", {})
+                    .get(a["participant_id"], {})
+                    .get("display_names", [a["full_name"]])[0],
+                }
+                for a in plan["assignments"]
+            },
+            "event_id": event,
+        }
     if command == "public":
         return participant_view(store.published(event), body.get("participant_id"))
     if command == "history":
@@ -44,6 +98,18 @@ def dispatch(body, store=None):
             )
         )
         req = copy.deepcopy(body.get("request") or event_source)
+        # Reuse registrations and preferences, but take current venue obstacles
+        # when regenerating the same configured hall. Explicit requests own their layout.
+        if latest and not body.get("request"):
+            configured = read_json(os.environ.get(
+                "SEAT_EVENT_REQUEST", str(ROOT / "data/production_request.json")
+            ))
+            def geometry(layout):
+                return {(s["seat_id"], s["row_number"], s["physical_position"])
+                        for s in layout["seats"]}
+            if configured["event_id"] == event and geometry(configured["layout"]) == geometry(req["layout"]):
+                req["layout"] = copy.deepcopy(configured["layout"])
+                req["layout_version_id"] = configured["layout_version_id"]
         req["event_id"] = event
         for key in (
             "generation_mode",

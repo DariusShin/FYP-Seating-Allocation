@@ -1,6 +1,6 @@
 """Pure physical-placement scoring. Integer scales are documented in mathematical_model.json."""
 
-from seat_solver.policy import ELIGIBLE, TIERS, mapped_weights
+from seat_solver.production.policy import ELIGIBLE, TIERS, mapped_weights
 
 
 def eligible(request):

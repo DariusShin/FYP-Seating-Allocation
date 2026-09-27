@@ -7,9 +7,9 @@ from pathlib import Path
 
 import jsonschema
 
-from seat_solver.models import read_json
+from seat_solver.prototype.models import read_json
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 TIERS = ("EMPEROR", "MERIT", "BODHI")
 MINIMUMS = {"EMPEROR": 5000, "MERIT": 3000, "BODHI": 2000}
 STATUSES = (

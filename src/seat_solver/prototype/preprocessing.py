@@ -7,7 +7,7 @@ that decision variables are only created for eligible combinations (HC4, HC8,
 HC9 are enforced structurally).
 
 Tier bands: PJKIT tiers occupy contiguous blocks of rows ordered
-EMPEROR -> BODHI -> MERIT from the front of the hall, with boundaries
+EMPEROR -> MERIT -> BODHI from the front of the hall, with boundaries
 determined by each event's tier demand rather than by fixed venue zones, and
 with every row belonging to at most one tier (tier-exclusive rows). Because
 demand is known before solving and rows fill front to back, the band of every
@@ -20,7 +20,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from seat_solver.models import (
+from seat_solver.prototype.models import (
     CATEGORY_NAMES,
     TIER_NAMES,
     FloorPlan,
@@ -54,7 +54,7 @@ class SeatPair:
 
 @dataclass(frozen=True)
 class TierBands:
-    """The demand-derived contiguous row bands, ordered E -> B -> M.
+    """The demand-derived contiguous row bands, ordered E -> M -> B.
 
     ``rows[tier]`` is the tuple of row numbers the tier occupies. Unused rows
     behind the Merit band belong to no tier. ``unit_targets[tier]`` maps each
@@ -237,7 +237,7 @@ def compute_tier_bands(
     """Derive the demand-driven tier bands by front-to-back packing (HC4).
 
     Rows are consumed in order 1..N by the tiers in precedence order
-    EMPEROR -> BODHI -> MERIT. The Emperor tier consumes rows by valid-pair
+    EMPEROR -> MERIT -> BODHI. The Emperor tier consumes rows by valid-pair
     capacity, the single-seat tiers by non-blocked seat capacity. A tier's
     last row may be only partially used, but it still belongs exclusively to
     that tier (tier-exclusive rows): the next tier starts on the following
@@ -310,7 +310,7 @@ def check_capacity(
         if p.requires_accessible_seat:
             accessible_demand[p.contribution_tier] += 1
 
-    required_seats = 2 * counts["EMPEROR"] + counts["BODHI"] + counts["MERIT"]
+    required_seats = 2 * counts["EMPEROR"] + counts["MERIT"] + counts["BODHI"]
     available = sum(1 for s in floor_plan.seats if not s.is_blocked)
     if required_seats > available:
         return StructuredError(
@@ -337,7 +337,7 @@ def check_capacity(
             f"accessible pair capacity {accessible_pairs} inside the Emperor band"
         )
 
-    for tier in ("BODHI", "MERIT"):
+    for tier in ("MERIT", "BODHI"):
         band_rows = set(bands.rows[tier])
         band_seats = [
             s

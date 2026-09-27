@@ -11,9 +11,9 @@ import uuid
 from contextlib import contextmanager
 from pathlib import Path
 
-from seat_solver.policy import DomainError
-from seat_solver.production import format_result, now
-from seat_solver.production_validator import audit_result, validate_placements
+from seat_solver.production.policy import DomainError
+from seat_solver.production.production import format_result, now
+from seat_solver.production.production_validator import audit_result, validate_placements
 
 
 def digest(body):

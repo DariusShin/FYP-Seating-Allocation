@@ -14,7 +14,7 @@ from typing import Any
 
 import jsonschema
 
-from seat_solver.models import SCHEMA_VERSION, read_json
+from seat_solver.prototype.models import SCHEMA_VERSION, read_json
 
 SCHEMA_DIR_ENV = "SEAT_SOLVER_SCHEMA_DIR"
 
@@ -23,7 +23,7 @@ def schema_dir() -> Path:
     override = os.environ.get(SCHEMA_DIR_ENV)
     if override:
         return Path(override)
-    packaged = Path(__file__).resolve().parents[2] / "schemas"
+    packaged = Path(__file__).resolve().parents[3] / "schemas"
     if packaged.is_dir():
         return packaged
     return Path("schemas")
@@ -66,7 +66,7 @@ def _recompute_bands(result: dict[str, Any]) -> dict[str, set[int]]:
     Uses only the serialized floor plan (seat positions and blocked flags)
     and the tier demand in the input summary: rows are consumed front to
     back by EMPEROR (valid-pair capacity: odd-even adjacent non-blocked
-    positions, never spanning the aisle), then BODHI and MERIT (non-blocked
+    positions, never spanning the aisle), then MERIT and BODHI (non-blocked
     seat capacity), mirroring the engine's band derivation.
     """
     summary = result["input_summary"]
@@ -94,7 +94,7 @@ def _recompute_bands(result: dict[str, Any]) -> dict[str, set[int]]:
     bands: dict[str, set[int]] = {}
     next_row = 1
     max_row = max(seat_capacity, default=0)
-    for tier in ("EMPEROR", "BODHI", "MERIT"):
+    for tier in ("EMPEROR", "MERIT", "BODHI"):
         capacity = pair_capacity if tier == "EMPEROR" else seat_capacity
         remaining = demand[tier]
         band: set[int] = set()
@@ -293,7 +293,7 @@ def validate_result(
     tier_rows = _tier_rows(result)
 
     expected_primary = (
-        summary["emperor_count"] + summary["bodhi_count"] + summary["merit_count"]
+        summary["emperor_count"] + summary["merit_count"] + summary["bodhi_count"]
     )
     _check(
         checks,
@@ -410,11 +410,11 @@ def validate_result(
         "C10",
         "Every allocation sits inside its tier's band; rows are tier-exclusive",
         tier_in_band(emperor, "EMPEROR")
-        and tier_in_band(bodhi, "BODHI")
         and tier_in_band(merit, "MERIT")
-        and not (tier_rows.get("EMPEROR", set()) & tier_rows.get("BODHI", set()))
+        and tier_in_band(bodhi, "BODHI")
         and not (tier_rows.get("EMPEROR", set()) & tier_rows.get("MERIT", set()))
-        and not (tier_rows.get("BODHI", set()) & tier_rows.get("MERIT", set())),
+        and not (tier_rows.get("EMPEROR", set()) & tier_rows.get("BODHI", set()))
+        and not (tier_rows.get("MERIT", set()) & tier_rows.get("BODHI", set())),
     )
 
     def band_ordered(front: set[int], back: set[int]) -> bool:
@@ -425,11 +425,11 @@ def validate_result(
     _check(
         checks,
         "C11",
-        "Tier bands are ordered Emperor before Bodhi before Merit",
-        band_ordered(tier_rows.get("EMPEROR", set()), tier_rows.get("BODHI", set()))
-        and band_ordered(tier_rows.get("BODHI", set()), tier_rows.get("MERIT", set()))
+        "Tier bands are ordered Emperor before Merit before Bodhi",
+        band_ordered(tier_rows.get("EMPEROR", set()), tier_rows.get("MERIT", set()))
+        and band_ordered(tier_rows.get("MERIT", set()), tier_rows.get("BODHI", set()))
         and band_ordered(
-            tier_rows.get("EMPEROR", set()), tier_rows.get("MERIT", set())
+            tier_rows.get("EMPEROR", set()), tier_rows.get("BODHI", set())
         ),
     )
 
@@ -444,7 +444,7 @@ def validate_result(
     )
 
     order_ok = True
-    for members in (emperor, bodhi, merit):
+    for members in (emperor, merit, bodhi):
         rows = [
             (
                 m["contribution_amount_rm"],

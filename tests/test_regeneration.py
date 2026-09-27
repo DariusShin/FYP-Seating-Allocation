@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import replace
 
-from seat_solver.solver import solve_seat_allocation
+from seat_solver.prototype.solver import solve_seat_allocation
 
 
 def _seat_map(result):

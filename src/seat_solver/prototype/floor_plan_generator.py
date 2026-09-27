@@ -20,7 +20,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from seat_solver.models import SCHEMA_VERSION, FloorPlan, Seat, write_json
+from seat_solver.prototype.models import SCHEMA_VERSION, FloorPlan, Seat, write_json
 
 DEFAULT_ROWS = 16
 DEFAULT_SEATS_PER_ROW = 16

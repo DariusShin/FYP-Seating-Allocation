@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from seat_solver.models import (
+from seat_solver.prototype.models import (
     CATEGORY_IMPORTANCE,
     Participant,
     load_floor_plan,
@@ -15,7 +15,7 @@ from seat_solver.models import (
     load_solver_config,
     read_json,
 )
-from seat_solver.solver import solve_seat_allocation
+from seat_solver.prototype.solver import solve_seat_allocation
 
 ROOT = Path(__file__).resolve().parents[1]
 

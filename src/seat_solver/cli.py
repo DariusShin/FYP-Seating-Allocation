@@ -11,7 +11,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from seat_solver.models import (
+from seat_solver.prototype.models import (
     InputDataError,
     load_floor_plan,
     load_participants,
@@ -20,9 +20,9 @@ from seat_solver.models import (
     read_json,
     write_json,
 )
-from seat_solver.result_formatter import build_error_result
-from seat_solver.solver import solve_seat_allocation
-from seat_solver.validator import validate_result
+from seat_solver.prototype.result_formatter import build_error_result
+from seat_solver.prototype.solver import solve_seat_allocation
+from seat_solver.prototype.validator import validate_result
 
 
 def _now_iso() -> str:
@@ -92,7 +92,7 @@ def run_validate(args: argparse.Namespace) -> int:
         return 1
 
     if result.get("schema_version") == "2.0.0":
-        from seat_solver.production_validator import audit_result
+        from seat_solver.production.production_validator import audit_result
 
         report = audit_result(result)
         write_json(args.output, report)
@@ -120,7 +120,7 @@ def main(argv: list[str] | None = None) -> int:
     production_parser.add_argument("--output", type=Path, required=True)
 
     def production_handler(args):
-        from seat_solver.production import error, solve
+        from seat_solver.production.production import error, solve
 
         try:
             result = solve(read_json(args.request))

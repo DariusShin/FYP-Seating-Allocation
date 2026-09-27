@@ -10,12 +10,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from seat_solver.cost_calculator import (
+from seat_solver.prototype.cost_calculator import (
     COMPONENT_NAMES,
     CostBreakdown,
     PenaltyScaler,
 )
-from seat_solver.models import (
+from seat_solver.prototype.models import (
     CASE_STUDY_NAME,
     SCHEMA_VERSION,
     FloorPlan,
@@ -23,7 +23,7 @@ from seat_solver.models import (
     Seat,
     SolverConfig,
 )
-from seat_solver.preprocessing import SeatPair, TierBands
+from seat_solver.prototype.preprocessing import SeatPair, TierBands
 
 
 @dataclass(frozen=True)
@@ -72,9 +72,9 @@ def input_summary(
     participants: list[Participant], floor_plan: FloorPlan
 ) -> dict[str, int]:
     emperor = sum(1 for p in participants if p.contribution_tier == "EMPEROR")
-    bodhi = sum(1 for p in participants if p.contribution_tier == "BODHI")
     merit = sum(1 for p in participants if p.contribution_tier == "MERIT")
-    required = 2 * emperor + bodhi + merit
+    bodhi = sum(1 for p in participants if p.contribution_tier == "BODHI")
+    required = 2 * emperor + merit + bodhi
     blocked = sum(1 for seat in floor_plan.seats if seat.is_blocked)
     available = floor_plan.total_seats - blocked
     return {

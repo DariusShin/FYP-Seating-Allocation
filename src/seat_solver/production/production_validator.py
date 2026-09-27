@@ -2,12 +2,13 @@
 
 from collections import Counter
 
-from seat_solver.policy import TIERS, DomainError, policy, validate_request
-from seat_solver.production_scoring import eligible, options, packing_pairs, quality
+from seat_solver.production.policy import TIERS, DomainError, policy, validate_request
+from seat_solver.production.production_scoring import eligible, options, packing_pairs, quality
 
 
-def validate_placements(request, assignments, baseline=None):
+def validate_placements(request, assignments, baseline=None, companion_absent=None):
     validate_request(request)
+    companion_absent = companion_absent or set()
     issues = []
     if request["generation_mode"] == "REPAIR_PUBLISHED" and (
         not baseline
@@ -65,8 +66,19 @@ def validate_placements(request, assignments, baseline=None):
     rows = {}
     for p in ps:
         chosen = placements[p["participant_id"]]
+        valid_options = options(request, p)
+        if (
+            p["participant_id"] in companion_absent
+            and p["contribution_tier"] == "EMPEROR"
+        ):
+            valid_options = [
+                (s,)
+                for s in lookup.values()
+                if not s["is_blocked"]
+                and (not p["requires_accessible_seat"] or s["is_accessible"])
+            ]
         if tuple(sorted(chosen)) not in {
-            tuple(sorted(s["seat_id"] for s in o)) for o in options(request, p)
+            tuple(sorted(s["seat_id"] for s in o)) for o in valid_options
         }:
             fail(
                 "C10" if p["contribution_tier"] == "EMPEROR" else "C1",
@@ -130,7 +142,12 @@ def audit_result(result):
     try:
         request = result["source_request"]
         baseline = result.get("baseline_snapshot")
-        report = validate_placements(request, result["assignments"], baseline)
+        from seat_solver.production.workspace import apply_display, validate_metadata
+
+        metadata = result.get("operations", {})
+        validate_metadata(request, metadata)
+        absent = {pid for pid, m in metadata.items() if m["companion_absent"]}
+        report = validate_placements(request, result["assignments"], baseline, absent)
         if not report["passed"]:
             return report
         placements = {a["participant_id"]: a["seat_ids"] for a in result["assignments"]}
@@ -167,10 +184,11 @@ def audit_result(result):
                     }
                 )
 
-        lookup = {s["seat_id"]: s for s in request["layout"]["seats"]}
-        from seat_solver.production import format_result
+        {s["seat_id"]: s for s in request["layout"]["seats"]}
+        from seat_solver.production.production import format_result
 
         expected = format_result(request, placements, result["solver"], baseline)
+        apply_display(expected, metadata)
         for key in (
             "floor_plan",
             "input_summary",

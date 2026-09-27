@@ -9,14 +9,14 @@ from datetime import datetime, timezone
 
 from ortools.sat.python import cp_model
 
-from seat_solver.policy import (
+from seat_solver.production.policy import (
     TIERS,
     DomainError,
     mapped_weights,
     policy,
     validate_request,
 )
-from seat_solver.production_scoring import (
+from seat_solver.production.production_scoring import (
     baseline_maps,
     candidate_cost,
     changed_ids,
@@ -26,7 +26,7 @@ from seat_solver.production_scoring import (
     packing_pairs,
     quality,
 )
-from seat_solver.production_validator import validate_placements
+from seat_solver.production.production_validator import validate_placements
 
 
 def now():

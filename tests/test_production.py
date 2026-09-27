@@ -9,18 +9,18 @@ from pathlib import Path
 import pytest
 from ortools.sat.python import cp_model
 
-from seat_solver.plan_store import PlanStore, participant_view
-from seat_solver.policy import (
+from seat_solver.production.plan_store import PlanStore, participant_view
+from seat_solver.production.policy import (
     DEFAULT_PREFERENCES,
     DomainError,
     mapped_weights,
     policy,
     validate_request,
 )
-from seat_solver.production import solve
-from seat_solver.production_data import generate
-from seat_solver.production_validator import audit_result, validate_placements
-from seat_solver.service import dispatch
+from seat_solver.production.production import solve
+from seat_solver.production.production_data import generate
+from seat_solver.production.production_validator import audit_result, validate_placements
+from seat_solver.production.service import dispatch
 
 
 def tiny(n=3, tier="MERIT"):
@@ -49,11 +49,11 @@ def test_layout_current_and_historical():
     blocked = {
         (s["row_number"], s["physical_position"]) for s in l["seats"] if s["is_blocked"]
     }
-    assert blocked == {(row, pos) for row in (6, 8) for pos in range(5, 13)}
-    assert all(not s["is_blocked"] for s in l["seats"] if s["row_number"] == 7)
+    assert blocked == ({(row, pos) for row in (6, 8) for pos in range(5, 13)}
+                       | {(row, pos) for row in (7, 9) for pos in (5, 6, 11, 12)})
     old = json.loads(Path("data/historical/report-232.json").read_text())
     assert sum(not s["is_blocked"] for s in old["seats"]) == 232
-    assert sum(not s["is_blocked"] for s in l["seats"]) == 240
+    assert sum(not s["is_blocked"] for s in l["seats"]) == 232
 
 
 @pytest.mark.parametrize("prefs", list(profiles()))
@@ -473,3 +473,47 @@ def test_public_view_event_details_and_own_seat_names():
         set(s) == {"seat_id", "row_number", "physical_position", "display_name"}
         for s in view["assignment"]["seats"]
     )
+
+
+def test_regeneration_uses_current_obstacles_for_existing_hall(monkeypatch):
+    from seat_solver.production import service
+
+    current = generate()
+    old = copy.deepcopy(current)
+    old['layout_version_id'] = old['layout']['layout_version_id'] = 'pjkit-2026-v1'
+    for seat in old['layout']['seats']:
+        if seat['row_number'] in (7, 9):
+            seat['is_blocked'] = False
+
+    class ExistingStore:
+        def latest(self, event):
+            return {'source_request': old}
+
+    captured = {}
+
+    def capture(request, baseline):
+        captured.update(request)
+        return {'status': 'captured'}
+
+    monkeypatch.setattr(service, 'solve', capture)
+    dispatch({'command': 'solve', 'generation_mode': 'INITIAL'}, ExistingStore())
+    assert captured['layout_version_id'] == 'pjkit-2026-v2'
+    assert sum(s['is_blocked'] for s in captured['layout']['seats']) == 24
+    assert captured['participants'] == old['participants']
+
+
+def test_current_layout_files_agree_and_new_blocks_have_no_pair_options():
+    from seat_solver.production.production_scoring import options
+
+    request = generate()
+    for name in ('data/floor_plan.json', 'data/layouts/production_2026.json'):
+        assert json.loads(Path(name).read_text()) == request['layout']
+    blocked = {s['seat_id'] for s in request['layout']['seats'] if s['is_blocked']}
+    # Both pair and single-seat solver options must exclude every obstacle.
+    for tier in ("EMPEROR", "MERIT", "BODHI"):
+        participant = {"contribution_tier": tier, "requires_accessible_seat": False}
+        assert all(seat["seat_id"] not in blocked
+                   for option in options(request, participant) for seat in option)
+    for row in (7, 9):
+        for position in (5, 6, 11, 12):
+            assert f'R{row:02d}-S{position:02d}' in blocked

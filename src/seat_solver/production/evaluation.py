@@ -16,10 +16,10 @@ from pathlib import Path
 
 import ortools
 
-from seat_solver.models import write_json
-from seat_solver.production import solve
-from seat_solver.production_data import generate
-from seat_solver.production_validator import audit_result
+from seat_solver.prototype.models import write_json
+from seat_solver.production.production import solve
+from seat_solver.production.production_data import generate
+from seat_solver.production.production_validator import audit_result
 
 
 def profile_space():
