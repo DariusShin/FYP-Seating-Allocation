@@ -139,6 +139,12 @@ def validate_request(request):
             raise DomainError(
                 "INVALID_INPUT", "Accessibility flags contradict versioned layout"
             )
+    for row in range(1, rows + 1):
+        ranks = [s["priority_rank"] for s in seats if s["row_number"] == row]
+        if sorted(ranks) != list(range(1, width + 1)):
+            raise DomainError(
+                "INVALID_INPUT", "Seat priority ranks must be unique within each row"
+            )
     if len(set(layout["accessible_positions"])) != len(
         layout["accessible_positions"]
     ) or any(not 1 <= p <= width for p in layout["accessible_positions"]):

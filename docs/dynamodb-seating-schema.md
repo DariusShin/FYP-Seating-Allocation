@@ -97,7 +97,7 @@ All newly written event-owned facet items include `entityType` (String, e.g. `SO
 | Configuration | inputRevision | N, integer | — | Increment with every registration/configuration change affecting a solve | `12` |
 | Configuration | stateRevision | N, integer | — | Optimistic concurrency for pointers/configuration | `20` |
 | Configuration | activeLayoutObjectId | S | — | Committed immutable layout | `LAYOUT#layout_v1` |
-| Configuration | policyVersionId | S | — | Current code supports this policy only | `pjkit-v2` |
+| Configuration | policyVersionId | S | — | Current code supports this policy only | `pjkit-v3` |
 | Configuration | preferenceProfileVersion | S | — | Current supported mapping | `ranked-v1` |
 | Configuration | preferences | L of M | `key:S`, `enabled:BOOL` | Exactly three unique keys; list order defines priority | `[{"key":"contribution_seat","enabled":true},{"key":"activeness","enabled":true},{"key":"category_zone","enabled":false}]` |
 | Configuration | solverSettings | M | See solver contract below | Versioned server-approved settings | `{"max_time_seconds":60,"num_search_workers":8,"random_seed":42,"require_optimal":false,"canonicalize":true}` |
@@ -185,10 +185,10 @@ The request intentionally embeds its layout and participants even though current
 
 | Facet | Attribute | Type | Sub-attribute | Remarks | Example |
 |---|---|---|---|---|---|
-| Policy | pk / sk | S / S | — | Policy version / metadata | `POLICY#pjkit-v2` / `META` |
+| Policy | pk / sk | S / S | — | Policy version / metadata | `POLICY#pjkit-v3` / `META` |
 | Policy | entityType | S | — | Fixed | `SOLVER_POLICY` |
-| Policy | policyVersionId | S | — | Immutable version ID | `pjkit-v2` |
-| Policy | document | M | Exact policy JSON, see §5 | Copy of validated deployed policy | `{"policy_version_id":"pjkit-v2", ...}` |
+| Policy | policyVersionId | S | — | Immutable version ID | `pjkit-v3` |
+| Policy | document | M | Exact policy JSON, see §5 | Copy of validated deployed policy | `{"policy_version_id":"pjkit-v3", ...}` |
 | Policy | sha256 | S | — | Canonical policy hash | `<64-hex-digits>` |
 | Policy | solverBuildId | S | — | Immutable deployment artifact/version | `git:<commit-sha>` |
 | Policy | createdAt / createdBy | N / S | — | Registry provenance | `1790640000000` / `usr_staff_01` |
@@ -299,7 +299,7 @@ The following attribute dictionaries use the current `production_request.schema.
 | `event_id` | string | Yes | minLength: 1; Equals the existing Events ID; never a job ID | `"evt_2026_01"` |
 | `generation_mode` | string | Yes | `INITIAL`, `REGENERATE_DRAFT`, `REPAIR_PUBLISHED`, `FULL_REGENERATION`; All four values are implemented; mode is chosen by the trusted application | `"INITIAL"` |
 | `layout_version_id` | string | Yes | minLength: 1 | `"demo-layout-v1"` |
-| `policy_version_id` | string | Yes | Fixed `pjkit-v2` | `"pjkit-v2"` |
+| `policy_version_id` | string | Yes | Fixed `pjkit-v3` | `"pjkit-v3"` |
 | `baseline_plan_version_id` | string or null | Yes | Required null outside REPAIR_PUBLISHED | `null` |
 | `preference_profile_version` | string | Yes | Fixed `ranked-v1` | `"ranked-v1"` |
 | `preferences` | array of object | Yes | minItems: 3; maxItems: 3; Exactly one of each preference key, in priority order | `[{"key":"contribution_seat","enabled":true},{"key":"activeness","enabled":true},{"key":"category_zone","enabled":true}]` |
@@ -383,15 +383,14 @@ The current policy schema fixes the entire document with `const`; the fields bel
 
 | Attribute | Type | Required | Remarks / allowed values | Example value |
 |---|---|---|---|---|
-| `policy_version_id` | string | Yes | — | `"pjkit-v2"` |
-| `normalization_version` | string | Yes | — | `"desirability-v1"` |
+| `policy_version_id` | string | Yes | — | `"pjkit-v3"` |
+| `normalization_version` | string | Yes | — | `"desirability-v2"` |
 | `tier_order` | array of string | Yes | — | `["EMPEROR","MERIT","BODHI"]` |
 | `tier_minimums` | object | Yes | — | `{"EMPEROR":5000,"MERIT":3000,"BODHI":2000}` |
 | `rank_weights` | array of number | Yes | Current three ordinary preferences use the first three enabled ranks | `[40,30,20,10]` |
 | `initial_packing` | string | Yes | — | `"STRICT"` |
 | `repair_local_packing` | boolean | Yes | — | `true` |
-| `shared_tier_preference` | string | Yes | — | `"SOFT_IN_CONTRIBUTION"` |
-| `accessible_shared_tier_exemption` | boolean | Yes | — | `true` |
+| `tier_seat_precedence` | string | Yes | — | `"HARD_ALL_PHYSICAL_SEATS"` |
 | `category_zone_costs` | object | Yes | Map category → zone → numeric penalty; copy the entire versioned matrix | `{"MONASTIC":{"RIGHT_CENTER":0,"LEFT_CENTER":2,"RIGHT_OUTER":4,"LEFT_OUTER":8},"COMMITTEE":{"RIGHT_CENTER":0,"LEFT_CENTER":2,"RIGHT_OUTER":3,"LEFT_OUTER":6},"VOLUNTEER":{"RIGHT_CENTER":1,"LEFT_CENTER":…` |
 
 ### 5.9 Full result payload — RESULT object
@@ -403,8 +402,8 @@ Preserve every key returned by `production.format_result()` and persistence/work
 | schema_version / status | string each | Result contract / success discriminator | `2.0.0` / `success` |
 | run_id / generated_at | string each | Solver run UUID / ISO timestamp | `run-uuid` / `2026-09-29T00:00:00+00:00` |
 | event_id / generation_mode | string each | Input provenance | `evt_2026_01` / `INITIAL` |
-| policy_version_id / layout_version_id | string each | Exact applied versions | `pjkit-v2` / `demo-layout-v1` |
-| preference_profile_version / normalization_version | string each | Preference/scoring versions | `ranked-v1` / `desirability-v1` |
+| policy_version_id / layout_version_id | string each | Exact applied versions | `pjkit-v3` / `demo-layout-v1` |
+| preference_profile_version / normalization_version | string each | Preference/scoring versions | `ranked-v1` / `desirability-v2` |
 | preferences | array of object | Original ordered preference list | `[{"key":"activeness","enabled":true}, …]` |
 | effective_weights | object of numbers | Derived enabled coefficients by preference | `{"contribution_seat":40,"activeness":30,"category_zone":20}` |
 | source_request | object | Complete §5.1 request | `{"schema_version":"2.0.0", …}` |
@@ -445,7 +444,7 @@ This is a small, fictitious one-row example to demonstrate every field. It is no
   "event_id": "evt_2026_01",
   "generation_mode": "INITIAL",
   "layout_version_id": "demo-layout-v1",
-  "policy_version_id": "pjkit-v2",
+  "policy_version_id": "pjkit-v3",
   "baseline_plan_version_id": null,
   "preference_profile_version": "ranked-v1",
   "preferences": [

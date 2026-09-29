@@ -116,6 +116,8 @@ def build(request, cfg, baseline=None, scope=None):
     vars_by = {}
     option_by = {}
     rowexpr = {}
+    bestexpr = {}
+    worstexpr = {}
     costexpr = []
     moveexpr = []
     distexpr = []
@@ -162,24 +164,47 @@ def build(request, cfg, baseline=None, scope=None):
         model.AddExactlyOne(vs)
         vars_by[pid] = vs
         rowexpr[pid] = sum(v * o[0]["row_number"] for v, o in zip(vs, opts))
+        # Row-major priority includes BOTH physical seats of an Emperor option.
+        orders = [
+            [(s["row_number"] - 1) * layout["seats_per_row"] + s["priority_rank"]
+             for s in o]
+            for o in opts
+        ]
+        bestexpr[pid] = sum(v * min(order) for v, order in zip(vs, orders))
+        worstexpr[pid] = sum(v * max(order) for v, order in zip(vs, orders))
         canon[pid] = sum(v * j for j, v in enumerate(vs))
     occ = {sid: sum(vs) for sid, vs in occupants.items()}
     for vs in occupants.values():
         if len(vs) > 1:
             model.AddAtMostOne(vs)
-    # Adjacent levels imply all cross-tier and within-tier contribution comparisons.
-    levels = {}
-    for p in ps:
-        levels.setdefault(
-            (TIERS.index(p["contribution_tier"]), -p["contribution_amount_rm"]), []
-        ).append(rowexpr[p["participant_id"]])
-    ordered = sorted(levels)
-    for i, (a, b) in enumerate(zip(ordered, ordered[1:])):
-        boundary = model.NewIntVar(1, layout["row_count"], f"boundary[{i}]")
-        for expr in levels[a]:
-            model.Add(expr <= boundary)
-        for expr in levels[b]:
-            model.Add(expr >= boundary)
+    # Within-tier contribution ordering remains a row-only rule (C13).
+    for tier in TIERS:
+        levels = {}
+        for p in ps:
+            if p["contribution_tier"] == tier:
+                levels.setdefault(-p["contribution_amount_rm"], []).append(
+                    rowexpr[p["participant_id"]]
+                )
+        ordered = sorted(levels)
+        for i, (a, b) in enumerate(zip(ordered, ordered[1:])):
+            boundary = model.NewIntVar(1, layout["row_count"], f"row_boundary[{tier},{i}]")
+            for expr in levels[a]:
+                model.Add(expr <= boundary)
+            for expr in levels[b]:
+                model.Add(expr >= boundary)
+    # C12: all seats of a higher tier precede every seat of the next nonempty
+    # tier. Adjacent nonempty boundaries imply every cross-tier comparison.
+    tiers = [[p["participant_id"] for p in ps if p["contribution_tier"] == tier]
+             for tier in TIERS]
+    tiers = [members for members in tiers if members]
+    for i, (higher, lower) in enumerate(zip(tiers, tiers[1:])):
+        boundary = model.NewIntVar(
+            1, layout["row_count"] * layout["seats_per_row"], f"tier_boundary[{i}]"
+        )
+        for pid in higher:
+            model.Add(worstexpr[pid] <= boundary)
+        for pid in lower:
+            model.Add(bestexpr[pid] > boundary)
     gaps = []
     for i, (inner, outer) in enumerate(packing_pairs(layout)):
         if not baseline:
@@ -367,7 +392,7 @@ def solve(request, baseline=None):
                     status_name
                     if status_name in ("INFEASIBLE", "MODEL_INVALID")
                     else "SOLVER_UNKNOWN",
-                    "No valid allocation established under the current compulsory rules. Check accessibility, pairing, contribution order and initial packing.",
+                    "No valid allocation established under the current compulsory rules. Check strict tier seat precedence, accessibility, pairing, contribution order and initial packing.",
                     {"attempts": attempts, "proof": proof},
                     status_name,
                 )

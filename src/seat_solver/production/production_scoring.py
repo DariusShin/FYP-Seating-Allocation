@@ -1,6 +1,6 @@
 """Pure physical-placement scoring. Integer scales are documented in mathematical_model.json."""
 
-from seat_solver.production.policy import ELIGIBLE, TIERS, mapped_weights
+from seat_solver.production.policy import ELIGIBLE, mapped_weights
 
 
 def eligible(request):
@@ -52,11 +52,6 @@ def candidate_cost(request, cfg, p, seats):
         100 * (p["events_joined_last_2_years"] - min(activities)),
         max(1, max(activities) - min(activities)),
     )
-    tier_bonus = (
-        0
-        if p["requires_accessible_seat"]
-        else 100 * (2 - TIERS.index(p["contribution_tier"]))
-    )
     # Twice the mean rank disadvantage, identical physical scale for singles and pairs.
     disadvantage = 2 * sum(s["priority_rank"] - 1 for s in seats) // len(seats)
     zone = (
@@ -68,12 +63,12 @@ def candidate_cost(request, cfg, p, seats):
         // len(seats)
     )
     raw = {
-        "contribution_seat": (c + tier_bonus) * disadvantage,
+        "contribution_seat": c * disadvantage,
         "activeness": a * disadvantage,
         "category_zone": zone,
     }
     maxima = {
-        "contribution_seat": 300 * 2 * (request["layout"]["seats_per_row"] - 1),
+        "contribution_seat": 100 * 2 * (request["layout"]["seats_per_row"] - 1),
         "activeness": 100 * 2 * (request["layout"]["seats_per_row"] - 1),
         "category_zone": 2
         * max(

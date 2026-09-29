@@ -95,18 +95,39 @@ def validate_placements(request, assignments, baseline=None, companion_absent=No
             rows[p["participant_id"]] = lookup[chosen[0]]["row_number"]
     if issues:
         return {"passed": False, "issues": issues}
+    # Reconstruct priority from the submitted physical seats, independently of
+    # the CP-SAT expressions. Reuse details for all cross-tier comparisons.
+    seat_details = {
+        pid: [
+            {
+                "seat_id": sid,
+                "row_number": lookup[sid]["row_number"],
+                "priority_rank": lookup[sid]["priority_rank"],
+                "order": (lookup[sid]["row_number"] - 1)
+                * request["layout"]["seats_per_row"] + lookup[sid]["priority_rank"],
+            }
+            for sid in chosen
+        ]
+        for pid, chosen in placements.items()
+    }
     for i, p in enumerate(ps):
         for q in ps[i + 1 :]:
             pi = TIERS.index(p["contribution_tier"])
             qi = TIERS.index(q["contribution_tier"])
             rp = rows[p["participant_id"]]
             rq = rows[q["participant_id"]]
-            if (pi < qi and rp > rq) or (qi < pi and rq > rp):
-                fail(
-                    "C12",
-                    "Tier row precedence violated",
-                    participants=[p["participant_id"], q["participant_id"]],
-                )
+            if pi != qi:
+                higher, lower = (p, q) if pi < qi else (q, p)
+                hs = seat_details[higher["participant_id"]]
+                ls = seat_details[lower["participant_id"]]
+                if max(s["order"] for s in hs) >= min(s["order"] for s in ls):
+                    fail(
+                        "C12", "Tier seat precedence violated",
+                        participants=[higher["participant_id"], lower["participant_id"]],
+                        higher_tier=higher["contribution_tier"],
+                        lower_tier=lower["contribution_tier"],
+                        higher_seats=hs, lower_seats=ls,
+                    )
             if (
                 pi == qi
                 and (p["contribution_amount_rm"] - q["contribution_amount_rm"])

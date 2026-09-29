@@ -7,7 +7,7 @@ import sys
 
 from seat_solver.prototype.models import read_json
 from seat_solver.production.plan_store import PlanStore, participant_view
-from seat_solver.production.policy import ROOT, DomainError
+from seat_solver.production.policy import ROOT, DomainError, policy
 from seat_solver.production.production import error, solve
 
 
@@ -115,6 +115,15 @@ def dispatch(body, store=None):
             if configured["event_id"] == event and geometry(configured["layout"]) == geometry(req["layout"]):
                 req["layout"] = copy.deepcopy(configured["layout"])
                 req["layout_version_id"] = configured["layout_version_id"]
+        current_policy = policy()["policy_version_id"]
+        if latest and latest["policy_version_id"] != current_policy:
+            if body.get("generation_mode") != "FULL_REGENERATION":
+                raise DomainError(
+                    "POLICY_VERSION_MISMATCH",
+                    "The saved plan uses an older policy. Start an explicit full regeneration or reset the local demo database.",
+                )
+            if not body.get("request"):
+                req["policy_version_id"] = current_policy
         req["event_id"] = event
         for key in (
             "generation_mode",

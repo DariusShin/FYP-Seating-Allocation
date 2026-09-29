@@ -3,7 +3,7 @@
   "event_id": "PJKIT-2026",
   "generation_mode": "INITIAL",
   "layout_version_id": "pjkit-2026-v2",
-  "policy_version_id": "pjkit-v2",
+  "policy_version_id": "pjkit-v3",
   "baseline_plan_version_id": null,
   "preference_profile_version": "ranked-v1",
   "preferences": [

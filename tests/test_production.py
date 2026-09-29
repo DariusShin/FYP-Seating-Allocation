@@ -19,7 +19,10 @@ from seat_solver.production.policy import (
 )
 from seat_solver.production.production import solve
 from seat_solver.production.production_data import generate
-from seat_solver.production.production_validator import audit_result, validate_placements
+from seat_solver.production.production_validator import (
+    audit_result,
+    validate_placements,
+)
 from seat_solver.production.service import dispatch
 
 
@@ -49,8 +52,10 @@ def test_layout_current_and_historical():
     blocked = {
         (s["row_number"], s["physical_position"]) for s in l["seats"] if s["is_blocked"]
     }
-    assert blocked == ({(row, pos) for row in (6, 8) for pos in range(5, 13)}
-                       | {(row, pos) for row in (7, 9) for pos in (5, 6, 11, 12)})
+    assert blocked == (
+        {(row, pos) for row in (6, 8) for pos in range(5, 13)}
+        | {(row, pos) for row in (7, 9) for pos in (5, 6, 11, 12)}
+    )
     old = json.loads(Path("data/historical/report-232.json").read_text())
     assert sum(not s["is_blocked"] for s in old["seats"]) == 232
     assert sum(not s["is_blocked"] for s in l["seats"]) == 232
@@ -208,9 +213,9 @@ def test_oracle_two_singles():
     for positions in ((7, 8), (8, 9), (9, 10)):
         for arrangement in itertools.permutations(positions):
             total = 0
-            for coefficient, pos in zip((101, 200), arrangement):
+            for coefficient, pos in zip((1, 100), arrangement):
                 raw = coefficient * 2 * (lookup[pos]["priority_rank"] - 1)
-                total += 40 * ((200 * raw + 9000) // 18000)
+                total += 40 * ((200 * raw + 3000) // 6000)
             best = total if best is None else min(best, total)
     assert o["quality"]["weighted"]["total"] == best
 
@@ -480,40 +485,46 @@ def test_regeneration_uses_current_obstacles_for_existing_hall(monkeypatch):
 
     current = generate()
     old = copy.deepcopy(current)
-    old['layout_version_id'] = old['layout']['layout_version_id'] = 'pjkit-2026-v1'
-    for seat in old['layout']['seats']:
-        if seat['row_number'] in (7, 9):
-            seat['is_blocked'] = False
+    old["layout_version_id"] = old["layout"]["layout_version_id"] = "pjkit-2026-v1"
+    for seat in old["layout"]["seats"]:
+        if seat["row_number"] in (7, 9):
+            seat["is_blocked"] = False
 
     class ExistingStore:
         def latest(self, event):
-            return {'source_request': old}
+            return {
+                "source_request": old,
+                "policy_version_id": old["policy_version_id"],
+            }
 
     captured = {}
 
     def capture(request, baseline):
         captured.update(request)
-        return {'status': 'captured'}
+        return {"status": "captured"}
 
-    monkeypatch.setattr(service, 'solve', capture)
-    dispatch({'command': 'solve', 'generation_mode': 'INITIAL'}, ExistingStore())
-    assert captured['layout_version_id'] == 'pjkit-2026-v2'
-    assert sum(s['is_blocked'] for s in captured['layout']['seats']) == 24
-    assert captured['participants'] == old['participants']
+    monkeypatch.setattr(service, "solve", capture)
+    dispatch({"command": "solve", "generation_mode": "INITIAL"}, ExistingStore())
+    assert captured["layout_version_id"] == "pjkit-2026-v2"
+    assert sum(s["is_blocked"] for s in captured["layout"]["seats"]) == 24
+    assert captured["participants"] == old["participants"]
 
 
 def test_current_layout_files_agree_and_new_blocks_have_no_pair_options():
     from seat_solver.production.production_scoring import options
 
     request = generate()
-    for name in ('data/floor_plan.json', 'data/layouts/production_2026.json'):
-        assert json.loads(Path(name).read_text()) == request['layout']
-    blocked = {s['seat_id'] for s in request['layout']['seats'] if s['is_blocked']}
+    for name in ("data/floor_plan.json", "data/layouts/production_2026.json"):
+        assert json.loads(Path(name).read_text()) == request["layout"]
+    blocked = {s["seat_id"] for s in request["layout"]["seats"] if s["is_blocked"]}
     # Both pair and single-seat solver options must exclude every obstacle.
     for tier in ("EMPEROR", "MERIT", "BODHI"):
         participant = {"contribution_tier": tier, "requires_accessible_seat": False}
-        assert all(seat["seat_id"] not in blocked
-                   for option in options(request, participant) for seat in option)
+        assert all(
+            seat["seat_id"] not in blocked
+            for option in options(request, participant)
+            for seat in option
+        )
     for row in (7, 9):
         for position in (5, 6, 11, 12):
-            assert f'R{row:02d}-S{position:02d}' in blocked
+            assert f"R{row:02d}-S{position:02d}" in blocked
