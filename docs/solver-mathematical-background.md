@@ -38,6 +38,8 @@ We hand the problem to **CP-SAT** (Google OR-Tools), a solver that finds a
 
 ---
 
+> The prototype discussion below is historical. Part II and the [active model](mathematical_model.md) describe production v4, which has no attendance-driven changes.
+
 ## Part I — The prototype engine
 
 Files, in the order the pipeline runs:
@@ -311,95 +313,16 @@ produce a bad seat map.
 
 ---
 
-## Part II — The production engine
+## Part II — The production engine (policy v4)
 
-Files: `policy.py` → `production.py` (+ `production_scoring.py`,
-`production_validator.py`) → `plan_store.py` / `workspace.py` /
-`service.py`.
+The complete current formulation is [mathematical_model.md](mathematical_model.md), with the machine-readable contract in [mathematical_model.json](mathematical_model.json).
 
-The production engine solves a *different* problem shape: a live event where
-registrations change and a published plan must be repaired with minimal
-disruption.
+Production uses confirmed paid registration units. Emperor always selects an approved adjacent pair and Merit/Bodhi select one seat. Attendance is not part of the input or eligibility calculation. All higher-tier physical seats precede lower-tier seats in row-major priority order. Within-tier contribution row ordering, accessibility, blocked-seat exclusion, front-fill and centre-out packing remain compulsory.
 
-### 1.1 Request contract (`policy.py`)
+The objective combines three normalized integer costs: contribution-to-seat desirability, historical activeness and category-zone suitability. Enabled preferences are weighted 40/30/20 in priority order. Canonicalization follows the proven weighted objective under one shared deadline. Initial generation and regeneration use the same model; there are no repair scopes, previous-allocation inputs or movement objectives.
 
-A request is a JSON document: event id, layout, participants (with
-registration status), ranked preferences, solver budget, and a generation
-mode. The policy validates it strictly — tiers, minimums, eligible statuses
-— and owns the **weights**: the browser sends only ordering/enabled state;
-numeric weights come from the versioned policy file, never from the client.
+`production_validator.py` independently reconstructs solver rules and result metrics. `workspace.py` permits whole-registration manual moves and docking but enforces registration immutability, complete pair/seat cardinality, valid unique seats and accessibility; docking must be resolved before publication. Display names and notes are separate editable metadata. Publication switches the explicit public pointer atomically with revision checks.
 
-### 1.2 Shared rows and ranked preferences (`production.py`)
+The revised Objective 2 proposes explainable verification of every applicable business rule before manual publication, bound to the exact saved revision and content hash. This complete gate is planned; the current workspace does not yet enforce contribution order or packing after manual moves.
 
-Unlike the prototype's tier-exclusive bands, production allows **shared
-rows**: a row that is mostly Emperor pairs may backfill its remaining seats
-with the highest-contribution Merit participants, then Bodhi. The initial
-packing (`initial_rows`) computes, per participant, a sound set of candidate
-rows from global front packing and ordered equal-size groups.
-
-### 1.3 Protected repair (`REPAIR_PUBLISHED`)
-
-When a published plan must change (a cancellation, a late registration), the
-engine computes **repair scopes**: the set of participants whose situation
-changed (`changed_ids`) plus everyone sharing an affected seat. Everyone
-outside the scope is **frozen** — their seats become fixed constraints — and
-only the affected people are re-solved. Formally:
-
-$$
-\text{scope} = \text{changed} \cup \{p : \text{seats}(p) \cap \text{seats}(\text{changed}) \ne \emptyset\}
-$$
-
-with baseline integrity checks: same event, same plan version, same policy
-version, identical physical geometry (a seat id must keep its physical
-meaning). Movement is measured against the published baseline:
-
-$$
-\text{movement}(p) = 0 \ \text{if}\ p \text{ keeps its baseline seats, else a row-distance penalty.}
-$$
-
-### 1.4 Production scoring (`production_scoring.py`)
-
-Pure physical-placement scoring with integer scales: eligibility filtering,
-candidate options per participant, packing pairs, quality terms, and
-movement — the objective definition the engine optimizes. No CP-SAT here.
-
-### 1.5 Independent audit (`production_validator.py`)
-
-`validate_placements` audits the solution against the **original request**
-(never CP-SAT variables): duplicate seats, adjacency, aisle, tier legality,
-accessibility, ordering. `audit_result` runs after every solve so a bad plan
-cannot be published silently.
-
-### 1.6 Lifecycle (`plan_store.py`, `workspace.py`, `service.py`)
-
-- `plan_store` — transactional SQLite store: immutable snapshots, explicit
-  approval and publication steps.
-- `workspace` — private, revision-checked drafts with stale-write checks
-  (two admins cannot overwrite each other).
-- `service` — JSON stdin/stdout adapter that the Next.js API routes call.
-
-Flow:
-
-```
-request → policy validation → production.solve (CP-SAT, scoped)
-        → production_validator.audit_result
-        → plan_store snapshot → workspace draft → approve → publish
-        → /api/allocation (public seat map)
-```
-
----
-
-## Part III — Prototype vs production at a glance
-
-| Aspect | Prototype | Production |
-|---|---|---|
-| Rows | tier-exclusive bands | shared rows with backfill |
-| Baseline | optional previous layout | mandatory, version-checked for repair |
-| Solve scope | whole hall every run | frozen scope + affected people |
-| Weights | trusted local config | backend-owned policy, untrusted client |
-| Acceptance | only proven `OPTIMAL` | scoped feasible results allowed |
-| Output | static JSON file | audited, versioned, publishable plan |
-
-Both engines share the same mathematical core — Boolean assignment
-variables, exactly-one/at-most-one constraints, integer penalty objective —
-but wrap it in different contracts for different lifecycles.
+The local v4 store is `output/paid-seats-v4.sqlite3`. Earlier histories remain untouched. The prototype discussion above is historical and is not the production API.

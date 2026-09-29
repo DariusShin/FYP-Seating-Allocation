@@ -1,11 +1,13 @@
 # Mathematical Model of the Seat Allocation Solver Engine
 
+> Historical prototype formulation, retained for reproducibility. It does not define the paid-seat production workflow or revised Objective 2; see [the active model](mathematical_model.md).
+
 **Implementation reference:** `src/seat_solver/` (CP-SAT prototype, schema version `1.0.0`)
 **Case study:** PJ Kwan Inn Teng (PJKIT) — 16 × 16 hall, 256 seats, centre aisle after position 8.
 **Engine:** Google OR-Tools CP-SAT (pure integer constraint programming).
 
 > Note: this document formalises the **solver engine prototype** in `src/seat_solver/`. The companion
-> [mathematical_model.md](mathematical_model.md) describes the separate `pjkit-v3` production policy.
+> [mathematical_model.md](mathematical_model.md) describes the separate `pjkit-v4` production policy.
 
 This document gives an academic formalisation of every set, parameter, variable, hard constraint, soft constraint, and objective term implemented in the engine, cross-referenced to the implementing module and function.
 

@@ -1,11 +1,11 @@
 {
   "schema_version": "2.0.0",
-  "policy_version_id": "pjkit-v3",
+  "policy_version_id": "pjkit-v4",
   "normalization_version": "desirability-v2",
   "implementation": "src/seat_solver/production/production.py",
   "status": "Implemented local production workflow; AWS/host deployment measurements are external acceptance gates.",
   "sets": {
-    "P": "eligible CONFIRMED or REPLACEMENT_CONFIRMED registration units",
+    "P": "confirmed paid registration units, independent of attendance",
     "S": "physical layout seats",
     "O_p": "legal one-seat or approved two-seat options for p",
     "T": [
@@ -15,9 +15,7 @@
     ],
     "M": [
       "INITIAL",
-      "REGENERATE_DRAFT",
-      "REPAIR_PUBLISHED",
-      "FULL_REGENERATION"
+      "REGENERATE_DRAFT"
     ]
   },
   "parameters": {
@@ -28,7 +26,7 @@
     },
     "tier_upper_bounds": null,
     "production_layout": {
-      "id": "pjkit-2026-v1",
+      "id": "pjkit-2026-v2",
       "rows": 16,
       "positions": 16,
       "aisle_after": 8,
@@ -108,7 +106,6 @@
     "row[p]": "sum(row(o) * z[p,o])",
     "occ[s]": "sum(z[p,o] where s in o)",
     "boundary[g]": "Integer row boundary between consecutive contribution groups within one tier",
-    "gap[a,b]": "Boolean outer seat b occupied while available inner seat a empty (repair only)",
     "tier_boundary[t]": "Integer seat-order boundary between consecutive nonempty tiers",
     "best[p]": "sum(min(seat_order(s) for s in o) * z[p,o])",
     "worst[p]": "sum(max(seat_order(s) for s in o) * z[p,o])"
@@ -118,13 +115,13 @@
     "C2": "For each physical s: occ[s] <= 1, including both seats of Emperor options.",
     "C3": "Blocked seats are absent from all O_p.",
     "C4": "Input schema and semantics validate unique coordinates/IDs, bounds, sides and row indices; candidates reference supplied physical seats only.",
-    "C5": "Only CONFIRMED / REPLACEMENT_CONFIRMED are allocated; excluded statuses reported separately.",
-    "C10": "Each Emperor option is one approved adjacent same-row two-seat pair; display primary name twice if guest absent.",
+    "C5": "Only CONFIRMED paid registrations are allocated. Attendance never changes eligibility or paid demand.",
+    "C10": "Every Emperor registration always occupies one approved adjacent same-row two-seat pair. Both seats retain its display name.",
     "C11": "Approved pairs do not straddle the centre aisle; physical positions define adjacency.",
     "C12": "For higher-tier p and lower-tier q: worst[p] < best[q]. Consecutive nonempty tier boundaries enforce this transitively, including BOTH Emperor seats. Shared rows permitted; accessibility has no exemption.",
     "C13": "Same tier and contribution[p] > contribution[q] imply row[p] <= row[q]. Consecutive within-tier contribution-group row boundaries implement this.",
-    "C15": "Initial/regenerate/full: row occupancy equals min(remaining physical demand, available row capacity), scanning front to back. Repair: not enforced.",
-    "C16": "Initial/regenerate/full: occ[outer] <= occ[inner] on each side over available seats. Repair: gaps are scored, not forbidden.",
+    "C15": "Both modes: row occupancy equals min(remaining physical demand, available row capacity), front to back.",
+    "C16": "Both modes: occ[outer] <= occ[inner] on each side over available seats.",
     "C17": "Accessible single must occupy an approved side position; accessible pair must have both seats accessible. This never becomes a configurable preference."
   },
   "soft_constraints": {
@@ -148,36 +145,17 @@
     },
     "normalization": "N(raw,max)=floor((200*raw+max)/(2*max)); max is clamped to at least 1",
     "ordinary_stage": "sum_p sum_enabled_components mapped_weight[c]*N(raw[p,c],max[c])",
-    "all_off": "Ordinary weighted stage is identically zero; all hard rules and protected repair stages remain."
-  },
-  "repair": {
-    "baseline": "latest explicit published version, resolved by server; client seat maps rejected",
-    "changed_units": "status, tier, contribution, accessibility, category, activity or replacement linkage changed; old seats now blocked/inaccessible; added/removed registrations",
-    "R1": "sum moved[p] for unaffected surviving registration units",
-    "R2": "sum doubled-centroid Manhattan distance over all surviving previously assigned units",
-    "distance": "abs(2*mean(old_row)-2*mean(new_row)) + abs(2*mean(old_position)-2*mean(new_position))",
-    "R3": "number of all inner/outer occupancy inversions over available same-side seats",
-    "R4": "ordinary ranked weighted stage",
-    "R5": "technical canonicalization",
-    "scope_sequence": [
-      "direct affected/vacated options",
-      "same affected row",
-      "same tier rows",
-      "neighbouring boundary rows",
-      "whole available hall"
-    ],
-    "scope_note": "Last scope includes all assignable rows to permit a new numbered-section boundary; hard tier/contribution precedence remains. Unaffected units outside current scope are frozen. Escalate only on INFEASIBLE, never UNKNOWN.",
-    "optimality": "Only within chosen scope; scope-first repair is not a proof of globally minimum movement across scopes."
+    "all_off": "Weighted cost is zero; hard constraints and canonical selection remain."
   },
   "proof_and_canonicalization": {
-    "budget": "one shared deadline across construction, scopes, business stages and canonical passes",
+    "budget": "One shared deadline across construction, weighted objective and canonical passes.",
     "stage_fixing": "Only fix a stage objective after OPTIMAL. Stop with incumbent on FEASIBLE or later timeout; no claim about unreached stages.",
     "canonicalization": "After all business objectives proven and fixed, sort participant IDs and minimize each selected option index in sequence. Sort options by stable seat IDs. Fix each index only after optimal proof.",
     "completion": "canonicalization_complete is true only when all passes finish. OPTIMAL describes business objectives; canonical completion is separate.",
     "strict_mode": "require_optimal=true rejects unproven business objectives; production default accepts independently valid FEASIBLE."
   },
-  "independent_validation": "production_validator.py reconstructs physical assignment rules and all displayed scoring from source_request and baseline_snapshot, checks representations and objective-stage values; it does not claim to independently re-prove CP-SAT bounds.",
-  "lifecycle": "Immutable snapshot; DRAFT -> UNDER_REVIEW -> APPROVED -> PUBLISHED. Atomic published pointer/supersession. Manual edit produces a freshly scored draft with MANUALLY_MODIFIED current status and retained generation provenance.",
+  "independent_validation": "Reconstruct assignments, physical rules, metrics and stage values from source_request, independently of CP-SAT internals.",
+  "lifecycle": "Current workspace: generate draft -> save manual draft -> staff review -> explicit atomic publication. Immutable snapshots, revisions and public-data filtering retained. Older submit/approve API remains separate.",
   "code_map": {
     "policy": "policy.py",
     "scoring": "production_scoring.py",
@@ -187,5 +165,21 @@
     "host_adapter": "service.py",
     "evaluation": "evaluation.py"
   },
-  "legacy": "v1 modules/config fixtures are reproduction-only and not used by the production API."
+  "legacy": "v1 modules/config fixtures are reproduction-only and not used by the production API.",
+  "paid_seat_retention": {
+    "attendance": "Not a solver or workspace field; cannot release seats or replace names.",
+    "manual_work": "Whole-registration moves/swaps and temporary docking; all paid units must be seated before publication.",
+    "regeneration": "Changed preference priority/enabled flags produce a private draft with the same paid registrations."
+  },
+  "objective_2": {
+    "status": "Proposed extension; not a complete workspace business-rule gate yet",
+    "aim": "Explainable server-side verification bound to exact content hash, revision, input and policy.",
+    "evaluation": [
+      "invalid-plan detection",
+      "false rejection rate",
+      "rule/seat localization",
+      "latency",
+      "stale-verification rejection"
+    ]
+  }
 }

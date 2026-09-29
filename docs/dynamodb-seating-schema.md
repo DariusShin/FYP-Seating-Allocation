@@ -2,23 +2,29 @@
 
 This proposal adds seating allocation to the main application's event domain. It follows the reference workbook's **Facet → Attribute → Type → Sub-attribute → Remarks → Example** representation. It describes infrastructure to create and integration work to implement; the repository currently uses SQLite and a Python process adapter, not a deployed DynamoDB/Lambda service.
 
+## Requirement correction: paid seats and verification
+
+A confirmed paid registration retains its name and full seat entitlement regardless of attendance. Emperor remains a two-seat unit. No attendance, absence, replacement-link, allocation-lock or staff-checkbox fields are stored in the current production contract. Manual moves and a temporary dock remain; publication must contain every paid registration. Preference changes may generate a new private draft, never automatically publish it.
+
+Objective 2 now proposes explainable server-side safeguard verification. A future `VERIFICATION` facet would bind findings to an immutable workspace object/hash, exact workspace revision, input revision and policy version, with `PASSED`/`FAILED`, rule IDs, affected registrations/seats, verifier version and timestamp. Publication would condition-check that exact verification reference and revision. This facet and full manual business-rule gate are **planned**, not implemented by the current local store.
+
+Local development uses the fresh `output/paid-seats-v4.sqlite3`; the previous database is preserved. Production policy is `pjkit-v4`. Existing archived records must not be silently imported into this contract.
+
 ## 1. Use cases
 
 | ID | Actor and use case | Data required | Storage facets | Access pattern |
 |---|---|---|---|---|
 | UC01 | Administrator enables seating for an event | Existing event, offering-event mapping, seating configuration | Events metadata; Seating configuration | Get event by its existing key; get configuration |
 | UC02 | Staff imports or updates seating registrations | Selected contribution bundle, registered person, status, category, accessibility, activity, age | Registration; contribution link | Query registrations for event; get/update one registration; exact source lookup |
-| UC03 | Staff records cancellation, absence, or replacement | Original registration and replacement link | Registration; audit | Transactionally update affected registrations and input revision |
 | UC04 | Administrator defines the hall | Dimensions, physical seats, blocked positions, pairs, accessibility | Layout object | Get immutable layout by event and version |
 | UC05 | Administrator orders/enables solver preferences | Ordered preferences, policy version, solver settings | Configuration; policy | Read/update configuration with revision check |
 | UC06 | Administrator generates or regenerates a draft | Consistent registration/layout/configuration snapshot | Request object; job; idempotency record | Commit request; insert queued job; trigger Lambda |
 | UC07 | Staff polls a solve or retries a failed infrastructure attempt | Job status, lease, attempt, error, resulting plan | Job | Exact get by event and job; conditional state changes |
 | UC08 | Staff loads a generated draft and views its diagnostics | Assignments, quality, solver proof/status, source request | Plan; result object; assignment | Get plan/result; query assignments |
-| UC09 | Staff saves manual moves, names, locks, attendance or dock state | Complete working state, base plan and monotonic revision | Workspace object; configuration; audit | Stage immutable state, conditionally advance workspace pointer |
+| UC09 | Staff saves manual moves, display names, notes or dock state | Complete working state, base plan and monotonic revision | Workspace object; configuration; audit | Stage immutable state, conditionally advance workspace pointer |
 | UC10 | Staff publishes the exact saved revision | Completed result, expected published pointer, workspace revision | Plan; configuration; assignment; audit | Small transaction switches pointers after all content exists |
 | UC11 | Participant views their own published seat | Signed identity, event registration mapping, published pointer | Identity link; configuration; assignment | Exact key reads; no participant/contribution table scan |
 | UC12 | Staff displays or prints the published hall | Published result with seat/display metadata | Configuration; plan; result object | Resolve pointer and load immutable result |
-| UC13 | Administrator repairs the published allocation | Frozen new request and authoritative published baseline | Request object; job; plan; result object | Capture/check published version; load its full result |
 | UC14 | Staff reviews plan history and audit trail | Plan summaries; actor/time/action and references | Plan; audit | Query event prefixes with pagination |
 
 ## 2. Physical tables and existing-system boundaries
@@ -40,7 +46,7 @@ The workbook's `Events v2` sheet uses the raw event ID as `pk`, `meta` as its me
 
 Offerings identifies an event with a code such as `202507LH`, whereas Events uses an opaque ID. Add `offeringEventId` to Events metadata to make the relationship explicit. An invoice can contain multiple bundles and names; **invoice, payer, Auth user, seating registration, and companion are not interchangeable identities**. A seating registration is one allocation unit: normally two seats for Emperor and one for Merit/Bodhi. Explicitly identify its source bundle and registered person.
 
-The workbook does not define seating registration status, accessibility needs, participant category, activity count, age or companion name. Collect/verify these through registration or staff entry. A paid invoice alone does not establish attendance, and an offering dedication name does not establish the attending person's identity.
+The workbook does not define seating registration status, accessibility needs, participant category, activity count, age or companion name. Collect/verify these through registration or staff entry. Attendance does not determine paid seat entitlement. Resolve the correct paid registration and display name from the contribution source, independently of physical attendance.
 
 ### 2.2 Additions to Events metadata — UC01
 
@@ -97,7 +103,7 @@ All newly written event-owned facet items include `entityType` (String, e.g. `SO
 | Configuration | inputRevision | N, integer | — | Increment with every registration/configuration change affecting a solve | `12` |
 | Configuration | stateRevision | N, integer | — | Optimistic concurrency for pointers/configuration | `20` |
 | Configuration | activeLayoutObjectId | S | — | Committed immutable layout | `LAYOUT#layout_v1` |
-| Configuration | policyVersionId | S | — | Current code supports this policy only | `pjkit-v3` |
+| Configuration | policyVersionId | S | — | Current code supports this policy only | `pjkit-v4` |
 | Configuration | preferenceProfileVersion | S | — | Current supported mapping | `ranked-v1` |
 | Configuration | preferences | L of M | `key:S`, `enabled:BOOL` | Exactly three unique keys; list order defines priority | `[{"key":"contribution_seat","enabled":true},{"key":"activeness","enabled":true},{"key":"category_zone","enabled":false}]` |
 | Configuration | solverSettings | M | See solver contract below | Versioned server-approved settings | `{"max_time_seconds":60,"num_search_workers":8,"random_seed":42,"require_optimal":false,"canonicalize":true}` |
@@ -129,7 +135,7 @@ Initialize revisions to zero and nullable pointers to null. A newly completed ba
 | Contribution link | source | M | Same source fields above | Verify tuple against hash; do not expose to participant | `{"table":"Offerings", ...}` |
 | Contribution link | createdAt / createdBy | N / S | — | Import provenance | `1790640000000` / `usr_staff_01` |
 
-Create registration + unique source link + increment `inputRevision` in one transaction. On repeated import, resolve the link and update the existing registration conditionally. Never silently create a second allocation for the same bundle/unit. Retain cancelled/replaced records instead of deleting them, so replacement references remain resolvable.
+Create registration + unique source link + increment `inputRevision` in one transaction. On repeated import, resolve the link and update the existing registration conditionally. Never silently create a second allocation for the same bundle/unit. Upstream payment/registration changes need an explicit import policy; attendance changes must never update seat entitlement. The seating workspace cannot add, remove or change registrations.
 
 Map Offerings bundle tiers `emperor`, `merit`, `bodhi` to solver enums `EMPEROR`, `MERIT`, `BODHI`. Use the registered tier; do not infer tier solely from payment amount. Current minimums are RM5,000 / RM3,000 / RM2,000 respectively. `contribution_amount_rm` currently accepts whole-ringgit integers: reject fractional amounts pending an explicit host rule or solver-contract change, rather than silently rounding. Define host invoice-to-registration eligibility as a separate business rule.
 
@@ -147,7 +153,7 @@ Query the authenticated user's PK with the event prefix, then validate any selec
 
 ### 4.4 Immutable objects: layout, request, result and workspace
 
-The solver returns repeated layout, source-request and baseline data plus diagnostics. Store complete JSON without assuming it fits in one item. Use the same bounded object representation for all four large document kinds. This keeps every required durable payload in DynamoDB, with no required S3 dependency.
+The solver returns repeated layout and source-request data plus diagnostics. Store complete JSON without assuming it fits in one item. Use the same bounded object representation for all four large document kinds. This keeps every required durable payload in DynamoDB, with no required S3 dependency.
 
 | Facet | Attribute | Type | Sub-attribute | Remarks | Example |
 |---|---|---|---|---|---|
@@ -176,19 +182,19 @@ Writer protocol: create unique STAGING manifest → conditionally write immutabl
 |---|---|---|
 | LAYOUT | Full production `layout` object, including every physical seat | Stable geometry, blocked/accessibility state and pair rules |
 | REQUEST | Exact complete production request passed to `solve()` | Reproducible input, including all statuses and event display details |
-| RESULT | Full generated/manual result plus plan provenance required by the adapter | Complete diagnostics and repair baseline; no lost output fields |
+| RESULT | Full generated/manual result plus plan provenance required by the adapter | Complete diagnostics and immutable source request; no lost output fields |
 | WORKSPACE | `{"participants":[...],"items":{"P001":{...}}}` | Exact current staff editing state, including unassigned/docked entries |
 
-The request intentionally embeds its layout and participants even though current registrations/layout also exist. Current records are editable; submitted input must remain frozen. The result retains the solver's own `source_request` and `baseline_snapshot`. These duplicates are deliberate historical snapshots.
+The request intentionally embeds its layout and participants even though current registrations/layout also exist. Current records are editable; submitted input must remain frozen. The result retains the solver's own `source_request`. These duplicates are deliberate historical snapshots.
 
 ### 4.5 Policy registry — UC05–06, UC13
 
 | Facet | Attribute | Type | Sub-attribute | Remarks | Example |
 |---|---|---|---|---|---|
-| Policy | pk / sk | S / S | — | Policy version / metadata | `POLICY#pjkit-v3` / `META` |
+| Policy | pk / sk | S / S | — | Policy version / metadata | `POLICY#pjkit-v4` / `META` |
 | Policy | entityType | S | — | Fixed | `SOLVER_POLICY` |
-| Policy | policyVersionId | S | — | Immutable version ID | `pjkit-v3` |
-| Policy | document | M | Exact policy JSON, see §5 | Copy of validated deployed policy | `{"policy_version_id":"pjkit-v3", ...}` |
+| Policy | policyVersionId | S | — | Immutable version ID | `pjkit-v4` |
+| Policy | document | M | Exact policy JSON, see §5 | Copy of validated deployed policy | `{"policy_version_id":"pjkit-v4", ...}` |
 | Policy | sha256 | S | — | Canonical policy hash | `<64-hex-digits>` |
 | Policy | solverBuildId | S | — | Immutable deployment artifact/version | `git:<commit-sha>` |
 | Policy | createdAt / createdBy | N / S | — | Registry provenance | `1790640000000` / `usr_staff_01` |
@@ -208,8 +214,7 @@ Current `policy()` reads `config/production_policy.json` from the deployed packa
 | Job | generationMode | S | — | Copy of request mode for status display | `REPAIR_PUBLISHED` |
 | Job | inputRevision | N, integer | — | Revision frozen at submission | `12` |
 | Job | expectedStateRevision / expectedWorkspaceRevision | N / N, integers | — | Guard eventual draft attachment | `20` / `4` |
-| Job | expectedPublishedPlanVersionId | S or NULL | — | Pointer at submission, including non-repair jobs | `01JOLDPLAN` |
-| Job | baselinePlanVersionId | S or NULL | — | Same pointer for repair; null for other modes | `01JOLDPLAN` |
+| Job | expectedPublishedPlanVersionId | S or NULL | — | Pointer at submission, for concurrency control | `01JOLDPLAN` |
 | Job | solverBuildId / policyHash | S / S | — | Reproducibility and deployed compatibility | `git:<commit-sha>` / `<64-hex-digits>` |
 | Job | attempt | N, integer | — | Increment on lease acquisition | `1` |
 | Job | leaseToken | S, optional | — | Fences timed-out/stale workers | `lease_01` |
@@ -241,7 +246,7 @@ Create queued job and idempotency item in one transaction, conditionally absent,
 | Plan | projectionState | S | — | `STAGING` or `COMPLETE`; COMPLETE only after assignment verification | `COMPLETE` |
 | Plan | assignmentCount | N, integer | — | Number of registration projection records, not seat count | `96` |
 | Plan | jobId | S, optional | — | Generated plan provenance | `job_01` |
-| Plan | predecessorPlanVersionId / baselinePlanVersionId | S or NULL | — | Editing predecessor / repair baseline | `01JOLDPLAN` / `null` |
+| Plan | predecessorPlanVersionId | S or NULL | — | Editing predecessor; not a solver input | `01JOLDPLAN` |
 | Plan | expectedPublishedPlanVersionId | S or NULL | — | Publication compare-and-swap expectation | `01JOLDPLAN` |
 | Plan | inputRevision | N, integer | — | Captured source input revision | `12` |
 | Plan | workingRevision | N, integer, optional | — | Workspace revision, if manually published | `4` |
@@ -259,7 +264,7 @@ Create queued job and idempotency item in one transaction, conditionally absent,
 
 The complete result object is canonical; assignment records are an intentional read projection for UC11. Store no financial amounts, categories, activity measures, notes or diagnostic penalties in this projection. Authenticate before returning it. Empty/noneligible registrations have no assignment item; return a generic no-published-assignment response rather than leaking their status.
 
-Stage the result and all assignment records before setting `projectionState=COMPLETE`. Verify exact participant IDs, assignment count, unique valid seat IDs and projection equality with the canonical result. Publication requires both COMMITTED content and COMPLETE projections. Published content/projections are immutable; only lifecycle metadata can change. A repair reads the full result, not the reduced assignment projection.
+Stage the result and all assignment records before setting `projectionState=COMPLETE`. Verify exact participant IDs, assignment count, unique valid seat IDs and projection equality with the canonical result. Publication requires both COMMITTED content and COMPLETE projections. Published content/projections are immutable; only lifecycle metadata can change. History reads the full result, not the reduced assignment projection.
 
 ### 4.8 Workspace payload and audit — UC09–10, UC14
 
@@ -271,9 +276,7 @@ Workspace objects hold the exact `WorkspaceStore` state. The configuration row h
 | Workspace payload | items | M | Keys are participant IDs | Exactly one entry per participant | `{"P001":{...}}` |
 | Workspace item | seat_ids | L of S | — | Empty means dock/unassigned | `["R01-S07","R01-S08"]` |
 | Workspace item | display_names | L of S | — | Current normalization repeats payer display name for a pair; registered name unchanged | `["Example Participant","Example Participant"]` |
-| Workspace item | name_checked / attendance_confirmed / seat_reviewed / locked | BOOL each | — | Staff markers; locked protects manual movement | `false` |
-| Workspace item | companion_absent | BOOL | — | Only Emperor; reason required when true | `true` |
-| Workspace item | note / absence_reason / dock_reason | S each | — | Each max 2,000 characters under current validator | `Partner not attending` |
+| Workspace item | note / dock_reason | S each | — | Staff note / temporary manual placement reason; max 2,000 characters | `Awaiting manual placement` |
 | Workspace item | previous_seat_ids | L of S | — | Prior location for staff state | `["R02-S07","R02-S08"]` |
 | Workspace item | changed_at | S or NULL | — | ISO timestamp, if present | `2026-09-29T00:00:00Z` |
 | Audit | pk / sk | S / S | — | Event / time + unique ID | `EVENT#evt_2026_01` / `AUDIT#1790640000000#audit_01` |
@@ -285,7 +288,7 @@ Workspace objects hold the exact `WorkspaceStore` state. The configuration row h
 | Audit | revision | N, optional | — | Relevant workspace/input revision | `5` |
 | Audit | changes | M, optional | — | Bounded summary only | `{"publishedPlanVersionId":{"from":null,"to":"01JNEWPLAN"}}` |
 
-The current solver request has no `locked` or `companion_absent` fields. They belong to workspace state and published `operations`, not to participant input. Current automatic solving still derives pair demand from tier. Persisting these fields does not make regeneration honor locks or single-seat Emperor attendance; that requires an explicit solver/workspace integration change. Current workspace publication performs basic integrity checks but does not claim a full solver hard-constraint audit for manually edited output.
+Workspace metadata contains only seat_ids, display_names, note, dock_reason, previous_seat_ids and changed_at. Server checks preserve the full paid allocation, valid pairs, accessibility, immutable registration records and unique valid seats. Docked registrations prevent publication. A complete manual contribution-order/packing safeguard gate remains planned under revised Objective 2.
 
 ## 5. Exact nested solver data contract
 
@@ -297,13 +300,12 @@ The following attribute dictionaries use the current `production_request.schema.
 |---|---|---|---|---|
 | `schema_version` | string | Yes | Fixed `2.0.0` | `"2.0.0"` |
 | `event_id` | string | Yes | minLength: 1; Equals the existing Events ID; never a job ID | `"evt_2026_01"` |
-| `generation_mode` | string | Yes | `INITIAL`, `REGENERATE_DRAFT`, `REPAIR_PUBLISHED`, `FULL_REGENERATION`; All four values are implemented; mode is chosen by the trusted application | `"INITIAL"` |
+| `generation_mode` | string | Yes | `INITIAL` or `REGENERATE_DRAFT`; same complete model | `"INITIAL"` |
 | `layout_version_id` | string | Yes | minLength: 1 | `"demo-layout-v1"` |
-| `policy_version_id` | string | Yes | Fixed `pjkit-v3` | `"pjkit-v3"` |
-| `baseline_plan_version_id` | string or null | Yes | Required null outside REPAIR_PUBLISHED | `null` |
+| `policy_version_id` | string | Yes | Fixed `pjkit-v4` | `"pjkit-v4"` |
 | `preference_profile_version` | string | Yes | Fixed `ranked-v1` | `"ranked-v1"` |
 | `preferences` | array of object | Yes | minItems: 3; maxItems: 3; Exactly one of each preference key, in priority order | `[{"key":"contribution_seat","enabled":true},{"key":"activeness","enabled":true},{"key":"category_zone","enabled":true}]` |
-| `participants` | array of object | Yes | Include excluded statuses to preserve replacement semantics | `[{"participant_id":"P001","full_name":"Example Participant","registration_status":"CONFIRMED","replacement_for_participant_id":null,"contribution_tier":"MERIT","contribution_amount_rm":3000,"requires_…` |
+| `participants` | array of object | Yes | Frozen upstream registration snapshot; staff cannot replace or change registrations in a workspace | `[{"participant_id":"P001","registration_status":"CONFIRMED", ...}]` |
 | `layout` | object | Yes | Full embedded layout, not just its database pointer | `{"layout_version_id":"demo-layout-v1", …}` |
 | `solver` | object | Yes | — | `{"max_time_seconds":60, …}` |
 | `event_details` | object | No | Optional display snapshot; do not derive event time from solve time | `{"name":"Example Assembly", …}` |
@@ -314,8 +316,7 @@ The following attribute dictionaries use the current `production_request.schema.
 |---|---|---|---|---|
 | `participant_id` | string | Yes | minLength: 1; Allocation-unit ID, scoped to event; stable across versions | `"P001"` |
 | `full_name` | string | Yes | minLength: 1 | `"Example Participant"` |
-| `registration_status` | string | Yes | `CONFIRMED`, `REPLACEMENT_CONFIRMED`, `PENDING`, `WAITLISTED`, `CANCELLED`, `ABSENT`, `REPLACED`; Only CONFIRMED and REPLACEMENT_CONFIRMED receive seats | `"CONFIRMED"` |
-| `replacement_for_participant_id` | string or null | Yes | A confirmed replacement uniquely references an original REPLACED record in this event | `null` |
+| `registration_status` | string | Yes | `CONFIRMED`, `PENDING`, `WAITLISTED`, `CANCELLED`; only CONFIRMED represents paid seat entitlement. Never derived from attendance. | `"CONFIRMED"` |
 | `contribution_tier` | string | Yes | `EMPEROR`, `MERIT`, `BODHI`; Registered bundle tier; Emperor normally consumes two adjacent approved seats | `"MERIT"` |
 | `contribution_amount_rm` | integer | Yes | minimum: 0; Whole RM, meets registered tier minimum; no assumed upper bound | `3000` |
 | `requires_accessible_seat` | boolean | Yes | Explicit requirement; do not infer solely from age | `false` |
@@ -383,13 +384,13 @@ The current policy schema fixes the entire document with `const`; the fields bel
 
 | Attribute | Type | Required | Remarks / allowed values | Example value |
 |---|---|---|---|---|
-| `policy_version_id` | string | Yes | — | `"pjkit-v3"` |
+| `policy_version_id` | string | Yes | — | `"pjkit-v4"` |
 | `normalization_version` | string | Yes | — | `"desirability-v2"` |
 | `tier_order` | array of string | Yes | — | `["EMPEROR","MERIT","BODHI"]` |
 | `tier_minimums` | object | Yes | — | `{"EMPEROR":5000,"MERIT":3000,"BODHI":2000}` |
 | `rank_weights` | array of number | Yes | Current three ordinary preferences use the first three enabled ranks | `[40,30,20,10]` |
+| `paid_seat_retention` | string | Yes | Independent of physical attendance | `"INDEPENDENT_OF_ATTENDANCE"` |
 | `initial_packing` | string | Yes | — | `"STRICT"` |
-| `repair_local_packing` | boolean | Yes | — | `true` |
 | `tier_seat_precedence` | string | Yes | — | `"HARD_ALL_PHYSICAL_SEATS"` |
 | `category_zone_costs` | object | Yes | Map category → zone → numeric penalty; copy the entire versioned matrix | `{"MONASTIC":{"RIGHT_CENTER":0,"LEFT_CENTER":2,"RIGHT_OUTER":4,"LEFT_OUTER":8},"COMMITTEE":{"RIGHT_CENTER":0,"LEFT_CENTER":2,"RIGHT_OUTER":3,"LEFT_OUTER":6},"VOLUNTEER":{"RIGHT_CENTER":1,"LEFT_CENTER":…` |
 
@@ -402,33 +403,32 @@ Preserve every key returned by `production.format_result()` and persistence/work
 | schema_version / status | string each | Result contract / success discriminator | `2.0.0` / `success` |
 | run_id / generated_at | string each | Solver run UUID / ISO timestamp | `run-uuid` / `2026-09-29T00:00:00+00:00` |
 | event_id / generation_mode | string each | Input provenance | `evt_2026_01` / `INITIAL` |
-| policy_version_id / layout_version_id | string each | Exact applied versions | `pjkit-v3` / `demo-layout-v1` |
+| policy_version_id / layout_version_id | string each | Exact applied versions | `pjkit-v4` / `demo-layout-v1` |
 | preference_profile_version / normalization_version | string each | Preference/scoring versions | `ranked-v1` / `desirability-v2` |
 | preferences | array of object | Original ordered preference list | `[{"key":"activeness","enabled":true}, …]` |
 | effective_weights | object of numbers | Derived enabled coefficients by preference | `{"contribution_seat":40,"activeness":30,"category_zone":20}` |
 | source_request | object | Complete §5.1 request | `{"schema_version":"2.0.0", …}` |
-| baseline_snapshot | object or null | plan_version_id, event_id, policy_version_id, source_request and assignments of repair baseline | `null` |
 | manually_modified | boolean | True only for manually edited output | `false` |
 | publication_status | string | Adapter overlays current lifecycle state from plan metadata | `DRAFT` |
 | solver_status_at_generation | string | Retain original solver provenance after edits | `OPTIMAL` |
 | solver | object | Status, timings, search statistics, proof and canonicalization flag | `{"status":"FEASIBLE", …}` |
 | quality | object | Complete computed penalties and quality diagnostics | `{"penalties":{"P001":{…}}, …}` |
 | input_summary | object of integer counts | Submitted/eligible/excluded registrations, units, primary participants, tier counts, required/total/available/blocked/empty seats | `{"required_seat_count":1, …}` |
-| weights | object of numbers | Legacy-compatible priority_seat_weight, activeness_weight, category_zone_weight, movement_weight | `{"priority_seat_weight":40,"activeness_weight":30,"category_zone_weight":20,"movement_weight":0}` |
+| weights | object of numbers | priority_seat_weight, activeness_weight, category_zone_weight | `{"priority_seat_weight":40,"activeness_weight":30,"category_zone_weight":20}` |
 | constraint_config | object | enforce_front_fill, enforce_middle_fill, normalize_penalties booleans; normalization_scale number | `{"enforce_front_fill":true,"enforce_middle_fill":true,"normalize_penalties":true,"normalization_scale":100}` |
 | penalty_summary | object | unweighted, normalized and weighted maps | `{"weighted":{"total":0, …}, …}` |
 | tier_bands | object of integer arrays | Rows used by each tier, including shared boundary rows | `{"EMPEROR":[],"MERIT":[1],"BODHI":[]}` |
 | floor_plan | object | row_count, seats_per_row, aisle_after_position, total_seats and rows[] | `{"row_count":1,"total_seats":4, …}` |
 | floor_plan.rows[].seats[] | object | Physical seat fields plus occupancy_status, participant_id, display_name, tier and section | `{"seat_id":"R01-S01","occupancy_status":"EMPTY", …}` |
-| assignments | array of object | Full participant fields; is_monk/is_elderly booleans; allocation_type string; seat_ids string array; seats object array; pair_priority number/null; previous_seat_ids string array; moved boolean/null; penalty object | `[{"participant_id":"P001","seat_ids":["R01-S03"], …}]` |
+| assignments | array of object | Full participant fields; is_monk/is_elderly booleans; allocation_type string; seat_ids string array; seats object array; pair_priority number/null; penalty object | `[{"participant_id":"P001","seat_ids":["R01-S03"], …}]` |
 | empty_seat_ids | array of string | Assignable vacant positions | `["R01-S01","R01-S02","R01-S04"]` |
-| excluded_participants | array of object | participant_id and reason strings | `[{"participant_id":"P002","reason":"ABSENT"}]` |
+| excluded_participants | array of object | participant_id and reason strings | `[{"participant_id":"P002","reason":"PENDING"}]` |
 | unassigned_participants | array | Empty for a successful complete solve | `[]` |
 | hard_constraint_validation | object | Solver: all_constraints_satisfied BOOL, duplicate_seat_count N, unassigned_count N; current manual flow: checked BOOL=false | `{"all_constraints_satisfied":true,"duplicate_seat_count":0,"unassigned_count":0}` |
 | plan_version_id / predecessor_plan_version_id | string / string or null | Added by persistence; identity / lineage | `01JNEWPLAN` / `null` |
 | expected_published_version_id | string or null | Added by persistence; stale publication check | `null` |
 | created_at | string | Persistence ISO timestamp | `2026-09-29T00:00:00+00:00` |
-| operations | object, optional | Published workspace items keyed by participant ID; §4.8 | `{"P001":{"locked":true, …}}` |
+| operations | object, optional | Published workspace items keyed by participant ID; §4.8 | `{"P001":{"note":"", ...}}` |
 | working_revision | integer, optional | Exact published staff revision | `4` |
 
 Map plan metadata to API fields `validation_revision`, `created_by`, `published_by`, `published_at` and current `publication_status` when loading. Convert host epoch timestamps to the expected ISO strings. This avoids modifying hashed historical JSON when its lifecycle changes. Older approval API fields may be returned as null unless that workflow is deliberately restored. Errors use `{"schema_version":"2.0.0","status":"error","error":{"code":string,"message":string,"details":object,"solver_status":string|null}}`.
@@ -444,8 +444,7 @@ This is a small, fictitious one-row example to demonstrate every field. It is no
   "event_id": "evt_2026_01",
   "generation_mode": "INITIAL",
   "layout_version_id": "demo-layout-v1",
-  "policy_version_id": "pjkit-v3",
-  "baseline_plan_version_id": null,
+  "policy_version_id": "pjkit-v4",
   "preference_profile_version": "ranked-v1",
   "preferences": [
     {
@@ -466,7 +465,6 @@ This is a small, fictitious one-row example to demonstrate every field. It is no
       "participant_id": "P001",
       "full_name": "Example Participant",
       "registration_status": "CONFIRMED",
-      "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
       "contribution_amount_rm": 3000,
       "requires_accessible_seat": false,
@@ -593,9 +591,9 @@ Paginate every Query until `LastEvaluatedKey` is absent, including object parts 
 
 1. Authorize the administrator for the existing event. Read CONFIG strongly, recording input/state/workspace revisions and the current published pointer.
 2. Query all event registrations strongly and load the committed layout and compatible policy. Every registration write and every configuration change affecting solver input must increment `inputRevision` in the same transaction as that change. This includes updates to snapshotted event display details. Copy source Events changes through this controlled adapter; do not read mutable Events fields halfway through building a request.
-3. Read CONFIG again. If `inputRevision` changed, discard the mixed snapshot and retry. Strong individual reads alone do not provide a multi-item snapshot. Include all registration statuses, not only eligible people; replacement validation needs original REPLACED records.
+3. Read CONFIG again. If `inputRevision` changed, discard the mixed snapshot and retry. Strong individual reads alone do not provide a multi-item snapshot. Include upstream registration statuses for traceability; confirmation is a paid entitlement and does not depend on attendance.
 4. Construct and validate the request, stage/commit its immutable object, then transact: condition-check unchanged input/state/workspace revisions and expected published pointer; put absent idempotency row; put absent QUEUED job; append audit. A failed condition leaves an unreferenced object, never a submitted mixed-version request.
-5. For repair, capture the server's published pointer as `baseline_plan_version_id`; reject repair without a published plan. For INITIAL, REGENERATE_DRAFT and FULL_REGENERATION set it to null. Validate the same event, compatible policy and geometry before solving.
+5. Submit INITIAL or REGENERATE_DRAFT without a previous-plan payload. Keep expected published pointers only for concurrency checks; they are not optimization baselines.
 
 ### 7.2 Trigger only explicit job submission
 
@@ -633,12 +631,7 @@ request = load_committed_json(event_id, job["requestObjectId"])
 verify_request_hash_and_deployed_policy(job, request)
 validate_request(request)
 
-baseline = None
-if request["generation_mode"] == "REPAIR_PUBLISHED":
-    # Captured by the trusted server at submission, not supplied by the browser.
-    baseline = load_plan_result(event_id, job["baselinePlanVersionId"])
-
-result = solve(request, baseline)
+result = solve(request)
 if result["status"] == "success":
     report = audit_result(result)
     if not report["passed"]:
@@ -681,9 +674,9 @@ The repository retains older `submit/approve/publish` PlanStore commands, but th
 3. Seed policy registry from the deployed policy file; import the actual hall as a committed LAYOUT object. Register all physical positions including blocked seats.
 4. Implement the conditional DynamoDB persistence adapter, canonical JSON object reader/writer, and host request assembler. Port PlanStore/WorkspaceStore semantics, including public-data filtering, rather than replacing SQLite calls mechanically.
 5. Implement job submission, stream worker, leases, idempotency, failure redrive and explicit draft attachment. The application polls the persisted job and then loads its resulting plan.
-6. Implement immutable manual snapshots, assignment projections and atomic publication; retain old versions required by audit and repair. Do not TTL-delete referenced content.
-7. Verify duplicate stream records, worker timeout/reclaim, simultaneous registration edits, two staff saves, stale repair/publication pointers, fractional contributions, incomplete object writes, multi-page reads and outputs exceeding 400 KB. A failed or incomplete solve must leave the public plan unchanged.
-8. Verify a real reconstructed request against the current JSON schema and `validate_request`, run `solve(request, baseline)` and its independent audit, then verify that participant responses expose only their permitted identity/seat data and anonymous hall occupancy.
+6. Implement immutable manual snapshots, assignment projections and atomic publication; retain old versions required by audit and history. Do not TTL-delete referenced content.
+7. Verify duplicate stream records, worker timeout/reclaim, simultaneous registration edits, two staff saves, stale workspace/publication pointers, fractional contributions, incomplete object writes, multi-page reads and outputs exceeding 400 KB. A failed or incomplete solve must leave the public plan unchanged.
+8. Verify a real reconstructed request against the current JSON schema and `validate_request`, run `solve(request)` and its independent audit, then verify that participant responses expose only their permitted identity/seat data and anonymous hall occupancy.
 
 The schema is a design deliverable. It does not provision AWS resources or change the current solver's mathematical behavior.
 

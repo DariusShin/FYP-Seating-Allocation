@@ -1,6 +1,6 @@
-# PJKIT v3 mathematical model
+# PJKIT v4 mathematical model
 
-The machine-readable companion is [mathematical_model.json](mathematical_model.json). Its source of truth is the implemented `pjkit-v3` policy and `desirability-v2` scorer, rather than the retired PoC's HC numbering.
+The machine-readable companion is [mathematical_model.json](mathematical_model.json). Its source of truth is the implemented `pjkit-v4` policy and `desirability-v2` scorer, rather than the retired PoC's HC numbering.
 
 ## Feasible assignments
 
@@ -18,7 +18,7 @@ Tier is explicit. Minimums are Emperor 5000, Merit 3000, Bodhi 2000 integer RM, 
 
 C13 separately keeps higher contributions within the same tier from occupying later rows, using consecutive contribution-group row boundaries. Accessibility, pairs and packing remain compulsory: a conflict with strict tier priority is INFEASIBLE, never a hidden exemption. The stronger C12 implies the old row precedence, so the existing equal-size contribution-group row pruning remains sound; it only restricts candidate rows, not seat ranks.
 
-Initial, draft-regeneration and explicit full-regeneration modes fix global row occupancy to front-packed physical demand and require each side's occupied available positions to form a centre-out prefix. Accessibility remains hard. An edge-only accessible registration in a tiny initial event may therefore make packing infeasible; the approved default is to report this conflict, not silently relax packing. Equal contribution groups' physical packing intervals permit sound initial-row pruning. Tiny oracle tests verify this formulation independently.
+Initial generation and preference-based regeneration fix global row occupancy to front-packed physical demand and require each side's occupied available positions to form a centre-out prefix. Accessibility remains hard. An edge-only accessible registration in a tiny initial event may therefore make packing infeasible; the approved default is to report this conflict, not silently relax packing. Equal contribution groups' physical packing intervals permit sound initial-row pruning. Tiny oracle tests verify this formulation independently.
 
 ## Comparable seat and pair desirability
 
@@ -38,28 +38,28 @@ Each raw component is normalized to 0..100 per registration by integer half-up r
 
 The ordinary objective is the sum of normalized costs multiplied by the backend's ranked-v1 coefficients. Filter disabled preferences and compact ranks to 40,30,20 (the generic fourth value 10 is reserved). The known keys are contribution_seat, activeness, category_zone. Coefficients need not sum to 100 and do not imply lexicographic preference: lower-ranked preferences can collectively outweigh a higher-ranked preference. All-off means zero ordinary cost, with hard rules unchanged.
 
-## Published repair
+## Paid-seat retention and regeneration
 
-The server resolves the latest published plan and checks expected version identity. Repair across policy versions is rejected. A saved older-policy request requires explicit FULL_REGENERATION (which adopts the current policy) or a local database reset before INITIAL generation. Changed participants include status, tier, contribution, accessibility, category/activity, replacement changes, and occupants affected by unavailable/inaccessible old seats. Removed/absent registrations consume no new demand. Confirmed replacements must satisfy their own unit size and eligibility.
+P contains confirmed paid registration units. Attendance is not an input: a non-attending contributor retains the displayed name and the full paid allocation (two adjacent seats for Emperor, one for Merit/Bodhi). PENDING, WAITLISTED and CANCELLED describe upstream registration/payment eligibility only; the staff workspace cannot alter these records. There are no absence, replacement, single-seat Emperor, movement-cost or repair-scope states.
 
-Unchanged assignments outside the repair scope are frozen. Scope expands from directly affected seats, to affected rows, tier rows, neighbouring rows, then the available hall (allowing the numbered boundary to expand). Only a proven INFEASIBLE restricted model triggers expansion. UNKNOWN is inconclusive and never treated as proof of infeasibility.
+`INITIAL` and `REGENERATE_DRAFT` solve the same complete hard-constrained model. Settings enables regeneration only when the ordered preference list or an enabled flag differs from the current plan. The solver does not receive a previous allocation. New output is a private draft; the public pointer changes only on explicit publication. Previous versions remain history, not optimization inputs.
 
-All structural, eligibility, accessibility, tier seat precedence and within-tier row ordering rules remain hard. Global front-fill/centre-out packing is relaxed. Objectives are optimized successively:
+A working draft may temporarily dock a whole registration for manual moves/swaps. Server validation forbids registration additions/deletions/status changes, duplicate or blocked seats, invalid allocation sizes/pairs, and inaccessible placements. Publication requires every paid registration to be seated. Display-name corrections and notes are metadata; canceling detail edits has no storage effect.
 
-1. Number of unaffected surviving allocation units whose seat sets change.
-2. Total doubled-centroid Manhattan distance for surviving previously seated units.
-3. Same-side available-seat packing inversions: outer occupied and inner empty.
-4. Ordinary ranked preference penalty.
-5. Technical canonical selection.
+The local v4 demo uses `output/paid-seats-v4.sqlite3`; old `output/plans.sqlite3` histories are preserved and not automatically migrated. Requests are tied to policy `pjkit-v4`.
 
-Distance is `|2 mean(old row)-2 mean(new row)| + |2 mean(old position)-2 mean(new position)|`. Newly added/replacement IDs have no previous seat and contribute no distance. Changed surviving units still contribute distance but not unaffected-movement count. Physical seats moved are reported separately from units.
+## Objective 2: proposed server-side safeguard verification
 
-A stage is fixed only after proof of optimality. All stages/scopes share one deadline. FEASIBLE stops further optimization and preserves its audited incumbent; an unreached stage has no claimed bound or proof. An optimal restricted-scope repair is not a proof of global minimum movement over every scope.
+The revised research objective is to develop and evaluate explainable, rule-based verification of generated and staff-edited plans against the exact saved revision before publication. For a candidate assignment A, the intended decision is `accept(A) = AND_h check_h(A, request, policy)`, with findings carrying rule ID, affected registrations/seats and corrective guidance. A verification result must bind to the input/policy version, saved revision and content hash; a subsequent edit invalidates it.
+
+This is symbolic domain-rule reasoning, not a learned model or a new claim of optimality. Current code independently audits solver output and enforces draft integrity, paid-seat retention and stale-write/publication checks. A complete explainable business-rule gate for manually edited workspace publication remains planned; this requirement change does not silently restore the previously removed safeguard branch.
+
+Proposed evaluation measures invalid-plan detection, false rejections of valid plans, rule/seat localization accuracy, latency, rejection of stale verified revisions and unchanged publication after a failed check. These are planned measurements, not collected results.
 
 ## Canonicalization and validity
 
 After all business objectives are proven and fixed, minimize each participant's option index in stable participant-ID order, fixing each proven minimum before the next. Options are sorted by stable seat-ID tuples. This gives a unique assignment vector when every pass completes; arbitrary boundary variable values do not change physical assignments. `canonicalization_complete=false` explicitly denotes a timed-out/incomplete pass. Business OPTIMAL and canonical completion are distinct metadata.
 
-The independent validator never reads solver variables. It checks the exact eligible-ID multiset, physical occupancy, legal options, ordering, mode-dependent packing, reconstructed metrics, stage objective values and serialized floor-plan/assignment consistency. It validates a solution, not the solver's optimality certificate.
+The independent validator never reads solver variables. It checks the exact eligible-ID multiset, physical occupancy, legal options, ordering, front-fill and centre-out packing, reconstructed metrics, stage objective values and serialized floor-plan/assignment consistency. It validates a solution, not the solver's optimality certificate.
 
 Manual changes are rescored against the saved input/profile/policy. Their current solver label becomes MANUALLY_MODIFIED; original generation status is retained. The versioned-plan approval API independently validates placements. The separate staff workspace publication flow retains its existing basic consistency checks and does not claim business-rule validation after manual edits; the removed safeguard workflow is not reintroduced by this solver fix.
