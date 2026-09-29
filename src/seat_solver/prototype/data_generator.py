@@ -157,7 +157,7 @@ def generate_participants(
     elderly_indices = set(rng.sample(elderly_pool, ELDERLY_COUNT))
 
     accessible_pool = (
-        rng.sample(range(0, EMPEROR_COUNT), 2)
+        rng.sample(range(EMPEROR_COUNT), 2)
         + rng.sample(range(EMPEROR_COUNT, EMPEROR_COUNT + BODHI_COUNT), 2)
         + rng.sample(range(EMPEROR_COUNT + BODHI_COUNT, count), 4)
     )
