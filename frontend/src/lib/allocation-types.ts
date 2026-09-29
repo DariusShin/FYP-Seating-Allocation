@@ -29,6 +29,7 @@ export type CategoryName =
 	| "GENERAL_DEVOTEE";
 
 export interface SeatCell {
+ tier?: TierName | null;
 	seat_id: string;
 	physical_position: number;
 	priority_rank: number;
@@ -103,6 +104,7 @@ export interface ConstraintConfig {
 }
 
 export interface AllocationResult {
+ published_at?: string;
 	quality?: {
 		movement: {
 			moved_units: number;
