@@ -17,7 +17,7 @@ function compile(file, load) {
 const workspaceFunctions = compile("../src/lib/workspace.ts", require);
 // Exercise dashboard handlers and rendered props without a browser or new dependencies.
 // Child components are boundaries; state/ref slots persist across explicit rerenders.
-function dashboard(initialWorkspace) {
+function component(file, exportName, props) {
     const slots = [];
     let cursor = 0;
     const hooks = {
@@ -33,16 +33,16 @@ function dashboard(initialWorkspace) {
         useMemo: fn => fn(),
         useEffect() {},
     };
-    const { SeatDashboard } = compile("../src/components/seat/seat-dashboard.tsx", name => {
+    const Component = compile(file, name => {
         if (name === "react") return hooks;
         if (name === "react/jsx-runtime") return require(name);
         if (name === "@/lib/workspace") return workspaceFunctions;
         if (name === "./seat-theme") return { TIER_STYLES: { MERIT: {} } };
         return new Proxy({}, { get: (_, key) => key === "__esModule" ? true : String(key) });
-    });
+    })[exportName];
     return () => {
         cursor = 0;
-        const tree = SeatDashboard({ initialResult: initialWorkspace.base, initialWorkspace });
+        const tree = Component(props);
         const nodes = [];
         function visit(node) {
             if (Array.isArray(node)) return node.forEach(visit);
@@ -62,11 +62,11 @@ function fixture(docked = false) {
             floor_plan: { rows: [{ row_number: 1, seats: [1, 2, 3].map(n => ({ seat_id: `S${n}`, physical_position: n, side: "LEFT", is_blocked: n === 3 })) }] } },
         state: {
             participants: [{ participant_id: "P1", full_name: "Participant", contribution_tier: "MERIT", registration_status: "CONFIRMED", age: 30 }],
-            items: { P1: { seat_ids: docked ? [] : ["S1"], display_names: ["Participant"], previous_seat_ids: [], note: "", locked: false } },
+            items: { P1: { seat_ids: docked ? [] : ["S1"], display_names: ["Participant"], previous_seat_ids: [], note: "" } },
         }, revision: 0, saved_at: null,
     };
 }
-const request = { generation_mode: "REGENERATE_DRAFT", preferences: [{ key: "activeness", enabled: true }] };
+
 const response = (body, ok = true) => ({ ok, json: async () => body });
 const settle = () => new Promise(resolve => setImmediate(resolve));
 function openSettings(render) {
@@ -74,95 +74,98 @@ function openSettings(render) {
     return render().find("WeightControls");
 }
 
-test("regeneration closes settings, blocks map, then opens and displays the exact new draft", async t => {
-    const render = dashboard(fixture());
-    const next = fixture();
-    next.base.plan_version_id = "new";
-    next.state.items.P1.seat_ids = ["S2"];
-    let finishSolve;
-    let finishOpen;
-    const calls = [];
-    t.mock.method(globalThis, "fetch", (url, options) => {
-        calls.push([url, JSON.parse(options.body)]);
-        return new Promise(resolve => { if (calls.length === 1) finishSolve = resolve; else finishOpen = resolve; });
-    });
-    const settings = openSettings(render);
-    assert.ok(settings);
-    settings.onGenerate(request);
-    settings.onGenerate(request); // Duplicate clicks cannot start another solve.
-    assert.equal(calls.length, 1);
-    assert.equal(render().find("WeightControls"), undefined);
-    assert.equal(render().find("MapLoadingOverlay").phase, "generating");
-    assert.equal(render().find("div", p => p.className === "map-loading-content").inert, true);
-    finishSolve(response({ status: "success", plan_version_id: "new" }));
-    await settle();
-    assert.equal(render().find("MapLoadingOverlay").phase, "loading-workspace");
-    assert.deepEqual(calls[1], ["/api/workspace?event_id=demo", { command: "workspace_open", plan_version_id: "new" }]);
-    assert.deepEqual(calls[0][1].preferences, request.preferences);
-    finishOpen(response(next));
-    await settle();
-    assert.equal(render().find("MapLoadingOverlay"), undefined);
-    assert.equal(render().find("HallMap").owners.S2, "P1");
-    assert.equal(render().find("HallMap").owners.S1, undefined);
-});
+function dashboard(initialWorkspace) {
+    return component("../src/components/seat/seat-dashboard.tsx", "SeatDashboard", { initialResult: initialWorkspace.base, initialWorkspace });
+}
 
-test("failed workspace opening retries the saved plan without solving again", async t => {
+test("new draft opens its exact version and updates the map", async t => {
     const render = dashboard(fixture());
-    const next = fixture();
-    next.base.plan_version_id = "new";
-    const calls = [];
+    const next = fixture(); next.base.plan_version_id = "new"; next.state.items.P1.seat_ids = ["S2"];
     t.mock.method(globalThis, "fetch", async (url, options) => {
-        calls.push([url, JSON.parse(options.body)]);
-        if (calls.length === 1) return response({ status: "success", plan_version_id: "new" });
-        if (calls.length === 2) return response({ error: { message: "Try opening again" } }, false);
+        assert.equal(url, "/api/workspace");
+        assert.deepEqual(JSON.parse(options.body), { command: "workspace_open", plan_version_id: "new" });
         return response(next);
     });
-    openSettings(render).onGenerate(request);
-    await settle();
-    const overlay = render().find("MapLoadingOverlay");
-    assert.equal(overlay.phase, "error");
-    assert.equal(overlay.draftCreated, true);
-    assert.equal(overlay.error, "Try opening again");
-    overlay.onRetry();
-    await settle();
-    assert.deepEqual(calls[2], calls[1]);
-    assert.equal(calls.filter(([url]) => url.startsWith("/api/solve")).length, 1);
-    assert.equal(render().find("MapLoadingOverlay"), undefined);
+    await openSettings(render).onResult(next.base);
+    assert.equal(render().find("HallMap").owners.S2, "P1");
+    assert.equal(render().find("WeightControls"), undefined);
 });
 
-test("solve failure keeps the current map and retry uses the selected preferences", async t => {
-    const render = dashboard(fixture());
-    const calls = [];
-    t.mock.method(globalThis, "fetch", async (url, options) => {
-        calls.push([url, JSON.parse(options.body)]);
-        return response({ status: "error", error: { message: "Unable to solve" } }, false);
-    });
-    openSettings(render).onGenerate(request);
-    await settle();
-    assert.equal(render().find("HallMap").owners.S1, "P1");
-    assert.equal(render().find("MapLoadingOverlay").draftCreated, false);
-    render().find("MapLoadingOverlay").onRetry();
-    await settle();
-    assert.deepEqual(calls[1], calls[0]);
-});
-
-test("empty seat opens dock in edit mode and accepts a drop; blocked seats do not", () => {
+test("dock remains available for drag and drop in edit mode", () => {
     const render = dashboard(fixture(true));
-    render().find("HallMap").onSelect("S3");
-    assert.equal(render().find("aside"), undefined);
-    render().find("HallMap").onSelect("S2");
+    assert.equal(render().find("HallMap").editable, false);
+    render().find("Button", p => p.children === "Edit plan").onClick();
+    render().find("Button", p => p.children?.[0] === "Holding dock (").onClick();
     assert.equal(render().find("aside")["aria-label"], "Holding dock");
     assert.equal(render().find("HallMap").editable, true);
-    assert.equal(render().find("HallMap").selectedSeat, "S2");
     render().find("HallMap").onDrop("P1", "S2");
-    assert.ok(render().find("Dialog", p => p.open));
     render().find("Button", p => p.children === "Confirm move / swap").onClick();
     assert.equal(render().find("HallMap").owners.S2, "P1");
 });
 
-test("empty seat without docked registrations does not enter edit mode", () => {
-    const render = dashboard(fixture());
-    render().find("HallMap").onSelect("S2");
-    assert.equal(render().find("aside"), undefined);
-    assert.equal(render().find("HallMap").editable, false);
+const preferences = ["contribution_seat", "activeness", "category_zone"].map(key => ({ key, enabled: true }));
+function controls(onResult = async () => {}) {
+    return component("../src/components/seat/weight-controls.tsx", "WeightControls", { result: { preferences }, onResult, onSolvingChange() {} });
+}
+const generateButton = render => render().find("Button", p => p.className === "w-full");
+
+test("generation is enabled only by changed preference order or enabled flags", () => {
+    const render = controls();
+    assert.equal(render().find("select"), undefined);
+    assert.equal(generateButton(render).disabled, true);
+    render().find("Switch", p => p.id === "pref-activeness").onCheckedChange(false);
+    assert.equal(generateButton(render).disabled, false);
+    render().find("Switch", p => p.id === "pref-activeness").onCheckedChange(true);
+    assert.equal(generateButton(render).disabled, true);
+    render().find("Button", p => p["aria-label"]?.endsWith("desirable seats down")).onClick();
+    assert.equal(generateButton(render).disabled, false);
+    render().find("Button", p => p["aria-label"]?.endsWith("desirable seats up")).onClick();
+    assert.equal(generateButton(render).disabled, true);
+});
+
+test("settings regenerates with changed preferences and retries opening without another solve", async t => {
+    const requests = []; let opens = 0;
+    const render = controls(async result => { assert.equal(result.plan_version_id, "new"); if (++opens === 1) throw Error("Open failed"); });
+    t.mock.method(globalThis, "fetch", async (url, options) => { requests.push(JSON.parse(options.body)); return response({ status: "success", plan_version_id: "new" }); });
+    render().find("Switch", p => p.id === "pref-activeness").onCheckedChange(false);
+    generateButton(render).onClick(); await settle();
+    assert.equal(requests[0].generation_mode, "REGENERATE_DRAFT");
+    assert.equal(requests[0].preferences[1].enabled, false);
+    assert.equal(generateButton(render).children, "Retry opening draft");
+    generateButton(render).onClick(); await settle();
+    assert.equal(requests.length, 1); assert.equal(opens, 2);
+});
+
+function details(onSave) {
+    const value = fixture();
+    return component("../src/components/seat/allocation-details.tsx", "AllocationDetails", {
+        person: value.state.participants[0], item: value.state.items.P1, location: "West 1", busy: false, onSave, onClose() {},
+    });
+}
+
+test("details Edit and Cancel discard local changes without saving", () => {
+    let saves = 0;
+    const render = details(async () => { saves++; return true; });
+    assert.equal(render().find("fieldset").disabled, true);
+    render().find("Button", p => p.children === "Edit").onClick();
+    render().find("input").onChange({ target: { value: "Edited name" } });
+    render().find("textarea").onChange({ target: { value: "Edited note" } });
+    assert.equal(render().find("Button", p => p.children === "Save draft").disabled, false);
+    render().find("Button", p => p.children === "Cancel").onClick();
+    assert.equal(render().find("input").value, "Participant");
+    assert.equal(render().find("textarea").value, "");
+    assert.ok(render().find("Button", p => p.children === "Edit"));
+    assert.equal(saves, 0);
+});
+
+test("details stay editable after failed save and exit editing only after success", async () => {
+    const saved = [];
+    const render = details(async data => { saved.push(data); return saved.length === 2; });
+    render().find("Button", p => p.children === "Edit").onClick();
+    render().find("textarea").onChange({ target: { value: "Retain paid seats" } });
+    render().find("Button", p => p.children === "Save draft").onClick(); await settle();
+    assert.ok(render().find("Button", p => p.children === "Cancel"));
+    render().find("Button", p => p.children === "Save draft").onClick(); await settle();
+    assert.ok(render().find("Button", p => p.children === "Edit"));
+    assert.deepEqual(saved[0], { display_names: ["Participant"], note: "Retain paid seats" });
 });

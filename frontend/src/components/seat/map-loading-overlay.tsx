@@ -10,9 +10,9 @@ export function MapLoadingOverlay({ phase, error, onRetry, draftCreated }: {
 }) {
     const failed = phase === "error";
     return (
-        <div className="map-loading-overlay">
-            <div className="map-loading-panel">
-                {failed ? <CircleAlert aria-hidden="true" className="mx-auto size-9 text-destructive"/> : <LoaderCircle aria-hidden="true" className="map-loading-spinner mx-auto size-9 text-primary"/>}
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-background/65 p-6 backdrop-blur-sm">
+            <div className="w-full max-w-sm rounded-xl border bg-background p-6 text-center shadow-lg">
+                {failed ? <CircleAlert aria-hidden="true" className="mx-auto size-9 text-destructive"/> : <LoaderCircle aria-hidden="true" className="animate-spin mx-auto size-9 text-primary"/>}
                 <div role={failed ? "alert" : "status"} aria-atomic="true">
                     <h2 className="mt-4 text-base font-semibold">{failed ? (draftCreated ? "Your draft is saved, but could not be opened" : "Unable to create your seating plan") : phase === "loading-workspace" ? "Opening your seating draft…" : "Creating your seating plan…"}</h2>
                     <p className="mt-2 text-sm leading-6 text-muted-foreground">{failed ? error : phase === "loading-workspace" ? "Preparing the assigned seating map for review." : "This usually takes about a minute. Keep this page open."}</p>

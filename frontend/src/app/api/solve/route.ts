@@ -15,8 +15,6 @@ export async function POST(request: Request) {
 			"generation_mode",
 			"preferences",
 			"preference_profile_version",
-			"baseline_plan_version_id",
-			"participants",
 		]);
 		if (
 			!body ||
@@ -29,8 +27,6 @@ export async function POST(request: Request) {
 			![
 				"INITIAL",
 				"REGENERATE_DRAFT",
-				"REPAIR_PUBLISHED",
-				"FULL_REGENERATION",
 			].includes(body.generation_mode)
 		) {
 			return NextResponse.json(

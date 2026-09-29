@@ -1,23 +1,16 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
 	Armchair,
-    Search,
+	Search,
 	Undo2,
 	Redo2,
 	Users,
 	Settings2,
-	Maximize,
-	ZoomIn,
-	ZoomOut,
-	Check,
-	LockKeyhole,
 	PanelRightClose,
 	ArrowRightLeft,
 	Accessibility,
-	Check as CheckIcon,
-	LockKeyhole as LockIcon,
 	MapPinned,
 	StickyNote,
 	Star,
@@ -30,45 +23,47 @@ import {
 	DialogDescription,
 	DialogHeader,
 } from "@/components/ui/dialog";
-import type { AllocationResult, Preference } from "@/lib/allocation-types";
+import type { AllocationResult } from "@/lib/allocation-types";
 import {
 	dock,
 	eligible,
 	move,
 	type Workspace,
 	type WorkingState,
-	type WorkingItem,
 } from "@/lib/workspace";
 import { HallMap, type SeatMarkers } from "./hall-map";
-import { MapLoadingOverlay } from "./map-loading-overlay";
+import { AllocationDetails } from "./allocation-details";
 import { WeightControls } from "./weight-controls";
 import { TIER_STYLES } from "./seat-theme";
 
 type Modal =
-    | "allocation"
-    | "review"
+	| "allocation"
+	| "review"
 	| "checklist"
 	| "settings"
 	| "versions"
 	| "legend"
 	| "publish"
-	| "replace"
 	| null;
 export function SeatDashboard({
 	initialResult,
-    initialWorkspace,
+	initialWorkspace,
 }: {
 	initialResult: AllocationResult;
-    initialWorkspace?: Workspace;
+	initialWorkspace?: Workspace;
 }) {
-	const [workspace, setWorkspace] = useState<Workspace | null>(initialWorkspace ?? null);
-	const [state, setState] = useState<WorkingState | null>(initialWorkspace?.state ?? null);
+	const [workspace, setWorkspace] = useState<Workspace | null>(
+		initialWorkspace ?? null,
+	);
+	const [state, setState] = useState<WorkingState | null>(
+		initialWorkspace?.state ?? null,
+	);
 	const [mode, setMode] = useState<"read" | "edit" | "review">("read");
 	const [selected, setSelected] = useState<string | null>(null);
 	const [selectedSeat, setSelectedSeat] = useState<string | null>(null);
 	const [dockOpen, setDockOpen] = useState(false);
-    const draggingParticipant = useRef<string|null>(null);
-    const [destination, setDestination] = useState("");
+	const draggingParticipant = useRef<string | null>(null);
+	const [destination, setDestination] = useState("");
 	const [query, setQuery] = useState("");
 	const [filter, setFilter] = useState("all");
 	const [modal, setModal] = useState<Modal>(null);
@@ -77,78 +72,14 @@ export function SeatDashboard({
 	const [notice, setNotice] = useState("");
 	const [error, setError] = useState("");
 	const [busy, setBusy] = useState(false);
-    const [generationPhase, setGenerationPhase] = useState<"generating" | "loading-workspace" | "error" | null>(null);
-    const generationRequest = useRef<{ generation_mode: string; preferences: Preference[] } | null>(null);
-    const generatedPlanId = useRef<string | null>(null);
-    const [hasGeneratedDraft, setHasGeneratedDraft] = useState(false);
-    const generationInFlight = useRef(false);
-    async function generateDraft(request?: { generation_mode: string; preferences: Preference[] }) {
-        if (generationInFlight.current || !request && !generationRequest.current) return;
-        generationInFlight.current = true;
-        if (request) {
-            generationRequest.current = request;
-            generatedPlanId.current = null;
-            setHasGeneratedDraft(false);
-        }
-        setModal(null);
-        setDockOpen(false);
-        setBusy(true);
-        setError("");
-        setNotice("");
-        setGenerationPhase(generatedPlanId.current ? "loading-workspace" : "generating");
-        const eventQuery = initialResult.event_id ? `?event_id=${encodeURIComponent(initialResult.event_id)}` : "";
-        try {
-            if (!generatedPlanId.current) {
-                const response = await fetch(`/api/solve${eventQuery}`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ ...generationRequest.current, preference_profile_version: "ranked-v1" }),
-                });
-                const value = await response.json();
-                if (!response.ok || value.status !== "success" || !value.plan_version_id)
-                    throw new Error(value.error?.message ?? "Unable to generate a seating plan. Please try again.");
-                generatedPlanId.current = value.plan_version_id;
-                setHasGeneratedDraft(true);
-            }
-            setGenerationPhase("loading-workspace");
-            const response = await fetch(`/api/workspace${eventQuery}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ command: "workspace_open", plan_version_id: generatedPlanId.current }),
-            });
-            const value = await response.json();
-            if (!response.ok || !value?.base || !value?.state || value.base.plan_version_id !== generatedPlanId.current)
-                throw new Error(value?.error?.message ?? "Unable to open the generated draft. Please try again.");
-            setWorkspace(value);
-            setState(value.state);
-            setHistory([]);
-            setFuture([]);
-            setSelected(null);
-            setSelectedSeat(null);
-            setDestination("");
-            setPreview(null);
-            setQuery("");
-            setMode("read");
-            setGenerationPhase(null);
-            setNotice("New seating draft ready. Public seating is unchanged.");
-        } catch (e) {
-            setError(e instanceof Error ? e.message : "Generation failed");
-            setGenerationPhase("error");
-        } finally {
-            generationInFlight.current = false;
-            setBusy(false);
-        }
-    }
 	const [preview, setPreview] = useState<{
 		state: WorkingState;
 		description: string;
-        returnToAllocation?: boolean;
+		returnToAllocation?: boolean;
 	} | null>(null);
-	const [zoom, setZoom] = useState(1);
 	const [versions, setVersions] = useState<
 		{ id: string; state: string; created: string }[]
 	>([]);
-	const [replacementName, setReplacementName] = useState("");
 	async function load() {
 		setBusy(true);
 		try {
@@ -162,7 +93,8 @@ export function SeatDashboard({
 
 			setError("");
 			setMode("read");
-            setDockOpen(false);setModal(null);
+			setDockOpen(false);
+			setModal(null);
 		} catch (e) {
 			setError(String(e));
 		} finally {
@@ -170,7 +102,7 @@ export function SeatDashboard({
 		}
 	}
 	useEffect(() => {
-        if (initialWorkspace) return;
+		if (initialWorkspace) return;
 		const startup = window.setTimeout(() => void load(), 0);
 		return () => window.clearTimeout(startup);
 	}, [initialWorkspace]);
@@ -213,9 +145,6 @@ export function SeatDashboard({
 		base.publication_status === "PUBLISHED" &&
 		(!workspace?.saved_at || workspace.saved_at === base.published_at) &&
 		!dirty;
-	const remaining = active.filter(
-		(p) => !state?.items[p.participant_id].name_checked,
-	).length;
 	function location(ids: string[]) {
 		return ids.length
 			? ids
@@ -234,31 +163,15 @@ export function SeatDashboard({
 
 		setError("");
 	}
-	function patch(values: Partial<WorkingItem>) {
-		if (!selected || !state) return;
-		commit({
-			...state,
-			items: {
-				...state.items,
-				[selected]: {
-					...state.items[selected],
-					...values,
-					changed_at: new Date().toISOString(),
-				},
-			},
-		});
-	    if(values.seat_ids?.length===0 && values.dock_reason){setDockOpen(true);setModal(null);}
-    }
-
 	function proposeMove(pid: string, sid: string) {
 		if (!canEdit || !state) return;
 		try {
 			const next = move(state, base, pid, sid);
 			const other = owners[sid];
-            setModal(null);
+			setModal(null);
 			setPreview({
 				state: next,
-                returnToAllocation: modal === "allocation",
+				returnToAllocation: modal === "allocation",
 				description: `${state.items[pid].display_names[0]}: ${location(state.items[pid].seat_ids)} → ${location(next.items[pid].seat_ids)}${other && other !== pid ? `. ${state.items[other].display_names[0]}: ${location(state.items[other].seat_ids)} → ${location(next.items[other].seat_ids)}` : ""}`,
 			});
 		} catch (e) {
@@ -267,19 +180,24 @@ export function SeatDashboard({
 	}
 	function sendToDock(pid: string) {
 		if (!canEdit || !state) return;
-        if(!state.items[pid]?.seat_ids.length) {setDockOpen(true);return;}
+		if (!state.items[pid]?.seat_ids.length) {
+			setDockOpen(true);
+			return;
+		}
 		try {
 			commit(dock(state, pid));
-            setDockOpen(true);
-            setModal(null);
-            draggingParticipant.current=null;
-			setNotice("Allocation moved to the holding dock.");
+			setDockOpen(true);
+			setModal(null);
+			draggingParticipant.current = null;
 		} catch (e) {
 			setError(String(e));
 		}
 	}
-	async function operation(command: "workspace_save" | "workspace_publish") {
-		if (!workspace || !state) return;
+	async function operation(
+		command: "workspace_save" | "workspace_publish",
+		nextState = state,
+	) {
+		if (!workspace || !nextState) return false;
 		setBusy(true);
 		setError("");
 		try {
@@ -290,7 +208,7 @@ export function SeatDashboard({
 					command,
 					plan_version_id: base.plan_version_id,
 					revision: workspace.revision,
-					state,
+					state: nextState,
 				}),
 			});
 			const value = await r.json();
@@ -309,25 +227,20 @@ export function SeatDashboard({
 				setHistory([]);
 				setFuture([]);
 			}
+			return true;
 		} catch (e) {
 			setError(String(e));
+			return false;
 		} finally {
 			setBusy(false);
 		}
 	}
 	function selectSeat(sid: string) {
-        if (busy || generationPhase || cells.find(s => s.seat_id === sid)?.is_blocked) return;
 		setSelectedSeat(sid);
 		if (owners[sid]) {
 			setSelected(owners[sid]);
 			setDestination("");
-            setModal("allocation");
-        } else if (docked.length > 0) {
-            setMode("edit");
-            setDockOpen(true);
-            setModal(null);
-            setSelected(null);
-            setDestination(sid);
+			setModal("allocation");
 		} else if (canEdit && selected) {
 			setDestination(sid);
 			proposeMove(selected, sid);
@@ -344,14 +257,6 @@ export function SeatDashboard({
 		switch (filter) {
 			case "dock":
 				return eligible(p) && !m.seat_ids.length;
-			case "name":
-				return !m.name_checked;
-			case "attendance":
-				return !m.attendance_confirmed;
-			case "absent":
-				return p.registration_status === "ABSENT" || m.companion_absent;
-			case "replacement":
-				return p.registration_status.includes("REPLAC");
 			case "note":
 				return !!m.note;
 			case "changed":
@@ -362,69 +267,6 @@ export function SeatDashboard({
 				return true;
 		}
 	});
-	function exclude() {
-		if (!state || !person || !item) return;
-		if (item.locked) {
-			setError("Unlock this allocation first.");
-			return;
-		}
-		const next = structuredClone(state);
-		const registration = next.participants.find(
-			(p) => p.participant_id === selected,
-		)!;
-		registration.registration_status = "ABSENT";
-		registration.replacement_for_participant_id = null;
-		next.items[selected!] = {
-			...item,
-			seat_ids: [],
-			previous_seat_ids: item.seat_ids,
-			dock_reason: "Confirmed absent",
-			changed_at: new Date().toISOString(),
-		};
-		commit(next);
-	}
-	function replace() {
-		if (!person || !item || !state || !replacementName.trim()) return;
-		const pid = `R-${crypto.randomUUID().slice(0, 12)}`;
-		const next = structuredClone(state);
-		next.participants.find(
-			(p) => p.participant_id === selected,
-		)!.registration_status = "REPLACED";
-		next.participants.push({
-			...person,
-			participant_id: pid,
-			full_name: replacementName.trim(),
-			registration_status: "REPLACEMENT_CONFIRMED",
-			replacement_for_participant_id: person.participant_id,
-			adjacent_person_name: null,
-		});
-		next.items[pid] = {
-			...item,
-			display_names: item.display_names.map(() => replacementName.trim()),
-			companion_absent: false,
-			absence_reason: "",
-			seat_ids: item.companion_absent ? [] : item.seat_ids,
-			dock_reason: item.companion_absent
-				? "Replacement pair needs two adjacent seats"
-				: "",
-			name_checked: false,
-			attendance_confirmed: false,
-			seat_reviewed: false,
-			note: "",
-			locked: false,
-			changed_at: new Date().toISOString(),
-		};
-		next.items[selected!] = {
-			...item,
-			seat_ids: [],
-			previous_seat_ids: item.seat_ids,
-			dock_reason: `Replaced by ${replacementName.trim()}`,
-		};
-		commit(next);
-        if(!next.items[pid].seat_ids.length)setDockOpen(true);
-		setSelected(pid);
-		setModal(null);
-	}
 	if (!state)
 		return (
 			<main className="p-8">
@@ -434,21 +276,35 @@ export function SeatDashboard({
 			</main>
 		);
 	return (
-		<main className="seat-workspace"
-            onDragOver={e=>{
-                if(canEdit && draggingParticipant.current && !(e.target as Element).closest("[data-venue-boundary]")) {
-                    e.preventDefault(); e.dataTransfer.dropEffect="move"; setDockOpen(true);
-                }
-            }}
-            onDrop={e=>{
-                if(canEdit && draggingParticipant.current && !e.defaultPrevented && !(e.target as Element).closest("[data-venue-boundary]")) {
-                    e.preventDefault(); sendToDock(draggingParticipant.current);
-                }
-            }}
-        >
-			<header className="workspace-header" inert={generationPhase !== null}>
-                <Link href="/event" className="text-sm text-muted-foreground hover:text-foreground">← Events</Link>
-				<div className="brand-mark"><Armchair size={20}/></div>
+		<main
+			className="seat-workspace"
+			onDragOver={(e) => {
+				if (
+					canEdit &&
+					draggingParticipant.current &&
+					!(e.target as Element).closest("[data-venue-boundary]")
+				) {
+					e.preventDefault();
+					e.dataTransfer.dropEffect = "move";
+					setDockOpen(true);
+				}
+			}}
+			onDrop={(e) => {
+				if (
+					canEdit &&
+					draggingParticipant.current &&
+					!e.defaultPrevented &&
+					!(e.target as Element).closest("[data-venue-boundary]")
+				) {
+					e.preventDefault();
+					sendToDock(draggingParticipant.current);
+				}
+			}}
+		>
+			<header className="workspace-header">
+				<div className="brand-mark">
+					<Armchair size={20} />
+				</div>
 				<div>
 					<h1>
 						PJKIT <span>Seating workspace</span>
@@ -465,11 +321,13 @@ export function SeatDashboard({
 							className="min-w-0 flex-1 bg-transparent text-[13px] text-foreground outline-none placeholder:text-muted-foreground"
 							onChange={(event) => setQuery(event.target.value)}
 							onKeyDown={(event) => {
-							if (event.key === "Enter") {
-								const firstMatch = people.find((p) => matches.has(p.participant_id));
-								if (firstMatch) selectParticipant(firstMatch.participant_id);
-							}
-						}}
+								if (event.key === "Enter") {
+									const firstMatch = people.find((p) =>
+										matches.has(p.participant_id),
+									);
+									if (firstMatch) selectParticipant(firstMatch.participant_id);
+								}
+							}}
 						/>
 						{query && (
 							<button
@@ -483,23 +341,48 @@ export function SeatDashboard({
 						)}
 					</label>
 					{query.trim() && (
-						<div className="absolute inset-x-0 top-[calc(100%+7px)] max-h-[min(60vh,440px)] overflow-auto rounded-lg border bg-popover p-1.5 text-popover-foreground shadow-xl" role="listbox" aria-label="Matching participants">
-							<p className="px-2 py-1.5 text-[11px] text-muted-foreground" aria-live="polite">{matches.size} matches</p>
-							{people.filter((p) => matches.has(p.participant_id)).slice(0, 8).map((p) => (
-								<button
-									type="button"
-									role="option"
-									aria-selected={selected === p.participant_id}
-									key={p.participant_id}
-									className="flex w-full flex-col gap-0.5 rounded-md p-2 text-left hover:bg-accent hover:text-accent-foreground aria-selected:bg-accent"
-									onClick={() => selectParticipant(p.participant_id)}
-								>
-									<span className="text-[13px] font-medium">{state.items[p.participant_id].display_names[0]}</span>
-									<small className="text-[11px] text-muted-foreground">{p.participant_id} · {location(state.items[p.participant_id].seat_ids)}</small>
-								</button>
-							))}
-							{matches.size === 0 && <span className="block p-2 text-[11px] text-muted-foreground">No matching participants</span>}
-							{matches.size > 8 && <span className="block p-2 text-[11px] text-muted-foreground">Type more to narrow results</span>}
+						<div
+							className="absolute inset-x-0 top-[calc(100%+7px)] max-h-[min(60vh,440px)] overflow-auto rounded-lg border bg-popover p-1.5 text-popover-foreground shadow-xl"
+							role="listbox"
+							aria-label="Matching participants"
+						>
+							<p
+								className="px-2 py-1.5 text-[11px] text-muted-foreground"
+								aria-live="polite"
+							>
+								{matches.size} matches
+							</p>
+							{people
+								.filter((p) => matches.has(p.participant_id))
+								.slice(0, 8)
+								.map((p) => (
+									<button
+										type="button"
+										role="option"
+										aria-selected={selected === p.participant_id}
+										key={p.participant_id}
+										className="flex w-full flex-col gap-0.5 rounded-md p-2 text-left hover:bg-accent hover:text-accent-foreground aria-selected:bg-accent"
+										onClick={() => selectParticipant(p.participant_id)}
+									>
+										<span className="text-[13px] font-medium">
+											{state.items[p.participant_id].display_names[0]}
+										</span>
+										<small className="text-[11px] text-muted-foreground">
+											{p.participant_id} ·{" "}
+											{location(state.items[p.participant_id].seat_ids)}
+										</small>
+									</button>
+								))}
+							{matches.size === 0 && (
+								<span className="block p-2 text-[11px] text-muted-foreground">
+									No matching participants
+								</span>
+							)}
+							{matches.size > 8 && (
+								<span className="block p-2 text-[11px] text-muted-foreground">
+									Type more to narrow results
+								</span>
+							)}
 						</div>
 					)}
 				</div>
@@ -541,7 +424,7 @@ export function SeatDashboard({
 					</Button>
 				</nav>
 			</header>
-			<section className="context-bar" inert={generationPhase !== null}>
+			<section className="context-bar">
 				<span className={`mode-pill ${mode}`}>
 					{published ? "Published" : "Draft"} ·{" "}
 					{mode === "read"
@@ -560,7 +443,7 @@ export function SeatDashboard({
 								: "Generated draft"}
 				</span>
 				<span className="readiness">
-					{remaining} names unchecked · {docked.length} in dock
+					{active.length} paid registrations · {docked.length} in dock
 				</span>
 				<div className="context-actions">
 					{mode !== "edit" ? (
@@ -588,7 +471,7 @@ export function SeatDashboard({
 								size="sm"
 								onClick={() => {
 									setMode("review");
-                setModal("review");
+									setModal("review");
 									setNotice(
 										"Review your changes, save, then continue to publication.",
 									);
@@ -614,8 +497,10 @@ export function SeatDashboard({
 					)}
 				</div>
 			</section>
-			{error && !generationPhase && (
-				<div className="workspace-banner error" role="alert">{error}</div>
+			{error && (
+				<div className="workspace-banner error" role="alert">
+					{error}
+				</div>
 			)}
 			{notice && (
 				<div className="workspace-notice" role="status">
@@ -627,76 +512,76 @@ export function SeatDashboard({
 			)}
 			<section className="workspace-body">
 				<div className="map-column">
-					<div className="map-toolbar" inert={generationPhase !== null}>
-						<div className="map-tools">{mode==="edit" && docked.length>0 && <Button variant="outline" size="sm" onClick={()=>setDockOpen(v=>!v)}>Holding dock ({docked.length})</Button>}
-                        {mode==="review" && <Button variant="outline" size="sm" onClick={()=>setModal("review")}>Review plan</Button>}
+					<div className="map-toolbar">
+						<div className="map-tools">
+							{mode === "edit" && docked.length > 0 && (
+								<Button
+									variant="outline"
+									size="sm"
+									onClick={() => setDockOpen((v) => !v)}
+								>
+									Holding dock ({docked.length})
+								</Button>
+							)}
+							{mode === "review" && (
+								<Button
+									variant="outline"
+									size="sm"
+									onClick={() => setModal("review")}
+								>
+									Review plan
+								</Button>
+							)}
 							<Button
-								variant="ghost"
-								size="icon-sm"
-								aria-label="Zoom out"
-								onClick={() => setZoom((z) => Math.max(.5, (z||1) - 0.25))}
+								variant="outline"
+								size="sm"
+								onClick={() => setModal("legend")}
 							>
-								<ZoomOut />
-							</Button>
-							<Button
-								variant="ghost"
-								size="icon-sm"
-								aria-label="Zoom in"
-								onClick={() => setZoom((z) => Math.min(2, (z||1) + 0.25))}
-							>
-								<ZoomIn />
-							</Button>
-							<Button
-								variant="ghost"
-								size="icon-sm"
-								aria-label="Fit hall"
-								onClick={() => setZoom(0)}
-							>
-								<Maximize />
-							</Button>
-							<Button variant="outline" size="sm" onClick={() => setModal("legend")}>
 								<MapPinned data-icon="inline-start" /> Legend & map guide
 							</Button>
 						</div>
 					</div>
-                    <div className="map-loading-viewport" aria-busy={generationPhase === "generating" || generationPhase === "loading-workspace"}>
-                    <div className="map-loading-content" inert={generationPhase !== null}>
 					<HallMap
 						floor={base.floor_plan}
 						names={names}
 						owners={owners}
-                        primaryNames={Object.fromEntries(people.map(p=>[p.participant_id,state.items[p.participant_id].display_names[0]]))}
-                        tiers={Object.fromEntries(people.map(p=>[p.participant_id,p.contribution_tier]))}
-						markers={Object.fromEntries(people.map(p=>[p.participant_id,{
-							locked:state.items[p.participant_id].locked,
-							nameChecked:state.items[p.participant_id].name_checked,
-							hasNote:!!state.items[p.participant_id].note,
-							elderly:p.age>=60,
-							accessible:p.requires_accessible_seat,
-						} satisfies SeatMarkers]))}
+						primaryNames={Object.fromEntries(
+							people.map((p) => [
+								p.participant_id,
+								state.items[p.participant_id].display_names[0],
+							]),
+						)}
+						tiers={Object.fromEntries(
+							people.map((p) => [p.participant_id, p.contribution_tier]),
+						)}
+						markers={Object.fromEntries(
+							people.map((p) => [
+								p.participant_id,
+								{
+									hasNote: !!state.items[p.participant_id].note,
+									elderly: p.age >= 60,
+									accessible: p.requires_accessible_seat,
+								} satisfies SeatMarkers,
+							]),
+						)}
 						selected={selected}
 						selectedSeat={selectedSeat}
 						matches={query ? matches : undefined}
 						editable={canEdit}
 						onSelect={selectSeat}
 						onDrop={proposeMove}
-                        onAllocationDragStart={pid=>{draggingParticipant.current=pid;}}
-                        onAllocationDragEnd={()=>{draggingParticipant.current=null;}}
-						zoom={zoom}
+						onAllocationDragStart={(pid) => {
+							draggingParticipant.current = pid;
+						}}
+						onAllocationDragEnd={() => {
+							draggingParticipant.current = null;
+						}}
 					/>
-                    </div>
-                    {generationPhase && <MapLoadingOverlay phase={generationPhase} error={error} onRetry={() => void generateDraft()} draftCreated={hasGeneratedDraft}/>}
-                    </div>
-					<footer className="map-footer" inert={generationPhase !== null}>
+					<footer className="map-footer">
 						<span>
 							{active.length} registrations ·{" "}
 							{active.reduce(
-								(n, p) =>
-									n +
-									(p.contribution_tier === "EMPEROR" &&
-									!state.items[p.participant_id].companion_absent
-										? 2
-										: 1),
+								(n, p) => n + (p.contribution_tier === "EMPEROR" ? 2 : 1),
 								0,
 							)}{" "}
 							people
@@ -738,71 +623,84 @@ export function SeatDashboard({
 						)}
 					</footer>
 				</div>
-                {mode === "edit" && dockOpen && <aside className="work-panel" aria-label="Holding dock">
-                    <div className="panel-heading"><h2>Holding dock</h2><Button variant="ghost" size="icon-sm" aria-label="Close holding dock" onClick={()=>setDockOpen(false)}><PanelRightClose/></Button></div>
-                    <section
-										className="holding-dock dock-panel-content"
-										onDragOver={(e) => {
-											if (canEdit) e.preventDefault();
-										}}
-										onDrop={(e) => {
-											e.preventDefault(); e.stopPropagation();
-											sendToDock(e.dataTransfer.getData("text/plain"));
+				{mode === "edit" && dockOpen && (
+					<aside className="work-panel" aria-label="Holding dock">
+						<div className="panel-heading">
+							<h2>Holding dock</h2>
+							<Button
+								variant="ghost"
+								size="icon-sm"
+								aria-label="Close holding dock"
+								onClick={() => setDockOpen(false)}
+							>
+								<PanelRightClose />
+							</Button>
+						</div>
+						<section
+							className="holding-dock dock-panel-content"
+							onDragOver={(e) => {
+								if (canEdit) e.preventDefault();
+							}}
+							onDrop={(e) => {
+								e.preventDefault();
+								e.stopPropagation();
+								sendToDock(e.dataTransfer.getData("text/plain"));
+							}}
+						>
+							<h3>
+								Holding dock <span>{docked.length}</span>
+							</h3>
+							<p>Drop allocations here while rearranging.</p>
+							{docked.length === 0 ? (
+								<div className="empty-dock">
+									Everyone has a place.
+									<br />
+									The dock is ready when you need it.
+								</div>
+							) : (
+								docked.map((p) => (
+									<button
+										className={`dock-card ${selected === p.participant_id ? "active" : ""}`}
+										key={p.participant_id}
+										draggable={canEdit}
+										onDragStart={(e) =>
+											e.dataTransfer.setData("text/plain", p.participant_id)
+										}
+										onClick={() => {
+											setSelected(p.participant_id);
+											setModal("allocation");
 										}}
 									>
-										<h3>
-											Holding dock <span>{docked.length}</span>
-										</h3>
-										<p>Drop allocations here while rearranging.</p>
-										{docked.length === 0 ? (
-											<div className="empty-dock">
-												Everyone has a place.
-												<br />
-												The dock is ready when you need it.
-											</div>
-										) : (
-											docked.map((p) => (
-												<button
-													className={`dock-card ${selected === p.participant_id ? "active" : ""}`}
-													key={p.participant_id}
-													draggable={
-														canEdit && !state.items[p.participant_id].locked
-													}
-													onDragStart={(e) =>
-														e.dataTransfer.setData(
-															"text/plain",
-															p.participant_id,
-														)
-													}
-													onClick={() => { setSelected(p.participant_id); setModal("allocation"); }}
-												>
-													<strong>
-														{state.items[p.participant_id].display_names[0]}
-													</strong>
-													<span>
-														{p.contribution_tier === "EMPEROR" &&
-														!state.items[p.participant_id].companion_absent
-															? "Pair · 2 seats"
-															: "Individual · 1 seat"}
-													</span>
-													<small>
-														{state.items[p.participant_id].dock_reason ||
-															"Awaiting placement"}{" "}
-														· from{" "}
-														{location(
-															state.items[p.participant_id].previous_seat_ids,
-														)}
-													</small>
-												</button>
-											))
-										)}
-									</section>
-                </aside>}
+										<strong>
+											{state.items[p.participant_id].display_names[0]}
+										</strong>
+										<span>
+											{p.contribution_tier === "EMPEROR"
+												? "Pair · 2 seats"
+												: "Individual · 1 seat"}
+										</span>
+										<small>
+											{state.items[p.participant_id].dock_reason ||
+												"Awaiting placement"}{" "}
+											· from{" "}
+											{location(
+												state.items[p.participant_id].previous_seat_ids,
+											)}
+										</small>
+									</button>
+								))
+							)}
+						</section>
+					</aside>
+				)}
 			</section>
 			<Dialog
 				open={!!preview}
 				onOpenChange={(open) => {
-					if (!open) {if(preview?.returnToAllocation)setModal("allocation");setPreview(null);}
+					if (!open) {
+						if (preview?.returnToAllocation) setModal("allocation");
+						setPreview(null);
+					}
 				}}
 			>
 				<DialogContent>
@@ -811,8 +709,8 @@ export function SeatDashboard({
 						<DialogDescription>{preview?.description}</DialogDescription>
 					</DialogHeader>
 					<p className="text-sm">
-						Names, notes and verification stay with each allocation. Packing and
-						priority can be inspected on the map.
+						Names and notes stay with each allocation. Packing and priority can
+						be inspected on the map.
 					</p>
 					<div className="flex gap-2">
 						<Button
@@ -824,7 +722,13 @@ export function SeatDashboard({
 						>
 							Confirm move / swap
 						</Button>
-						<Button variant="outline" onClick={() => {if(preview?.returnToAllocation)setModal("allocation");setPreview(null);}}>
+						<Button
+							variant="outline"
+							onClick={() => {
+								if (preview?.returnToAllocation) setModal("allocation");
+								setPreview(null);
+							}}
+						>
 							Cancel
 						</Button>
 					</div>
@@ -848,13 +752,12 @@ export function SeatDashboard({
 							{
 								{
 									allocation: "Allocation details",
-                                    review: "Review before publishing",
-                                    checklist: "Participant checklist",
+									review: "Review before publishing",
+									checklist: "Participant checklist",
 									settings: "Allocation preferences",
 									versions: "Version history",
 									legend: "Map legend and help",
 									publish: "Publish seating plan",
-									replace: "Replace registration",
 								}[modal ?? "legend"]
 							}
 						</DialogTitle>
@@ -864,262 +767,133 @@ export function SeatDashboard({
 								: "PJKIT staff workspace"}
 						</DialogDescription>
 					</DialogHeader>
-                    {modal === "allocation" && <><p className="muted-copy">{dirty?"Unsaved changes · Save the draft after editing.":"Saved draft"}</p>{error&&<p role="alert" className="text-destructive text-sm">{error}</p>}{mode!=="edit" && <Button variant="outline" disabled={busy} onClick={()=>setMode("edit")}>Edit this allocation</Button>}{person && item ? (
-									<div className="allocation-details">
-										<h3 className="participant-heading">
-											{item.display_names[0]}
-										</h3>
-										<p className="muted-copy">
-											Registered: {person.full_name} ·{" "}
-											{person.contribution_tier}
-											<br />
-											{location(item.seat_ids)}
-										</p>
-										<fieldset disabled={!canEdit}>
-											<legend className="sr-only">
-												Display and verification
-											</legend>
-											<label>
-												Display name · payer
-												<input
-													maxLength={80}
-													value={item.display_names[0]}
-													onChange={(e) => patch({
-														display_names: item.display_names.map(() => e.target.value),
-													})}
-												/>
-											</label>
-											{(
-												[
-													["name_checked", "Name checked"],
-													["attendance_confirmed", "Attendance confirmed"],
-													["seat_reviewed", "Seat reviewed"],
-													["locked", "Lock allocation"],
-												] as const
-											).map(([key, label]) => (
-												<label className="check-row" key={key}>
-													<input
-														type="checkbox"
-														checked={item[key]}
-														onChange={(e) => patch({ [key]: e.target.checked })}
-													/>
-													{label}
-													{key === "locked" && <LockKeyhole size={12} />}
-												</label>
-											))}
-											<label>
-												Staff note
-												<textarea
-													maxLength={2000}
-													rows={2}
-													value={item.note}
-													onChange={(e) => patch({ note: e.target.value })}
-												/>
-											</label>
-											{person.contribution_tier === "EMPEROR" && (
-												<div className="partner-absence">
-													<label>
-														Partner absence reason
-														<input
-															value={item.absence_reason}
-															onChange={(e) =>
-																patch({ absence_reason: e.target.value })
-															}
-															placeholder="Confirmed by staff; no replacement"
-														/>
-													</label>
-													<Button
-														variant="outline"
-														size="sm"
-														disabled={
-															!canEdit ||
-															item.locked ||
-															(!item.companion_absent &&
-																!item.absence_reason.trim())
-														}
-														onClick={() => {
-															if (item.companion_absent) {
-																patch({
-																	companion_absent: false,
-																	seat_ids: [],
-																	previous_seat_ids: item.seat_ids,
-																	dock_reason:
-																		"Partner restored; assign two adjacent seats",
-																});
-															} else {
-																patch({
-																	companion_absent: true,
-																	seat_ids: item.seat_ids.slice(0, 1),
-																	previous_seat_ids: item.seat_ids,
-																});
-															}
-														}}
-													>
-														{item.companion_absent
-															? "Restore pair to dock"
-															: "Unlink absent partner · release seat"}
-													</Button>
-													{item.companion_absent && (
-														<p className="muted-copy">
-															Contributor keeps Emperor priority. The other seat
-															is available for reassignment.
-														</p>
-													)}
-												</div>
-											)}
-										</fieldset>
-										{canEdit && eligible(person) && (
-											<div className="allocation-actions">
-												<label>
-													Move / swap destination
-													<select
-														aria-label="Move or swap destination"
-														value={destination}
-														onChange={(e) => setDestination(e.target.value)}
-													>
-														<option value="">Choose a seat…</option>
-														{cells
-															.filter((s) => !s.is_blocked)
-															.map((s) => (
-																<option key={s.seat_id} value={s.seat_id}>
-																	{location([s.seat_id])} ·{" "}
-																	{names[s.seat_id] || "Empty"}
-																</option>
-															))}
-													</select>
-												</label>
-												<Button
-													variant="outline"
-													size="sm"
-													disabled={!destination || item.locked}
-													onClick={() =>
-														proposeMove(person.participant_id, destination)
-													}
-												>
-													<ArrowRightLeft /> Preview move / swap
-												</Button>
-												<Button
-													variant="outline"
-													size="sm"
-													disabled={item.locked || !item.seat_ids.length}
-													onClick={() => sendToDock(person.participant_id)}
-												>
-													Send to holding dock
-												</Button>
-												<Button
-													variant="outline"
-													size="sm"
-													disabled={item.locked}
-													onClick={() => {
-														if (
-															window.confirm(
-																`Record ${item.display_names[0]} as absent and release their seats?`,
-															)
-														)
-															exclude();
-													}}
-												>
-													Mark registration absent
-												</Button>
-												<Button
-													variant="outline"
-													size="sm"
-													disabled={
-														item.locked ||
-														person.registration_status ===
-															"REPLACEMENT_CONFIRMED"
-													}
-													onClick={() => {
-														setReplacementName("");
-														setModal("replace");
-													}}
-												>
-													Replace registration
-												</Button>
-											</div>
-										)}
-										{canEdit &&
-											["ABSENT", "WAITLISTED", "PENDING", "CANCELLED"].includes(
-												person.registration_status,
-											) && (
-												<Button
-													size="sm"
-													variant="outline"
-													onClick={() => {
-														const next = structuredClone(state);
-														const p = next.participants.find(
-															(p) => p.participant_id === person.participant_id,
-														)!;
-														p.registration_status = "CONFIRMED";
-														p.replacement_for_participant_id = null;
-														next.items[p.participant_id] = {
-															...item,
-															seat_ids: [],
-															locked: false,
-															dock_reason:
-																"Attendance restored; awaiting placement",
-															changed_at: new Date().toISOString(),
-														};
-														commit(next); setDockOpen(true); setModal(null);
-													}}
-												>
-													Confirm attendance · send to dock
-												</Button>
-											)}
-										{!eligible(person) && (
-											<p className="muted-copy">
-												{person.registration_status} · original registration
-												retained.
-											</p>
-										)}
-									</div>
-								) : (
-									<p className="muted-copy">
-										Select an allocation to review names and details. In Edit
-										mode, drag a card to a seat or use Move / swap.
-									</p>
-								)}<div className="flex gap-2 mt-4"><Button disabled={!dirty||busy} onClick={()=>operation("workspace_save")}>Save draft</Button><Button variant="outline" onClick={()=>setModal(null)}>Done</Button></div></>}
-                    {modal === "review" && <>
-                        {error&&<p role="alert" className="text-destructive">{error}</p>}
-								<p className="muted-copy">
-									The public continues to see the last published version until
-									you confirm publication.
+					{modal === "allocation" && (
+						<>
+							{error && (
+								<p role="alert" className="text-destructive">
+									{error}
 								</p>
-								{dirty && (
-									<Button
-										disabled={busy}
-										onClick={() => operation("workspace_save")}
-									>
-										Save working draft
-									</Button>
-								)}
-								<div className="review-summary">
-									<strong>{docked.length} docked</strong>
-									<span>
-										{people.filter((p) => !eligible(p)).length} excluded
-										registrations
-									</span>
-									<span>
-										{
-											people.filter(
-												(p) => state.items[p.participant_id].companion_absent,
-											).length
-										}{" "}
-										absent partners · seats released
-									</span>
-									<span>
-										{
-											people.filter(
-												(p) => state.items[p.participant_id].changed_at,
-											).length
-										}{" "}
-										manually changed
-									</span>
-								</div>
-                                <p className="muted-copy">Inspect the map and names before publishing this saved draft.</p>
-                                {docked.length > 0 && <p className="muted-copy">Assign docked registrations or mark them absent before publishing.</p>}
-                                <Button disabled={busy || dirty || docked.length > 0} onClick={() => setModal("publish")}>Continue to publication</Button>
-                            </>}
+							)}
+							{person && item ? (
+								<>
+									<AllocationDetails
+										key={person.participant_id}
+										person={person}
+										item={item}
+										location={location(item.seat_ids)}
+										busy={busy}
+										onClose={() => setModal(null)}
+										onSave={(details) =>
+											operation("workspace_save", {
+												...state,
+												items: {
+													...state.items,
+													[person.participant_id]: {
+														...item,
+														...details,
+														changed_at: new Date().toISOString(),
+													},
+												},
+											})
+										}
+									/>
+									{canEdit && eligible(person) && (
+										<div className="allocation-actions">
+											<label>
+												Move / swap destination
+												<select
+													aria-label="Move or swap destination"
+													value={destination}
+													onChange={(e) => setDestination(e.target.value)}
+												>
+													<option value="">Choose a seat…</option>
+													{cells
+														.filter((s) => !s.is_blocked)
+														.map((s) => (
+															<option key={s.seat_id} value={s.seat_id}>
+																{location([s.seat_id])} ·{" "}
+																{names[s.seat_id] || "Empty"}
+															</option>
+														))}
+												</select>
+											</label>
+											<Button
+												variant="outline"
+												size="sm"
+												disabled={!destination}
+												onClick={() =>
+													proposeMove(person.participant_id, destination)
+												}
+											>
+												<ArrowRightLeft /> Preview move / swap
+											</Button>
+											<Button
+												variant="outline"
+												size="sm"
+												disabled={!item.seat_ids.length}
+												onClick={() => sendToDock(person.participant_id)}
+											>
+												Send to holding dock
+											</Button>
+										</div>
+									)}
+								</>
+							) : (
+								<p>Select a registration to view its details.</p>
+							)}
+						</>
+					)}
+					{modal === "review" && (
+						<>
+							{error && (
+								<p role="alert" className="text-destructive">
+									{error}
+								</p>
+							)}
+							<p className="muted-copy">
+								The public continues to see the last published version until you
+								confirm publication.
+							</p>
+							{dirty && (
+								<Button
+									disabled={busy}
+									onClick={() => operation("workspace_save")}
+								>
+									Save working draft
+								</Button>
+							)}
+							<div className="review-summary">
+								<strong>{docked.length} docked</strong>
+								<span>
+									{people.filter((p) => !eligible(p)).length} excluded
+									registrations
+								</span>
+								<span>
+									{
+										people.filter(
+											(p) => state.items[p.participant_id].changed_at,
+										).length
+									}{" "}
+									manually changed
+								</span>
+							</div>
+							<p className="muted-copy">
+								Inspect the map and names before publishing this saved draft.
+							</p>
+							{docked.length > 0 && (
+								<p className="muted-copy">
+									Assign every docked registration before publishing; paid seats
+									are retained regardless of attendance.
+								</p>
+							)}
+							<Button
+								disabled={busy || dirty || docked.length > 0}
+								onClick={() => setModal("publish")}
+							>
+								Continue to publication
+							</Button>
+						</>
+					)}
 
 					{modal === "checklist" && (
 						<>
@@ -1133,10 +907,6 @@ export function SeatDashboard({
 									{Object.entries({
 										all: "All registrations",
 										dock: "Unseated / in dock",
-										name: "Name not checked",
-										attendance: "Attendance unconfirmed",
-										absent: "Absent / partner absent",
-										replacement: "Replacements",
 										note: "Has note",
 										changed: "Changed today",
 									}).map(([value, label]) => (
@@ -1166,7 +936,7 @@ export function SeatDashboard({
 											<button
 												onClick={() => {
 													setSelected(p.participant_id);
-                            setModal("allocation");
+													setModal("allocation");
 												}}
 											>
 												<strong>{m.display_names[0]}</strong>
@@ -1175,35 +945,6 @@ export function SeatDashboard({
 													{p.registration_status}
 												</small>
 											</button>
-											<span>
-												{m.name_checked ? (
-													<Check size={16} />
-												) : (
-													"Name unchecked"
-												)}
-											</span>
-											<span>{m.locked ? <LockKeyhole size={14} /> : null}</span>
-											{canEdit && (
-												<Button
-													size="sm"
-													variant="outline"
-													onClick={() => {
-														commit({
-															...state,
-															items: {
-																...state.items,
-																[p.participant_id]: {
-																	...m,
-																	name_checked: !m.name_checked,
-																	changed_at: new Date().toISOString(),
-																},
-															},
-														});
-													}}
-												>
-													{m.name_checked ? "Uncheck" : "Check name"}
-												</Button>
-											)}
 										</div>
 									);
 								})}
@@ -1257,8 +998,36 @@ export function SeatDashboard({
 							</p>
 							<WeightControls
 								result={base}
-                                hasDraft={dirty || !!workspace?.saved_at}
-                                onGenerate={request => void generateDraft(request)}
+								hasDraft={dirty || !!workspace?.saved_at}
+								onResult={async (result) => {
+									const response = await fetch("/api/workspace", {
+										method: "POST",
+										headers: { "Content-Type": "application/json" },
+										body: JSON.stringify({
+											command: "workspace_open",
+											plan_version_id: result.plan_version_id,
+										}),
+									});
+									const value = await response.json();
+									if (!response.ok || !value?.base || !value?.state)
+										throw new Error(
+											value?.error?.message ?? "Unable to open the new draft",
+										);
+									setWorkspace(value);
+									setState(value.state);
+									setHistory([]);
+									setFuture([]);
+									setSelected(null);
+									setSelectedSeat(null);
+									setPreview(null);
+									setDockOpen(false);
+									setMode("read");
+									setModal(null);
+									setNotice(
+										"New seating draft ready. Public seating is unchanged.",
+									);
+								}}
+								onSolvingChange={setBusy}
 							/>
 						</>
 					)}
@@ -1276,77 +1045,88 @@ export function SeatDashboard({
 					{modal === "legend" && (
 						<div className="space-y-5">
 							<div className="grid gap-3 sm:grid-cols-2">
-								{([
-									["EMPEROR", "Emperor · Pair registration"],
-									["MERIT", "Merit · Individual registration"],
-									["BODHI", "Bodhi · Individual registration"],
-								] as const).map(([tier, label]) => (
+								{(
+									[
+										["EMPEROR", "Emperor · Pair registration"],
+										["MERIT", "Merit · Individual registration"],
+										["BODHI", "Bodhi · Individual registration"],
+									] as const
+								).map(([tier, label]) => (
 									<div key={tier} className="legend-row">
-										<span className={`legend-tier-swatch ${TIER_STYLES[tier].cell.split(" hover:")[0]}`} />
+										<span
+											className={`legend-tier-swatch ${TIER_STYLES[tier].cell.split(" hover:")[0]}`}
+										/>
 										<span>{label}</span>
 									</div>
 								))}
-								<div className="legend-row"><span className="legend-empty-swatch" /> Empty seat · available</div>
-								<div className="legend-row"><span className="legend-blocked-swatch">×</span> Building structure · unavailable</div>
+								<div className="legend-row">
+									<span className="legend-empty-swatch" /> Empty seat ·
+									available
+								</div>
+								<div className="legend-row">
+									<span className="legend-blocked-swatch">×</span> Building
+									structure · unavailable
+								</div>
 							</div>
 							<section>
 								<h3 className="legend-section-title">Participant indicators</h3>
 								<div className="grid gap-2 sm:grid-cols-2">
-									<div className="legend-row"><span className="legend-icon"><Accessibility /></span> Accessible seating required</div>
-									<div className="legend-row"><span className="legend-icon"><Star /></span> Elderly participant</div>
-									<div className="legend-row"><span className="legend-icon"><CheckIcon /></span> Name checked by staff</div>
-									<div className="legend-row"><span className="legend-icon"><StickyNote /></span> Staff note recorded</div>
-									<div className="legend-row"><span className="legend-icon"><LockIcon /></span> Allocation locked</div>
+									<div className="legend-row">
+										<span className="legend-icon">
+											<Accessibility />
+										</span>{" "}
+										Accessible seating required
+									</div>
+									<div className="legend-row">
+										<span className="legend-icon">
+											<Star />
+										</span>{" "}
+										Elderly participant
+									</div>
+									<div className="legend-row">
+										<span className="legend-icon">
+											<StickyNote />
+										</span>{" "}
+										Staff note recorded
+									</div>
 								</div>
 							</section>
 							<div className="legend-directions">
 								<strong>How to read the hall</strong>
-								<p>三寶佛 is the front. 西單 columns are 1–8; 東單 columns are 9–16. The centre aisle separates the two sides. Emperor pairs appear as one double-width card and move together.</p>
-								<p>Select a participant card to review its registration. Search highlights matching names; other allocations are dimmed. In read mode the plan is protected; edit mode enables drag-and-drop and move/swap.</p>
+								<p>
+									三寶佛 is the front. 西單 columns are 1–8; 東單 columns are
+									9–16. The centre aisle separates the two sides. Emperor pairs
+									appear as one double-width card and move together.
+								</p>
+								<p>
+									Select a participant card to review its registration. Search
+									highlights matching names; other allocations are dimmed. In
+									read mode the plan is protected; edit mode enables
+									drag-and-drop and move/swap.
+								</p>
 							</div>
 						</div>
 					)}
 					{modal === "publish" && (
 						<>
-                            {error && <p role="alert" className="text-destructive">{error}</p>}
+							{error && (
+								<p role="alert" className="text-destructive">
+									{error}
+								</p>
+							)}
 							<p>
 								{active.length} registrations · {Object.keys(owners).length}{" "}
 								occupied seats.
 							</p>
 							<p className="text-sm">
-								Publishing replaces the current public
-								version. Future edits create a private working revision.
+								Publishing replaces the current public version. Future edits
+								create a private working revision.
 							</p>
 							<Button
 								disabled={busy || dirty || docked.length > 0}
 								onClick={() => operation("workspace_publish")}
 							>
 								Publish seating plan
-							</Button>
-						</>
-					)}
-					{modal === "replace" && (
-						<>
-							<p className="text-sm">
-								The original registration is retained as replaced. The
-								replacement inherits its tier, contribution and accessibility
-								requirements; verify that this is correct before continuing.
-							</p>
-							<label>
-								Replacement registered name
-								<input
-									className="block w-full border rounded p-2"
-									maxLength={80}
-									value={replacementName}
-									onChange={(e) => setReplacementName(e.target.value)}
-									placeholder="陳思恩"
-								/>
-							</label>
-							<Button
-								disabled={!canEdit || !replacementName.trim() || item?.locked}
-								onClick={replace}
-							>
-								Create replacement
 							</Button>
 						</>
 					)}

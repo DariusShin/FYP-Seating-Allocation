@@ -48,7 +48,6 @@ export const CATEGORY_LABELS: Record<Assignment["participant_category"], string>
 export const COMPONENT_LABELS: Record<string, string> = {
   priority_seat: "Contribution-to-seat matching",
   category_zone: "Preferred areas",
-  movement: "Seat changes",
   activeness: "Participation",
 };
 
@@ -70,17 +69,13 @@ export type HighlightMode =
   | "none"
   | "elderly"
   | "monk"
-  | "accessible"
-  | "moved"
-  | "kept";
+  | "accessible";
 
 export const HIGHLIGHT_OPTIONS: { value: HighlightMode; label: string }[] = [
   { value: "none", label: "No highlight" },
   { value: "elderly", label: "Elderly ★" },
   { value: "monk", label: "Monastics ☸" },
   { value: "accessible", label: "Accessible ♿" },
-  { value: "moved", label: "Moved since last plan" },
-  { value: "kept", label: "Kept previous seat" },
 ];
 
 export function matchesHighlight(
@@ -96,10 +91,6 @@ export function matchesHighlight(
       return assignment.is_monk;
     case "accessible":
       return assignment.requires_accessible_seat;
-    case "moved":
-      return assignment.moved === true;
-    case "kept":
-      return assignment.moved === false;
     default:
       return true;
   }

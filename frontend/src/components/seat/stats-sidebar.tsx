@@ -49,8 +49,6 @@ export function StatsSidebar({ result }: { result: AllocationResult }) {
     },
   ];
   const maxComponent = Math.max(1, ...penaltyComponents.map((c) => c.value));
-  const kept = result.assignments.filter((a) => a.moved === false).length;
-  const movedCount = result.assignments.filter((a) => a.moved === true).length;
 
   return (
     <div className="space-y-4">
@@ -82,10 +80,6 @@ export function StatsSidebar({ result }: { result: AllocationResult }) {
             value={`${summary.required_seat_count} / ${summary.total_seat_count}`}
           />
           <Stat label="Empty seats" value={String(summary.empty_seat_count)} />
-          <Stat
-            label="Kept previous seat"
-            value={`${kept} kept · ${movedCount} moved`}
-          />
         </CardContent>
       </Card>
 

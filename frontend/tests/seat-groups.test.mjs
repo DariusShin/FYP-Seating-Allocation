@@ -26,8 +26,8 @@ test('legacy partner names still render one payer card',()=>{
 test('selection of either cell outlines the complete pair wrapper',()=>{
  for(const selectedSeat of ['s7','s8']){const html=render({splitPairs:{pair:true},names:{s7:"林慧婷",s8:"陳思恩"},selectedSeat});assert.match(html,/data-pair-display="merged" class="[^"]*ring-2 ring-ring/);}
 });
-test('single contributor after partner absence occupies one track',()=>{
- const html=render({owners:{s8:'pair'}});assert.doesNotMatch(html,/data-pair-display=/);assert.match(html,/grid-column:9 \/ span 1/);
+test('single-seat registration occupies one track',()=>{
+ const html=render({owners:{s8:'single'},tiers:{single:'MERIT'}});assert.doesNotMatch(html,/data-pair-display=/);assert.match(html,/grid-column:9 \/ span 1/);
 });
 test('pair grouping never crosses an aisle or groups different registrations',()=>{
  const across=[{...seats[0],physical_position:8},{...seats[1],physical_position:9,side:'RIGHT'}];assert.equal(grouping.seatGroups(across,props.owners).length,2);assert.equal(grouping.seatGroups(seats,{s7:'one',s8:'two'}).length,2);

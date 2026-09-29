@@ -116,7 +116,6 @@ export function VenueDisplay() {
 								chineseVenueName(p.primary_name) || undefined,
 							]),
 						)}
-						zoom={0}
 					/>
 				</>
 			) : (

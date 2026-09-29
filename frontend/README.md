@@ -65,31 +65,19 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-## Reset local seating after the v3 tier-priority fix
+## Paid-seat retention demo (policy v4)
 
-Policy `pjkit-v3` enforces Emperor → Merit → Bodhi over the full row/seat priority
-order, including both seats in an Emperor pair. Old versions must not be reused
-as repair baselines. An explicit full regeneration can adopt the current policy;
-for a clean prototype demonstration, reset local persisted state instead.
+The default database is `output/paid-seats-v4.sqlite3`. The old `output/plans.sqlite3` and backups are preserved; no migration or reset is applied to them. Unset a previous `SEAT_PLAN_DB` override or point it explicitly at the v4 file. Starting this branch for the first time gives an empty event history and the normal initial-generation flow.
 
-Stop the development server and any running solver before resetting. From the
-repository root, inspect the target first:
+Paid registrations retain their name and allocation even when contributors do not attend. Emperor always retains two seats. Absence, replacement, attendance markers, name/seat checkboxes and location locks are removed from the production UI and stored workspace state.
+
+Use **Edit plan** for manual moves/swaps and the holding dock. All paid registrations must be seated before publication. Seat details use **Edit → Save draft / Cancel** for display name and note; canceling does not change the workspace. Settings offers regeneration only after changing preference order or an enabled flag, and opens the new private draft for review. No operation selector or repair mode remains.
+
+To reset only the v4 demo store, stop the server and solver processes first, then run from the repository root:
 
 ```bash
-.venv/bin/python -m seat_solver.production.reset_local
-.venv/bin/python -m seat_solver.production.reset_local --apply
+PYTHONPATH=src .venv/bin/python -m seat_solver.production.reset_local
+PYTHONPATH=src .venv/bin/python -m seat_solver.production.reset_local --apply
 ```
 
-The command uses `SEAT_PLAN_DB` when set, otherwise `output/plans.sqlite3`.
-Use `--database /absolute/path/to/plans.sqlite3` to select an explicit database.
-Without `--apply` it only reports counts. Applying creates an integrity-checked
-SQLite backup in the database's sibling `backups/` directory, then transactionally
-clears plans, publication pointers, audit records, current workspaces, and saved
-workspace versions. Layout and registration JSON files are preserved. Unknown
-tables cause the reset to abort rather than delete unrelated data.
-
-Restart the server, open `/event`, and enter the event's seating workspace. With
-no plan stored, the existing entry component automatically generates an INITIAL
-draft and displays its map without a load-existing-plan dialog. The venue stays
-unpublished until staff explicitly publish. To restore an archived database,
-stop the server again and restore the backup using SQLite's backup API.
+The first command reports counts; `--apply` creates an integrity-checked backup and clears the selected local state transactionally. Layout and registration fixtures are preserved. Do not point this command at the old history unless you explicitly intend to reset it.
