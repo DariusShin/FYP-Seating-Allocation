@@ -61,7 +61,7 @@ export function runProduction<T>(body: Record<string, unknown>): Promise<T> {
 	const python =
 		process.env.SEAT_SOLVER_PYTHON ?? path.join(root, ".venv", "bin", "python");
 	return new Promise((resolve, reject) => {
-		const child = spawn(python, ["-m", "seat_solver.service"], {
+		const child = spawn(python, ["-m", "seat_solver.production.service"], {
 			cwd: root,
 			env: { ...process.env, PYTHONPATH: path.join(root, "src") },
 		});
