@@ -12,7 +12,7 @@ Each physical seat has at most one occupant, counting a chosen pair in both seat
 
     occ[s] = sum(p,o containing s) z[p,o] <= 1
 
-Blocked options and accessibility-incompatible options are removed. Pairs are approved disjoint physical-position pairs; no pair crosses the aisle. The 2026 layout blocks rows 6 and 8, positions 5–12, leaving 240 assignable seats. The historical report layout remains a distinct 232-seat fixture.
+Blocked options and accessibility-incompatible options are removed. Pairs are approved disjoint physical-position pairs; no pair crosses the aisle. The 2026 layout blocks rows 6 and 8, positions 5–12, and rows 7 and 9, positions 5–6 and 11–12, leaving 232 assignable seats. The historical report layout remains a distinct 232-seat fixture.
 
 Tier is explicit. Minimums are Emperor 5000, Merit 3000, Bodhi 2000 integer RM, with no inferred exclusive upper bounds. Tier row precedence is Emperor <= Merit <= Bodhi (equality permits shared rows). Within each tier, higher contributions cannot occupy later rows. Consecutive contribution-group row boundary variables implement all these ordering inequalities transitively.
 

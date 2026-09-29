@@ -2,7 +2,7 @@
   "schema_version": "2.0.0",
   "event_id": "PJKIT-2026",
   "generation_mode": "INITIAL",
-  "layout_version_id": "pjkit-2026-v1",
+  "layout_version_id": "pjkit-2026-v2",
   "policy_version_id": "pjkit-v2",
   "baseline_plan_version_id": null,
   "preference_profile_version": "ranked-v1",
@@ -23,7 +23,7 @@
   "participants": [
     {
       "participant_id": "P001",
-      "full_name": "宋美贤",
+      "full_name": "郭志瑞",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -36,7 +36,7 @@
     },
     {
       "participant_id": "P002",
-      "full_name": "叶美贤",
+      "full_name": "張文軒",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -49,7 +49,7 @@
     },
     {
       "participant_id": "P003",
-      "full_name": "陈文贤",
+      "full_name": "謝佩寧",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -62,7 +62,7 @@
     },
     {
       "participant_id": "P004",
-      "full_name": "林文贤",
+      "full_name": "黃嘉怡",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -75,7 +75,7 @@
     },
     {
       "participant_id": "P005",
-      "full_name": "黄文贤",
+      "full_name": "林淑賢",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -88,7 +88,7 @@
     },
     {
       "participant_id": "P006",
-      "full_name": "张文贤",
+      "full_name": "郭志玲",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -101,7 +101,7 @@
     },
     {
       "participant_id": "P007",
-      "full_name": "李文贤",
+      "full_name": "楊明賢",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -114,7 +114,7 @@
     },
     {
       "participant_id": "P008",
-      "full_name": "王文贤",
+      "full_name": "黃佩瑞",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -127,7 +127,7 @@
     },
     {
       "participant_id": "P009",
-      "full_name": "吴文贤",
+      "full_name": "謝德豪",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -140,7 +140,7 @@
     },
     {
       "participant_id": "P010",
-      "full_name": "刘文贤",
+      "full_name": "李俊婷",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -153,7 +153,7 @@
     },
     {
       "participant_id": "P011",
-      "full_name": "蔡文贤",
+      "full_name": "王德宇",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -166,7 +166,7 @@
     },
     {
       "participant_id": "P012",
-      "full_name": "杨文贤",
+      "full_name": "黃雅宇",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -179,7 +179,7 @@
     },
     {
       "participant_id": "P013",
-      "full_name": "许文贤",
+      "full_name": "劉雪賢",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -192,7 +192,7 @@
     },
     {
       "participant_id": "P014",
-      "full_name": "郑文贤",
+      "full_name": "李淑軒",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -205,7 +205,7 @@
     },
     {
       "participant_id": "P015",
-      "full_name": "谢文贤",
+      "full_name": "陳建雯",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -218,7 +218,7 @@
     },
     {
       "participant_id": "P016",
-      "full_name": "郭文贤",
+      "full_name": "張俊怡",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -231,7 +231,7 @@
     },
     {
       "participant_id": "P017",
-      "full_name": "何文贤",
+      "full_name": "郭文婷",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -244,7 +244,7 @@
     },
     {
       "participant_id": "P018",
-      "full_name": "周文贤",
+      "full_name": "宋錦宇",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -257,7 +257,7 @@
     },
     {
       "participant_id": "P019",
-      "full_name": "罗文贤",
+      "full_name": "蔡思芬",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -270,7 +270,7 @@
     },
     {
       "participant_id": "P020",
-      "full_name": "梁文贤",
+      "full_name": "梁俊恩",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -283,7 +283,7 @@
     },
     {
       "participant_id": "P021",
-      "full_name": "宋文贤",
+      "full_name": "羅俊儀",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -296,7 +296,7 @@
     },
     {
       "participant_id": "P022",
-      "full_name": "叶文贤",
+      "full_name": "鄭慧賢",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -309,7 +309,7 @@
     },
     {
       "participant_id": "P023",
-      "full_name": "陈欣贤",
+      "full_name": "吳靜婷",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -322,7 +322,7 @@
     },
     {
       "participant_id": "P024",
-      "full_name": "林欣贤",
+      "full_name": "黃靜恩",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -335,7 +335,7 @@
     },
     {
       "participant_id": "P025",
-      "full_name": "黄欣贤",
+      "full_name": "林志恩",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -348,7 +348,7 @@
     },
     {
       "participant_id": "P026",
-      "full_name": "张欣贤",
+      "full_name": "張雅傑",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -361,7 +361,7 @@
     },
     {
       "participant_id": "P027",
-      "full_name": "李欣贤",
+      "full_name": "葉雪怡",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -374,7 +374,7 @@
     },
     {
       "participant_id": "P028",
-      "full_name": "王欣贤",
+      "full_name": "許偉寧",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -387,7 +387,7 @@
     },
     {
       "participant_id": "P029",
-      "full_name": "吴欣贤",
+      "full_name": "陳秀華",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -400,7 +400,7 @@
     },
     {
       "participant_id": "P030",
-      "full_name": "刘欣贤",
+      "full_name": "周雪軒",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -413,7 +413,7 @@
     },
     {
       "participant_id": "P031",
-      "full_name": "蔡欣贤",
+      "full_name": "郭俊寧",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -426,7 +426,7 @@
     },
     {
       "participant_id": "P032",
-      "full_name": "杨欣贤",
+      "full_name": "謝國怡",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -439,7 +439,7 @@
     },
     {
       "participant_id": "P033",
-      "full_name": "许欣贤",
+      "full_name": "黃淑雯",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -452,7 +452,7 @@
     },
     {
       "participant_id": "P034",
-      "full_name": "郑欣贤",
+      "full_name": "周雅寧",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -465,7 +465,7 @@
     },
     {
       "participant_id": "P035",
-      "full_name": "谢欣贤",
+      "full_name": "陳欣賢",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -478,7 +478,7 @@
     },
     {
       "participant_id": "P036",
-      "full_name": "郭欣贤",
+      "full_name": "鄭錦萱",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -491,7 +491,7 @@
     },
     {
       "participant_id": "P037",
-      "full_name": "何欣贤",
+      "full_name": "宋佩琳",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -504,7 +504,7 @@
     },
     {
       "participant_id": "P038",
-      "full_name": "周欣贤",
+      "full_name": "劉德傑",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -517,7 +517,7 @@
     },
     {
       "participant_id": "P039",
-      "full_name": "罗欣贤",
+      "full_name": "王明賢",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -530,7 +530,7 @@
     },
     {
       "participant_id": "P040",
-      "full_name": "梁欣贤",
+      "full_name": "王雪賢",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -543,7 +543,7 @@
     },
     {
       "participant_id": "P041",
-      "full_name": "宋欣贤",
+      "full_name": "林靜芬",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -556,7 +556,7 @@
     },
     {
       "participant_id": "P042",
-      "full_name": "叶欣贤",
+      "full_name": "何嘉安",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -569,7 +569,7 @@
     },
     {
       "participant_id": "P043",
-      "full_name": "陈明贤",
+      "full_name": "何志成",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -582,7 +582,7 @@
     },
     {
       "participant_id": "P044",
-      "full_name": "林明贤",
+      "full_name": "葉淑萱",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -595,7 +595,7 @@
     },
     {
       "participant_id": "P045",
-      "full_name": "黄明贤",
+      "full_name": "周欣儀",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -608,7 +608,7 @@
     },
     {
       "participant_id": "P046",
-      "full_name": "张明贤",
+      "full_name": "宋靜傑",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -621,7 +621,7 @@
     },
     {
       "participant_id": "P047",
-      "full_name": "李明贤",
+      "full_name": "蔡淑雯",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -634,7 +634,7 @@
     },
     {
       "participant_id": "P048",
-      "full_name": "王明贤",
+      "full_name": "何嘉儀",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -647,7 +647,7 @@
     },
     {
       "participant_id": "P049",
-      "full_name": "吴明贤",
+      "full_name": "鄭思安",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -660,7 +660,7 @@
     },
     {
       "participant_id": "P050",
-      "full_name": "刘明贤",
+      "full_name": "蔡欣安",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -673,7 +673,7 @@
     },
     {
       "participant_id": "P051",
-      "full_name": "蔡明贤",
+      "full_name": "鄭文玲",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -686,7 +686,7 @@
     },
     {
       "participant_id": "P052",
-      "full_name": "杨明贤",
+      "full_name": "謝欣儀",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -699,7 +699,7 @@
     },
     {
       "participant_id": "P053",
-      "full_name": "许明贤",
+      "full_name": "李秀琳",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -712,7 +712,7 @@
     },
     {
       "participant_id": "P054",
-      "full_name": "郑明贤",
+      "full_name": "劉思傑",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -725,7 +725,7 @@
     },
     {
       "participant_id": "P055",
-      "full_name": "谢明贤",
+      "full_name": "梁偉恩",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -738,7 +738,7 @@
     },
     {
       "participant_id": "P056",
-      "full_name": "郭明贤",
+      "full_name": "王志萱",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "EMPEROR",
@@ -751,7 +751,7 @@
     },
     {
       "participant_id": "P057",
-      "full_name": "何明贤",
+      "full_name": "鄭俊雯",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -764,7 +764,7 @@
     },
     {
       "participant_id": "P058",
-      "full_name": "周明贤",
+      "full_name": "羅俊賢",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -777,7 +777,7 @@
     },
     {
       "participant_id": "P059",
-      "full_name": "罗明贤",
+      "full_name": "陳美怡",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -790,7 +790,7 @@
     },
     {
       "participant_id": "P060",
-      "full_name": "梁明贤",
+      "full_name": "陳欣恩",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -803,7 +803,7 @@
     },
     {
       "participant_id": "P061",
-      "full_name": "宋明贤",
+      "full_name": "羅國婷",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -816,7 +816,7 @@
     },
     {
       "participant_id": "P062",
-      "full_name": "叶明贤",
+      "full_name": "吳欣萱",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -829,7 +829,7 @@
     },
     {
       "participant_id": "P063",
-      "full_name": "陈雅贤",
+      "full_name": "鄭靜豪",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -842,7 +842,7 @@
     },
     {
       "participant_id": "P064",
-      "full_name": "林雅贤",
+      "full_name": "黃欣萱",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -855,7 +855,7 @@
     },
     {
       "participant_id": "P065",
-      "full_name": "黄雅贤",
+      "full_name": "郭俊玲",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -868,7 +868,7 @@
     },
     {
       "participant_id": "P066",
-      "full_name": "张雅贤",
+      "full_name": "謝淑瑞",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -881,7 +881,7 @@
     },
     {
       "participant_id": "P067",
-      "full_name": "李雅贤",
+      "full_name": "蔡偉萱",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -894,7 +894,7 @@
     },
     {
       "participant_id": "P068",
-      "full_name": "王雅贤",
+      "full_name": "鄭雅安",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -907,7 +907,7 @@
     },
     {
       "participant_id": "P069",
-      "full_name": "吴雅贤",
+      "full_name": "黃俊儀",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -920,7 +920,7 @@
     },
     {
       "participant_id": "P070",
-      "full_name": "刘雅贤",
+      "full_name": "陳秀傑",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -933,7 +933,7 @@
     },
     {
       "participant_id": "P071",
-      "full_name": "蔡雅贤",
+      "full_name": "劉欣怡",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -946,7 +946,7 @@
     },
     {
       "participant_id": "P072",
-      "full_name": "杨雅贤",
+      "full_name": "羅德琳",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -959,7 +959,7 @@
     },
     {
       "participant_id": "P073",
-      "full_name": "许雅贤",
+      "full_name": "蔡佩華",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -972,7 +972,7 @@
     },
     {
       "participant_id": "P074",
-      "full_name": "郑雅贤",
+      "full_name": "陳建瑞",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -985,7 +985,7 @@
     },
     {
       "participant_id": "P075",
-      "full_name": "谢雅贤",
+      "full_name": "何明儀",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -998,7 +998,7 @@
     },
     {
       "participant_id": "P076",
-      "full_name": "郭雅贤",
+      "full_name": "何佩賢",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -1011,7 +1011,7 @@
     },
     {
       "participant_id": "P077",
-      "full_name": "何雅贤",
+      "full_name": "王志儀",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -1024,7 +1024,7 @@
     },
     {
       "participant_id": "P078",
-      "full_name": "周雅贤",
+      "full_name": "何明怡",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -1037,7 +1037,7 @@
     },
     {
       "participant_id": "P079",
-      "full_name": "罗雅贤",
+      "full_name": "鄭雅芬",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -1050,7 +1050,7 @@
     },
     {
       "participant_id": "P080",
-      "full_name": "梁雅贤",
+      "full_name": "何文華",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "MERIT",
@@ -1063,7 +1063,7 @@
     },
     {
       "participant_id": "P081",
-      "full_name": "宋雅贤",
+      "full_name": "王德恩",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "BODHI",
@@ -1076,7 +1076,7 @@
     },
     {
       "participant_id": "P082",
-      "full_name": "叶雅贤",
+      "full_name": "陳俊玲",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "BODHI",
@@ -1089,7 +1089,7 @@
     },
     {
       "participant_id": "P083",
-      "full_name": "陈建贤",
+      "full_name": "吳靜華",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "BODHI",
@@ -1102,7 +1102,7 @@
     },
     {
       "participant_id": "P084",
-      "full_name": "林建贤",
+      "full_name": "羅雪寧",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "BODHI",
@@ -1115,7 +1115,7 @@
     },
     {
       "participant_id": "P085",
-      "full_name": "黄建贤",
+      "full_name": "許欣怡",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "BODHI",
@@ -1128,7 +1128,7 @@
     },
     {
       "participant_id": "P086",
-      "full_name": "张建贤",
+      "full_name": "李明芬",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "BODHI",
@@ -1141,7 +1141,7 @@
     },
     {
       "participant_id": "P087",
-      "full_name": "李建贤",
+      "full_name": "劉欣安",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "BODHI",
@@ -1154,7 +1154,7 @@
     },
     {
       "participant_id": "P088",
-      "full_name": "王建贤",
+      "full_name": "蔡國成",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "BODHI",
@@ -1167,7 +1167,7 @@
     },
     {
       "participant_id": "P089",
-      "full_name": "吴建贤",
+      "full_name": "周嘉玲",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "BODHI",
@@ -1180,7 +1180,7 @@
     },
     {
       "participant_id": "P090",
-      "full_name": "刘建贤",
+      "full_name": "鄭偉華",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "BODHI",
@@ -1193,7 +1193,7 @@
     },
     {
       "participant_id": "P091",
-      "full_name": "蔡建贤",
+      "full_name": "吳建豪",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "BODHI",
@@ -1206,7 +1206,7 @@
     },
     {
       "participant_id": "P092",
-      "full_name": "杨建贤",
+      "full_name": "劉文恩",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "BODHI",
@@ -1219,7 +1219,7 @@
     },
     {
       "participant_id": "P093",
-      "full_name": "许建贤",
+      "full_name": "李國賢",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "BODHI",
@@ -1232,7 +1232,7 @@
     },
     {
       "participant_id": "P094",
-      "full_name": "郑建贤",
+      "full_name": "鄭美瑞",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "BODHI",
@@ -1245,7 +1245,7 @@
     },
     {
       "participant_id": "P095",
-      "full_name": "谢建贤",
+      "full_name": "梁明宇",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "BODHI",
@@ -1258,7 +1258,7 @@
     },
     {
       "participant_id": "P096",
-      "full_name": "郭建贤",
+      "full_name": "蔡欣寧",
       "registration_status": "CONFIRMED",
       "replacement_for_participant_id": null,
       "contribution_tier": "BODHI",
@@ -2384,7 +2384,7 @@
         "side": "LEFT",
         "zone": "LEFT_CENTER",
         "is_accessible": false,
-        "is_blocked": false
+        "is_blocked": true
       },
       {
         "seat_id": "R07-S06",
@@ -2395,7 +2395,7 @@
         "side": "LEFT",
         "zone": "LEFT_CENTER",
         "is_accessible": false,
-        "is_blocked": false
+        "is_blocked": true
       },
       {
         "seat_id": "R07-S07",
@@ -2450,7 +2450,7 @@
         "side": "RIGHT",
         "zone": "RIGHT_CENTER",
         "is_accessible": false,
-        "is_blocked": false
+        "is_blocked": true
       },
       {
         "seat_id": "R07-S12",
@@ -2461,7 +2461,7 @@
         "side": "RIGHT",
         "zone": "RIGHT_CENTER",
         "is_accessible": false,
-        "is_blocked": false
+        "is_blocked": true
       },
       {
         "seat_id": "R07-S13",
@@ -2736,7 +2736,7 @@
         "side": "LEFT",
         "zone": "LEFT_CENTER",
         "is_accessible": false,
-        "is_blocked": false
+        "is_blocked": true
       },
       {
         "seat_id": "R09-S06",
@@ -2747,7 +2747,7 @@
         "side": "LEFT",
         "zone": "LEFT_CENTER",
         "is_accessible": false,
-        "is_blocked": false
+        "is_blocked": true
       },
       {
         "seat_id": "R09-S07",
@@ -2802,7 +2802,7 @@
         "side": "RIGHT",
         "zone": "RIGHT_CENTER",
         "is_accessible": false,
-        "is_blocked": false
+        "is_blocked": true
       },
       {
         "seat_id": "R09-S12",
@@ -2813,7 +2813,7 @@
         "side": "RIGHT",
         "zone": "RIGHT_CENTER",
         "is_accessible": false,
-        "is_blocked": false
+        "is_blocked": true
       },
       {
         "seat_id": "R09-S13",
@@ -4092,7 +4092,7 @@
         "is_blocked": false
       }
     ],
-    "layout_version_id": "pjkit-2026-v1",
+    "layout_version_id": "pjkit-2026-v2",
     "accessible_positions": [
       1,
       2,

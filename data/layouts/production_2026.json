@@ -1112,7 +1112,7 @@
       "side": "LEFT",
       "zone": "LEFT_CENTER",
       "is_accessible": false,
-      "is_blocked": false
+      "is_blocked": true
     },
     {
       "seat_id": "R07-S06",
@@ -1123,7 +1123,7 @@
       "side": "LEFT",
       "zone": "LEFT_CENTER",
       "is_accessible": false,
-      "is_blocked": false
+      "is_blocked": true
     },
     {
       "seat_id": "R07-S07",
@@ -1178,7 +1178,7 @@
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
       "is_accessible": false,
-      "is_blocked": false
+      "is_blocked": true
     },
     {
       "seat_id": "R07-S12",
@@ -1189,7 +1189,7 @@
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
       "is_accessible": false,
-      "is_blocked": false
+      "is_blocked": true
     },
     {
       "seat_id": "R07-S13",
@@ -1464,7 +1464,7 @@
       "side": "LEFT",
       "zone": "LEFT_CENTER",
       "is_accessible": false,
-      "is_blocked": false
+      "is_blocked": true
     },
     {
       "seat_id": "R09-S06",
@@ -1475,7 +1475,7 @@
       "side": "LEFT",
       "zone": "LEFT_CENTER",
       "is_accessible": false,
-      "is_blocked": false
+      "is_blocked": true
     },
     {
       "seat_id": "R09-S07",
@@ -1530,7 +1530,7 @@
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
       "is_accessible": false,
-      "is_blocked": false
+      "is_blocked": true
     },
     {
       "seat_id": "R09-S12",
@@ -1541,7 +1541,7 @@
       "side": "RIGHT",
       "zone": "RIGHT_CENTER",
       "is_accessible": false,
-      "is_blocked": false
+      "is_blocked": true
     },
     {
       "seat_id": "R09-S13",
@@ -2820,7 +2820,7 @@
       "is_blocked": false
     }
   ],
-  "layout_version_id": "pjkit-2026-v1",
+  "layout_version_id": "pjkit-2026-v2",
   "accessible_positions": [
     1,
     2,
