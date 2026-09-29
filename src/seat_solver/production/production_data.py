@@ -79,14 +79,34 @@ if __name__ == "__main__":
     main()
 
 
+def restore_synthetic_display_names(state):
+    """Resolve legacy fixture labels using the original deterministic Chinese names.
+
+    Match the fixture number, not array order or an arbitrary registration ID.
+    Staff-entered names and real registration records are left untouched.
+    """
+    import re
+
+    changed = 0
+    for participant in state["participants"]:
+        match = re.fullmatch(r"Synthetic participant ([1-9]\d*)", participant["full_name"])
+        if not match:
+            continue
+        replacement = synthetic_chinese_name(int(match[1]) - 1)
+        item = state["items"][participant["participant_id"]]
+        for index, name in enumerate(item["display_names"]):
+            if name == participant["full_name"] or re.fullmatch(r"Synthetic (?:partner|guest) \d+", name):
+                item["display_names"][index] = replacement
+                changed += 1
+    return changed
+
+
 def refresh_synthetic_display_names(store):
     """Replace recognized placeholder display names in private working drafts only.
 
     This explicit fixture migration preserves custom names, notes, placements,
     registrations and all published snapshots.
     """
-    import re
-
     from seat_solver.production.workspace import WorkspaceStore
 
     workspaces = WorkspaceStore(store)
@@ -96,17 +116,7 @@ def refresh_synthetic_display_names(store):
     for event in events:
         current = workspaces.load(event)
         state = current["state"]
-        updated = 0
-        for index, p in enumerate(state["participants"]):
-            if not re.fullmatch(r"Synthetic participant \d+", p["full_name"]):
-                continue
-            item = state["items"][p["participant_id"]]
-            for occupant, name in enumerate(item["display_names"]):
-                if name == p["full_name"] or re.fullmatch(
-                    r"Synthetic (?:partner|guest) \d+", name
-                ):
-                    item["display_names"][occupant] = synthetic_chinese_name(index)
-                    updated += 1
+        updated = restore_synthetic_display_names(state)
         if updated:
             workspaces.action(
                 event,

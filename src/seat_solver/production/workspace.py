@@ -193,6 +193,51 @@ class WorkspaceStore:
                 "CREATE TABLE IF NOT EXISTS workspaces (event TEXT PRIMARY KEY, base TEXT NOT NULL, revision INTEGER NOT NULL, body TEXT NOT NULL, saved_at TEXT NOT NULL, actor TEXT NOT NULL)"
             )
 
+            db.execute(
+                "CREATE TABLE IF NOT EXISTS workspace_versions (event TEXT NOT NULL, base TEXT NOT NULL, body TEXT NOT NULL, saved_at TEXT NOT NULL, actor TEXT NOT NULL, PRIMARY KEY(event,base))"
+            )
+
+    def open(self, event, actor, plan_id=None):
+        """Explicitly select a plan, preserving saved edits and stale-write protection."""
+        with self.store.connection() as db:
+            if plan_id is None:
+                latest = db.execute(
+                    "SELECT id FROM plans WHERE event=? ORDER BY rowid DESC LIMIT 1", (event,)
+                ).fetchone()
+                if not latest:
+                    raise DomainError("NOT_FOUND", "No seating draft exists for this event")
+                plan_id = latest["id"]
+            plan = self.store._load(db, plan_id)
+            if plan["event_id"] != event:
+                raise DomainError("NOT_FOUND", "Plan not in this event")
+            current = db.execute("SELECT * FROM workspaces WHERE event=?", (event,)).fetchone()
+            if current and current["base"] == plan_id:
+                return {
+                    "base": plan, "state": normalize_display_names(json.loads(current["body"])),
+                    "revision": current["revision"], "saved_at": current["saved_at"],
+                    "actor": current["actor"], "has_newer_plan": False,
+                }
+            if current:
+                db.execute(
+                    "INSERT INTO workspace_versions(event,base,body,saved_at,actor) VALUES(?,?,?,?,?) ON CONFLICT(event,base) DO UPDATE SET body=excluded.body,saved_at=excluded.saved_at,actor=excluded.actor",
+                    (event, current["base"], current["body"], current["saved_at"], current["actor"]),
+                )
+            archived = db.execute(
+                "SELECT * FROM workspace_versions WHERE event=? AND base=?", (event, plan_id)
+            ).fetchone()
+            state = normalize_display_names(json.loads(archived["body"])) if archived else initial_state(plan)
+            revision = current["revision"] + 1 if current else 0
+            stamp = archived["saved_at"] if archived else plan.get("published_at") or now()
+            owner = archived["actor"] if archived else actor
+            db.execute(
+                "INSERT INTO workspaces(event,base,revision,body,saved_at,actor) VALUES(?,?,?,?,?,?) ON CONFLICT(event) DO UPDATE SET base=excluded.base,revision=excluded.revision,body=excluded.body,saved_at=excluded.saved_at,actor=excluded.actor",
+                (event, plan_id, revision, json.dumps(state), stamp, owner),
+            )
+            db.execute("INSERT INTO audit(event,plan,action,actor,at) VALUES(?,?,?,?,?)",
+                       (event, plan_id, "WORKSPACE_OPEN", actor, now()))
+            return {"base": plan, "state": state, "revision": revision,
+                    "saved_at": stamp, "actor": owner, "has_newer_plan": False}
+
     def load(self, event):
         plan = self.store.latest(event)
         if not plan:
@@ -225,6 +270,8 @@ class WorkspaceStore:
         command = body["command"]
         if command == "workspace_load":
             return self.load(event)
+        if command == "workspace_open":
+            return self.open(event, actor, body.get("plan_version_id"))
         if command not in {"workspace_save", "workspace_publish"}:
             raise DomainError("INVALID_INPUT", "Unknown workspace operation")
         # All state checks, updates and publication occur in the same transaction.

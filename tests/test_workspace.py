@@ -366,3 +366,97 @@ def test_changed_public_pointer_rejects_workspace_publication(setup):
     assert (
         store.published(plan["event_id"])["plan_version_id"] == other["plan_version_id"]
     )
+
+
+def test_open_latest_switches_from_saved_workspace_to_new_draft(setup):
+    store, ws, old = setup
+    saved = action(ws, old, "workspace_save", state=initial_state(old))
+    new = store.save(solve(tiny(2, "EMPEROR")), "generator")
+    opened = ws.open(old["event_id"], "staff")
+    assert opened["base"]["plan_version_id"] == new["plan_version_id"]
+    assert opened["state"] == initial_state(new)
+    assert opened["revision"] > saved["revision"]
+    assert ws.load(old["event_id"])["base"]["plan_version_id"] == new["plan_version_id"]
+    # The new draft is immediately editable; the previous browser is stale.
+    action(ws, new, "workspace_save", opened["revision"], state=opened["state"])
+    with pytest.raises(DomainError, match="newer draft"):
+        action(ws, old, "workspace_save", saved["revision"], state=saved["state"])
+
+
+def test_open_same_plan_preserves_edits_and_is_idempotent(setup):
+    store, ws, plan = setup
+    state = initial_state(plan)
+    pid = next(iter(state["items"]))
+    state["items"][pid]["note"] = "Keep this staff note"
+    saved = action(ws, plan, "workspace_save", state=state)
+    before = len(store.history(plan["event_id"]))
+    first = ws.open(plan["event_id"], "staff")
+    second = ws.open(plan["event_id"], "staff", plan["plan_version_id"])
+    assert first == second
+    assert first["state"] == saved["state"]
+    assert first["revision"] == saved["revision"]
+    assert len(store.history(plan["event_id"])) == before
+
+
+def test_switching_versions_preserves_old_edits_and_published_pointer(setup):
+    store, ws, plan = setup
+    published = action(ws, plan, "workspace_publish")["base"]
+    state = initial_state(published)
+    pid = next(iter(state["items"]))
+    state["items"][pid]["note"] = "Private saved note"
+    current = ws.load(plan["event_id"])
+    saved = action(ws, published, "workspace_save", current["revision"], state=state)
+    new = store.save(solve(tiny(2, "EMPEROR")), "generator")
+    ws.open(plan["event_id"], "staff", new["plan_version_id"])
+    restored = ws.open(plan["event_id"], "staff", published["plan_version_id"])
+    assert restored["state"]["items"][pid]["note"] == "Private saved note"
+    assert restored["revision"] > saved["revision"]
+    assert store.published(plan["event_id"])["plan_version_id"] == published["plan_version_id"]
+
+
+def test_open_rejects_other_event_and_missing_draft(setup):
+    _store, ws, plan = setup
+    with pytest.raises(DomainError, match="Plan not in this event"):
+        ws.open("OTHER", "staff", plan["plan_version_id"])
+    with pytest.raises(DomainError, match="No seating draft"):
+        ws.open("OTHER", "staff")
+
+
+def test_workspace_adapter_restores_fixture_names_when_opening_and_reloading(tmp_path):
+    from seat_solver.production.service import dispatch
+    from seat_solver.production.production_data import synthetic_chinese_name
+
+    store = PlanStore(tmp_path / "legacy-names.db")
+    request = tiny(2, "EMPEROR")
+    # Deliberately reverse the placeholder numbering relative to array order.
+    request["participants"][0]["full_name"] = "Synthetic participant 2"
+    request["participants"][1]["full_name"] = "Synthetic participant 1"
+    plan = store.save(solve(request), "fixture")
+    event = plan["event_id"]
+    opened = dispatch({"command": "workspace_open", "event_id": event}, store)
+    for p in request["participants"]:
+        index = int(p["full_name"].split()[-1]) - 1
+        assert opened["state"]["items"][p["participant_id"]]["display_names"] == [synthetic_chinese_name(index)] * 2
+    # Names are presentation metadata; seats and authoritative registrations stay intact.
+    assert opened["state"]["participants"] == request["participants"]
+    assert {pid: m["seat_ids"] for pid, m in opened["state"]["items"].items()} == {
+        pid: m["seat_ids"] for pid, m in initial_state(plan)["items"].items()
+    }
+    loaded = dispatch({"command": "workspace_load", "event_id": event}, store)
+    assert loaded["state"] == opened["state"]
+    pid = request["participants"][0]["participant_id"]
+    loaded["state"]["items"][pid]["display_names"] = ["員工校對姓名"] * 2
+    dispatch({"command": "workspace_save", "event_id": event,
+              "plan_version_id": plan["plan_version_id"], "revision": loaded["revision"],
+              "state": loaded["state"]}, store)
+    assert dispatch({"command": "workspace_open", "event_id": event}, store)["state"]["items"][pid]["display_names"] == ["員工校對姓名"] * 2
+
+
+def test_fixture_name_resolution_does_not_replace_real_names_or_ids():
+    from seat_solver.production.production_data import restore_synthetic_display_names
+
+    state = {"participants": [{"participant_id": "P001", "full_name": "Lee Shin"}],
+             "items": {"P001": {"display_names": ["Lee Shin"], "seat_ids": ["R01-S01"]}}}
+    original = copy.deepcopy(state)
+    assert restore_synthetic_display_names(state) == 0
+    assert state == original

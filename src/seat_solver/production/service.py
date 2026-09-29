@@ -23,7 +23,12 @@ def dispatch(body, store=None):
     if command and command.startswith("workspace_"):
         from seat_solver.production.workspace import WorkspaceStore
 
-        return WorkspaceStore(store).action(event, actor, body)
+        result = WorkspaceStore(store).action(event, actor, body)
+        if isinstance(result, dict) and "state" in result:
+            from seat_solver.production.production_data import restore_synthetic_display_names
+
+            restore_synthetic_display_names(result["state"])
+        return result
     if command == "setup":
         req = read_json(
             os.environ.get(
