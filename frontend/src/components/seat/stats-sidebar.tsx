@@ -115,7 +115,9 @@ export function StatsSidebar({ result }: { result: AllocationResult }) {
           <Stat
             label="All hard constraints"
             value={
-              result.hard_constraint_validation.all_constraints_satisfied
+              result.hard_constraint_validation.checked === false
+                ? "Not checked"
+                : result.hard_constraint_validation.all_constraints_satisfied
                 ? "✓ satisfied"
                 : "✗ violated"
             }

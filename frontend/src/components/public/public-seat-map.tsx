@@ -46,7 +46,7 @@ export function PublicSeatMap({
 								<Fragment key={seat.seat_id}>
 									{seat.physical_position ===
 										floor.aisle_after_position + 1 && (
-										<div className="w-2 shrink-0 self-stretch border-x border-dashed border-muted-foreground/25 sm:w-5" />
+										<div className="w-2 shrink-0 self-center border-x border-dashed border-muted-foreground/25 sm:w-5" />
 									)}
 									<div
 										title={label}

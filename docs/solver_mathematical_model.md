@@ -5,7 +5,7 @@
 **Engine:** Google OR-Tools CP-SAT (pure integer constraint programming).
 
 > Note: this document formalises the **solver engine prototype** in `src/seat_solver/`. The companion
-> [mathematical_model.md](mathematical_model.md) describes the separate `pjkit-v2` production policy.
+> [mathematical_model.md](mathematical_model.md) describes the separate `pjkit-v3` production policy.
 
 This document gives an academic formalisation of every set, parameter, variable, hard constraint, soft constraint, and objective term implemented in the engine, cross-referenced to the implementing module and function.
 

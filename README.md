@@ -1,6 +1,6 @@
 # PJKIT seating allocation — production v2
 
-A Python OR-Tools CP-SAT solver and Next.js review application for versioned seating allocation. Current venue: **16 × 16**, **16 blocked**, **240 assignable**. Emperor → Merit → Bodhi can share boundary rows. Tiers come from registration records; minimum contributions are RM5,000 / RM3,000 / RM2,000, with no assumed upper bounds.
+A Python OR-Tools CP-SAT solver and Next.js review application for versioned seating allocation. Current venue: **16 × 16**, **24 blocked**, **232 assignable**. Emperor → Merit → Bodhi can share boundary rows. Tiers come from registration records; minimum contributions are RM5,000 / RM3,000 / RM2,000, with no assumed upper bounds.
 
 Production ordinary preferences are **contribution-to-seat matching, activeness and category suitability**. Administrators order and enable them; the backend maps enabled ranks to 40/30/20. These are relative coefficients, not percentages. Published repair separately protects movement count, then movement distance, then local packing.
 
@@ -42,15 +42,27 @@ npm --prefix frontend test
 npm --prefix frontend run typecheck
 npm --prefix frontend run lint
 npm --prefix frontend run build
-PYTHONPATH=src .venv/bin/python -m seat_solver.evaluation --suite core --budget 3 --output output/evaluation/core-v2.json
-PYTHONPATH=src .venv/bin/python -m seat_solver.evaluation --suite profiles --budget 3 --output output/evaluation/profiles-v2.json
-PYTHONPATH=src .venv/bin/python -m seat_solver.evaluation --suite random --runs 100 --budget 3 --output output/evaluation/random-v2.json
+PYTHONPATH=src .venv/bin/python -m seat_solver.production.evaluation --suite core --budget 3 --output output/evaluation/core-v2.json
+PYTHONPATH=src .venv/bin/python -m seat_solver.production.evaluation --suite profiles --budget 3 --output output/evaluation/profiles-v2.json
+PYTHONPATH=src .venv/bin/python -m seat_solver.production.evaluation --suite random --runs 100 --budget 3 --output output/evaluation/random-v2.json
 ```
 
-See [evaluation methodology](docs/evaluation.md), [mathematical model](docs/mathematical_model.md), [machine-readable formulation](docs/mathematical_model.json), [code overview](docs/code_overview.md), and [report amendments/traceability](docs/requirements-traceability.md).
+See [evaluation methodology](docs/evaluation.md), [mathematical model](docs/mathematical_model.md), [machine-readable formulation](docs/mathematical_model.json), [code overview](docs/code_overview.md), and [report amendments/traceability](docs/archived/requirements-traceability.md).
 
 ## Legacy reproduction
 
 The older modules and their tests are retained as historical v1 reproduction, not the production API. `legacy-solve` accepts the old file flags, using `config/historical/solver_config.v1.json` and `data/historical/report-232.json`. Legacy mock data, old result files and bundled frontend snapshots are never automatically imported or published. Their 122-unit/208-seat scenario and exclusive-row assumptions do not define v2 behaviour.
 
 AWS/host deployment is a separate environment-dependent acceptance gate; no Lambda latency or production cloud persistence is claimed by local tests.
+
+## Redesigned staff workflow
+
+On `codex/staff-seating-flow`, `/event` opens the staff event page and `/seat` redirects to the event-scoped seating route. Events without a plan automatically generate a draft; existing events offer **Load latest draft** or **Generate new draft**. Choose **Edit plan** for name changes, moves/swaps, attendance markers, locks, notes and the side holding dock. **Save draft → Finish editing → Continue to publication → Publish seating plan** publishes the saved revision. `/venue` shows the latest published names and full hall for staff, with full-screen and print/save-PDF controls. `/my-seat` retains its participant-scoped response.
+
+The submission safeguard implementation is preserved on `codex/seating-safeguards` and removed from this branch. There is no automated contribution-order/packing review or advisory acknowledgement step in the working-draft publication flow. Solver constraints and independent solver-output validation remain unchanged. Basic draft integrity, exact-revision checks, publication-pointer checks and atomic publication remain in place.
+
+Emperor partner absence releases the partner's seat after staff record a reason. The contributor retains Emperor priority and occupies one seat. Restoring a pair sends it to the dock for two adjacent seats. Every attending registration must have seats before it can be included in a published snapshot.
+
+Working drafts use a separate SQLite table with monotonic revisions. Published snapshots retain display-name metadata and partner-absence reasons; registration names remain protected. Existing databases with the retired review column continue to load and save without migration or data loss.
+
+See [safeguard separation and flow audit](docs/seating-safeguard-separation.md) for the historical C13 reproduction and safeguard scope. See [the frontend demo flow](frontend/README.md#staff-demo-flow) for current generation and version-opening behavior.

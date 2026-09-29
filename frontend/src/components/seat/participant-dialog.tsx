@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import { Accessibility, Star } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -8,7 +9,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
 import type { Assignment } from "@/lib/allocation-types";
 
 import { CATEGORY_LABELS, formatRM, TIER_STYLES } from "./seat-theme";
@@ -34,7 +34,6 @@ export function ParticipantDialog({
   onOpenChange: (open: boolean) => void;
 }) {
   const tier = assignment ? TIER_STYLES[assignment.contribution_tier] : null;
-  const weighted = assignment?.penalty.weighted;
 
   return (
     <Dialog open={assignment !== null} onOpenChange={onOpenChange}>
@@ -55,7 +54,7 @@ export function ParticipantDialog({
           </DialogDescription>
         </DialogHeader>
 
-        {assignment && tier && weighted && (
+        {assignment && tier && (
           <div className="space-y-3 text-sm">
             <div className="flex flex-wrap gap-1.5">
               <Badge variant="outline" className={tier.badge}>
@@ -69,21 +68,15 @@ export function ParticipantDialog({
               </Badge>
               {assignment.is_monk && <Badge variant="outline">☸ Monastic</Badge>}
               {assignment.is_elderly && (
-                <Badge variant="outline">★ Elderly</Badge>
+                <Badge variant="outline" className="gap-1"><Star aria-hidden="true" className="size-3.5" /> Elderly</Badge>
               )}
               {assignment.requires_accessible_seat && (
-                <Badge variant="outline">♿ Accessible</Badge>
+                <Badge variant="outline" className="gap-1 border-sky-700/40 text-sky-900 dark:text-sky-200"><Accessibility aria-hidden="true" className="size-4" /> Accessible seating required</Badge>
               )}
             </div>
 
             <div className="space-y-1.5">
               <Stat label="Seats" value={assignment.seat_ids.join(" + ")} />
-              {assignment.pair_priority !== null && (
-                <Stat
-                  label="Pair priority"
-                  value={`#${assignment.pair_priority}`}
-                />
-              )}
               <Stat
                 label="Events (last 2 yrs)"
                 value={String(assignment.events_joined_last_2_years)}
@@ -104,18 +97,6 @@ export function ParticipantDialog({
               )}
             </div>
 
-            <Separator />
-
-            <div className="space-y-1.5">
-              <Stat
-                label="Weighted penalty"
-                value={String(weighted.total)}
-              />
-              <Stat
-                label="care / area / moves / activity"
-                value={`${weighted.priority_seat} / ${weighted.category_zone} / ${weighted.movement} / ${weighted.activeness}`}
-              />
-            </div>
           </div>
         )}
       </DialogContent>

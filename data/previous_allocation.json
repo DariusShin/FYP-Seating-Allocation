@@ -151,8 +151,8 @@
     {
       "participant_id": "P033",
       "seat_ids": [
-        "R03-S13",
-        "R03-S14"
+        "R03-S01",
+        "R03-S02"
       ]
     },
     {
@@ -333,8 +333,8 @@
     {
       "participant_id": "P069",
       "seat_ids": [
-        "R12-S01",
-        "R12-S02"
+        "R12-S11",
+        "R12-S12"
       ]
     },
     {
@@ -431,31 +431,31 @@
     {
       "participant_id": "P089",
       "seat_ids": [
-        "R14-S04"
+        "R14-S12"
       ]
     },
     {
       "participant_id": "P091",
       "seat_ids": [
-        "R14-S14"
+        "R14-S04"
       ]
     },
     {
       "participant_id": "P094",
       "seat_ids": [
-        "R14-S13"
+        "R15-S10"
       ]
     },
     {
       "participant_id": "P095",
       "seat_ids": [
-        "R14-S06"
+        "R15-S12"
       ]
     },
     {
       "participant_id": "P097",
       "seat_ids": [
-        "R14-S10"
+        "R15-S08"
       ]
     },
     {
@@ -467,109 +467,109 @@
     {
       "participant_id": "P099",
       "seat_ids": [
-        "R16-S12"
+        "R14-S08"
       ]
     },
     {
       "participant_id": "P100",
       "seat_ids": [
-        "R15-S09"
+        "R14-S03"
       ]
     },
     {
       "participant_id": "P101",
       "seat_ids": [
-        "R16-S11"
+        "R15-S09"
       ]
     },
     {
       "participant_id": "P102",
       "seat_ids": [
-        "R15-S13"
+        "R14-S05"
       ]
     },
     {
       "participant_id": "P103",
       "seat_ids": [
-        "R15-S04"
+        "R15-S07"
       ]
     },
     {
       "participant_id": "P104",
       "seat_ids": [
-        "R15-S14"
+        "R14-S11"
       ]
     },
     {
       "participant_id": "P105",
       "seat_ids": [
-        "R16-S10"
+        "R14-S13"
       ]
     },
     {
       "participant_id": "P106",
       "seat_ids": [
-        "R15-S06"
+        "R14-S06"
       ]
     },
     {
       "participant_id": "P107",
       "seat_ids": [
-        "R16-S09"
+        "R14-S09"
       ]
     },
     {
       "participant_id": "P109",
       "seat_ids": [
-        "R15-S12"
+        "R14-S02"
       ]
     },
     {
       "participant_id": "P110",
       "seat_ids": [
-        "R15-S07"
+        "R15-S05"
       ]
     },
     {
       "participant_id": "P112",
       "seat_ids": [
-        "R15-S03"
+        "R16-S10"
       ]
     },
     {
       "participant_id": "P113",
       "seat_ids": [
-        "R15-S15"
+        "R16-S05"
       ]
     },
     {
       "participant_id": "P115",
       "seat_ids": [
-        "R15-S08"
+        "R16-S12"
       ]
     },
     {
       "participant_id": "P117",
       "seat_ids": [
-        "R15-S01"
+        "R16-S07"
       ]
     },
     {
       "participant_id": "P118",
       "seat_ids": [
-        "R16-S06"
+        "R16-S14"
       ]
     },
     {
       "participant_id": "P119",
       "seat_ids": [
-        "R16-S07"
+        "R16-S09"
       ]
     },
     {
       "participant_id": "P122",
       "seat_ids": [
-        "R16-S05"
+        "R16-S04"
       ]
     }
   ]

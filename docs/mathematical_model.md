@@ -1,6 +1,6 @@
-# PJKIT v2 mathematical model
+# PJKIT v3 mathematical model
 
-The machine-readable companion is [mathematical_model.json](mathematical_model.json). Its source of truth is the implemented `pjkit-v2` policy and `desirability-v1` scorer, rather than the retired PoC's HC numbering.
+The machine-readable companion is [mathematical_model.json](mathematical_model.json). Its source of truth is the implemented `pjkit-v3` policy and `desirability-v2` scorer, rather than the retired PoC's HC numbering.
 
 ## Feasible assignments
 
@@ -12,9 +12,11 @@ Each physical seat has at most one occupant, counting a chosen pair in both seat
 
     occ[s] = sum(p,o containing s) z[p,o] <= 1
 
-Blocked options and accessibility-incompatible options are removed. Pairs are approved disjoint physical-position pairs; no pair crosses the aisle. The 2026 layout blocks rows 6 and 8, positions 5–12, leaving 240 assignable seats. The historical report layout remains a distinct 232-seat fixture.
+Blocked options and accessibility-incompatible options are removed. Pairs are approved disjoint physical-position pairs; no pair crosses the aisle. The 2026 layout blocks rows 6 and 8, positions 5–12, and rows 7 and 9, positions 5–6 and 11–12, leaving 232 assignable seats. The historical report layout remains a distinct 232-seat fixture.
 
-Tier is explicit. Minimums are Emperor 5000, Merit 3000, Bodhi 2000 integer RM, with no inferred exclusive upper bounds. Tier row precedence is Emperor <= Merit <= Bodhi (equality permits shared rows). Within each tier, higher contributions cannot occupy later rows. Consecutive contribution-group row boundary variables implement all these ordering inequalities transitively.
+Tier is explicit. Minimums are Emperor 5000, Merit 3000, Bodhi 2000 integer RM, with no inferred exclusive upper bounds. C12 orders ALL physical seats by `(row_number - 1) * seats_per_row + priority_rank`, with unique ranks per row and smaller values preferred. For each higher-tier p and lower-tier q, `worst_seat_order[p] < best_seat_order[q]`. Both Emperor seats count. Consecutive nonempty tier boundaries enforce all cross-tier comparisons, including Emperor → Bodhi when Merit is absent. Shared rows remain allowed, but same-row tier inversions do not.
+
+C13 separately keeps higher contributions within the same tier from occupying later rows, using consecutive contribution-group row boundaries. Accessibility, pairs and packing remain compulsory: a conflict with strict tier priority is INFEASIBLE, never a hidden exemption. The stronger C12 implies the old row precedence, so the existing equal-size contribution-group row pruning remains sound; it only restricts candidate rows, not seat ranks.
 
 Initial, draft-regeneration and explicit full-regeneration modes fix global row occupancy to front-packed physical demand and require each side's occupied available positions to form a centre-out prefix. Accessibility remains hard. An edge-only accessible registration in a tiny initial event may therefore make packing infeasible; the approved default is to report this conflict, not silently relax packing. Equal contribution groups' physical packing intervals permit sound initial-row pruning. Tiny oracle tests verify this formulation independently.
 
@@ -26,7 +28,7 @@ A pair uses the average physical seat rank, not the old incompatible pair-rank s
 
 For singles/pairs this is always integer. In a 16-wide row it ranges from 0 to 30. Scores are per registration, including category averages: two physical seats do not automatically double a registration's preference influence.
 
-For each participant within their tier, contribution importance is 1..100, obtained by linearly scaling contribution above the tier's observed minimum. Equal contributions yield importance 1. Add a tier bonus 200/100/0 for Emperor/Merit/Bodhi, except accessible registrations receive no tier bonus. Raw contribution cost is `(importance + bonus) * d(o)` with maximum 9000. This incorporates shared-row higher-tier preference once. It is soft, not a ban on rank inversions; the bonus also influences preference in pure-tier partial rows.
+For each participant within their tier, contribution importance is 1..100, obtained by linearly scaling contribution above the tier's observed minimum. Equal contributions yield importance 1. Raw contribution cost is `importance * d(o)` with maximum 3000 in a 16-wide row. There is no tier bonus: hard C12 guarantees cross-tier priority regardless of which preferences are enabled or their weights. This scoring change is versioned as `desirability-v2`.
 
 Activeness importance is 0..100 using the tier's observed activity range; equal activity yields zero differential preference. Raw cost is `activity_importance * d(o)`, maximum 3000. Category cost is twice the mean of the seats' configured category-zone costs, maximum twice the largest entry.
 
@@ -38,11 +40,11 @@ The ordinary objective is the sum of normalized costs multiplied by the backend'
 
 ## Published repair
 
-The server resolves the latest published plan and checks expected version identity. Changed participants include status, tier, contribution, accessibility, category/activity, replacement changes, and occupants affected by unavailable/inaccessible old seats. Removed/absent registrations consume no new demand. Confirmed replacements must satisfy their own unit size and eligibility.
+The server resolves the latest published plan and checks expected version identity. Repair across policy versions is rejected. A saved older-policy request requires explicit FULL_REGENERATION (which adopts the current policy) or a local database reset before INITIAL generation. Changed participants include status, tier, contribution, accessibility, category/activity, replacement changes, and occupants affected by unavailable/inaccessible old seats. Removed/absent registrations consume no new demand. Confirmed replacements must satisfy their own unit size and eligibility.
 
 Unchanged assignments outside the repair scope are frozen. Scope expands from directly affected seats, to affected rows, tier rows, neighbouring rows, then the available hall (allowing the numbered boundary to expand). Only a proven INFEASIBLE restricted model triggers expansion. UNKNOWN is inconclusive and never treated as proof of infeasibility.
 
-All structural, eligibility, accessibility and row ordering rules remain hard. Global front-fill/centre-out packing is relaxed. Objectives are optimized successively:
+All structural, eligibility, accessibility, tier seat precedence and within-tier row ordering rules remain hard. Global front-fill/centre-out packing is relaxed. Objectives are optimized successively:
 
 1. Number of unaffected surviving allocation units whose seat sets change.
 2. Total doubled-centroid Manhattan distance for surviving previously seated units.
@@ -60,4 +62,4 @@ After all business objectives are proven and fixed, minimize each participant's 
 
 The independent validator never reads solver variables. It checks the exact eligible-ID multiset, physical occupancy, legal options, ordering, mode-dependent packing, reconstructed metrics, stage objective values and serialized floor-plan/assignment consistency. It validates a solution, not the solver's optimality certificate.
 
-Manual changes are rescored against the saved input/profile/policy. Their current solver label becomes MANUALLY_MODIFIED; original generation status is retained. Only freshly validated, explicitly approved immutable versions can advance the published pointer.
+Manual changes are rescored against the saved input/profile/policy. Their current solver label becomes MANUALLY_MODIFIED; original generation status is retained. The versioned-plan approval API independently validates placements. The separate staff workspace publication flow retains its existing basic consistency checks and does not claim business-rule validation after manual edits; the removed safeguard workflow is not reintroduced by this solver fix.

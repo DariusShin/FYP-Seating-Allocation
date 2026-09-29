@@ -1,8 +1,8 @@
 {
   "schema_version": "2.0.0",
-  "policy_version_id": "pjkit-v2",
-  "normalization_version": "desirability-v1",
-  "implementation": "src/seat_solver/production.py",
+  "policy_version_id": "pjkit-v3",
+  "normalization_version": "desirability-v2",
+  "implementation": "src/seat_solver/production/production.py",
   "status": "Implemented local production workflow; AWS/host deployment measurements are external acceptance gates.",
   "sets": {
     "P": "eligible CONFIRMED or REPLACEMENT_CONFIRMED registration units",
@@ -43,6 +43,12 @@
           11,
           12
         ],
+        "7": [
+          5,
+          6,
+          11,
+          12
+        ],
         "8": [
           5,
           6,
@@ -52,9 +58,15 @@
           10,
           11,
           12
+        ],
+        "9": [
+          5,
+          6,
+          11,
+          12
         ]
       },
-      "assignable": 240,
+      "assignable": 232,
       "accessible_singles": [
         1,
         2,
@@ -88,14 +100,18 @@
       ],
       "disabled": 0,
       "algorithm": "Keep full order; remove disabled; compact active ranks. No renormalization."
-    }
+    },
+    "seat_order": "(row_number - 1) * seats_per_row + priority_rank; ranks unique per row, lower is better"
   },
   "variables": {
     "z[p,o]": "Boolean registration p selects option o",
     "row[p]": "sum(row(o) * z[p,o])",
     "occ[s]": "sum(z[p,o] where s in o)",
-    "boundary[g]": "Integer row boundary between consecutive tier/contribution groups",
-    "gap[a,b]": "Boolean outer seat b occupied while available inner seat a empty (repair only)"
+    "boundary[g]": "Integer row boundary between consecutive contribution groups within one tier",
+    "gap[a,b]": "Boolean outer seat b occupied while available inner seat a empty (repair only)",
+    "tier_boundary[t]": "Integer seat-order boundary between consecutive nonempty tiers",
+    "best[p]": "sum(min(seat_order(s) for s in o) * z[p,o])",
+    "worst[p]": "sum(max(seat_order(s) for s in o) * z[p,o])"
   },
   "hard_constraints": {
     "C1": "For each eligible p: sum_o z[p,o] = 1. No variables for ineligible registrations.",
@@ -105,8 +121,8 @@
     "C5": "Only CONFIRMED / REPLACEMENT_CONFIRMED are allocated; excluded statuses reported separately.",
     "C10": "Each Emperor option is one approved adjacent same-row two-seat pair; display primary name twice if guest absent.",
     "C11": "Approved pairs do not straddle the centre aisle; physical positions define adjacency.",
-    "C12": "For tier(i) preceding tier(j), row[i] <= row[j]; equal boundary rows allowed. No tier-exclusive row ownership.",
-    "C13": "Same tier and contribution[i] > contribution[j] imply row[i] <= row[j]. Consecutive group boundary encoding implements C12+C13.",
+    "C12": "For higher-tier p and lower-tier q: worst[p] < best[q]. Consecutive nonempty tier boundaries enforce this transitively, including BOTH Emperor seats. Shared rows permitted; accessibility has no exemption.",
+    "C13": "Same tier and contribution[p] > contribution[q] imply row[p] <= row[q]. Consecutive within-tier contribution-group row boundaries implement this.",
     "C15": "Initial/regenerate/full: row occupancy equals min(remaining physical demand, available row capacity), scanning front to back. Repair: not enforced.",
     "C16": "Initial/regenerate/full: occ[outer] <= occ[inner] on each side over available seats. Repair: gaps are scored, not forbidden.",
     "C17": "Accessible single must occupy an approved side position; accessible pair must have both seats accessible. This never becomes a configurable preference."
@@ -114,11 +130,10 @@
   "soft_constraints": {
     "C6": {
       "contribution_importance": "c_p = 1 + round_half_up(99*(amount_p-min_amount_t)/max(1,max_amount_t-min_amount_t))",
-      "tier_bonus": "b_p = 100*(2-tier_index_p), except b_p=0 for accessibility-required registrations",
       "common_desirability": "d_o = 2*mean(priority_rank(s)-1 for s in o); integer for one-seat and two-seat options",
-      "raw": "(c_p+b_p)*d_o",
-      "maximum": "300*2*(seats_per_row-1)",
-      "note": "Shared-tier centre preference appears once here, never as a hard condition. A fixed bonus can affect pure-tier partial-row seat desirability as well. No separate pairwise inversion cost."
+      "raw": "c_p*d_o",
+      "maximum": "100*2*(seats_per_row-1)",
+      "note": "Contribution importance is a soft preference within the hard feasible set. Cross-tier priority is enforced only by C12, independently of preferences."
     },
     "C7": {
       "importance": "a_p=round_half_up(100*(activity_p-min_activity_t)/max(1,max_activity_t-min_activity_t))",

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import copy
 
-from seat_solver.validator import count_middle_fill_violations
+from seat_solver.prototype.validator import count_middle_fill_violations
 
 VALID_PAIR_POSITIONS = {
     (1, 2),
@@ -63,13 +63,13 @@ def test_no_seat_is_duplicated(default_result):
 
 
 def test_tier_band_constraints(default_result):
-    """Tier bands are demand-derived: Emperor rows 1-13, Bodhi row 14,
-    Merit rows 15-16 for the 86/12/24 default; rows are tier-exclusive and
-    ordered Emperor before Bodhi before Merit."""
+    """Tier bands are demand-derived: Emperor rows 1-13, Merit rows 14-15,
+    Bodhi row 16 for the 86/24/12 default; rows are tier-exclusive and
+    ordered Emperor before Merit before Bodhi."""
     bands = default_result["tier_bands"]
     assert bands["EMPEROR"] == list(range(1, 14))
-    assert bands["BODHI"] == [14]
-    assert bands["MERIT"] == [15, 16]
+    assert bands["MERIT"] == [14, 15]
+    assert bands["BODHI"] == [16]
     seats = _seat_lookup(default_result)
     for assignment in default_result["assignments"]:
         allowed = set(bands[assignment["contribution_tier"]])
@@ -129,17 +129,17 @@ def test_no_blocked_seat_used(default_result):
 def test_front_fill_rows_within_each_band(default_result):
     """HC13: empty seats may only sit in the last occupied row of a band.
 
-    With 86 Emperor pairs, 12 Bodhi, and 24 Merit the exact per-row occupancy
+    With 86 Emperor pairs, 24 Merit, and 12 Bodhi the exact per-row occupancy
     is forced: rows 1-5 full pairs (8 each), the blocked-centre rows 6-9 hold
     4/6/4/6 pairs, rows 10-12 full (8 each), row 13 holds the last 2 pairs,
-    row 14 holds the 12 Bodhi, row 15 is full of Merit, and row 16 holds the
-    last 8 Merit.
+    row 14 is full of Merit, row 15 holds the last 8 Merit, and row 16 holds
+    the 12 Bodhi.
     """
     seats = _seat_lookup(default_result)
     empty_rows = {
         seats[seat_id]["row_number"] for seat_id in default_result["empty_seat_ids"]
     }
-    assert empty_rows == {13, 14, 16}
+    assert empty_rows == {13, 15, 16}
     expected_occupancy = {
         1: 16,
         2: 16,
@@ -154,9 +154,9 @@ def test_front_fill_rows_within_each_band(default_result):
         11: 16,
         12: 16,
         13: 4,
-        14: 12,
-        15: 16,
-        16: 8,
+        14: 16,
+        15: 8,
+        16: 12,
     }
     for row in default_result["floor_plan"]["rows"]:
         occupied = sum(

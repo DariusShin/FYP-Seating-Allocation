@@ -40,7 +40,7 @@ export function PublicSeatView({ result }: { result: PublishedAllocation }) {
 							<UserRound className="size-4" />
 							登记姓名 / Registered name
 						</h2>
-						<p className="break-words text-xl font-semibold">
+						<p className="wrap-break-word text-xl font-semibold">
 							{assignment?.full_name ?? "暂无座位安排 / No assignment"}
 						</p>
 						<div className="border-t pt-3">
@@ -61,7 +61,7 @@ export function PublicSeatView({ result }: { result: PublishedAllocation }) {
 												: "东单"}{" "}
 											第 {seat.row_number} 排
 										</p>
-										<p className="mt-2 break-words text-sm font-medium">
+										<p className="mt-2 wrap-break-word text-sm font-medium">
 											{seat.display_name}
 										</p>
 										<p className="mt-1 text-sm">
@@ -105,7 +105,7 @@ export function PublicSeatView({ result }: { result: PublishedAllocation }) {
 							</div>
 							<div>
 								<dt className="text-xs text-muted-foreground">地点 / Venue</dt>
-								<dd className="mt-1 break-words">
+								<dd className="mt-1 wrap-break-word">
 									{event?.venue ?? "待公布 / To be announced"}
 								</dd>
 							</div>

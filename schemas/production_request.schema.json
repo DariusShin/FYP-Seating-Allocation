@@ -21,7 +21,7 @@
       "minLength": 1
     },
     "policy_version_id": {
-      "const": "pjkit-v2"
+      "const": "pjkit-v3"
     },
     "baseline_plan_version_id": {
       "type": [
