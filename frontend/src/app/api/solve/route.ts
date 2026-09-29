@@ -4,7 +4,7 @@ export const runtime = "nodejs";
 export const maxDuration = 330;
 export async function POST(request: Request) {
 	const user = await identity();
-	if (user?.role !== "admin" || !sameOrigin(request))
+	if (user?.role !== "admin" || !sameOrigin(request) || (new URL(request.url).searchParams.has("event_id") && new URL(request.url).searchParams.get("event_id") !== user.event_id))
 		return NextResponse.json(
 			{ error: { message: "Administrative access required" } },
 			{ status: 403 },
