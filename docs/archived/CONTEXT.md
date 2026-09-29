@@ -1,3 +1,5 @@
+> Archived historical guidance. For the current workflow and setup, see the [project README](../../README.md) and [frontend README](../../frontend/README.md).
+
 # Active implementation context
 
 Production specification: `docs/production-implementation-plan-v2.md`. Later confirmed edge-case defaults are recorded in `docs/requirements-traceability.md`.

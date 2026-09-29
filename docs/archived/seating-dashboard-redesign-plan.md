@@ -1,3 +1,5 @@
+> Archived historical guidance. For the current workflow and setup, see the [project README](../../README.md) and [frontend README](../../frontend/README.md).
+
 # Seating dashboard redesign: flow and implementation backlog
 
 Status: historical redesign plan. The September 22 scope change below supersedes the safeguard requirements and implementation claims in this document.
@@ -8,7 +10,7 @@ The safeguard implementation and its tests are preserved on `codex/seating-safeg
 
 Current path: **Save draft → Finish editing → Continue to publication → Publish seating plan**. This is staff confirmation, not an automated safeguard check. The solver's own constraints and output validator remain intact.
 
-See [flow audit and C13 reproduction](seating-safeguard-separation.md). The sections below record the earlier plan and are not the current branch's acceptance criteria.
+See [flow audit and C13 reproduction](../seating-safeguard-separation.md). The sections below record the earlier plan and are not the current branch's acceptance criteria.
 
 Branch: `codex/seating-dashboard-redesign`, created from fetched `origin/main`.
 

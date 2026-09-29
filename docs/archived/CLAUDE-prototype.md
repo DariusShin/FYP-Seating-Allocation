@@ -1,3 +1,5 @@
+> Archived historical guidance. For the current workflow and setup, see the [project README](../../README.md) and [frontend README](../../frontend/README.md).
+
 # Project Overview
 
 A Python prototype that uses Google OR-Tools CP-SAT to generate an optimized, constraint-compliant seating allocation for the PJ Kwan Inn Teng FYP case study.

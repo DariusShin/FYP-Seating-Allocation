@@ -1,6 +1,8 @@
+> Archived historical guidance. For the current workflow and setup, see the [project README](../../README.md) and [frontend README](../../frontend/README.md).
+
 # Production v2 developer and operator guide
 
-The implemented policy is described in [the mathematical model](docs/mathematical_model.md), [traceability](docs/requirements-traceability.md), and [integration contract](docs/integration.md). The full implementation direction remains [plan v2](docs/production-implementation-plan-v2.md).
+The implemented policy is described in [the mathematical model](../mathematical_model.md), [traceability](requirements-traceability.md), and [integration contract](integration.md). The full implementation direction remains [plan v2](production-implementation-plan-v2.md).
 
 ## Administrator workflow
 
