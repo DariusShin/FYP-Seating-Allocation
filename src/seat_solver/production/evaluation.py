@@ -1,10 +1,9 @@
-"""Reproducible evaluation runner: core, profiles, randomized, saturation, repair.
+"""Reproducible evaluation runner: core, profiles, randomized, saturation.
 
 No AWS latency is claimed: deployment measurements must be collected on AWS separately.
 """
 
 import argparse
-import copy
 import itertools
 import json
 import platform
@@ -12,7 +11,6 @@ import random
 import resource
 import statistics
 import time
-from pathlib import Path
 
 import ortools
 
@@ -63,7 +61,7 @@ def core_scenarios():
         yield (
             f"DS-{i:02d}",
             r,
-            ("absence" if i == 15 else "replacement" if i == 16 else None),
+            None,
         )
 
 
@@ -103,33 +101,10 @@ def evaluate(suite="core", runs=100, budget=5):
                     )
                 )
     results = []
-    for name, request, repair in scenarios:
+    for name, request, _ in scenarios:
         request["solver"].update(max_time_seconds=budget, canonicalize=False)
-        baseline = None
-        if repair:
-            baseline = solve(request)
-            if baseline["status"] == "success":
-                baseline.update(plan_version_id="BENCHMARK-BASELINE")
-                request = copy.deepcopy(request)
-                request.update(
-                    generation_mode="REPAIR_PUBLISHED",
-                    baseline_plan_version_id="BENCHMARK-BASELINE",
-                )
-                request["participants"][0]["registration_status"] = "ABSENT"
-                if repair == "replacement":
-                    old = request["participants"][0]
-                    old["registration_status"] = "REPLACED"
-                    new = copy.deepcopy(old)
-                    new.update(
-                        participant_id="REPLACEMENT",
-                        registration_status="REPLACEMENT_CONFIRMED",
-                        replacement_for_participant_id=old["participant_id"],
-                    )
-                    request["participants"].append(new)
-            else:
-                baseline = None
         started = time.perf_counter()
-        out = solve(request, baseline)
+        out = solve(request)
         elapsed = time.perf_counter() - started
         row = {
             "scenario": name,
@@ -139,7 +114,7 @@ def evaluate(suite="core", runs=100, budget=5):
             "required_physical_seats": sum(
                 2 if p["contribution_tier"] == "EMPEROR" else 1
                 for p in request["participants"]
-                if p["registration_status"] in ("CONFIRMED", "REPLACEMENT_CONFIRMED")
+                if p["registration_status"] == "CONFIRMED"
             ),
             "input_sha256": __import__("hashlib")
             .sha256(json.dumps(request, sort_keys=True).encode())
@@ -154,8 +129,6 @@ def evaluate(suite="core", runs=100, budget=5):
                 validation=audit_result(out),
                 normalized_penalties=out["quality"]["normalized"],
                 proof=out["solver"]["proof"],
-                movement=out["quality"]["movement"],
-                repair_scope=out["solver"]["repair_scope"],
                 phase_timing=out["solver"]["timing"],
             )
         else:

@@ -12,18 +12,11 @@ from seat_solver.prototype.models import read_json
 ROOT = Path(__file__).resolve().parents[3]
 TIERS = ("EMPEROR", "MERIT", "BODHI")
 MINIMUMS = {"EMPEROR": 5000, "MERIT": 3000, "BODHI": 2000}
-STATUSES = (
-    "CONFIRMED",
-    "REPLACEMENT_CONFIRMED",
-    "PENDING",
-    "WAITLISTED",
-    "CANCELLED",
-    "ABSENT",
-    "REPLACED",
-)
-ELIGIBLE = STATUSES[:2]
+STATUSES = ("CONFIRMED", "PENDING", "WAITLISTED", "CANCELLED")
+# Confirmation represents paid seat entitlement, never attendance.
+ELIGIBLE = ("CONFIRMED",)
 PREFERENCES = ("contribution_seat", "activeness", "category_zone")
-MODES = ("INITIAL", "REGENERATE_DRAFT", "REPAIR_PUBLISHED", "FULL_REGENERATION")
+MODES = ("INITIAL", "REGENERATE_DRAFT")
 DEFAULT_PREFERENCES = [{"key": k, "enabled": True} for k in PREFERENCES]
 
 
@@ -89,11 +82,6 @@ def validate_request(request):
     if request["policy_version_id"] != cfg["policy_version_id"]:
         raise DomainError("INVALID_INPUT", "Unsupported policy version")
     mapped_weights(request["preferences"], request["preference_profile_version"])
-    if (
-        request["generation_mode"] != "REPAIR_PUBLISHED"
-        and request["baseline_plan_version_id"] is not None
-    ):
-        raise DomainError("INVALID_INPUT", "Only published repair accepts a baseline")
     layout = request["layout"]
     if request["layout_version_id"] != layout["layout_version_id"]:
         raise DomainError("INVALID_INPUT", "Layout version does not match payload")
@@ -160,32 +148,11 @@ def validate_request(request):
     ids = [p["participant_id"] for p in request["participants"]]
     if len(set(ids)) != len(ids):
         raise DomainError("INVALID_INPUT", "Duplicate participant ID")
-    by_id = {p["participant_id"]: p for p in request["participants"]}
-    replaced = set()
     for p in request["participants"]:
         if p["contribution_amount_rm"] < cfg["tier_minimums"][p["contribution_tier"]]:
             raise DomainError(
                 "INVALID_INPUT",
                 "Contribution below selected tier minimum",
                 {"participant_id": p["participant_id"]},
-            )
-        target = p["replacement_for_participant_id"]
-        if p["registration_status"] == "REPLACEMENT_CONFIRMED":
-            if (
-                not target
-                or target == p["participant_id"]
-                or target not in by_id
-                or by_id[target]["registration_status"] != "REPLACED"
-                or target in replaced
-            ):
-                raise DomainError(
-                    "INVALID_REPLACEMENT",
-                    "Replacement must uniquely reference a REPLACED registration in this event",
-                )
-            replaced.add(target)
-        elif target is not None:
-            raise DomainError(
-                "INVALID_REPLACEMENT",
-                "Only a confirmed replacement may have a replacement link",
             )
     return copy.deepcopy(request)

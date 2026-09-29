@@ -61,84 +61,10 @@ def test_display_names_publish_and_snapshot_isolation(setup):
         action(ws, plan, "workspace_publish", saved["revision"], acknowledgements=[])
 
 
-def test_unlinked_partner_releases_seat_and_publishes(setup):
-    _store, ws, plan = setup
-    state = initial_state(plan)
-    # Choose outermost allocation on either side, release its outer seat, retain inner.
-    lookup = {s["seat_id"]: s for s in plan["source_request"]["layout"]["seats"]}
-    pid, item = max(
-        state["items"].items(),
-        key=lambda kv: max(lookup[s]["priority_rank"] for s in kv[1]["seat_ids"]),
-    )
-    ordered = sorted(item["seat_ids"], key=lambda s: lookup[s]["priority_rank"])
-    released = ordered[-1]
-    item.update(
-        companion_absent=True,
-        absence_reason="Partner confirmed absent; no replacement",
-        seat_ids=ordered[:1],
-    )
-    saved = action(ws, plan, "workspace_save", state=state)
-    published = action(
-        ws,
-        plan,
-        "workspace_publish",
-        saved["revision"],
-    )["base"]
-    a = next(a for a in published["assignments"] if a["participant_id"] == pid)
-    assert a["contribution_tier"] == "EMPEROR" and a["allocation_type"] == "SINGLE"
-    assert released in published["empty_seat_ids"]
-    assert audit_result(published)["passed"]
-    assert published["input_summary"]["required_seat_count"] == 3
 
 
-def test_absence_reason_required_and_registration_name_protected(setup):
-    _, ws, plan = setup
-    state = initial_state(plan)
-    pid = next(iter(state["items"]))
-    state["items"][pid]["companion_absent"] = True
-    with pytest.raises(DomainError, match="reason"):
-        action(ws, plan, "workspace_save", state=state)
-    state = initial_state(plan)
-    state["participants"][0]["full_name"] = "overwrite"
-    with pytest.raises(DomainError, match="read-only"):
-        action(ws, plan, "workspace_save", state=state)
 
 
-def test_released_partner_seat_can_be_assigned_to_replacement(tmp_path):
-    store = PlanStore(tmp_path / "release.db")
-    ws = WorkspaceStore(store)
-    request = tiny(1, "EMPEROR")
-    single = copy.deepcopy(request["participants"][0])
-    single.update(
-        participant_id="WAIT",
-        full_name="林慧婷",
-        contribution_tier="MERIT",
-        contribution_amount_rm=3000,
-        registration_status="WAITLISTED",
-    )
-    request["participants"].append(single)
-    plan = store.save(solve(request), "staff")
-    state = initial_state(plan)
-    pair = state["items"]["P0001"]
-    released = pair["seat_ids"][1]
-    pair.update(
-        companion_absent=True,
-        absence_reason="Confirmed absent",
-        seat_ids=pair["seat_ids"][:1],
-    )
-    # A new individually registered attendee can occupy the released physical seat.
-    state["participants"][1]["registration_status"] = "CONFIRMED"
-    state["items"]["WAIT"]["seat_ids"] = [released]
-    saved = action(ws, plan, "workspace_save", state=state)
-    result = action(
-        ws,
-        plan,
-        "workspace_publish",
-        saved["revision"],
-    )["base"]
-    assert len(result["assignments"]) == 2
-    assert result["input_summary"]["required_seat_count"] == 2
-    assert audit_result(result)["passed"]
 
 
 def test_initial_pair_order_identifies_contributor_before_partner(setup):
@@ -239,25 +165,11 @@ def test_dock_save_refresh_and_stale_write(setup):
     assert ws.load(plan["event_id"])["state"] == state
     with pytest.raises(DomainError, match="newer draft"):
         action(ws, plan, "workspace_save", state=state)
-    with pytest.raises(DomainError, match="Assign every attending"):
+    with pytest.raises(DomainError, match="Assign every paid"):
         action(ws, plan, "workspace_publish", saved["revision"])
     assert store.published(plan["event_id"]) is None
 
 
-def test_locked_moves_and_overlapping_assignments_fail(setup):
-    _, ws, plan = setup
-    state = initial_state(plan)
-    pid, other = state["items"]
-    state["items"][pid]["locked"] = True
-    saved = action(ws, plan, "workspace_save", state=state)
-    moved = copy.deepcopy(state)
-    moved["items"][pid]["seat_ids"] = []
-    with pytest.raises(DomainError, match="Unlock"):
-        action(ws, plan, "workspace_save", saved["revision"], state=moved)
-    moved = copy.deepcopy(state)
-    moved["items"][other]["seat_ids"] = moved["items"][pid]["seat_ids"]
-    with pytest.raises(DomainError, match="overlap"):
-        action(ws, plan, "workspace_save", saved["revision"], state=moved)
 
 
 def test_publication_without_review_creates_workspace_and_rejects_stale_writes(setup):

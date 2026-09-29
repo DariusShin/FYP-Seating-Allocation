@@ -1,4 +1,4 @@
-"""Regression coverage for hard priority across contribution tiers (pjkit-v3)."""
+"""Regression coverage for hard priority across contribution tiers (pjkit-v4)."""
 import copy
 import itertools
 
@@ -9,7 +9,6 @@ from seat_solver.production.policy import DomainError, TIERS, validate_request
 from seat_solver.production.production import solve
 from seat_solver.production.production_data import generate
 from seat_solver.production.production_validator import audit_result, validate_placements
-from seat_solver.production.service import dispatch
 
 
 def mixed():
@@ -33,7 +32,7 @@ def assert_order(result):
     assert audit_result(result)["passed"]
 
 
-@pytest.mark.parametrize("mode", ["INITIAL", "REGENERATE_DRAFT", "FULL_REGENERATION"])
+@pytest.mark.parametrize("mode", ["INITIAL", "REGENERATE_DRAFT"])
 @pytest.mark.parametrize("keys", list(itertools.permutations(["contribution_seat", "activeness", "category_zone"])))
 @pytest.mark.parametrize("contribution_enabled", [True, False])
 def test_high_activity_bodhi_never_precedes_merit(mode, keys, contribution_enabled):
@@ -99,16 +98,6 @@ def test_accessibility_conflict_is_not_exempted_from_tier_order():
     assert "tier seat precedence" in result["error"]["message"]
 
 
-def test_repair_preserves_hard_tier_order_and_rejects_old_policy():
-    req = mixed()
-    baseline = solve(req)
-    assert_order(baseline)
-    baseline["plan_version_id"] = "test-published-v3"
-    req.update(generation_mode="REPAIR_PUBLISHED", baseline_plan_version_id=baseline["plan_version_id"])
-    req["participants"][0]["events_joined_last_2_years"] = 80
-    assert_order(solve(req, baseline))
-    baseline["policy_version_id"] = "pjkit-v2"
-    assert solve(req, baseline)["error"]["code"] == "INVALID_INPUT"
 
 
 def test_feasible_incumbent_still_satisfies_hard_tier_order(monkeypatch):
@@ -127,18 +116,3 @@ def test_priority_ranks_are_unique_within_each_row():
     req["layout"]["seats"][0]["priority_rank"] = req["layout"]["seats"][1]["priority_rank"]
     with pytest.raises(DomainError, match="unique within each row"):
         validate_request(req)
-
-
-def test_old_saved_policy_requires_explicit_full_regeneration():
-    old = solve(mixed())
-    old["policy_version_id"] = old["source_request"]["policy_version_id"] = "pjkit-v2"
-    class Store:
-        def latest(self, event):
-            return old
-        def save(self, result, actor, predecessor):
-            return result
-    with pytest.raises(DomainError, match="older policy"):
-        dispatch({"command": "solve", "generation_mode": "REGENERATE_DRAFT"}, Store())
-    result = dispatch({"command": "solve", "generation_mode": "FULL_REGENERATION"}, Store())
-    assert_order(result)
-    assert result["policy_version_id"] == "pjkit-v3"

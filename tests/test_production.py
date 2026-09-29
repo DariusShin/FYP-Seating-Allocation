@@ -149,7 +149,7 @@ def test_accessible_full_row():
 
 def test_empty_event_and_exclusion():
     r = tiny(1)
-    r["participants"][0]["registration_status"] = "ABSENT"
+    r["participants"][0]["registration_status"] = "PENDING"
     o = solve(r)
     assert o["status"] == "success" and o["input_summary"]["required_seat_count"] == 0
     assert len(o["excluded_participants"]) == 1 and audit_result(o)["passed"]
@@ -293,54 +293,8 @@ def test_manual_validation_rescore_provenance(tmp_path):
     assert edited["plan_version_id"] != p["plan_version_id"]
 
 
-def test_absence_and_replacement_repair(tmp_path):
-    st = PlanStore(tmp_path / "plans.db")
-    r = tiny(4)
-    base = published(st, r)
-    original = r["participants"][0]
-    original["registration_status"] = "ABSENT"
-    r.update(
-        generation_mode="REPAIR_PUBLISHED",
-        baseline_plan_version_id=base["plan_version_id"],
-    )
-    out = solve(r, base)
-    assert out["status"] == "success", out
-    assert (
-        out["quality"]["movement"]["unaffected_moved_units"] == 0
-        and out["solver"]["repair_scope"] == 0
-    )
-    assert st.published(r["event_id"])["plan_version_id"] == base["plan_version_id"]
-    original["registration_status"] = "REPLACED"
-    replacement = copy.deepcopy(original)
-    replacement.update(
-        participant_id="NEW",
-        registration_status="REPLACEMENT_CONFIRMED",
-        replacement_for_participant_id=original["participant_id"],
-    )
-    r["participants"].append(replacement)
-    out = solve(r, base)
-    assert out["status"] == "success", out
-    new = next(a for a in out["assignments"] if a["participant_id"] == "NEW")
-    old = next(
-        a
-        for a in base["assignments"]
-        if a["participant_id"] == original["participant_id"]
-    )
-    assert new["seat_ids"] == old["seat_ids"]
 
 
-def test_stale_repair_and_invalid_replacement(tmp_path):
-    st = PlanStore(tmp_path / "plans.db")
-    r = tiny()
-    base = published(st, r)
-    r.update(generation_mode="REPAIR_PUBLISHED", baseline_plan_version_id="WRONG")
-    assert solve(r, base)["error"]["code"] == "STALE_BASELINE"
-    r = tiny()
-    r["participants"][0].update(
-        registration_status="REPLACEMENT_CONFIRMED",
-        replacement_for_participant_id="MISSING",
-    )
-    assert solve(r)["error"]["code"] == "INVALID_REPLACEMENT"
 
 
 def test_feasible_incumbent_preserved(monkeypatch):
@@ -391,68 +345,12 @@ def test_manual_edit_invalidates_approval_atomically(tmp_path):
     assert store.published(plan["event_id"]) is None
 
 
-def test_repair_audit_requires_baseline():
-    request = tiny()
-    baseline = solve(request)
-    baseline["plan_version_id"] = "baseline"
-    request.update(
-        generation_mode="REPAIR_PUBLISHED", baseline_plan_version_id="baseline"
-    )
-    result = solve(request, baseline)
-    assert audit_result(result)["passed"]
-    result["baseline_snapshot"] = None
-    assert not audit_result(result)["passed"]
 
 
-def test_service_repair_keeps_published_baseline(tmp_path):
-    store = PlanStore(tmp_path / "plans.sqlite3")
-    request = tiny(4)
-    base = published(store, request)
-    participants = copy.deepcopy(request["participants"])
-    participants[0]["registration_status"] = "ABSENT"
-    repaired = dispatch(
-        {
-            "command": "solve",
-            "event_id": request["event_id"],
-            "generation_mode": "REPAIR_PUBLISHED",
-            "participants": participants,
-        },
-        store,
-    )
-    assert repaired["publication_status"] == "DRAFT"
-    assert repaired["predecessor_plan_version_id"] == base["plan_version_id"]
-    assert store.published(request["event_id"])["publication_status"] == "PUBLISHED"
 
 
-def test_unknown_does_not_expand_repair_scope(monkeypatch):
-    request = tiny(3)
-    base = solve(request)
-    base["plan_version_id"] = "base"
-    request.update(generation_mode="REPAIR_PUBLISHED", baseline_plan_version_id="base")
-    calls = []
-
-    def unknown(self, model, *args, **kwargs):
-        calls.append(model)
-        return cp_model.UNKNOWN
-
-    monkeypatch.setattr(cp_model.CpSolver, "Solve", unknown)
-    monkeypatch.setattr(cp_model.CpSolver, "WallTime", lambda self: 0)
-    result = solve(request, base)
-    assert result["error"]["code"] == "SOLVER_UNKNOWN" and len(calls) == 1
 
 
-def test_repair_escalates_only_proven_infeasible_scope():
-    request = tiny(3)
-    base = solve(request)
-    base["plan_version_id"] = "base"
-    request.update(generation_mode="REPAIR_PUBLISHED", baseline_plan_version_id="base")
-    # Newly required side access cannot use any original central seat.
-    request["participants"][0]["requires_accessible_seat"] = True
-    result = solve(request, base)
-    assert result["status"] == "success", result
-    assert result["solver"]["repair_scope"] >= 1
-    assert all(a["status"] == "INFEASIBLE" for a in result["solver"]["scope_attempts"])
-    assert audit_result(result)["passed"]
 
 
 def test_public_view_event_details_and_own_seat_names():
@@ -499,7 +397,7 @@ def test_regeneration_uses_current_obstacles_for_existing_hall(monkeypatch):
 
     captured = {}
 
-    def capture(request, baseline):
+    def capture(request):
         captured.update(request)
         return {"status": "captured"}
 

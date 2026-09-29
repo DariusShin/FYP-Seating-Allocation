@@ -10,6 +10,7 @@ import uuid
 
 from seat_solver.production.policy import ELIGIBLE, DomainError, validate_request
 from seat_solver.production.production import format_result, now
+from seat_solver.production.production_scoring import options
 
 
 def normalize_display_names(state):
@@ -36,13 +37,7 @@ def initial_state(plan):
         items[pid] = {
             "seat_ids": [seat["seat_id"] for seat in ordered],
             "display_names": [p["full_name"]] * (2 if p["contribution_tier"] == "EMPEROR" else 1),
-            "name_checked": False,
-            "attendance_confirmed": False,
-            "seat_reviewed": False,
-            "locked": False,
             "note": "",
-            "companion_absent": False,
-            "absence_reason": "",
             "dock_reason": "",
             "previous_seat_ids": [],
             "changed_at": None,
@@ -63,18 +58,13 @@ def validate_metadata(request, metadata):
     for pid, m in metadata.items():
         if pid not in people or not isinstance(m, dict):
             raise DomainError("INVALID_INPUT", "Unknown participant details")
-        for key in (
-            "name_checked",
-            "attendance_confirmed",
-            "seat_reviewed",
-            "locked",
-            "companion_absent",
-        ):
-            if type(m.get(key)) is not bool:
-                raise DomainError("INVALID_INPUT", "Invalid verification marker")
-        for key in ("note", "absence_reason", "dock_reason"):
+        for key in ("note", "dock_reason"):
             if not isinstance(m.get(key), str) or len(m[key]) > 2000:
                 raise DomainError("INVALID_INPUT", "Invalid note")
+        if set(m) != {"seat_ids", "display_names", "note", "dock_reason", "previous_seat_ids", "changed_at"}:
+            raise DomainError("INVALID_INPUT", "Unsupported working-draft fields")
+        if m["changed_at"] is not None and not isinstance(m["changed_at"], str):
+            raise DomainError("INVALID_INPUT", "Invalid change timestamp")
         names = m.get("display_names")
         expected = 2 if people[pid]["contribution_tier"] == "EMPEROR" else 1
         if (
@@ -87,11 +77,6 @@ def validate_metadata(request, metadata):
             raise DomainError(
                 "INVALID_INPUT",
                 "Provide a display name for each registered occupant (maximum 80 characters)",
-            )
-        if m["companion_absent"] and (expected != 2 or not m["absence_reason"].strip()):
-            raise DomainError(
-                "INVALID_INPUT",
-                "Partner absence requires an Emperor registration and a reason",
             )
 
 
@@ -119,19 +104,8 @@ def validate_state(plan, state):
     validate_request(request)
     original = {p["participant_id"]: p for p in plan["source_request"]["participants"]}
     current = {p["participant_id"]: p for p in request["participants"]}
-    if not original.keys() <= current.keys():
-        raise DomainError("INVALID_INPUT", "Registration records cannot be deleted")
-    # Authoritative attributes cannot be overwritten through a display editor.
-    for pid, old in original.items():
-        for key in old:
-            if (
-                key not in ("registration_status", "replacement_for_participant_id")
-                and old[key] != current[pid][key]
-            ):
-                raise DomainError(
-                    "INVALID_INPUT",
-                    "Registered details are read-only; edit the display name instead",
-                )
+    if current != original:
+        raise DomainError("INVALID_INPUT", "Registered details are read-only; edit the display name instead")
     items = state["items"]
     if set(items) != set(current):
         raise DomainError(
@@ -152,8 +126,12 @@ def validate_state(plan, state):
         occupied.update(ids)
         if current[pid]["registration_status"] not in ELIGIBLE and ids:
             raise DomainError(
-                "INVALID_INPUT", "Absent or replaced registrations cannot occupy seats"
+                "INVALID_INPUT", "Unconfirmed registrations cannot occupy paid seats"
             )
+        if ids and tuple(sorted(ids)) not in {
+            tuple(sorted(seat["seat_id"] for seat in option)) for option in options(request, current[pid])
+        }:
+            raise DomainError("INVALID_INPUT", "Keep the paid seat count, valid adjacent pairs and required accessibility")
         if not isinstance(m.get("previous_seat_ids"), list) or any(
             s not in seats for s in m["previous_seat_ids"]
         ):
@@ -172,9 +150,9 @@ def snapshot(plan, state):
     }
     if any(not seats for seats in placements.values()):
         raise DomainError(
-            "INVALID_INPUT", "Assign every attending registration before publishing"
+            "INVALID_INPUT", "Assign every paid registration before publishing"
         )
-    result = format_result(request, placements, stats, plan.get("baseline_snapshot"))
+    result = format_result(request, placements, stats)
     result["operations"] = copy.deepcopy(state["items"])
     result["manually_modified"] = True
     # format_result normally describes validated solver output; staff publication
@@ -292,22 +270,13 @@ class WorkspaceStore:
                 )
             state = normalize_display_names(json.loads(row["body"])) if row else initial_state(plan)
             if command == "workspace_save":
-                new = body["state"]
+                new = copy.deepcopy(body["state"])
+                if isinstance(new, dict) and isinstance(new.get("items"), dict):
+                    for m in new["items"].values():
+                        if isinstance(m, dict):
+                            m.pop("partner_name_edited", None)
                 validate_state(plan, new)
-                new = normalize_display_names(copy.deepcopy(new))
-                for pid, old in state["items"].items():
-                    m = new["items"][pid]
-                    if (
-                        old["locked"]
-                        and m["locked"]
-                        and (
-                            m["seat_ids"] != old["seat_ids"]
-                            or m["companion_absent"] != old["companion_absent"]
-                        )
-                    ):
-                        raise DomainError(
-                            "LOCKED", "Unlock the allocation before moving it"
-                        )
+                new = normalize_display_names(new)
                 revision += 1
                 stamp = now()
                 db.execute(

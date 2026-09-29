@@ -6,25 +6,9 @@ from seat_solver.production.policy import TIERS, DomainError, policy, validate_r
 from seat_solver.production.production_scoring import eligible, options, packing_pairs, quality
 
 
-def validate_placements(request, assignments, baseline=None, companion_absent=None):
+def validate_placements(request, assignments):
     validate_request(request)
-    companion_absent = companion_absent or set()
     issues = []
-    if request["generation_mode"] == "REPAIR_PUBLISHED" and (
-        not baseline
-        or baseline.get("plan_version_id") != request["baseline_plan_version_id"]
-        or baseline.get("event_id") != request["event_id"]
-    ):
-        return {
-            "passed": False,
-            "issues": [
-                {
-                    "rule_id": "FR14",
-                    "message": "Repair requires the matching event baseline snapshot",
-                }
-            ],
-        }
-
     def fail(rule, message, **details):
         issues.append({"rule_id": rule, "message": message, **details})
 
@@ -67,16 +51,6 @@ def validate_placements(request, assignments, baseline=None, companion_absent=No
     for p in ps:
         chosen = placements[p["participant_id"]]
         valid_options = options(request, p)
-        if (
-            p["participant_id"] in companion_absent
-            and p["contribution_tier"] == "EMPEROR"
-        ):
-            valid_options = [
-                (s,)
-                for s in lookup.values()
-                if not s["is_blocked"]
-                and (not p["requires_accessible_seat"] or s["is_accessible"])
-            ]
         if tuple(sorted(chosen)) not in {
             tuple(sorted(s["seat_id"] for s in o)) for o in valid_options
         }:
@@ -140,48 +114,42 @@ def validate_placements(request, assignments, baseline=None, companion_absent=No
                     participants=[p["participant_id"], q["participant_id"]],
                 )
     occupied = set(seats)
-    if request["generation_mode"] != "REPAIR_PUBLISHED":
-        last = max(rows.values(), default=0)
-        for s in lookup.values():
-            if (
-                not s["is_blocked"]
-                and s["row_number"] < last
-                and s["seat_id"] not in occupied
-            ):
-                fail(
-                    "C15",
-                    "Empty available seat before an occupied row",
-                    seat_id=s["seat_id"],
-                )
-        for inner, outer in packing_pairs(request["layout"]):
-            if outer in occupied and inner not in occupied:
-                fail("C16", "Centre-out packing gap", seat_id=inner)
+    last = max(rows.values(), default=0)
+    for s in lookup.values():
+        if (
+            not s["is_blocked"]
+            and s["row_number"] < last
+            and s["seat_id"] not in occupied
+        ):
+            fail(
+                "C15",
+                "Empty available seat before an occupied row",
+                seat_id=s["seat_id"],
+            )
+    for inner, outer in packing_pairs(request["layout"]):
+        if outer in occupied and inner not in occupied:
+            fail("C16", "Centre-out packing gap", seat_id=inner)
     return {"passed": not issues, "issues": issues}
 
 
 def audit_result(result):
     try:
         request = result["source_request"]
-        baseline = result.get("baseline_snapshot")
         from seat_solver.production.workspace import apply_display, validate_metadata
 
         metadata = result.get("operations", {})
         validate_metadata(request, metadata)
-        absent = {pid for pid, m in metadata.items() if m["companion_absent"]}
-        report = validate_placements(request, result["assignments"], baseline, absent)
+        report = validate_placements(request, result["assignments"])
         if not report["passed"]:
             return report
         placements = {a["participant_id"]: a["seat_ids"] for a in result["assignments"]}
-        scored = quality(request, policy(), placements, baseline)
+        scored = quality(request, policy(), placements)
         if result["quality"] != scored:
             report["issues"].append(
                 {"rule_id": "FR16", "message": "Recomputed quality metrics differ"}
             )
         expected_stages = {
             "weighted_preferences": scored["weighted"]["total"],
-            "unaffected_moved_units": scored["movement"]["unaffected_moved_units"],
-            "distance_doubled": scored["movement"]["distance_doubled"],
-            "local_packing": scored["local_packing"],
         }
         if (
             result["solver"].get("main_penalty") != scored["weighted"]["total"]
@@ -208,7 +176,7 @@ def audit_result(result):
         {s["seat_id"]: s for s in request["layout"]["seats"]}
         from seat_solver.production.production import format_result
 
-        expected = format_result(request, placements, result["solver"], baseline)
+        expected = format_result(request, placements, result["solver"])
         apply_display(expected, metadata)
         for key in (
             "floor_plan",

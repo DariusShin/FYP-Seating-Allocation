@@ -120,14 +120,6 @@ class PlanStore:
             body["expected_published_version_id"] = (
                 pointer["published"] if pointer else None
             )
-            if (
-                body["generation_mode"] == "REPAIR_PUBLISHED"
-                and body["source_request"]["baseline_plan_version_id"]
-                != body["expected_published_version_id"]
-            ):
-                raise DomainError(
-                    "STALE_BASELINE", "Published version changed during repair"
-                )
             db.execute(
                 "INSERT INTO plans(id,event,body,hash,state,actor,created) VALUES(?,?,?,?,?,?,?)",
                 (
@@ -162,8 +154,7 @@ class PlanStore:
                 "Published/rejected versions cannot be edited; generate a new draft",
             )
         request = prior["source_request"]
-        baseline = prior.get("baseline_snapshot")
-        report = validate_placements(request, assignments, baseline)
+        report = validate_placements(request, assignments)
         if not report["passed"]:
             raise DomainError(
                 "OUTPUT_VALIDATION_FAILED",
@@ -178,7 +169,6 @@ class PlanStore:
             request,
             {a["participant_id"]: a["seat_ids"] for a in assignments},
             stats,
-            baseline,
         )
         result.update(
             manually_modified=True,
