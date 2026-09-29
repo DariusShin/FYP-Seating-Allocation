@@ -64,3 +64,32 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Reset local seating after the v3 tier-priority fix
+
+Policy `pjkit-v3` enforces Emperor → Merit → Bodhi over the full row/seat priority
+order, including both seats in an Emperor pair. Old versions must not be reused
+as repair baselines. An explicit full regeneration can adopt the current policy;
+for a clean prototype demonstration, reset local persisted state instead.
+
+Stop the development server and any running solver before resetting. From the
+repository root, inspect the target first:
+
+```bash
+.venv/bin/python -m seat_solver.production.reset_local
+.venv/bin/python -m seat_solver.production.reset_local --apply
+```
+
+The command uses `SEAT_PLAN_DB` when set, otherwise `output/plans.sqlite3`.
+Use `--database /absolute/path/to/plans.sqlite3` to select an explicit database.
+Without `--apply` it only reports counts. Applying creates an integrity-checked
+SQLite backup in the database's sibling `backups/` directory, then transactionally
+clears plans, publication pointers, audit records, current workspaces, and saved
+workspace versions. Layout and registration JSON files are preserved. Unknown
+tables cause the reset to abort rather than delete unrelated data.
+
+Restart the server, open `/event`, and enter the event's seating workspace. With
+no plan stored, the existing entry component automatically generates an INITIAL
+draft and displays its map without a load-existing-plan dialog. The venue stays
+unpublished until staff explicitly publish. To restore an archived database,
+stop the server again and restore the backup using SQLite's backup API.
