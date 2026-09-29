@@ -30,7 +30,7 @@ import {
 	DialogDescription,
 	DialogHeader,
 } from "@/components/ui/dialog";
-import type { AllocationResult } from "@/lib/allocation-types";
+import type { AllocationResult, Preference } from "@/lib/allocation-types";
 import {
 	dock,
 	eligible,
@@ -40,6 +40,7 @@ import {
 	type WorkingItem,
 } from "@/lib/workspace";
 import { HallMap, type SeatMarkers } from "./hall-map";
+import { MapLoadingOverlay } from "./map-loading-overlay";
 import { WeightControls } from "./weight-controls";
 import { TIER_STYLES } from "./seat-theme";
 
@@ -76,6 +77,68 @@ export function SeatDashboard({
 	const [notice, setNotice] = useState("");
 	const [error, setError] = useState("");
 	const [busy, setBusy] = useState(false);
+    const [generationPhase, setGenerationPhase] = useState<"generating" | "loading-workspace" | "error" | null>(null);
+    const generationRequest = useRef<{ generation_mode: string; preferences: Preference[] } | null>(null);
+    const generatedPlanId = useRef<string | null>(null);
+    const [hasGeneratedDraft, setHasGeneratedDraft] = useState(false);
+    const generationInFlight = useRef(false);
+    async function generateDraft(request?: { generation_mode: string; preferences: Preference[] }) {
+        if (generationInFlight.current || !request && !generationRequest.current) return;
+        generationInFlight.current = true;
+        if (request) {
+            generationRequest.current = request;
+            generatedPlanId.current = null;
+            setHasGeneratedDraft(false);
+        }
+        setModal(null);
+        setDockOpen(false);
+        setBusy(true);
+        setError("");
+        setNotice("");
+        setGenerationPhase(generatedPlanId.current ? "loading-workspace" : "generating");
+        const eventQuery = initialResult.event_id ? `?event_id=${encodeURIComponent(initialResult.event_id)}` : "";
+        try {
+            if (!generatedPlanId.current) {
+                const response = await fetch(`/api/solve${eventQuery}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ ...generationRequest.current, preference_profile_version: "ranked-v1" }),
+                });
+                const value = await response.json();
+                if (!response.ok || value.status !== "success" || !value.plan_version_id)
+                    throw new Error(value.error?.message ?? "Unable to generate a seating plan. Please try again.");
+                generatedPlanId.current = value.plan_version_id;
+                setHasGeneratedDraft(true);
+            }
+            setGenerationPhase("loading-workspace");
+            const response = await fetch(`/api/workspace${eventQuery}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ command: "workspace_open", plan_version_id: generatedPlanId.current }),
+            });
+            const value = await response.json();
+            if (!response.ok || !value?.base || !value?.state || value.base.plan_version_id !== generatedPlanId.current)
+                throw new Error(value?.error?.message ?? "Unable to open the generated draft. Please try again.");
+            setWorkspace(value);
+            setState(value.state);
+            setHistory([]);
+            setFuture([]);
+            setSelected(null);
+            setSelectedSeat(null);
+            setDestination("");
+            setPreview(null);
+            setQuery("");
+            setMode("read");
+            setGenerationPhase(null);
+            setNotice("New seating draft ready. Public seating is unchanged.");
+        } catch (e) {
+            setError(e instanceof Error ? e.message : "Generation failed");
+            setGenerationPhase("error");
+        } finally {
+            generationInFlight.current = false;
+            setBusy(false);
+        }
+    }
 	const [preview, setPreview] = useState<{
 		state: WorkingState;
 		description: string;
@@ -253,11 +316,18 @@ export function SeatDashboard({
 		}
 	}
 	function selectSeat(sid: string) {
+        if (busy || generationPhase || cells.find(s => s.seat_id === sid)?.is_blocked) return;
 		setSelectedSeat(sid);
 		if (owners[sid]) {
 			setSelected(owners[sid]);
 			setDestination("");
             setModal("allocation");
+        } else if (docked.length > 0) {
+            setMode("edit");
+            setDockOpen(true);
+            setModal(null);
+            setSelected(null);
+            setDestination(sid);
 		} else if (canEdit && selected) {
 			setDestination(sid);
 			proposeMove(selected, sid);
@@ -376,7 +446,7 @@ export function SeatDashboard({
                 }
             }}
         >
-			<header className="workspace-header">
+			<header className="workspace-header" inert={generationPhase !== null}>
                 <Link href="/event" className="text-sm text-muted-foreground hover:text-foreground">← Events</Link>
 				<div className="brand-mark"><Armchair size={20}/></div>
 				<div>
@@ -471,7 +541,7 @@ export function SeatDashboard({
 					</Button>
 				</nav>
 			</header>
-			<section className="context-bar">
+			<section className="context-bar" inert={generationPhase !== null}>
 				<span className={`mode-pill ${mode}`}>
 					{published ? "Published" : "Draft"} ·{" "}
 					{mode === "read"
@@ -544,7 +614,7 @@ export function SeatDashboard({
 					)}
 				</div>
 			</section>
-			{error && (
+			{error && !generationPhase && (
 				<div className="workspace-banner error" role="alert">{error}</div>
 			)}
 			{notice && (
@@ -557,7 +627,7 @@ export function SeatDashboard({
 			)}
 			<section className="workspace-body">
 				<div className="map-column">
-					<div className="map-toolbar">
+					<div className="map-toolbar" inert={generationPhase !== null}>
 						<div className="map-tools">{mode==="edit" && docked.length>0 && <Button variant="outline" size="sm" onClick={()=>setDockOpen(v=>!v)}>Holding dock ({docked.length})</Button>}
                         {mode==="review" && <Button variant="outline" size="sm" onClick={()=>setModal("review")}>Review plan</Button>}
 							<Button
@@ -589,6 +659,8 @@ export function SeatDashboard({
 							</Button>
 						</div>
 					</div>
+                    <div className="map-loading-viewport" aria-busy={generationPhase === "generating" || generationPhase === "loading-workspace"}>
+                    <div className="map-loading-content" inert={generationPhase !== null}>
 					<HallMap
 						floor={base.floor_plan}
 						names={names}
@@ -612,7 +684,10 @@ export function SeatDashboard({
                         onAllocationDragEnd={()=>{draggingParticipant.current=null;}}
 						zoom={zoom}
 					/>
-					<footer className="map-footer">
+                    </div>
+                    {generationPhase && <MapLoadingOverlay phase={generationPhase} error={error} onRetry={() => void generateDraft()} draftCreated={hasGeneratedDraft}/>}
+                    </div>
+					<footer className="map-footer" inert={generationPhase !== null}>
 						<span>
 							{active.length} registrations ·{" "}
 							{active.reduce(
@@ -1182,15 +1257,8 @@ export function SeatDashboard({
 							</p>
 							<WeightControls
 								result={base}
-								previousAssignments={base.assignments}
-								hasDraft={dirty || !!workspace?.saved_at}
-								onResult={() => {
-									setNotice(
-										"A generated plan is available in version history. Your working draft has been preserved.",
-									);
-									setModal(null);
-								}}
-								onSolvingChange={setBusy}
+                                hasDraft={dirty || !!workspace?.saved_at}
+                                onGenerate={request => void generateDraft(request)}
 							/>
 						</>
 					)}

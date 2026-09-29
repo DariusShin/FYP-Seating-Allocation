@@ -1,11 +1,10 @@
 "use client";
 import { useState } from "react";
-import { ArrowUp, ArrowDown, Loader2 } from "lucide-react";
+import { ArrowUp, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import type {
 	AllocationResult,
-	Assignment,
 	Preference,
 } from "@/lib/allocation-types";
 const LABELS = {
@@ -20,21 +19,16 @@ const DEFAULTS: Preference[] = [
 ];
 export function WeightControls({
 	result,
-	onResult,
+	onGenerate,
 	hasDraft = false,
-	onSolvingChange,
 }: {
 	result: AllocationResult;
-	onResult: (next: AllocationResult) => void;
-	previousAssignments?: Assignment[];
+	onGenerate: (request: { generation_mode: string; preferences: Preference[] }) => void;
 	hasDraft?: boolean;
-	onSolvingChange?: (busy: boolean) => void;
 }) {
 	const [preferences, setPreferences] = useState<Preference[]>(
 		() => result.preferences ?? DEFAULTS,
 	);
-	const [busy, setBusy] = useState(false);
-	const [error, setError] = useState("");
 	const [mode, setMode] = useState("REGENERATE_DRAFT");
 	function move(index: number, delta: number) {
 		setPreferences((current) => {
@@ -42,33 +36,6 @@ export function WeightControls({
 			[next[index], next[index + delta]] = [next[index + delta], next[index]];
 			return next;
 		});
-	}
-	async function generate() {
-		setBusy(true);
-		onSolvingChange?.(true);
-		setError("");
-		try {
-			const r = await fetch("/api/solve", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					generation_mode: mode,
-					preference_profile_version: "ranked-v1",
-					preferences,
-				}),
-			});
-			const next = await r.json();
-			if (!r.ok)
-				throw new Error(
-					`${next.error?.code ?? "ERROR"}: ${next.error?.message ?? "Generation failed"}`,
-				);
-			onResult(next);
-		} catch (e) {
-			setError(String(e));
-		} finally {
-			setBusy(false);
-			onSolvingChange?.(false);
-		}
 	}
 	let rank = 0;
 	return (
@@ -91,7 +58,6 @@ export function WeightControls({
 							<Switch
 								id={`pref-${item.key}`}
 								checked={item.enabled}
-								disabled={busy}
 								onCheckedChange={(enabled) =>
 									setPreferences((current) =>
 										current.map((p) =>
@@ -107,7 +73,7 @@ export function WeightControls({
 								variant="outline"
 								size="sm"
 								aria-label={`Move ${LABELS[item.key]} up`}
-								disabled={busy || index === 0}
+								disabled={index === 0}
 								onClick={() => move(index, -1)}
 							>
 								<ArrowUp className="size-3" />
@@ -117,7 +83,7 @@ export function WeightControls({
 								variant="outline"
 								size="sm"
 								aria-label={`Move ${LABELS[item.key]} down`}
-								disabled={busy || index === preferences.length - 1}
+								disabled={index === preferences.length - 1}
 								onClick={() => move(index, 1)}
 							>
 								<ArrowDown className="size-3" />
@@ -131,7 +97,6 @@ export function WeightControls({
 				<select
 					className="mt-1 w-full rounded border bg-background p-2"
 					value={mode}
-					disabled={busy}
 					onChange={(e) => setMode(e.target.value)}
 				>
 					<option value="REGENERATE_DRAFT">Regenerate draft</option>
@@ -147,27 +112,13 @@ export function WeightControls({
 			)}
 			{hasDraft && (
 				<p className="text-xs text-amber-700">
-					Generation replaces the unsaved manual draft. Validate and save edits
-					first to retain them.
+					Generation opens a new draft. Save your current edits first to retain
+					them in this version.
 				</p>
 			)}
-			<Button disabled={busy} onClick={generate} className="w-full">
-				{busy ? (
-					<>
-						<Loader2 className="animate-spin" />
-						Generating…
-					</>
-				) : mode === "REPAIR_PUBLISHED" ? (
-					"Repair into new draft"
-				) : (
-					"Generate new draft"
-				)}
-			</Button>
-			{error && (
-				<p role="alert" className="text-xs text-destructive">
-					{error}
-				</p>
-			)}
+			<Button onClick={() => onGenerate({ generation_mode: mode, preferences })} className="w-full">
+                {mode === "REPAIR_PUBLISHED" ? "Repair into new draft" : "Generate new draft"}
+            </Button>
 			<p className="text-xs text-muted-foreground">
 				Generating does not publish. Review and approve the resulting version
 				separately.
