@@ -340,9 +340,7 @@ def build_previous_allocation(
                     and not holder[other_id].requires_accessible_seat
                 ]
                 if candidates:
-                    swap_id = min(
-                        candidates, key=lambda s: seat_by_id[s].priority_rank
-                    )
+                    swap_id = min(candidates, key=lambda s: seat_by_id[s].priority_rank)
                     holder[seat_id], holder[swap_id] = (
                         holder[swap_id],
                         participant,
