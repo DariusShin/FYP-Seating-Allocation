@@ -43,7 +43,7 @@ pip install -r requirements.txt
 Generate deterministic mock participants:
 
 ```bash
-python -m seat_solver.data_generator \
+python -m seat_solver.prototype.data_generator \
   --count 150 \
   --seed 20260707 \
   --output data/mock_participants.json
@@ -52,7 +52,7 @@ python -m seat_solver.data_generator \
 Generate the 16-row, 16-seat floor plan (includes the structural blocked centre block):
 
 ```bash
-python -m seat_solver.floor_plan_generator \
+python -m seat_solver.prototype.floor_plan_generator \
   --rows 16 \
   --seats-per-row 16 \
   --output data/floor_plan.json
@@ -80,7 +80,7 @@ python -m seat_solver.cli validate \
 Run the benchmark:
 
 ```bash
-python -m seat_solver.benchmark \
+python -m seat_solver.prototype.benchmark \
   --participants data/mock_participants.json \
   --floor-plan data/floor_plan.json \
   --config config/solver_config.json \

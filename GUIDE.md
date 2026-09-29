@@ -24,6 +24,6 @@ Strict initial centre-out packing may conflict with tiny edge-accessibility dema
 
 ## CLI and evaluation
 
-Use `seat_solver.cli solve --request ... --output ...` for an unpersisted initial/draft solve. Use `seat_solver.service` JSON stdin for versioned workflow operations. Use `seat_solver.production_data` for parameterized synthetic requests. See README for executable commands and docs/evaluation.md for research measurements.
+Use `seat_solver.cli solve --request ... --output ...` for an unpersisted initial/draft solve. Use `seat_solver.production.service` JSON stdin for versioned workflow operations. Use `seat_solver.production.production_data` for parameterized synthetic requests. See README for executable commands and docs/evaluation.md for research measurements.
 
 Historical v1 generation/validation/config modules exist only for reproduction. New production callers must not use the old raw-weight or client-supplied-baseline API.

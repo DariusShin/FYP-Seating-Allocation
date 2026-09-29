@@ -2,7 +2,7 @@
 
 ## Local reference service
 
-`PYTHONPATH=src .venv/bin/python -m seat_solver.service` accepts one JSON command on stdin and returns JSON on stdout. Next.js uses this process adapter. Local persistence is `output/plans.sqlite3`, override with `SEAT_PLAN_DB` for tests. This is not DynamoDB/S3 and is not claimed as a deployed Lambda implementation.
+`PYTHONPATH=src .venv/bin/python -m seat_solver.production.service` accepts one JSON command on stdin and returns JSON on stdout. Next.js uses this process adapter. Local persistence is `output/plans.sqlite3`, override with `SEAT_PLAN_DB` for tests. This is not DynamoDB/S3 and is not claimed as a deployed Lambda implementation.
 
 Commands: `solve`, `load`, `get`, `history`, `manual`, `submit`, `approve`, `publish`, `reject`, `public`. Lifecycle mutations include `plan_version_id` and `validation_revision`. Manual changes send the full list of `{participant_id, seat_ids}`. The immutable plan body and its hash identify the exact reviewed input/placement/profile. The server assigns event/actor from authenticated identity. Browser fields named actor/event/role are not trusted.
 
@@ -34,7 +34,7 @@ Generation/save/review do not update the public pointer. Publishing requires APP
 
 1. Preserve legacy outputs as historical artifacts; do not select files by modification time or auto-import old `success` results as published.
 2. Generate/load a schema 2.0 production request, using explicit statuses, selected tiers meeting minimums and a versioned physical layout.
-3. Use `data/historical/report-232.json` only for historical comparisons. Current `data/floor_plan.json` and `data/layouts/production_2026.json` describe the 240-seat target.
+3. Use `data/historical/report-232.json` only for historical comparisons. Current `data/floor_plan.json` and `data/layouts/production_2026.json` describe the 232-seat target (24 blocked positions, including rows 7 and 9 at physical seats 5, 6, 11, and 12).
 4. Review a new v2 draft; an old unpublished numeric-weight configuration is not an approved ranked-v1 profile.
 5. Update host statuses through `policy.map_host_status`; unknown labels fail. Supply replacement links rather than overwriting original registrations.
 6. Install host identity/persistence adapters before cloud production use. SQLite is the local reference contract; do not store a durable production publication pointer in a Lambda temporary filesystem.

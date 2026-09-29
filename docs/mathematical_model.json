@@ -2,7 +2,7 @@
   "schema_version": "2.0.0",
   "policy_version_id": "pjkit-v2",
   "normalization_version": "desirability-v1",
-  "implementation": "src/seat_solver/production.py",
+  "implementation": "src/seat_solver/production/production.py",
   "status": "Implemented local production workflow; AWS/host deployment measurements are external acceptance gates.",
   "sets": {
     "P": "eligible CONFIRMED or REPLACEMENT_CONFIRMED registration units",
