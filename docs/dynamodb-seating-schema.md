@@ -1,6 +1,6 @@
 # Event seating allocation — DynamoDB schema proposal
 
-This proposal adds seating allocation to the main application's event domain. It follows the reference workbook's **Facet → Attribute → Type → Sub-attribute → Remarks → Example** representation. It describes infrastructure to create and integration work to implement; the repository currently uses SQLite and a Python process adapter, not a deployed DynamoDB/Lambda service.
+This proposal adds seating allocation to the main application's event domain. It follows the reference workbook's **Facet → Attribute → Type → Sub-attribute → Remarks → Example** representation. It describes infrastructure to create and integration work to implement; the repository currently uses SQLite (`output/paid-seats-v4.sqlite3`) and a synchronous Python process adapter, not a deployed DynamoDB/Lambda service. The DynamoDB design below is a target architecture, not a description of the running application.
 
 ## Requirement correction: paid seats and verification
 
@@ -8,7 +8,7 @@ A confirmed paid registration retains its name and full seat entitlement regardl
 
 Objective 2 now proposes explainable server-side safeguard verification. A future `VERIFICATION` facet would bind findings to an immutable workspace object/hash, exact workspace revision, input revision and policy version, with `PASSED`/`FAILED`, rule IDs, affected registrations/seats, verifier version and timestamp. Publication would condition-check that exact verification reference and revision. This facet and full manual business-rule gate are **planned**, not implemented by the current local store.
 
-Local development uses the fresh `output/paid-seats-v4.sqlite3`; the previous database is preserved. Production policy is `pjkit-v4`. Existing archived records must not be silently imported into this contract.
+Local development uses the fresh `output/paid-seats-v4.sqlite3`; the previous database is preserved. Production policy is `pjkit-v4`. Existing archived records must not be silently imported into this contract. The local implementation has no DynamoDB table, event registration import, stream-triggered job, or full manual-plan safeguard verification yet.
 
 ## 1. Use cases
 
@@ -48,7 +48,35 @@ Offerings identifies an event with a code such as `202507LH`, whereas Events use
 
 The workbook does not define seating registration status, accessibility needs, participant category, activity count, age or companion name. Collect/verify these through registration or staff entry. Attendance does not determine paid seat entitlement. Resolve the correct paid registration and display name from the contribution source, independently of physical attendance.
 
-### 2.2 Additions to Events metadata — UC01
+### 2.2 Relational-database mental model
+
+Treat `Seating` as one physical table that stores many **record types** (called facets here), rather than as one SQL table per entity. Every item has the same two key columns, `pk` and `sk`; `entityType` tells the application what kind of row it is. A key pair identifies exactly one item.
+
+| Relational concept | DynamoDB equivalent in this proposal |
+|---|---|
+| Table | Physical `Seating` table (plus the existing host tables) |
+| Row / record | One DynamoDB item, such as one `REGISTRATION` or one `SOLVER_JOB` |
+| Primary key | Composite `(pk, sk)`, not a generated SQL row number |
+| Parent/child relationship | Key values repeated or referenced in ordinary attributes; DynamoDB does not enforce foreign keys |
+| `WHERE event_id = ?` | `Query` one partition using `pk=EVENT#...`; sort-key prefixes select the relevant record family |
+| Join | Usually several known-key `GetItem`/`Query` calls in application code, or a prewritten read projection such as `Assignment` |
+| Transaction | Conditional `TransactWriteItems` for a bounded set of items; not an arbitrary multi-table SQL transaction |
+| Large JSON column | Immutable object manifest plus ordered `PART#...` items, reassembled and hash-checked by the adapter |
+
+The `#` text is a naming convention inside String keys, not a special DynamoDB feature. The application constructs the full key and checks referenced IDs, object hashes, revisions and permissions. A `Query` reads one partition efficiently; it cannot query arbitrary attributes such as `eventId` unless an index is explicitly designed for that access pattern. This proposal intentionally starts without a Seating GSI.
+
+### 2.3 Existing workbook changes and project boundary
+
+The reference workbook is a design source; this repository does not contain `Database Structure.xlsx` (the checked-in spreadsheets are unrelated FYP/Gantt/layout files). Therefore the precise deployed key names and workbook cells cannot be independently re-verified here. Based on the workbook conventions recorded above, do **not** replace or reshape the existing `Auth`, `Offerings`, or `Events` tables. Make only these planned changes:
+
+1. Provision the new `Seating` table with String `pk` and `sk`, on-demand capacity, point-in-time recovery and a `NEW_IMAGE` stream; no new GSI is currently justified.
+2. Optionally extend an existing `Events` `meta` item with `seatingEnabled`, `offeringEventId` and `seatingSchemaVersion`. Preserve the existing event ID, `pk`/`sk`, GSIs and unrelated locale/statistics records.
+3. Reuse the existing Offerings event-discovery GSI if its deployed key attributes really are `eventId` and `serialNo`; confirm that in the deployed table before writing the importer. Do not add a duplicate index without evidence.
+4. Reuse the existing Auth identity/role source. Add no credentials or seating fields to Auth. Create a `Seating` identity-link item only for an explicitly verified user-to-registration relationship.
+
+These are deployment changes, not changes required by the current SQLite demo. The current project's solver schemas (`schemas/production_request.schema.json`, layout and policy schemas) remain the solver contract; the proposed storage envelope/records do not replace them. Confirm actual workbook and deployed-table details with the host system owner before applying migrations.
+
+### 2.4 Additions to Events metadata — UC01
 
 | Facet | Attribute | Type | Sub-attribute | Remarks | Example |
 |---|---|---|---|---|---|
@@ -90,6 +118,186 @@ Separate object and plan partitions keep large payloads out of routine event que
 Host metadata `createdAt`, `updatedAt`, `publishedAt`, and `leaseUntil` use **epoch milliseconds** as Numbers, matching the workbook examples. Solver payload timestamps retain their existing ISO 8601 Strings. Any future DynamoDB TTL attribute must use epoch **seconds**, not milliseconds. No TTL is required for durable registrations, plans, source snapshots, or publication pointers.
 
 All newly written event-owned facet items include `entityType` (String, e.g. `SOLVER_JOB`) and `eventId` (String). These are ordinary attributes, not GSI keys. Metadata timestamps and actor IDs below are set by the authenticated server.
+
+### 3.2 Plain-JSON relationship map
+
+This is illustrative, ordinary JSON—not DynamoDB's low-level `{"S": ...}` AttributeValue format. Each entry in `Seating.items` is one item in the same physical `Seating` table; its `pk` and `sk` identify it. References are application-checked links, not enforced foreign keys. Host table keys below are examples and must be checked against the deployed workbook/system. The example combines related records from different workflow moments to show their links; it is not a single atomic snapshot (a newly initialized config has null plan pointers).
+
+```json
+{
+  "hostTables": {
+    "Events": [
+      {
+        "pk": "evt_2026_01",
+        "sk": "meta",
+        "offeringEventId": "202507LH",
+        "seatingEnabled": true,
+        "seatingSchemaVersion": 1
+      }
+    ],
+    "Offerings": [
+      {
+        "pk": "payer-example",
+        "sk": "A00001",
+        "eventId": "202507LH",
+        "bundleId": "bundle_01",
+        "unitId": "1",
+        "registeredName": "Example Participant",
+        "tier": "merit"
+      }
+    ],
+    "Auth": [
+      {
+        "pk": "USER#usr_01",
+        "sk": "PROFILE",
+        "role": "participant"
+      }
+    ]
+  },
+  "Seating": {
+    "physicalTable": "Seating",
+    "items": [
+      {
+        "pk": "EVENT#evt_2026_01",
+        "sk": "CONFIG",
+        "entityType": "SEATING_CONFIG",
+        "eventId": "evt_2026_01",
+        "registrationPrefix": "REG#",
+        "activeLayoutObjectId": "LAYOUT#layout_v1",
+        "policyVersionId": "pjkit-v4",
+        "inputRevision": 1,
+        "stateRevision": 0,
+        "workspaceRevision": 0,
+        "workspaceObjectId": null,
+        "latestPlanVersionId": "01JPLANEXAMPLE",
+        "publishedPlanVersionId": "01JPLANEXAMPLE"
+      },
+      {
+        "pk": "EVENT#evt_2026_01",
+        "sk": "REG#P001",
+        "entityType": "REGISTRATION",
+        "eventId": "evt_2026_01",
+        "participant": {
+          "participant_id": "P001",
+          "full_name": "Example Participant",
+          "registration_status": "CONFIRMED",
+          "contribution_tier": "MERIT",
+          "contribution_amount_rm": 3000,
+          "requires_accessible_seat": false,
+          "participant_category": "GENERAL_DEVOTEE",
+          "events_joined_last_2_years": 0,
+          "age": 30,
+          "adjacent_person_name": null
+        },
+        "source": {
+          "table": "Offerings",
+          "pk": "payer-example",
+          "sk": "A00001",
+          "bundleId": "bundle_01",
+          "unitId": "1"
+        },
+        "revision": 1
+      },
+      {
+        "pk": "EVENT#evt_2026_01",
+        "sk": "SOURCE#<sha256-of-canonical-source-tuple>",
+        "entityType": "CONTRIBUTION_LINK",
+        "eventId": "evt_2026_01",
+        "participantId": "P001",
+        "registrationKey": "REG#P001"
+      },
+      {
+        "pk": "USER#usr_01",
+        "sk": "EVENT#evt_2026_01#REG#P001",
+        "entityType": "IDENTITY_LINK",
+        "eventId": "evt_2026_01",
+        "participantId": "P001"
+      },
+      {
+        "pk": "EVENT#evt_2026_01#OBJECT#REQUEST#req_01",
+        "sk": "META",
+        "entityType": "OBJECT_MANIFEST",
+        "eventId": "evt_2026_01",
+        "objectId": "REQUEST#req_01",
+        "objectKind": "REQUEST",
+        "storageState": "COMMITTED",
+        "partCount": 1,
+        "sha256": "<sha256-of-canonical-request-bytes>"
+      },
+      {
+        "pk": "EVENT#evt_2026_01#OBJECT#REQUEST#req_01",
+        "sk": "PART#000000",
+        "entityType": "OBJECT_PART",
+        "eventId": "evt_2026_01",
+        "partIndex": 0,
+        "data": "<binary-request-json>"
+      },
+      {
+        "pk": "EVENT#evt_2026_01",
+        "sk": "IDEMP#<sha256-of-actor-and-client-token>",
+        "entityType": "IDEMPOTENCY",
+        "eventId": "evt_2026_01",
+        "submissionHash": "<sha256-of-normalized-command>",
+        "jobId": "job_01"
+      },
+      {
+        "pk": "EVENT#evt_2026_01",
+        "sk": "JOB#job_01",
+        "entityType": "SOLVER_JOB",
+        "eventId": "evt_2026_01",
+        "jobStatus": "SUCCEEDED",
+        "requestObjectId": "REQUEST#req_01",
+        "resultPlanVersionId": "01JPLANEXAMPLE"
+      },
+      {
+        "pk": "EVENT#evt_2026_01",
+        "sk": "PLAN#01JPLANEXAMPLE",
+        "entityType": "SEATING_PLAN",
+        "eventId": "evt_2026_01",
+        "planVersionId": "01JPLANEXAMPLE",
+        "requestObjectId": "REQUEST#req_01",
+        "resultObjectId": "RESULT#01JPLANEXAMPLE",
+        "publicationStatus": "PUBLISHED",
+        "projectionState": "COMPLETE"
+      },
+      {
+        "pk": "EVENT#evt_2026_01#OBJECT#RESULT#01JPLANEXAMPLE",
+        "sk": "META",
+        "entityType": "OBJECT_MANIFEST",
+        "eventId": "evt_2026_01",
+        "objectId": "RESULT#01JPLANEXAMPLE",
+        "objectKind": "RESULT",
+        "storageState": "COMMITTED",
+        "partCount": 1,
+        "sha256": "<sha256-of-canonical-result-bytes>"
+      },
+      {
+        "pk": "EVENT#evt_2026_01#PLAN#01JPLANEXAMPLE",
+        "sk": "REG#P001",
+        "entityType": "SEAT_ASSIGNMENT",
+        "eventId": "evt_2026_01",
+        "planVersionId": "01JPLANEXAMPLE",
+        "participantId": "P001",
+        "registeredName": "Example Participant",
+        "allocationType": "SINGLE",
+        "seatIds": ["R01-S07"]
+      },
+      {
+        "pk": "EVENT#evt_2026_01",
+        "sk": "AUDIT#1790640000000#audit_01",
+        "entityType": "SEATING_AUDIT",
+        "eventId": "evt_2026_01",
+        "action": "PUBLISHED",
+        "actorId": "usr_staff_01",
+        "planVersionId": "01JPLANEXAMPLE",
+        "createdAt": 1790640000000
+      }
+    ]
+  }
+}
+```
+
+The config pointer links to the plan; that plan references the immutable request and result; assignment items are keyed under that plan; registration/source-link items map back to the contribution record. Layout and policy objects are omitted from this shortened example but follow the same layout described in §3 and §4.4–4.5. In live writes, publication pointer, plan status and audit are changed in one conditional transaction—the JSON above is a relationship illustration, not a claim that these records were written atomically together.
 
 ## 4. Attribute definitions
 
@@ -211,7 +419,7 @@ Current `policy()` reads `config/production_policy.json` from the deployed packa
 | Job | jobStatus | S | — | `QUEUED`, `RUNNING`, `SUCCEEDED`, `FAILED` | `QUEUED` |
 | Job | requestObjectId | S | — | Must refer to a COMMITTED request | `REQUEST#req_01` |
 | Job | requestHash | S | — | Must match request manifest | `<64-hex-digits>` |
-| Job | generationMode | S | — | Copy of request mode for status display | `REPAIR_PUBLISHED` |
+| Job | generationMode | S | — | Copy of request mode for status display; currently `INITIAL` or `REGENERATE_DRAFT` | `INITIAL` |
 | Job | inputRevision | N, integer | — | Revision frozen at submission | `12` |
 | Job | expectedStateRevision / expectedWorkspaceRevision | N / N, integers | — | Guard eventual draft attachment | `20` / `4` |
 | Job | expectedPublishedPlanVersionId | S or NULL | — | Pointer at submission, for concurrency control | `01JOLDPLAN` |
@@ -252,6 +460,7 @@ Create queued job and idempotency item in one transaction, conditionally absent,
 | Plan | workingRevision | N, integer, optional | — | Workspace revision, if manually published | `4` |
 | Plan | solverStatusAtGeneration | S | — | Preserve original OPTIMAL/FEASIBLE provenance | `FEASIBLE` |
 | Plan | manuallyModified | BOOL | — | Manual editing must not claim original proof still holds | `true` |
+| Plan | verificationId | S, optional | — | Planned Objective 2: immutable verification bound to the exact published workspace/hash and captured revisions; absent until implemented | `VERIFY#ver_01` |
 | Plan | createdAt / createdBy | N / S | — | Creation metadata | `1790640000000` / `usr_staff_01` |
 | Plan | publishedAt / publishedBy | N / S, optional | — | Set only on explicit publication | `1790640060000` / `usr_staff_01` |
 | Assignment | pk / sk | S / S | — | Event+plan / participant | `EVENT#evt_2026_01#PLAN#01JNEWPLAN` / `REG#P001` |
@@ -289,6 +498,24 @@ Workspace objects hold the exact `WorkspaceStore` state. The configuration row h
 | Audit | changes | M, optional | — | Bounded summary only | `{"publishedPlanVersionId":{"from":null,"to":"01JNEWPLAN"}}` |
 
 Workspace metadata contains only seat_ids, display_names, note, dock_reason, previous_seat_ids and changed_at. Server checks preserve the full paid allocation, valid pairs, accessibility, immutable registration records and unique valid seats. Docked registrations prevent publication. A complete manual contribution-order/packing safeguard gate remains planned under revised Objective 2.
+
+### 4.9 Planned verification facet — Objective 2
+
+This is a planned addition to the target DynamoDB contract, not a current feature of the local SQLite workspace. A verification run is immutable and applies only to the exact saved workspace hash and captured revisions. It cannot be reused after a save, input change, base-plan change, policy change or verifier deployment.
+
+| Facet | Attribute | Type | Remarks | Example |
+|---|---|---|---|---|
+| Verification | pk / sk | S / S | `EVENT#<eventId>` / `VERIFY#<verificationId>` | `EVENT#evt_2026_01` / `VERIFY#ver_01` |
+| Verification | entityType / eventId | S / S | Discriminator and owner | `SEATING_VERIFICATION` / `evt_2026_01` |
+| Verification | verificationId | S | Unique immutable run | `ver_01` |
+| Verification | workspaceObjectId / workspaceHash | S / S | Exact committed workspace being checked | `WORKSPACE#ws_04` / `<64-hex-digits>` |
+| Verification | workspaceRevision / inputRevision | N / N | Captured revisions; both checked during publication | `4` / `12` |
+| Verification | basePlanVersionId / policyVersionId | S / S | Context used by the verifier | `01JPLANEXAMPLE` / `pjkit-v4` |
+| Verification | status | S | `PASSED` or `FAILED`; independent of solver status | `FAILED` |
+| Verification | findingsObjectId | S | Committed object with rule IDs, severity, affected registration/seat IDs and explanations | `VERIFICATION_RESULT#ver_01` |
+| Verification | verifierVersion / verifiedAt | S / N | Verifier build / epoch milliseconds | `git:<commit-sha>` / `1790640000000` |
+
+The exact plan/workspace revision should reference `verificationId`. The publisher must condition-check PASSED status and equality of workspace hash, workspace/input revisions, base plan, policy and verifier version. The planned rule set includes paid-seat entitlement, valid Emperor pairs, accessibility, tier/order and packing. Do not claim this gate is active until implemented and tested; failure leaves the existing public pointer unchanged.
 
 ## 5. Exact nested solver data contract
 
@@ -652,7 +879,7 @@ For ordinary Lambda execution, the configurable timeout is at most 900 seconds. 
 
 Saving edits validates the full state against the base plan, stages a new WORKSPACE object, then transactionally updates CONFIG only if the submitted workspace revision and base plan still match. Increment workspace/state revisions and append audit. This avoids a partially saved multi-item workspace and supports more than 100 registrations.
 
-Publication builds a new immutable manual snapshot from the exact saved workspace, preserving `operations`, source request and original generation provenance. It sets `manually_modified=true`, labels current solver status `MANUALLY_MODIFIED`, and preserves the current workspace behavior `hard_constraint_validation={"checked":false}`. Validate basic draft integrity and require every attending registration to have assigned seats. Do not mark it solver-audited unless an additional full audit is actually implemented and passed.
+Publication builds a new immutable manual snapshot from the exact saved workspace, preserving `operations`, source request and original generation provenance. It sets `manually_modified=true`, labels current solver status `MANUALLY_MODIFIED`, and preserves the current workspace behavior `hard_constraint_validation={"checked":false}`. Validate basic draft integrity and require every eligible/confirmed paid registration to have its full seat entitlement assigned. Do not mark it solver-audited unless an additional full audit is actually implemented and passed.
 
 After content and assignments are complete, one small `TransactWriteItems` operation:
 
@@ -666,6 +893,23 @@ Place conditions on the same Update action for an item rather than adding a sepa
 DynamoDB transactions are limited to 100 distinct items and 4 MB. Do not attempt to publish every seat/registration in the pointer-switch transaction; staged immutable content plus a small commit transaction is deliberate. [AWS transactions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/transaction-apis.html)
 
 The repository retains older `submit/approve/publish` PlanStore commands, but the current workspace UI publishes saved revisions directly. This proposal models that current flow. If the approval workflow is restored, add UNDER_REVIEW/APPROVED/REJECTED states and actor/time/approved-content-hash fields, with approval tied to the exact immutable content hash.
+
+### 7.5 End-to-end implementation flow by record family
+
+| Order | Record family | Create / update | Link and read pattern |
+|---|---|---|---|
+| 1 | Existing `Events` metadata | Confirm the existing event key; add optional seating metadata only through the host migration | `offeringEventId` maps to Offerings discovery; keep the opaque event ID as the seating identity |
+| 2 | `CONFIG` | Create one item per enabled event with revision zero and null pointers; update via conditional writes | Root event control record; `GetItem(pk=EVENT#id, sk=CONFIG)` |
+| 3 | `REG#...` + `SOURCE#...` | Import normalized participant, source tuple and unique link; increment `inputRevision` in the same transaction | Event registration query by `REG#`; source link exact get prevents duplicate bundle/unit import |
+| 4 | Identity link | Create only after Auth ownership is verified | Query `USER#authId` with event sort-key prefix for participant lookup |
+| 5 | Policy + layout | Seed immutable policy; commit layout as manifest and parts; conditionally select active layout | Read by exact global policy key and committed object ID; validate hash/version |
+| 6 | Request + idempotency + job | Assemble a consistent snapshot, commit REQUEST, then transact idempotency + QUEUED job + audit while checking captured revisions | Job links to request ID/hash and stores revisions; same token/same command returns the same job |
+| 7 | Worker + result + plan + assignments | Claim a lease; validate/solve/audit; commit RESULT, plan and assignment projection; mark job SUCCEEDED conditionally | Staff reads plan/result; participant reads CONFIG → published plan → one assignment, not a registration scan |
+| 8 | Workspace | Save complete state as a new immutable object and advance CONFIG only for the expected base/revision | Concurrent stale saves fail; prior workspace objects remain immutable history |
+| 9 | Verification (planned) | Audit the saved object and persist immutable findings bound to hash and revisions | Publisher accepts only PASSED for the exact current hash/revisions and compatible policy/verifier |
+| 10 | Publication + audit | Stage manual result/projection and perform a small conditional pointer-switch transaction | `publishedPlanVersionId` is the sole public pointer; old plan content remains immutable |
+
+Recommended rollout: (a) freeze the API/key contract and verify deployed host table keys; (b) provision `Seating`, configuration, policy and layout; (c) implement imports/revisioning; (d) build and stress-test canonical object serialization; (e) introduce a persistence interface while retaining the SQLite adapter; (f) implement asynchronous jobs, idempotency, leases and redrive; (g) implement workspace, assignments and explicit publication; (h) add and evaluate the planned safeguard verification; (i) pass concurrency, privacy, failure-recovery and cloud acceptance tests. DynamoDB is not a prerequisite for the present local app, so keep the SQLite flow working throughout migration.
 
 ## 8. Implementation checklist and acceptance criteria
 

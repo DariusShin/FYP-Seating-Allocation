@@ -132,24 +132,26 @@ export function GenerateDraft({
 			</>
 		);
 	return (
-		<main className="seat-workspace">
-			<header className="workspace-header">
+		<main className="flex h-dvh flex-col overflow-hidden bg-background text-[15px] text-foreground print:h-auto">
+			<header className="flex shrink-0 items-center gap-3 border-b px-5.5 py-2.5 max-[1100px]:px-3 max-[700px]:flex-wrap max-[700px]:gap-2 print:hidden">
 				<Link
 					href="/event"
 					className="text-sm text-muted-foreground hover:text-foreground"
 				>
 					← Events
 				</Link>
-				<div className="brand-mark">
+				<div className="grid size-9 place-items-center rounded-lg bg-primary text-primary-foreground">
 					<Armchair size={20} />
 				</div>
 				<div>
-					<h1>PJKIT · Seating workspace</h1>
-					<p>2026 梁皇寶懺大法會</p>
+					<h1 className="text-base font-semibold">PJKIT · Seating workspace</h1>
+					<p className="mt-0.5 text-[13px] text-muted-foreground">
+						2026 梁皇寶懺大法會
+					</p>
 				</div>
 			</header>
-			<div className="context-bar">
-				<span className="mode-pill">
+			<div className="flex min-h-13.5 shrink-0 items-center gap-4 border-b px-5.5 py-2 text-sm text-muted-foreground max-[1100px]:gap-2 max-[1100px]:px-3 print:hidden">
+				<span className="whitespace-nowrap rounded-md border border-border bg-background px-2.5 py-1.25 font-medium text-foreground">
 					{busy
 						? "Preparing seating"
 						: phase === "error"
@@ -168,8 +170,8 @@ export function GenerateDraft({
 					<Button onClick={() => void generate()}>Generate draft</Button>
 				)}
 			</div>
-			<section className="workspace-body" aria-label="Seating map">
-				<div className="map-column">
+			<section className="flex min-h-0 flex-1" aria-label="Seating map">
+				<div className="flex min-w-0 flex-1 flex-col overflow-hidden">
 					<div className="relative min-h-[60vh] overflow-hidden rounded-lg">
 						<div
 							className="pointer-events-none opacity-40"
@@ -193,7 +195,7 @@ export function GenerateDraft({
 							/>
 						)}
 					</div>
-					<footer className="map-footer">
+					<footer className="flex min-h-10.5 shrink-0 items-center justify-between gap-2.5 border-t px-3.75 py-2 text-xs text-muted-foreground">
 						三寶佛 · 西單 · 東單 ·{" "}
 						{floor.total_seats -
 							floor.rows.flatMap((r) => r.seats).filter((s) => s.is_blocked)

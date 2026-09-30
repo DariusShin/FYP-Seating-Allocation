@@ -15,7 +15,6 @@ import {
 	StickyNote,
 	Star,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
@@ -23,6 +22,8 @@ import {
 	DialogDescription,
 	DialogHeader,
 } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import type { AllocationResult } from "@/lib/allocation-types";
 import {
 	dock,
@@ -38,8 +39,8 @@ import { TIER_STYLES } from "./seat-theme";
 
 type Modal =
 	| "allocation"
-	| "review"
 	| "checklist"
+	| "review"
 	| "settings"
 	| "versions"
 	| "legend"
@@ -52,24 +53,23 @@ export function SeatDashboard({
 	initialResult: AllocationResult;
 	initialWorkspace?: Workspace;
 }) {
-	const [workspace, setWorkspace] = useState<Workspace | null>(
-		initialWorkspace ?? null,
-	);
-	const [state, setState] = useState<WorkingState | null>(
-		initialWorkspace?.state ?? null,
-	);
+	const [workspace, setWorkspace] = useState<Workspace | null>(initialWorkspace ?? null);
+	const [state, setState] = useState<WorkingState | null>(initialWorkspace?.state ?? null);
 	const [mode, setMode] = useState<"read" | "edit" | "review">("read");
-	const [selected, setSelected] = useState<string | null>(null);
-	const [selectedSeat, setSelectedSeat] = useState<string | null>(null);
+	const [selection, setSelection] = useState<{
+		participantId: string | null;
+		seatId: string | null;
+	}>({ participantId: null, seatId: null });
 	const [dockOpen, setDockOpen] = useState(false);
 	const draggingParticipant = useRef<string | null>(null);
 	const [destination, setDestination] = useState("");
 	const [query, setQuery] = useState("");
 	const [filter, setFilter] = useState("all");
 	const [modal, setModal] = useState<Modal>(null);
-	const [history, setHistory] = useState<WorkingState[]>([]);
-	const [future, setFuture] = useState<WorkingState[]>([]);
-	const [notice, setNotice] = useState("");
+	const [timeline, setTimeline] = useState<{
+		past: WorkingState[];
+		future: WorkingState[];
+	}>({ past: [], future: [] });
 	const [error, setError] = useState("");
 	const [busy, setBusy] = useState(false);
 	const [preview, setPreview] = useState<{
@@ -88,8 +88,7 @@ export function SeatDashboard({
 			if (!r.ok || !value) throw Error("Unable to load the working draft.");
 			setWorkspace(value);
 			setState(value.state);
-			setHistory([]);
-			setFuture([]);
+			setTimeline({ past: [], future: [] });
 
 			setError("");
 			setMode("read");
@@ -137,8 +136,10 @@ export function SeatDashboard({
 			)
 			.map((p) => p.participant_id),
 	);
-	const person = people.find((p) => p.participant_id === selected);
-	const item = selected ? state?.items[selected] : undefined;
+	const person = people.find((p) => p.participant_id === selection.participantId);
+	const item = selection.participantId
+		? state?.items[selection.participantId]
+		: undefined;
 	const canEdit = mode === "edit" && !busy;
 	const blocked = cells.filter((s) => s.is_blocked).length;
 	const published =
@@ -157,8 +158,10 @@ export function SeatDashboard({
 	}
 	function commit(next: WorkingState) {
 		if (!canEdit) return;
-		setHistory((h) => [...h.slice(-49), state!]);
-		setFuture([]);
+		setTimeline((current) => ({
+			past: [...current.past.slice(-49), state!],
+			future: [],
+		}));
 		setState(next);
 
 		setError("");
@@ -216,7 +219,7 @@ export function SeatDashboard({
 			setWorkspace(value);
 			setState(value.state);
 
-			setNotice(
+			toast.success(
 				command === "workspace_publish"
 					? "Seating plan published. Venue display now uses this version."
 					: "Working draft saved. Public seating is unchanged.",
@@ -224,8 +227,7 @@ export function SeatDashboard({
 			if (command === "workspace_publish") {
 				setMode("read");
 				setModal(null);
-				setHistory([]);
-				setFuture([]);
+				setTimeline({ past: [], future: [] });
 			}
 			return true;
 		} catch (e) {
@@ -236,19 +238,21 @@ export function SeatDashboard({
 		}
 	}
 	function selectSeat(sid: string) {
-		setSelectedSeat(sid);
+		setSelection((current) => ({ ...current, seatId: sid }));
 		if (owners[sid]) {
-			setSelected(owners[sid]);
+			setSelection({ participantId: owners[sid], seatId: sid });
 			setDestination("");
 			setModal("allocation");
-		} else if (canEdit && selected) {
+		} else if (canEdit && selection.participantId) {
 			setDestination(sid);
-			proposeMove(selected, sid);
+			proposeMove(selection.participantId, sid);
 		}
 	}
 	function selectParticipant(participantId: string) {
-		setSelected(participantId);
-		setSelectedSeat(state?.items[participantId]?.seat_ids[0] ?? null);
+		setSelection({
+			participantId,
+			seatId: state?.items[participantId]?.seat_ids[0] ?? null,
+		});
 		setModal("allocation");
 	}
 	const visible = people.filter((p) => {
@@ -277,7 +281,7 @@ export function SeatDashboard({
 		);
 	return (
 		<main
-			className="seat-workspace"
+			className="flex h-dvh flex-col overflow-hidden bg-background text-[15px] text-foreground print:h-auto"
 			onDragOver={(e) => {
 				if (
 					canEdit &&
@@ -301,15 +305,20 @@ export function SeatDashboard({
 				}
 			}}
 		>
-			<header className="workspace-header">
-				<div className="brand-mark">
+			<header className="flex shrink-0 items-center gap-3 border-b px-5.5 py-2.5 max-[1100px]:px-3 max-[700px]:flex-wrap max-[700px]:gap-2 print:hidden">
+				<div className="grid size-9 place-items-center rounded-lg bg-primary text-primary-foreground">
 					<Armchair size={20} />
 				</div>
 				<div>
-					<h1>
-						PJKIT <span>Seating workspace</span>
+					<h1 className="text-base font-semibold">
+						PJKIT{" "}
+						<span className="ml-2 text-sm font-normal text-muted-foreground max-[1100px]:hidden">
+							Seating workspace
+						</span>
 					</h1>
-					<p>2026 梁皇寶懺大法會 · Staff workspace</p>
+					<p className="mt-0.5 text-[13px] text-muted-foreground">
+						2026 梁皇寶懺大法會 · Staff workspace
+					</p>
 				</div>
 				<div className="relative z-30 ml-auto w-[min(340px,28vw)] max-[1100px]:w-[min(280px,30vw)] max-[700px]:order-3 max-[700px]:ml-0 max-[700px]:w-full">
 					<label className="flex h-9.5 items-center gap-2 rounded-lg border border-input bg-background px-2.5 text-muted-foreground focus-within:outline-2 focus-within:outline-ring focus-within:outline-offset-2">
@@ -359,7 +368,7 @@ export function SeatDashboard({
 									<button
 										type="button"
 										role="option"
-										aria-selected={selected === p.participant_id}
+										aria-selected={selection.participantId === p.participant_id}
 										key={p.participant_id}
 										className="flex w-full flex-col gap-0.5 rounded-md p-2 text-left hover:bg-accent hover:text-accent-foreground aria-selected:bg-accent"
 										onClick={() => selectParticipant(p.participant_id)}
@@ -386,10 +395,14 @@ export function SeatDashboard({
 						</div>
 					)}
 				</div>
-				<nav aria-label="Workspace">
+				<nav
+					className="ml-auto flex items-center gap-1 max-[1100px]:ml-0 max-[1100px]:gap-0 max-[700px]:ml-auto"
+					aria-label="Workspace"
+				>
 					<Button
 						variant="ghost"
 						size="sm"
+						className="max-[700px]:px-1.75 max-[700px]:text-[11px]"
 						onClick={() => setModal("checklist")}
 					>
 						<Users /> Participants
@@ -397,6 +410,7 @@ export function SeatDashboard({
 					<Button
 						variant="ghost"
 						size="sm"
+						className="max-[700px]:px-1.75 max-[700px]:text-[11px]"
 						onClick={() => setModal("settings")}
 					>
 						<Settings2 /> Settings
@@ -404,6 +418,7 @@ export function SeatDashboard({
 					<Button
 						variant="ghost"
 						size="sm"
+						className="max-[700px]:px-1.75 max-[700px]:text-[11px]"
 						onClick={async () => {
 							try {
 								const r = await fetch("/api/plans");
@@ -417,15 +432,22 @@ export function SeatDashboard({
 					>
 						Versions
 					</Button>
-					<Button variant="outline" size="sm" asChild>
+					<Button
+						variant="outline"
+						size="sm"
+						className="max-[700px]:px-1.75 max-[700px]:text-[11px]"
+						asChild
+					>
 						<Link href="/venue" target="_blank">
 							Venue display ↗
 						</Link>
 					</Button>
 				</nav>
 			</header>
-			<section className="context-bar">
-				<span className={`mode-pill ${mode}`}>
+			<section className="flex min-h-13.5 shrink-0 items-center gap-4 border-b px-5.5 py-2 text-sm text-muted-foreground max-[1100px]:gap-2 max-[1100px]:px-3 print:hidden">
+				<span
+					className={`whitespace-nowrap rounded-md border bg-background px-2.5 py-1.25 font-medium text-foreground ${mode === "edit" ? "bg-secondary" : ""} ${mode === "review" ? "border-primary" : ""}`}
+				>
 					{published ? "Published" : "Draft"} ·{" "}
 					{mode === "read"
 						? "Read mode"
@@ -442,10 +464,10 @@ export function SeatDashboard({
 								? `Saved ${new Date(workspace.saved_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
 								: "Generated draft"}
 				</span>
-				<span className="readiness">
+				<span className="text-muted-foreground max-[1100px]:hidden">
 					{active.length} paid registrations · {docked.length} in dock
 				</span>
-				<div className="context-actions">
+				<div className="ml-auto flex gap-2">
 					{mode !== "edit" ? (
 						<Button
 							size="sm"
@@ -472,7 +494,7 @@ export function SeatDashboard({
 								onClick={() => {
 									setMode("review");
 									setModal("review");
-									setNotice(
+									toast.info(
 										"Review your changes, save, then continue to publication.",
 									);
 								}}
@@ -498,22 +520,17 @@ export function SeatDashboard({
 				</div>
 			</section>
 			{error && (
-				<div className="workspace-banner error" role="alert">
+				<div
+					className="bg-muted px-6 py-2.25 text-sm text-destructive"
+					role="alert"
+				>
 					{error}
 				</div>
 			)}
-			{notice && (
-				<div className="workspace-notice" role="status">
-					{notice}
-					<button aria-label="Dismiss notice" onClick={() => setNotice("")}>
-						×
-					</button>
-				</div>
-			)}
-			<section className="workspace-body">
-				<div className="map-column">
-					<div className="map-toolbar">
-						<div className="map-tools">
+			<section className="flex min-h-0 flex-1">
+				<div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+					<div className="flex min-h-14.25 items-center gap-2.5 border-b px-4 py-2.5 print:hidden">
+						<div className="ml-auto flex items-center gap-0.5">
 							{mode === "edit" && docked.length > 0 && (
 								<Button
 									variant="outline"
@@ -564,8 +581,8 @@ export function SeatDashboard({
 								} satisfies SeatMarkers,
 							]),
 						)}
-						selected={selected}
-						selectedSeat={selectedSeat}
+						selected={selection.participantId}
+						selectedSeat={selection.seatId}
 						matches={query ? matches : undefined}
 						editable={canEdit}
 						onSelect={selectSeat}
@@ -577,7 +594,7 @@ export function SeatDashboard({
 							draggingParticipant.current = null;
 						}}
 					/>
-					<footer className="map-footer">
+					<footer className="flex min-h-10.5 shrink-0 items-center justify-between gap-2.5 border-t px-3.75 py-2 text-xs text-muted-foreground">
 						<span>
 							{active.length} registrations ·{" "}
 							{active.reduce(
@@ -597,11 +614,14 @@ export function SeatDashboard({
 									variant="ghost"
 									size="icon-sm"
 									aria-label="Undo"
-									disabled={!canEdit || !history.length}
+									disabled={!canEdit || !timeline.past.length}
 									onClick={() => {
-										setFuture((f) => [state, ...f]);
-										setState(history.at(-1)!);
-										setHistory((h) => h.slice(0, -1));
+										const previous = timeline.past.at(-1)!;
+										setTimeline((current) => ({
+											past: current.past.slice(0, -1),
+											future: [state, ...current.future],
+										}));
+										setState(previous);
 									}}
 								>
 									<Undo2 />
@@ -610,11 +630,14 @@ export function SeatDashboard({
 									variant="ghost"
 									size="icon-sm"
 									aria-label="Redo"
-									disabled={!canEdit || !future.length}
+									disabled={!canEdit || !timeline.future.length}
 									onClick={() => {
-										setHistory((h) => [...h, state]);
-										setState(future[0]);
-										setFuture((f) => f.slice(1));
+										const next = timeline.future[0];
+										setTimeline((current) => ({
+											past: [...current.past, state],
+											future: current.future.slice(1),
+										}));
+										setState(next);
 									}}
 								>
 									<Redo2 />
@@ -624,9 +647,12 @@ export function SeatDashboard({
 					</footer>
 				</div>
 				{mode === "edit" && dockOpen && (
-					<aside className="work-panel" aria-label="Holding dock">
-						<div className="panel-heading">
-							<h2>Holding dock</h2>
+					<aside
+						className="w-80 shrink-0 overflow-auto border-l bg-background p-4 print:hidden max-[1100px]:w-70"
+						aria-label="Holding dock"
+					>
+						<div className="mb-2.5 flex items-center justify-between">
+							<h2 className="text-base font-medium">Holding dock</h2>
 							<Button
 								variant="ghost"
 								size="icon-sm"
@@ -637,7 +663,7 @@ export function SeatDashboard({
 							</Button>
 						</div>
 						<section
-							className="holding-dock dock-panel-content"
+							className="mt-4 border-t-0 pt-0 [&>h3]:text-[15px] [&>h3]:font-medium [&>h3>span]:ml-1.5 [&>h3>span]:rounded-sm [&>h3>span]:bg-secondary [&>h3>span]:px-1.75 [&>h3>span]:py-0.5 [&>p]:my-1.25 [&>p]:mb-2.5 [&>p]:text-xs [&>p]:text-muted-foreground"
 							onDragOver={(e) => {
 								if (canEdit) e.preventDefault();
 							}}
@@ -652,7 +678,7 @@ export function SeatDashboard({
 							</h3>
 							<p>Drop allocations here while rearranging.</p>
 							{docked.length === 0 ? (
-								<div className="empty-dock">
+								<div className="rounded-lg border border-dashed px-3 py-5 text-center text-[13px] leading-[1.8] text-muted-foreground">
 									Everyone has a place.
 									<br />
 									The dock is ready when you need it.
@@ -660,14 +686,14 @@ export function SeatDashboard({
 							) : (
 								docked.map((p) => (
 									<button
-										className={`dock-card ${selected === p.participant_id ? "active" : ""}`}
+										className={`mb-2 flex w-full flex-col gap-0.75 rounded-lg border bg-secondary p-2.5 text-left ${selection.participantId === p.participant_id ? "outline-2 outline-ring" : ""} [&>strong]:text-[15px] [&>strong]:font-medium [&>span]:text-xs [&>span]:text-muted-foreground [&>small]:text-xs [&>small]:text-muted-foreground`}
 										key={p.participant_id}
 										draggable={canEdit}
 										onDragStart={(e) =>
 											e.dataTransfer.setData("text/plain", p.participant_id)
 										}
 										onClick={() => {
-											setSelected(p.participant_id);
+											setSelection({ participantId: p.participant_id, seatId: state.items[p.participant_id].seat_ids[0] ?? null });
 											setModal("allocation");
 										}}
 									>
@@ -798,7 +824,7 @@ export function SeatDashboard({
 										}
 									/>
 									{canEdit && eligible(person) && (
-										<div className="allocation-actions">
+										<div className="mt-2.5 flex flex-col gap-1.75 [&>label]:my-2.5 [&>label]:block [&>label]:text-[13px] [&>label]:text-muted-foreground [&_select]:mt-1 [&_select]:w-full [&_select]:rounded-md [&_select]:border [&_select]:border-input [&_select]:bg-background [&_select]:px-2 [&_select]:py-1.5 [&_select]:text-[15px] [&_select]:text-foreground">
 											<label>
 												Move / swap destination
 												<select
@@ -850,7 +876,7 @@ export function SeatDashboard({
 									{error}
 								</p>
 							)}
-							<p className="muted-copy">
+							<p className="my-1.75 mb-3 text-[13px] leading-[1.65] text-muted-foreground">
 								The public continues to see the last published version until you
 								confirm publication.
 							</p>
@@ -862,7 +888,7 @@ export function SeatDashboard({
 									Save working draft
 								</Button>
 							)}
-							<div className="review-summary">
+							<div className="my-3 flex flex-col gap-2 rounded-lg border p-3 text-sm">
 								<strong>{docked.length} docked</strong>
 								<span>
 									{people.filter((p) => !eligible(p)).length} excluded
@@ -877,11 +903,11 @@ export function SeatDashboard({
 									manually changed
 								</span>
 							</div>
-							<p className="muted-copy">
+							<p className="my-1.75 mb-3 text-[13px] leading-[1.65] text-muted-foreground">
 								Inspect the map and names before publishing this saved draft.
 							</p>
 							{docked.length > 0 && (
-								<p className="muted-copy">
+								<p className="my-1.75 mb-3 text-[13px] leading-[1.65] text-muted-foreground">
 									Assign every docked registration before publishing; paid seats
 									are retained regardless of attendance.
 								</p>
@@ -923,24 +949,25 @@ export function SeatDashboard({
 								value={query}
 								onChange={(e) => setQuery(e.target.value)}
 							/>
-							<div className="checklist">
+							<div className="divide-y">
 								{visible.map((p) => {
 									const m = state.items[p.participant_id];
 									return (
 										<div
 											key={p.participant_id}
-											className={
-												selected === p.participant_id ? "selected" : ""
-											}
+											className={`flex items-center gap-3 p-2 text-[13px] ${selection.participantId === p.participant_id ? "bg-accent" : ""}`}
 										>
 											<button
+												className="flex-1 text-left"
 												onClick={() => {
-													setSelected(p.participant_id);
+																setSelection({ participantId: p.participant_id, seatId: m.seat_ids[0] ?? null });
 													setModal("allocation");
 												}}
 											>
-												<strong>{m.display_names[0]}</strong>
-												<small>
+												<strong className="block text-base font-medium">
+													{m.display_names[0]}
+												</strong>
+												<small className="block text-muted-foreground">
 													{p.full_name} · {location(m.seat_ids)} ·{" "}
 													{p.registration_status}
 												</small>
@@ -954,35 +981,28 @@ export function SeatDashboard({
 								<Button
 									variant="outline"
 									disabled={!visible.length}
-									onClick={() =>
-										setSelected(
-											visible[
-												(visible.findIndex(
-													(p) => p.participant_id === selected,
-												) -
-													1 +
-													visible.length) %
-													visible.length
-											].participant_id,
-										)
-									}
+									onClick={() => {
+										const index = visible.findIndex(
+											(p) => p.participant_id === selection.participantId,
+										);
+										const participant = visible[
+											(index - 1 + visible.length) % visible.length
+										];
+										if (participant) selectParticipant(participant.participant_id);
+									}}
 								>
 									Previous
 								</Button>
 								<Button
 									variant="outline"
 									disabled={!visible.length}
-									onClick={() =>
-										setSelected(
-											visible[
-												(visible.findIndex(
-													(p) => p.participant_id === selected,
-												) +
-													1) %
-													visible.length
-											].participant_id,
-										)
-									}
+									onClick={() => {
+										const index = visible.findIndex(
+											(p) => p.participant_id === selection.participantId,
+										);
+										const participant = visible[(index + 1) % visible.length];
+										if (participant) selectParticipant(participant.participant_id);
+									}}
 								>
 									Next
 								</Button>
@@ -1015,15 +1035,13 @@ export function SeatDashboard({
 										);
 									setWorkspace(value);
 									setState(value.state);
-									setHistory([]);
-									setFuture([]);
-									setSelected(null);
-									setSelectedSeat(null);
+														setTimeline({ past: [], future: [] });
+														setSelection({ participantId: null, seatId: null });
 									setPreview(null);
 									setDockOpen(false);
 									setMode("read");
 									setModal(null);
-									setNotice(
+									toast.success(
 										"New seating draft ready. Public seating is unchanged.",
 									);
 								}}
@@ -1052,46 +1070,53 @@ export function SeatDashboard({
 										["BODHI", "Bodhi · Individual registration"],
 									] as const
 								).map(([tier, label]) => (
-									<div key={tier} className="legend-row">
+									<div
+										key={tier}
+										className="flex min-w-0 items-center gap-2.25 text-[13px] leading-[1.4]"
+									>
 										<span
-											className={`legend-tier-swatch ${TIER_STYLES[tier].cell.split(" hover:")[0]}`}
+											className={`inline-flex size-5.5 shrink-0 items-center justify-center rounded-md border border-border ${TIER_STYLES[tier].cell.split(" hover:")[0]}`}
 										/>
 										<span>{label}</span>
 									</div>
 								))}
-								<div className="legend-row">
-									<span className="legend-empty-swatch" /> Empty seat ·
-									available
+								<div className="flex min-w-0 items-center gap-2.25 text-[13px] leading-[1.4]">
+									<span className="inline-flex size-5.5 shrink-0 items-center justify-center rounded-md border border-dashed border-border bg-background" />{" "}
+									Empty seat · available
 								</div>
-								<div className="legend-row">
-									<span className="legend-blocked-swatch">×</span> Building
-									structure · unavailable
+								<div className="flex min-w-0 items-center gap-2.25 text-[13px] leading-[1.4]">
+									<span className="inline-flex size-5.5 shrink-0 items-center justify-center rounded-md border border-[color-mix(in_oklab,var(--destructive)_35%,var(--border))] bg-[repeating-linear-gradient(135deg,transparent,transparent_4px,var(--muted)_4px,var(--muted)_6px)] text-destructive">
+										×
+									</span>{" "}
+									Building structure · unavailable
 								</div>
 							</div>
 							<section>
-								<h3 className="legend-section-title">Participant indicators</h3>
+								<h3 className="mb-2.25 text-[13px] font-semibold">
+									Participant indicators
+								</h3>
 								<div className="grid gap-2 sm:grid-cols-2">
-									<div className="legend-row">
-										<span className="legend-icon">
+									<div className="flex min-w-0 items-center gap-2.25 text-[13px] leading-[1.4]">
+										<span className="inline-flex size-6.5 shrink-0 items-center justify-center rounded-[7px] border border-border bg-muted text-foreground [&>svg]:size-3.75 [&>svg]:stroke-[2.2]">
 											<Accessibility />
 										</span>{" "}
 										Accessible seating required
 									</div>
-									<div className="legend-row">
-										<span className="legend-icon">
+									<div className="flex min-w-0 items-center gap-2.25 text-[13px] leading-[1.4]">
+										<span className="inline-flex size-6.5 shrink-0 items-center justify-center rounded-[7px] border border-border bg-muted text-foreground [&>svg]:size-3.75 [&>svg]:stroke-[2.2]">
 											<Star />
 										</span>{" "}
 										Elderly participant
 									</div>
-									<div className="legend-row">
-										<span className="legend-icon">
+									<div className="flex min-w-0 items-center gap-2.25 text-[13px] leading-[1.4]">
+										<span className="inline-flex size-6.5 shrink-0 items-center justify-center rounded-[7px] border border-border bg-muted text-foreground [&>svg]:size-3.75 [&>svg]:stroke-[2.2]">
 											<StickyNote />
 										</span>{" "}
 										Staff note recorded
 									</div>
 								</div>
 							</section>
-							<div className="legend-directions">
+							<div className="grid gap-1.75 rounded-lg bg-muted p-3 text-xs leading-[1.6] [&>strong]:text-[13px]">
 								<strong>How to read the hall</strong>
 								<p>
 									三寶佛 is the front. 西單 columns are 1–8; 東單 columns are

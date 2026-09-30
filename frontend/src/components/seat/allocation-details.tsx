@@ -40,18 +40,20 @@ export function AllocationDetails({
 			setDraft(null);
 	}
 	return (
-		<div className="allocation-details space-y-3">
-			<h2>{item.display_names[0]}</h2>
-			<p className="muted-copy">
+		<div className="space-y-3">
+			<h2 className="mb-0.5 text-2xl font-medium">{item.display_names[0]}</h2>
+			<p className="my-1.75 mb-3 text-[13px] leading-[1.65] text-muted-foreground">
 				Registered: {person.full_name} · {person.contribution_tier}
 			</p>
-			<p className="muted-copy">{location}</p>
+			<p className="my-1.75 mb-3 text-[13px] leading-[1.65] text-muted-foreground">
+				{location}
+			</p>
 			<fieldset className="grid gap-4" disabled={!draft || busy}>
 				<legend className="sr-only">Display details</legend>
 				<label className="grid gap-1 text-sm">
 					Display name · payer
 					<input
-						className="rounded-md border bg-muted/30 p-2 disabled:text-muted-foreground"
+						className="mt-1 w-full rounded-md border border-input bg-background px-2 py-1.5 text-[15px] text-foreground disabled:bg-muted disabled:text-muted-foreground"
 						maxLength={80}
 						value={draft?.name ?? item.display_names[0]}
 						onChange={(e) =>
@@ -64,7 +66,7 @@ export function AllocationDetails({
 				<label className="grid gap-1 text-sm">
 					Staff note
 					<textarea
-						className="rounded-md border bg-muted/30 p-2 disabled:text-muted-foreground"
+						className="mt-1 w-full rounded-md border border-input bg-background px-2 py-1.5 text-[15px] text-foreground disabled:bg-muted disabled:text-muted-foreground"
 						maxLength={2000}
 						rows={2}
 						value={draft?.note ?? item.note}
