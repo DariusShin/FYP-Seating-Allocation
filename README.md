@@ -70,3 +70,7 @@ See [safeguard separation and flow audit](docs/seating-safeguard-separation.md) 
 ## Revised Objective 2
 
 The current FYP report proposes explainable server-side safeguard verification of the exact saved revision, with rule/seat findings and stale-verification rejection. Solver-output auditing and basic workspace integrity are implemented; the full manual business-rule verification gate remains planned. See [the active mathematical model](docs/mathematical_model.md).
+
+## Planning
+
+See the [planning index](docs/planning/README.md) for current proposals and archived implementation plans, including [preserving manual swaps after regeneration](docs/planning/manual-swap-replay-after-regeneration.md). These documents describe future work and do not change solver behavior.

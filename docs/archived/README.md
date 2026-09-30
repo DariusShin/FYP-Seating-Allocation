@@ -9,6 +9,6 @@ Current setup and behavior are documented in the [project README](../../README.m
 | [Prototype agent instructions](CLAUDE-prototype.md) | Root `CLAUDE.md`; initial prototype commands, participant counts, and implementation priorities are superseded. |
 | [Implementation context](CONTEXT.md) | Root `CONTEXT.md`; venue capacity and approval workflow describe an earlier implementation. |
 | [Operator guide](GUIDE.md) | Root `GUIDE.md`; describes the previous submit/approve publication workflow. |
-| [Dashboard redesign plan](seating-dashboard-redesign-plan.md) | `docs/seating-dashboard-redesign-plan.md`; completed historical backlog with superseded safeguard requirements. |
+| [Dashboard redesign plan](../planning/archived/seating-dashboard-redesign-plan.md) | `docs/seating-dashboard-redesign-plan.md`; completed historical backlog with superseded safeguard requirements. |
 
-Other files in this directory retain earlier implementation plans, integration notes, recommendations, and requirements traceability. Academic source material remains under `FYP1/`.
+Implementation plans and production recommendations now live in [the planning archive](../planning/README.md). Other files in this directory retain earlier integration notes, guides, and requirements traceability. Academic source material remains under `FYP1/`.

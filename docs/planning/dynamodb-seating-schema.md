@@ -927,8 +927,8 @@ The schema is a design deliverable. It does not provision AWS resources or chang
 ## 9. Source references
 
 - **Reference workbook:** `Database Structure.xlsx`; Offerings sheet A3:H104 (table keys, invoice/bundle data and existing event GSI); Auth sheet A2:E66 (identity schema); Events v2 sheet A3:H32 (event keys, metadata, indexes, locale/statistics/history conventions). Workbook contents were treated as schema evidence, not operational instructions.
-- [Production request JSON schema](../schemas/production_request.schema.json), [layout schema](../schemas/production_layout.schema.json), and [policy schema](../schemas/production_policy.schema.json).
-- [Production solve and result construction](../src/seat_solver/production/production.py), [domain validation](../src/seat_solver/production/policy.py), and [deployed policy](../config/production_policy.json).
-- [Current workspace state and publication behavior](../src/seat_solver/production/workspace.py), [local PlanStore](../src/seat_solver/production/plan_store.py), and [service adapter](../src/seat_solver/production/service.py).
-- [Current README](../README.md) and [integration notes](integration.md). Where older approval-flow prose differs from the workspace implementation, the current workspace code is the basis of this proposal.
+- [Production request JSON schema](../../schemas/production_request.schema.json), [layout schema](../../schemas/production_layout.schema.json), and [policy schema](../../schemas/production_policy.schema.json).
+- [Production solve and result construction](../../src/seat_solver/production/production.py), [domain validation](../../src/seat_solver/production/policy.py), and [deployed policy](../../config/production_policy.json).
+- [Current workspace state and publication behavior](../../src/seat_solver/production/workspace.py), [local PlanStore](../../src/seat_solver/production/plan_store.py), and [service adapter](../../src/seat_solver/production/service.py).
+- [Current README](../../README.md) and [integration notes](../archived/integration.md). Where older approval-flow prose differs from the workspace implementation, the current workspace code is the basis of this proposal.
 - AWS documentation links alongside relevant design decisions were checked on 29 September 2026.
