@@ -66,12 +66,12 @@ def test_validator_rejects_same_row_swap_with_actionable_seat_details():
     assert issue["higher_seats"][0]["priority_rank"] > issue["lower_seats"][0]["priority_rank"]
 
 
-def test_validator_checks_worst_seat_of_emperor_pair():
+def test_validator_rejects_emperor_pair_after_merit():
     req = generate(emperor=1, merit=1, bodhi=0)
-    # Emperor has ranks 1 and 3, while Merit has rank 2. Best seat alone is insufficient.
+    # Emperor has ranks 3 and 4, while Merit has rank 1.
     assignments = [
-        {"participant_id": req["participants"][0]["participant_id"], "seat_ids": ["R01-S09", "R01-S10"]},
-        {"participant_id": req["participants"][1]["participant_id"], "seat_ids": ["R01-S08"]},
+        {"participant_id": req["participants"][0]["participant_id"], "seat_ids": ["R01-S11", "R01-S12"]},
+        {"participant_id": req["participants"][1]["participant_id"], "seat_ids": ["R01-S09"]},
     ]
     assert any(i["rule_id"] == "C12" for i in validate_placements(req, assignments)["issues"])
 

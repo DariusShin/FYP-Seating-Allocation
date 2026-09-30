@@ -26,7 +26,7 @@
     },
     "tier_upper_bounds": null,
     "production_layout": {
-      "id": "pjkit-2026-v2",
+      "id": "pjkit-2026-v3",
       "rows": 16,
       "positions": 16,
       "aisle_after": 8,
@@ -121,7 +121,7 @@
     "C12": "For higher-tier p and lower-tier q: worst[p] < best[q]. Consecutive nonempty tier boundaries enforce this transitively, including BOTH Emperor seats. Shared rows permitted; accessibility has no exemption.",
     "C13": "Same tier and contribution[p] > contribution[q] imply row[p] <= row[q]. Consecutive within-tier contribution-group row boundaries implement this.",
     "C15": "Both modes: row occupancy equals min(remaining physical demand, available row capacity), front to back.",
-    "C16": "Both modes: occ[outer] <= occ[inner] on each side over available seats.",
+    "C16": "Both modes: occ[later] <= occ[earlier] over available seats ordered right/east outward, then left/west outward. Every assignable east seat must be occupied before any west seat in the same row.",
     "C17": "Accessible single must occupy an approved side position; accessible pair must have both seats accessible. This never becomes a configurable preference."
   },
   "soft_constraints": {

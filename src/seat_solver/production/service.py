@@ -103,7 +103,7 @@ def dispatch(body, store=None):
             )
         )
         req = copy.deepcopy(body.get("request") or event_source)
-        # Reuse registrations and preferences, but take current venue obstacles
+        # Reuse registrations and preferences, but take current venue obstacles and ranks
         # when regenerating the same configured hall. Explicit requests own their layout.
         if latest and not body.get("request"):
             configured = read_json(os.environ.get(
