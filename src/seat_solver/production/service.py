@@ -15,7 +15,7 @@ def dispatch(body, store=None):
     if not isinstance(body, dict):
         raise DomainError("INVALID_INPUT", "Command must be an object")
     store = store or PlanStore(
-        os.environ.get("SEAT_PLAN_DB", str(ROOT / "output/plans.sqlite3"))
+        os.environ.get("SEAT_PLAN_DB", str(ROOT / "output/paid-seats-v4.sqlite3"))
     )
     command = body.get("command")
     event = body.get("event_id", "PJKIT-2026")
@@ -115,43 +115,19 @@ def dispatch(body, store=None):
             if configured["event_id"] == event and geometry(configured["layout"]) == geometry(req["layout"]):
                 req["layout"] = copy.deepcopy(configured["layout"])
                 req["layout_version_id"] = configured["layout_version_id"]
-        current_policy = policy()["policy_version_id"]
-        if latest and latest["policy_version_id"] != current_policy:
-            if body.get("generation_mode") != "FULL_REGENERATION":
-                raise DomainError(
-                    "POLICY_VERSION_MISMATCH",
-                    "The saved plan uses an older policy. Start an explicit full regeneration or reset the local demo database.",
-                )
-            if not body.get("request"):
-                req["policy_version_id"] = current_policy
+        if latest and latest["policy_version_id"] != policy()["policy_version_id"]:
+            raise DomainError("POLICY_VERSION_MISMATCH", "Use the fresh paid-seats-v4 demo store; old histories are read-only archives.")
         req["event_id"] = event
         for key in (
             "generation_mode",
             "preferences",
-            "baseline_plan_version_id",
-            "participants",
         ):
             if key in body:
                 req[key] = body[key]
-        baseline = None
-        if req["generation_mode"] == "REPAIR_PUBLISHED":
-            baseline = store.published(event)
-            if not baseline:
-                raise DomainError("STALE_BASELINE", "No published baseline exists")
-            expected = body.get("baseline_plan_version_id")
-            if expected is not None and expected != baseline["plan_version_id"]:
-                raise DomainError(
-                    "STALE_BASELINE", "Requested baseline is no longer published"
-                )
-            req["baseline_plan_version_id"] = baseline["plan_version_id"]
-        else:
-            req["baseline_plan_version_id"] = None
-        result = solve(req, baseline)
-        return (
-            store.save(result, actor, baseline["plan_version_id"] if baseline else None)
-            if result["status"] == "success"
-            else result
-        )
+        if "baseline_plan_version_id" in body or "participants" in body:
+            raise DomainError("INVALID_INPUT", "Regeneration accepts preferences, not attendance or registration changes")
+        result = solve(req)
+        return store.save(result, actor) if result["status"] == "success" else result
     if command in ("manual", "submit", "approve", "publish", "reject"):
         existing = store.get(body["plan_version_id"])
         if existing["event_id"] != event:

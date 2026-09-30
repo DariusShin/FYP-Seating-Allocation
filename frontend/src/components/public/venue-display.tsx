@@ -4,7 +4,6 @@ import type { AllocationResult } from "@/lib/allocation-types";
 import { HallMap } from "@/components/seat/hall-map";
 import { chineseVenueName } from "@/lib/venue-names";
 import { Button } from "@/components/ui/button";
-import styles from "./venue-display.module.css";
 type Venue = {
 	status: string;
 	floor_plan?: AllocationResult["floor_plan"];
@@ -66,8 +65,11 @@ export function VenueDisplay() {
 		}),
 	);
 	return (
-		<div className={`venue-page ${styles.screen}`} ref={root}>
-			<div className="venue-controls">
+		<div
+			className="flex h-dvh flex-col bg-background max-[1280px]:[&_.hall-scroll]:overflow-x-auto max-[1280px]:[&_.paper-hall]:min-w-7xl print:block print:h-auto print:bg-white print:text-black"
+			ref={root}
+		>
+			<div className="flex justify-between px-5 py-2 text-sm print:hidden">
 				<span>
 					PJKIT · Published seating{" "}
 					{value?.published_at
@@ -98,13 +100,18 @@ export function VenueDisplay() {
 				</div>
 			</div>
 			{error && (
-				<p role="alert" className="workspace-banner">
+				<p
+					role="alert"
+					className="bg-muted px-6 py-2.25 text-sm text-foreground"
+				>
 					{error}
 				</p>
 			)}
 			{value?.floor_plan ? (
 				<>
-					<h1 className="venue-event-title">梁皇寶懺大法會功德主排位</h1>
+					<h1 className="my-2 text-center text-[26px] font-semibold print:mb-[5mm] print:mt-0 print:font-[Songti_SC,PMingLiU,serif] print:text-[22pt]">
+						梁皇寶懺大法會功德主排位
+					</h1>
 					<HallMap
 						presentation
 						floor={value.floor_plan}
@@ -116,7 +123,6 @@ export function VenueDisplay() {
 								chineseVenueName(p.primary_name) || undefined,
 							]),
 						)}
-						zoom={0}
 					/>
 				</>
 			) : (

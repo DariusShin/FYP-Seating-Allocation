@@ -18,3 +18,9 @@ export function seatGroups(seats: SeatCell[], owners: Record<string, string>) {
   }
   return groups;
 }
+
+/** Physical gaps in the PJKIT hall: West 5–8 and East 1–4 in rows 6 and 8.
+ * Keep these blocked cells in solver data, but reserve blank space in the UI. */
+export function isAisleGap(row: number, position: number): boolean {
+  return (row === 6 || row === 8) && position >= 5 && position <= 12;
+}

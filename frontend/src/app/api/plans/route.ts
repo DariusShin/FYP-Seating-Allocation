@@ -3,7 +3,7 @@ import { identity, runProduction, sameOrigin } from "@/lib/production-service";
 export const runtime = "nodejs";
 export async function GET() {
 	const user = await identity();
-	if (user?.role !== "admin")
+	if ((user?.role !== "admin" && user?.role !== "staff"))
 		return NextResponse.json(
 			{ error: "Administrative access required" },
 			{ status: 403 },
@@ -14,7 +14,7 @@ export async function GET() {
 }
 export async function POST(request: Request) {
 	const user = await identity();
-	if (user?.role !== "admin" || !sameOrigin(request))
+	if ((user?.role !== "admin" && user?.role !== "staff") || !sameOrigin(request))
 		return NextResponse.json(
 			{ error: "Administrative access required" },
 			{ status: 403 },

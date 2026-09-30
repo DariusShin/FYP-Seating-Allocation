@@ -2,7 +2,6 @@ export interface Registration {
 	participant_id: string;
 	full_name: string;
 	registration_status: string;
-	replacement_for_participant_id: string | null;
 	contribution_tier: TierName;
 	contribution_amount_rm: number;
 	requires_accessible_seat: boolean;
@@ -52,7 +51,6 @@ export interface FloorPlanRow {
 export interface PenaltyComponents {
 	priority_seat: number;
 	category_zone: number;
-	movement: number;
 	activeness: number;
 }
 
@@ -79,8 +77,6 @@ export interface Assignment {
 	seat_ids: string[];
 	seats: AssignmentSeat[];
 	pair_priority: number | null;
-	previous_seat_ids: string[];
-	moved: boolean | null;
 	penalty: {
 		unweighted: PenaltyComponents;
 		normalized: PenaltyComponents;
@@ -91,7 +87,6 @@ export interface Assignment {
 export interface SolverWeights {
 	priority_seat_weight: number;
 	category_zone_weight: number;
-	movement_weight: number;
 	activeness_weight: number;
 }
 
@@ -106,15 +101,9 @@ export interface ConstraintConfig {
 export interface AllocationResult {
  published_at?: string;
 	quality?: {
-		movement: {
-			moved_units: number;
-			unaffected_moved_units: number;
-			distance_doubled: number;
-			moved_physical_seats: number;
-		};
 		local_packing: number;
 	};
-	source_request?: { participants: Registration[] };
+	source_request?: { participants: Registration[]; layout?: { approved_pairs: number[][] } };
 	event_id?: string;
 	plan_version_id?: string;
 	validation_revision?: string;
@@ -150,7 +139,6 @@ export interface AllocationResult {
 		}[];
 		canonicalization_complete?: boolean;
 		optimality_scope?: string;
-		repair_scope?: number | null;
 		engine: string;
 		status: string;
 		objective_value: number;

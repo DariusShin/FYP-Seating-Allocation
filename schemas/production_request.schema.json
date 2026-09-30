@@ -11,9 +11,7 @@
     "generation_mode": {
       "enum": [
         "INITIAL",
-        "REGENERATE_DRAFT",
-        "REPAIR_PUBLISHED",
-        "FULL_REGENERATION"
+        "REGENERATE_DRAFT"
       ]
     },
     "layout_version_id": {
@@ -21,13 +19,7 @@
       "minLength": 1
     },
     "policy_version_id": {
-      "const": "pjkit-v3"
-    },
-    "baseline_plan_version_id": {
-      "type": [
-        "string",
-        "null"
-      ]
+      "const": "pjkit-v4"
     },
     "preference_profile_version": {
       "const": "ranked-v1"
@@ -73,18 +65,9 @@
           "registration_status": {
             "enum": [
               "CONFIRMED",
-              "REPLACEMENT_CONFIRMED",
               "PENDING",
               "WAITLISTED",
-              "CANCELLED",
-              "ABSENT",
-              "REPLACED"
-            ]
-          },
-          "replacement_for_participant_id": {
-            "type": [
-              "string",
-              "null"
+              "CANCELLED"
             ]
           },
           "contribution_tier": {
@@ -129,7 +112,6 @@
           "participant_id",
           "full_name",
           "registration_status",
-          "replacement_for_participant_id",
           "contribution_tier",
           "contribution_amount_rm",
           "requires_accessible_seat",
@@ -334,7 +316,6 @@
     "generation_mode",
     "layout_version_id",
     "policy_version_id",
-    "baseline_plan_version_id",
     "preference_profile_version",
     "preferences",
     "participants",

@@ -26,8 +26,8 @@ test('legacy partner names still render one payer card',()=>{
 test('selection of either cell outlines the complete pair wrapper',()=>{
  for(const selectedSeat of ['s7','s8']){const html=render({splitPairs:{pair:true},names:{s7:"林慧婷",s8:"陳思恩"},selectedSeat});assert.match(html,/data-pair-display="merged" class="[^"]*ring-2 ring-ring/);}
 });
-test('single contributor after partner absence occupies one track',()=>{
- const html=render({owners:{s8:'pair'}});assert.doesNotMatch(html,/data-pair-display=/);assert.match(html,/grid-column:9 \/ span 1/);
+test('single-seat registration occupies one track',()=>{
+ const html=render({owners:{s8:'single'},tiers:{single:'MERIT'}});assert.doesNotMatch(html,/data-pair-display=/);assert.match(html,/grid-column:9 \/ span 1/);
 });
 test('pair grouping never crosses an aisle or groups different registrations',()=>{
  const across=[{...seats[0],physical_position:8},{...seats[1],physical_position:9,side:'RIGHT'}];assert.equal(grouping.seatGroups(across,props.owners).length,2);assert.equal(grouping.seatGroups(seats,{s7:'one',s8:'two'}).length,2);
@@ -50,4 +50,16 @@ test('venue names reject identifiers and placeholders without inventing occupant
  const {chineseVenueName}=load('../src/lib/venue-names.ts');
  for(const name of ['synthetic-001','Synthetic participant 1','P0001',null,undefined,'陳思恩 P0001']) assert.equal(chineseVenueName(name),'');
  for(const name of ['陳思恩','林慧婷','歐陽文華']) assert.equal(chineseVenueName(name),name);
+});
+
+test('specified aisle positions render no seat or structural block while other blocks remain',()=>{
+ const rows=[6,7,8,9].map(row=>({row_number:row,seats:Array.from({length:16},(_,i)=>({
+  seat_id:`R${row}-S${i+1}`,physical_position:i+1,side:i<8?'LEFT':'RIGHT',is_blocked:i>=4&&i<12
+ }))}));
+ for(const presentation of [false,true]){
+  const html=render({floor:{rows,aisle_after_position:8},owners:{},presentation});
+  for(const row of [6,8]) for(let pos=5;pos<=12;pos++) assert.doesNotMatch(html,new RegExp(`data-seat="R${row}-S${pos}"`));
+  for(const row of [7,9]) assert.match(html,new RegExp(`data-seat="R${row}-S5"`));
+  assert.match(html,/grid-column:15 \/ span 1/);
+ }
 });

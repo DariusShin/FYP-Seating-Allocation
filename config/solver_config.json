@@ -1,5 +1,5 @@
 {
-  "policy_version_id": "pjkit-v3",
+  "policy_version_id": "pjkit-v4",
   "normalization_version": "desirability-v2",
   "tier_order": [
     "EMPEROR",
@@ -18,7 +18,6 @@
     10
   ],
   "initial_packing": "STRICT",
-  "repair_local_packing": true,
   "category_zone_costs": {
     "MONASTIC": {
       "RIGHT_CENTER": 0,
@@ -45,5 +44,6 @@
       "LEFT_OUTER": 1
     }
   },
-  "tier_seat_precedence": "HARD_ALL_PHYSICAL_SEATS"
+  "tier_seat_precedence": "HARD_ALL_PHYSICAL_SEATS",
+  "paid_seat_retention": "INDEPENDENT_OF_ATTENDANCE"
 }

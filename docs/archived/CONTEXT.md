@@ -2,7 +2,7 @@
 
 # Active implementation context
 
-Production specification: `docs/production-implementation-plan-v2.md`. Later confirmed edge-case defaults are recorded in `docs/requirements-traceability.md`.
+Production specification: `docs/planning/archived/production-implementation-plan-v2.md`. Later confirmed edge-case defaults are recorded in `docs/requirements-traceability.md`.
 
 - 16×16 physical venue, blocked rows 6/8 positions 5–12, 240 assignable; row 7 available.
 - Explicit registration tiers Emperor → Merit → Bodhi, minimums 5000/3000/2000, no automatic exclusive amount classification.

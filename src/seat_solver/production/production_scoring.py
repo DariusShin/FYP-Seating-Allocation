@@ -87,69 +87,6 @@ def candidate_cost(request, cfg, p, seats):
     }
 
 
-def baseline_maps(baseline):
-    if not baseline:
-        return {}, {}
-    return (
-        {a["participant_id"]: tuple(a["seat_ids"]) for a in baseline["assignments"]},
-        {p["participant_id"]: p for p in baseline["source_request"]["participants"]},
-    )
-
-
-def changed_ids(request, baseline):
-    _, old = baseline_maps(baseline)
-    # Ignore names, but include all attributes with allocation or eligibility consequences.
-    fields = (
-        "registration_status",
-        "contribution_tier",
-        "contribution_amount_rm",
-        "requires_accessible_seat",
-        "participant_category",
-        "events_joined_last_2_years",
-        "replacement_for_participant_id",
-    )
-    new = {p["participant_id"]: p for p in request["participants"]}
-    changes = {
-        pid
-        for pid in old.keys() | new.keys()
-        if pid not in old
-        or pid not in new
-        or any(old[pid].get(k) != new[pid].get(k) for k in fields)
-    }
-    if baseline:
-        current = {s["seat_id"]: s for s in request["layout"]["seats"]}
-        for assignment in baseline["assignments"]:
-            p = new.get(assignment["participant_id"])
-            for sid in assignment["seat_ids"]:
-                s = current.get(sid)
-                if (
-                    not s
-                    or s["is_blocked"]
-                    or (p and p["requires_accessible_seat"] and not s["is_accessible"])
-                ):
-                    changes.add(assignment["participant_id"])
-    return changes
-
-
-def movement(p, seats, baseline, request):
-    previous, _ = baseline_maps(baseline)
-    ids = previous.get(p["participant_id"])
-    if ids is None:
-        return 0, 0
-    moved = int(set(ids) != {s["seat_id"] for s in seats})
-    old = {s["seat_id"]: s for s in baseline["source_request"]["layout"]["seats"]}
-    oldseats = [old[sid] for sid in ids]
-
-    # Doubled centroid Manhattan distance: integer for one-seat and two-seat units.
-    def centre(items, key):
-        return 2 * sum(s[key] for s in items) // len(items)
-
-    distance = abs(centre(oldseats, "row_number") - centre(seats, "row_number")) + abs(
-        centre(oldseats, "physical_position") - centre(seats, "physical_position")
-    )
-    return moved, distance
-
-
 def packing_pairs(layout):
     available = [s for s in layout["seats"] if not s["is_blocked"]]
     comparisons = []
@@ -169,10 +106,9 @@ def packing_pairs(layout):
     return comparisons
 
 
-def quality(request, cfg, placements, baseline=None):
+def quality(request, cfg, placements):
     lookup = {s["seat_id"]: s for s in request["layout"]["seats"]}
     ps = eligible(request)
-    changes = changed_ids(request, baseline)
     penalties = {
         p["participant_id"]: candidate_cost(
             request, cfg, p, [lookup[s] for s in placements[p["participant_id"]]]
@@ -185,15 +121,6 @@ def quality(request, cfg, placements, baseline=None):
     }
     normalized = {k: sum(c["normalized"][k] for c in penalties.values()) for k in raw}
     weighted = {k: sum(c["weighted"][k] for c in penalties.values()) for k in raw}
-    moved = unaffected = distance = physical = 0
-    for p in ps:
-        m, d = movement(
-            p, [lookup[s] for s in placements[p["participant_id"]]], baseline, request
-        )
-        moved += m
-        unaffected += m * (p["participant_id"] not in changes)
-        distance += d
-        physical += m * len(placements[p["participant_id"]])
     occupied = {s for ids in placements.values() for s in ids}
     local = sum(
         a not in occupied and b in occupied for a, b in packing_pairs(request["layout"])
@@ -203,11 +130,5 @@ def quality(request, cfg, placements, baseline=None):
         "unweighted": raw,
         "normalized": normalized,
         "weighted": {**weighted, "total": sum(weighted.values())},
-        "movement": {
-            "moved_units": moved,
-            "unaffected_moved_units": unaffected,
-            "moved_physical_seats": physical,
-            "distance_doubled": distance,
-        },
         "local_packing": local,
     }

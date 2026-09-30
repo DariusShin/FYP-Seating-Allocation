@@ -18,6 +18,8 @@ def setup(tmp_path):
 
 
 def action(ws, plan, command, revision=0, **kwargs):
+    if command == "workspace_publish":
+        action(ws, plan, "workspace_check", revision)
     return ws.action(
         plan["event_id"],
         "staff",
@@ -61,84 +63,10 @@ def test_display_names_publish_and_snapshot_isolation(setup):
         action(ws, plan, "workspace_publish", saved["revision"], acknowledgements=[])
 
 
-def test_unlinked_partner_releases_seat_and_publishes(setup):
-    _store, ws, plan = setup
-    state = initial_state(plan)
-    # Choose outermost allocation on either side, release its outer seat, retain inner.
-    lookup = {s["seat_id"]: s for s in plan["source_request"]["layout"]["seats"]}
-    pid, item = max(
-        state["items"].items(),
-        key=lambda kv: max(lookup[s]["priority_rank"] for s in kv[1]["seat_ids"]),
-    )
-    ordered = sorted(item["seat_ids"], key=lambda s: lookup[s]["priority_rank"])
-    released = ordered[-1]
-    item.update(
-        companion_absent=True,
-        absence_reason="Partner confirmed absent; no replacement",
-        seat_ids=ordered[:1],
-    )
-    saved = action(ws, plan, "workspace_save", state=state)
-    published = action(
-        ws,
-        plan,
-        "workspace_publish",
-        saved["revision"],
-    )["base"]
-    a = next(a for a in published["assignments"] if a["participant_id"] == pid)
-    assert a["contribution_tier"] == "EMPEROR" and a["allocation_type"] == "SINGLE"
-    assert released in published["empty_seat_ids"]
-    assert audit_result(published)["passed"]
-    assert published["input_summary"]["required_seat_count"] == 3
 
 
-def test_absence_reason_required_and_registration_name_protected(setup):
-    _, ws, plan = setup
-    state = initial_state(plan)
-    pid = next(iter(state["items"]))
-    state["items"][pid]["companion_absent"] = True
-    with pytest.raises(DomainError, match="reason"):
-        action(ws, plan, "workspace_save", state=state)
-    state = initial_state(plan)
-    state["participants"][0]["full_name"] = "overwrite"
-    with pytest.raises(DomainError, match="read-only"):
-        action(ws, plan, "workspace_save", state=state)
 
 
-def test_released_partner_seat_can_be_assigned_to_replacement(tmp_path):
-    store = PlanStore(tmp_path / "release.db")
-    ws = WorkspaceStore(store)
-    request = tiny(1, "EMPEROR")
-    single = copy.deepcopy(request["participants"][0])
-    single.update(
-        participant_id="WAIT",
-        full_name="林慧婷",
-        contribution_tier="MERIT",
-        contribution_amount_rm=3000,
-        registration_status="WAITLISTED",
-    )
-    request["participants"].append(single)
-    plan = store.save(solve(request), "staff")
-    state = initial_state(plan)
-    pair = state["items"]["P0001"]
-    released = pair["seat_ids"][1]
-    pair.update(
-        companion_absent=True,
-        absence_reason="Confirmed absent",
-        seat_ids=pair["seat_ids"][:1],
-    )
-    # A new individually registered attendee can occupy the released physical seat.
-    state["participants"][1]["registration_status"] = "CONFIRMED"
-    state["items"]["WAIT"]["seat_ids"] = [released]
-    saved = action(ws, plan, "workspace_save", state=state)
-    result = action(
-        ws,
-        plan,
-        "workspace_publish",
-        saved["revision"],
-    )["base"]
-    assert len(result["assignments"]) == 2
-    assert result["input_summary"]["required_seat_count"] == 2
-    assert audit_result(result)["passed"]
 
 
 def test_initial_pair_order_identifies_contributor_before_partner(setup):
@@ -239,28 +167,14 @@ def test_dock_save_refresh_and_stale_write(setup):
     assert ws.load(plan["event_id"])["state"] == state
     with pytest.raises(DomainError, match="newer draft"):
         action(ws, plan, "workspace_save", state=state)
-    with pytest.raises(DomainError, match="Assign every attending"):
+    with pytest.raises(DomainError, match="Assign every paid"):
         action(ws, plan, "workspace_publish", saved["revision"])
     assert store.published(plan["event_id"]) is None
 
 
-def test_locked_moves_and_overlapping_assignments_fail(setup):
-    _, ws, plan = setup
-    state = initial_state(plan)
-    pid, other = state["items"]
-    state["items"][pid]["locked"] = True
-    saved = action(ws, plan, "workspace_save", state=state)
-    moved = copy.deepcopy(state)
-    moved["items"][pid]["seat_ids"] = []
-    with pytest.raises(DomainError, match="Unlock"):
-        action(ws, plan, "workspace_save", saved["revision"], state=moved)
-    moved = copy.deepcopy(state)
-    moved["items"][other]["seat_ids"] = moved["items"][pid]["seat_ids"]
-    with pytest.raises(DomainError, match="overlap"):
-        action(ws, plan, "workspace_save", saved["revision"], state=moved)
 
 
-def test_publication_without_review_creates_workspace_and_rejects_stale_writes(setup):
+def test_reviewed_publication_creates_workspace_and_rejects_stale_writes(setup):
     store, ws, plan = setup
     result = action(ws, plan, "workspace_publish")
     assert result["base"]["publication_status"] == "PUBLISHED"
@@ -270,7 +184,8 @@ def test_publication_without_review_creates_workspace_and_rejects_stale_writes(s
     )
     assert result["revision"] == 1
     assert "review_acknowledgements" not in result["base"]
-    assert result["base"]["hard_constraint_validation"] == {"checked": False}
+    assert result["base"]["hard_constraint_validation"]["checked"] is True
+    assert result["base"]["safeguard_review"]["review_status"] == "PASSED"
     assert result["base"]["approved_by"] is None
     with store.connection() as db:
         actions = [
@@ -285,13 +200,12 @@ def test_publication_without_review_creates_workspace_and_rejects_stale_writes(s
         action(ws, plan, "workspace_save", state=initial_state(plan))
 
 
-def test_retired_review_command_is_rejected(setup):
+def test_review_command_checks_saved_draft(setup):
     _, ws, plan = setup
-    with pytest.raises(DomainError, match="Unknown workspace operation"):
-        action(ws, plan, "workspace_check")
+    assert action(ws, plan, "workspace_check")["summary"]["open_blocking"] == 0
 
 
-def test_publication_does_not_run_contribution_or_packing_review(tmp_path):
+def test_publication_blocks_contribution_but_allows_acknowledged_findings(tmp_path):
     from seat_solver.production.production_validator import validate_placements
 
     store = PlanStore(tmp_path / "plans.db")
@@ -311,9 +225,15 @@ def test_publication_does_not_run_contribution_or_packing_review(tmp_path):
     state["items"]["P0001"]["seat_ids"] = ["R02-S01"]
     state["items"]["P0002"]["seat_ids"] = ["R01-S01"]
     saved = action(ws, plan, "workspace_save", state=state)
+    report = action(ws, plan, "workspace_check", saved["revision"])
+    with pytest.raises(DomainError, match="blocking safeguard"):
+        action(ws, plan, "workspace_publish", saved["revision"])
+    for finding in report["findings"]:
+        if finding["severity"] == "RED":
+            action(ws, plan, "workspace_ack", saved["revision"], finding_id=finding["finding_id"], status="ACKED")
     result = action(ws, plan, "workspace_publish", saved["revision"])["base"]
     assert result["publication_status"] == "PUBLISHED"
-    # The engine's validator is retained; staff publication no longer calls it.
+    # A staff override is audited rather than claiming the solver rules passed.
     rules = {
         f["rule_id"]
         for f in validate_placements(result["source_request"], result["assignments"])[

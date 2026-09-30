@@ -11,7 +11,7 @@ from pathlib import Path
 
 from seat_solver.production.policy import ROOT
 
-TABLES = ("workspace_versions", "workspaces", "audit", "events", "plans")
+TABLES = ("workspace_reviews", "workspace_versions", "workspaces", "audit", "events", "plans")
 
 
 def reset_local(database, apply=False):
@@ -64,7 +64,7 @@ def reset_local(database, apply=False):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--database", default=os.environ.get("SEAT_PLAN_DB", str(ROOT / "output/plans.sqlite3")))
+    parser.add_argument("--database", default=os.environ.get("SEAT_PLAN_DB", str(ROOT / "output/paid-seats-v4.sqlite3")))
     parser.add_argument("--apply", action="store_true", help="Back up and clear all local plan data")
     args = parser.parse_args()
     print(json.dumps(reset_local(args.database, args.apply), indent=2))

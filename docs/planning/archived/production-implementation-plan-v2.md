@@ -1556,4 +1556,4 @@ Core configuration principle:
 
 ## Implementation handoff
 
-The repository implementation and verification mapping is recorded in [implementation-status.md](implementation-status.md). The executable formulation is documented in [mathematical_model.md](mathematical_model.md) and [mathematical_model.json](mathematical_model.json). Host deployment and the unconfirmed historical benchmark composition remain explicitly separate acceptance items.
+The repository implementation and verification mapping is recorded in [implementation-status.md](../../archived/implementation-status.md). The executable formulation is documented in [mathematical_model.md](../../mathematical_model.md) and [mathematical_model.json](../../mathematical_model.json). Host deployment and the unconfirmed historical benchmark composition remain explicitly separate acceptance items.

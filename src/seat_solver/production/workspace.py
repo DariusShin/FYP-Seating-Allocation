@@ -1,6 +1,6 @@
 """Private, revision-checked drafts and explicit staff publication.
 
-Business-rule review is developed separately on codex/seating-safeguards.
+Business-rule review is persisted separately from the editable seating state.
 This module retains draft integrity, immutable snapshots and stale-write checks.
 """
 
@@ -10,6 +10,7 @@ import uuid
 
 from seat_solver.production.policy import ELIGIBLE, DomainError, validate_request
 from seat_solver.production.production import format_result, now
+from seat_solver.production.production_scoring import options
 
 
 def normalize_display_names(state):
@@ -36,13 +37,7 @@ def initial_state(plan):
         items[pid] = {
             "seat_ids": [seat["seat_id"] for seat in ordered],
             "display_names": [p["full_name"]] * (2 if p["contribution_tier"] == "EMPEROR" else 1),
-            "name_checked": False,
-            "attendance_confirmed": False,
-            "seat_reviewed": False,
-            "locked": False,
             "note": "",
-            "companion_absent": False,
-            "absence_reason": "",
             "dock_reason": "",
             "previous_seat_ids": [],
             "changed_at": None,
@@ -63,18 +58,13 @@ def validate_metadata(request, metadata):
     for pid, m in metadata.items():
         if pid not in people or not isinstance(m, dict):
             raise DomainError("INVALID_INPUT", "Unknown participant details")
-        for key in (
-            "name_checked",
-            "attendance_confirmed",
-            "seat_reviewed",
-            "locked",
-            "companion_absent",
-        ):
-            if type(m.get(key)) is not bool:
-                raise DomainError("INVALID_INPUT", "Invalid verification marker")
-        for key in ("note", "absence_reason", "dock_reason"):
+        for key in ("note", "dock_reason"):
             if not isinstance(m.get(key), str) or len(m[key]) > 2000:
                 raise DomainError("INVALID_INPUT", "Invalid note")
+        if set(m) != {"seat_ids", "display_names", "note", "dock_reason", "previous_seat_ids", "changed_at"}:
+            raise DomainError("INVALID_INPUT", "Unsupported working-draft fields")
+        if m["changed_at"] is not None and not isinstance(m["changed_at"], str):
+            raise DomainError("INVALID_INPUT", "Invalid change timestamp")
         names = m.get("display_names")
         expected = 2 if people[pid]["contribution_tier"] == "EMPEROR" else 1
         if (
@@ -87,11 +77,6 @@ def validate_metadata(request, metadata):
             raise DomainError(
                 "INVALID_INPUT",
                 "Provide a display name for each registered occupant (maximum 80 characters)",
-            )
-        if m["companion_absent"] and (expected != 2 or not m["absence_reason"].strip()):
-            raise DomainError(
-                "INVALID_INPUT",
-                "Partner absence requires an Emperor registration and a reason",
             )
 
 
@@ -119,19 +104,8 @@ def validate_state(plan, state):
     validate_request(request)
     original = {p["participant_id"]: p for p in plan["source_request"]["participants"]}
     current = {p["participant_id"]: p for p in request["participants"]}
-    if not original.keys() <= current.keys():
-        raise DomainError("INVALID_INPUT", "Registration records cannot be deleted")
-    # Authoritative attributes cannot be overwritten through a display editor.
-    for pid, old in original.items():
-        for key in old:
-            if (
-                key not in ("registration_status", "replacement_for_participant_id")
-                and old[key] != current[pid][key]
-            ):
-                raise DomainError(
-                    "INVALID_INPUT",
-                    "Registered details are read-only; edit the display name instead",
-                )
+    if current != original:
+        raise DomainError("INVALID_INPUT", "Registered details are read-only; edit the display name instead")
     items = state["items"]
     if set(items) != set(current):
         raise DomainError(
@@ -152,8 +126,12 @@ def validate_state(plan, state):
         occupied.update(ids)
         if current[pid]["registration_status"] not in ELIGIBLE and ids:
             raise DomainError(
-                "INVALID_INPUT", "Absent or replaced registrations cannot occupy seats"
+                "INVALID_INPUT", "Unconfirmed registrations cannot occupy paid seats"
             )
+        if ids and tuple(sorted(ids)) not in {
+            tuple(sorted(seat["seat_id"] for seat in option)) for option in options(request, current[pid])
+        }:
+            raise DomainError("INVALID_INPUT", "Keep the paid seat count, valid adjacent pairs and required accessibility")
         if not isinstance(m.get("previous_seat_ids"), list) or any(
             s not in seats for s in m["previous_seat_ids"]
         ):
@@ -172,9 +150,9 @@ def snapshot(plan, state):
     }
     if any(not seats for seats in placements.values()):
         raise DomainError(
-            "INVALID_INPUT", "Assign every attending registration before publishing"
+            "INVALID_INPUT", "Assign every paid registration before publishing"
         )
-    result = format_result(request, placements, stats, plan.get("baseline_snapshot"))
+    result = format_result(request, placements, stats)
     result["operations"] = copy.deepcopy(state["items"])
     result["manually_modified"] = True
     # format_result normally describes validated solver output; staff publication
@@ -193,9 +171,19 @@ class WorkspaceStore:
                 "CREATE TABLE IF NOT EXISTS workspaces (event TEXT PRIMARY KEY, base TEXT NOT NULL, revision INTEGER NOT NULL, body TEXT NOT NULL, saved_at TEXT NOT NULL, actor TEXT NOT NULL)"
             )
 
+            db.execute("CREATE TABLE IF NOT EXISTS workspace_reviews (event TEXT NOT NULL, base TEXT NOT NULL, body TEXT NOT NULL, PRIMARY KEY(event,base))")
+
             db.execute(
                 "CREATE TABLE IF NOT EXISTS workspace_versions (event TEXT NOT NULL, base TEXT NOT NULL, body TEXT NOT NULL, saved_at TEXT NOT NULL, actor TEXT NOT NULL, PRIMARY KEY(event,base))"
             )
+
+    def review(self, db, event, base):
+        row = db.execute("SELECT body FROM workspace_reviews WHERE event=? AND base=?", (event, base)).fetchone()
+        return json.loads(row["body"]) if row else {"review_status": "NOT_CHECKED"}
+
+    def save_review(self, db, event, base, review):
+        db.execute("INSERT INTO workspace_reviews(event,base,body) VALUES(?,?,?) ON CONFLICT(event,base) DO UPDATE SET body=excluded.body",
+                   (event, base, json.dumps(review)))
 
     def open(self, event, actor, plan_id=None):
         """Explicitly select a plan, preserving saved edits and stale-write protection."""
@@ -213,6 +201,7 @@ class WorkspaceStore:
             current = db.execute("SELECT * FROM workspaces WHERE event=?", (event,)).fetchone()
             if current and current["base"] == plan_id:
                 return {
+                    "review": self.review(db, event, plan_id),
                     "base": plan, "state": normalize_display_names(json.loads(current["body"])),
                     "revision": current["revision"], "saved_at": current["saved_at"],
                     "actor": current["actor"], "has_newer_plan": False,
@@ -235,7 +224,7 @@ class WorkspaceStore:
             )
             db.execute("INSERT INTO audit(event,plan,action,actor,at) VALUES(?,?,?,?,?)",
                        (event, plan_id, "WORKSPACE_OPEN", actor, now()))
-            return {"base": plan, "state": state, "revision": revision,
+            return {"review": self.review(db, event, plan_id), "base": plan, "state": state, "revision": revision,
                     "saved_at": stamp, "actor": owner, "has_newer_plan": False}
 
     def load(self, event):
@@ -249,6 +238,7 @@ class WorkspaceStore:
             if row:
                 base = self.store._load(db, row["base"])
                 return {
+                    "review": self.review(db, event, row["base"]),
                     "base": base,
                     "state": normalize_display_names(json.loads(row["body"])),
                     "revision": row["revision"],
@@ -272,7 +262,7 @@ class WorkspaceStore:
             return self.load(event)
         if command == "workspace_open":
             return self.open(event, actor, body.get("plan_version_id"))
-        if command not in {"workspace_save", "workspace_publish"}:
+        if command not in {"workspace_save", "workspace_publish", "workspace_check", "workspace_ack"}:
             raise DomainError("INVALID_INPUT", "Unknown workspace operation")
         # All state checks, updates and publication occur in the same transaction.
         with self.store.connection() as db:
@@ -291,23 +281,43 @@ class WorkspaceStore:
                     "Another staff member saved a newer draft. Reload before editing.",
                 )
             state = normalize_display_names(json.loads(row["body"])) if row else initial_state(plan)
+            from seat_solver.production.verification import check
+            review = self.review(db, event, plan["plan_version_id"])
+            if command in {"workspace_check", "workspace_ack"}:
+                feedback = command == "workspace_check" and body.get("state") is not None
+                if (feedback or command == "workspace_ack") and review["review_status"] == "NOT_CHECKED":
+                    raise DomainError("INVALID_INPUT", "Submit the saved draft for review first")
+                checked = check(plan, body["state"] if feedback else state, review)
+                if command == "workspace_ack":
+                    fid, status, note = body.get("finding_id"), body.get("status"), body.get("note", "")
+                    if status not in {"ACKED", "OPEN"} or not isinstance(note, str) or len(note) > 2000:
+                        raise DomainError("INVALID_INPUT", "Invalid review acknowledgement")
+                    if not any(f["finding_id"] == fid for f in checked["findings"]):
+                        raise DomainError("INVALID_INPUT", "Finding is no longer present; refresh review")
+                    checked["acknowledgements"][fid] = {"status": status, "note": note, "actor": actor, "changed_at": now()}
+                    checked = check(plan, state, checked)
+                    db.execute("INSERT INTO audit(event,plan,action,actor,at) VALUES(?,?,?,?,?)",
+                               (event, plan["plan_version_id"], f"REVIEW_{status}:{fid}", actor, now()))
+                if not feedback:
+                    if row is None:
+                        db.execute("INSERT INTO workspaces(event,base,revision,body,saved_at,actor) VALUES(?,?,?,?,?,?)",
+                                   (event, plan["plan_version_id"], revision, json.dumps(state), now(), actor))
+                    checked["checked_revision"] = revision
+                    self.save_review(db, event, plan["plan_version_id"], checked)
+                return {**checked, "revision": revision}
             if command == "workspace_save":
-                new = body["state"]
+                new = copy.deepcopy(body["state"])
+                if isinstance(new, dict) and isinstance(new.get("items"), dict):
+                    for m in new["items"].values():
+                        if isinstance(m, dict):
+                            m.pop("partner_name_edited", None)
                 validate_state(plan, new)
-                new = normalize_display_names(copy.deepcopy(new))
-                for pid, old in state["items"].items():
-                    m = new["items"][pid]
-                    if (
-                        old["locked"]
-                        and m["locked"]
-                        and (
-                            m["seat_ids"] != old["seat_ids"]
-                            or m["companion_absent"] != old["companion_absent"]
-                        )
-                    ):
-                        raise DomainError(
-                            "LOCKED", "Unlock the allocation before moving it"
-                        )
+                new = normalize_display_names(new)
+                if review["review_status"] == "PASSED":
+                    review = {"review_status": "NOT_CHECKED"}
+                elif review["review_status"] == "IN_PROGRESS":
+                    review.pop("checked_revision", None)
+                self.save_review(db, event, plan["plan_version_id"], review)
                 revision += 1
                 stamp = now()
                 db.execute(
@@ -334,10 +344,17 @@ class WorkspaceStore:
                 return {
                     "base": plan,
                     "state": new,
+                    "review": review,
                     "revision": revision,
                     "saved_at": stamp,
                     "actor": actor,
                 }
+            checked = check(plan, state, review)
+            if review["review_status"] == "NOT_CHECKED":
+                raise DomainError("REVIEW_REQUIRED", "Submit the saved draft for safeguard review before publishing")
+            if checked["summary"]["open_blocking"]:
+                raise DomainError("REVIEW_REQUIRED", "Resolve or override every blocking safeguard before publishing", checked)
+            checked.update(review_status="PASSED", checked_revision=revision, actor=actor, published_at=now())
             pointer = db.execute(
                 "SELECT published FROM events WHERE id=?", (event,)
             ).fetchone()
@@ -353,6 +370,9 @@ class WorkspaceStore:
                     "The published plan changed. Review against the latest version.",
                 )
             result = snapshot(plan, state)
+            result["safeguard_review"] = checked
+            result["hard_constraint_validation"] = {"checked": True, "placement_integrity": True,
+                "open_blocking": 0, "overrides": checked["summary"]["acked"]}
             from seat_solver.production.plan_store import digest
 
             pid = "PLAN-" + uuid.uuid4().hex
@@ -397,7 +417,10 @@ class WorkspaceStore:
                 "INSERT INTO workspaces(event,base,revision,body,saved_at,actor) VALUES(?,?,?,?,?,?) ON CONFLICT(event) DO UPDATE SET base=excluded.base,revision=excluded.revision,body=excluded.body,saved_at=excluded.saved_at,actor=excluded.actor",
                 (event, pid, revision + 1, json.dumps(state), stamp, actor),
             )
+            self.save_review(db, event, plan["plan_version_id"], checked)
+            self.save_review(db, event, pid, checked)
             return {
+                "review": checked,
                 "base": self.store._load(db, pid),
                 "state": state,
                 "revision": revision + 1,

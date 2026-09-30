@@ -43,7 +43,6 @@ def generate(emperor=56, merit=24, bodhi=16, seed=20260918, accessible=0):
                 "participant_id": f"P{i + 1:04d}",
                 "full_name": synthetic_chinese_name(i, seed),
                 "registration_status": "CONFIRMED",
-                "replacement_for_participant_id": None,
                 "contribution_tier": tier,
                 "contribution_amount_rm": MINIMUMS[tier]
                 + rng.choice([0, 100, 200, 500, 1000]),

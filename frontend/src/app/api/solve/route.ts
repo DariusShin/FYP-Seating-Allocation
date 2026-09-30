@@ -4,7 +4,7 @@ export const runtime = "nodejs";
 export const maxDuration = 330;
 export async function POST(request: Request) {
 	const user = await identity();
-	if (user?.role !== "admin" || !sameOrigin(request) || (new URL(request.url).searchParams.has("event_id") && new URL(request.url).searchParams.get("event_id") !== user.event_id))
+	if ((user?.role !== "admin" && user?.role !== "staff") || !sameOrigin(request) || (new URL(request.url).searchParams.has("event_id") && new URL(request.url).searchParams.get("event_id") !== user.event_id))
 		return NextResponse.json(
 			{ error: { message: "Administrative access required" } },
 			{ status: 403 },
@@ -15,8 +15,6 @@ export async function POST(request: Request) {
 			"generation_mode",
 			"preferences",
 			"preference_profile_version",
-			"baseline_plan_version_id",
-			"participants",
 		]);
 		if (
 			!body ||
@@ -29,8 +27,6 @@ export async function POST(request: Request) {
 			![
 				"INITIAL",
 				"REGENERATE_DRAFT",
-				"REPAIR_PUBLISHED",
-				"FULL_REGENERATION",
 			].includes(body.generation_mode)
 		) {
 			return NextResponse.json(

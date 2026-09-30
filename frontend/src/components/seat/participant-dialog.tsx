@@ -81,20 +81,7 @@ export function ParticipantDialog({
                 label="Events (last 2 yrs)"
                 value={String(assignment.events_joined_last_2_years)}
               />
-              <Stat
-                label="Previous seats"
-                value={
-                  assignment.previous_seat_ids.length
-                    ? assignment.previous_seat_ids.join(" + ")
-                    : "—"
-                }
-              />
-              {assignment.moved !== null && (
-                <Stat
-                  label="Moved"
-                  value={assignment.moved ? "↻ Yes" : "No (kept)"}
-                />
-              )}
+
             </div>
 
           </div>

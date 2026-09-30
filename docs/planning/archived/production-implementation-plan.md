@@ -5,9 +5,9 @@ Prepared: 2026-09-15. Planning only; this document does not implement the change
 ## Sources and decision precedence
 
 - Latest stakeholder decisions in this conversation: obstacle coordinates, shared-row tier preference, and accessibility positions.
-- [Production behaviour guide](../GUIDE-production-recommendations.md), read in full (744 lines), including lifecycle, statuses, manual edits, eligibility, repair, scoring, metadata, and final decision summary.
-- [Signed interim report](../academic/[Signed]DariusLeeShin_22003269_InterimReport.pdf): Table 3.4, printed pp. 39–41; FR1–FR17, pp. 48–49; NFR1–NFR8, pp. 50–51; Appendix E, pp. 55–57.
-- [2026 venue reference](../academic/diagrams/2026_PJKIT_Event_Seating_Plan.png).
+- [Production behaviour guide](GUIDE-production-recommendations.md), read in full (744 lines), including lifecycle, statuses, manual edits, eligibility, repair, scoring, metadata, and final decision summary.
+- [Signed interim report](../../../FYP1/[Signed]DariusLeeShin_22003269_InterimReport.pdf): Table 3.4, printed pp. 39–41; FR1–FR17, pp. 48–49; NFR1–NFR8, pp. 50–51; Appendix E, pp. 55–57.
+- [2026 venue reference](../../../FYP1/diagrams/2026_PJKIT_Event_Seating_Plan.png).
 - Current Python and frontend code, including existing uncommitted manual-editor work. Preserve those changes during implementation.
 
 Apply explicit later stakeholder decisions over earlier assumptions. Use the report as the baseline and the adopted production guide to define lifecycle-dependent refinements. Record departures from the report rather than claiming its original wording already contains them. Do not edit the signed PDF.

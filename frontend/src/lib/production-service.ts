@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 
 export type Identity = {
 	actor: string;
-	role: "admin" | "participant";
+	role: "admin" | "staff" | "participant";
 	event_id: string;
 	participant_id?: string;
 	exp: number;
@@ -39,7 +39,7 @@ export async function identity(): Promise<Identity | null> {
 		if (
 			typeof value.actor !== "string" ||
 			typeof value.event_id !== "string" ||
-			!["admin", "participant"].includes(value.role) ||
+			!["admin", "staff", "participant"].includes(value.role) ||
 			typeof value.exp !== "number" ||
 			value.exp <= Date.now() / 1000
 		)

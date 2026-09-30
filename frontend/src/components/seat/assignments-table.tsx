@@ -123,7 +123,6 @@ export function AssignmentsTable({
                 <th className="py-2 pr-2 text-right font-medium">
                   {isDraft ? "Status" : "Penalty"}
                 </th>
-                <th className="py-2 font-medium">Moved</th>
               </tr>
             </thead>
             <tbody>
@@ -213,15 +212,7 @@ export function AssignmentsTable({
                     <td className="py-1.5 pr-2 text-right tabular-nums">
                       {isDraft ? "Draft" : assignment.penalty.weighted.total}
                     </td>
-                    <td className="py-1.5">
-                      {isDraft
-                        ? "—"
-                        : assignment.moved === null
-                          ? "—"
-                          : assignment.moved
-                            ? "↻ yes"
-                            : "kept"}
-                    </td>
+
                   </tr>
                 );
               })}

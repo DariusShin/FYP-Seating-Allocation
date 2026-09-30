@@ -109,20 +109,10 @@ export function PlanActions({
 						? "Configured objective proven optimal within the reported solve scope."
 						: "Valid arrangement; the best possible objective has not been proven."}
 			</p>
-			{result.quality && result.generation_mode === "REPAIR_PUBLISHED" && (
-				<p className="text-xs">
-					Published comparison: {result.quality.movement.moved_units}{" "}
-					registrations moved, {result.quality.movement.unaffected_moved_units}{" "}
-					unaffected registrations moved. Distance:{" "}
-					{result.quality.movement.distance_doubled / 2} grid steps. Packing
-					gaps: {result.quality.local_packing}.
-				</p>
-			)}
 			<details className="text-xs">
 				<summary>Proof details</summary>
 				<p>
-					Scope: {result.solver.optimality_scope}; repair stage:{" "}
-					{result.solver.repair_scope ?? "n/a"}. Canonicalization:{" "}
+					Scope: {result.solver.optimality_scope}. Canonicalization:{" "}
 					{result.solver.canonicalization_complete
 						? "complete"
 						: "not complete"}
