@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment } from "react";
+import { isAisleGap } from "@/lib/seat-groups";
 import { cn } from "@/lib/utils";
 import type { PublishedAllocation } from "@/lib/public-allocation-types";
 
@@ -35,6 +36,12 @@ export function PublicSeatMap({
 							西单{row.row_number}
 						</span>
 						{row.seats.map((seat) => {
+                                if (isAisleGap(row.row_number, seat.physical_position)) return (
+                                    <Fragment key={seat.seat_id}>
+                                        {seat.physical_position === floor.aisle_after_position + 1 && <div aria-hidden="true" className="w-2 sm:w-5 shrink-0" />}
+                                        <div aria-hidden="true" className="min-w-0 flex-1" />
+                                    </Fragment>
+                                );
 							const mine = mySeatIds.has(seat.seat_id);
 							const blocked = seat.occupancy_status === "BLOCKED";
 							const side =

@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { Accessibility, StickyNote, Star } from "lucide-react";
 import type { AllocationResult, TierName } from "@/lib/allocation-types";
 import { cn } from "@/lib/utils";
-import { seatGroups } from "@/lib/seat-groups";
+import { isAisleGap, seatGroups } from "@/lib/seat-groups";
 import { TIER_STYLES } from "./seat-theme";
 
 export interface SeatMarkers {
@@ -147,6 +147,7 @@ export function HallMap({
 								</span>
 								{seatGroups(row.seats, owners).map((group) => {
 									const first = group.seats[0];
+									if (isAisleGap(row.row_number, first.physical_position)) return null;
 									const owner = group.owner;
 									const paired = group.seats.length === 2;
 									const selectedGroup =

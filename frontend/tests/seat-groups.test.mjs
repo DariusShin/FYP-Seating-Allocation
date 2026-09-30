@@ -51,3 +51,15 @@ test('venue names reject identifiers and placeholders without inventing occupant
  for(const name of ['synthetic-001','Synthetic participant 1','P0001',null,undefined,'陳思恩 P0001']) assert.equal(chineseVenueName(name),'');
  for(const name of ['陳思恩','林慧婷','歐陽文華']) assert.equal(chineseVenueName(name),name);
 });
+
+test('specified aisle positions render no seat or structural block while other blocks remain',()=>{
+ const rows=[6,7,8,9].map(row=>({row_number:row,seats:Array.from({length:16},(_,i)=>({
+  seat_id:`R${row}-S${i+1}`,physical_position:i+1,side:i<8?'LEFT':'RIGHT',is_blocked:i>=4&&i<12
+ }))}));
+ for(const presentation of [false,true]){
+  const html=render({floor:{rows,aisle_after_position:8},owners:{},presentation});
+  for(const row of [6,8]) for(let pos=5;pos<=12;pos++) assert.doesNotMatch(html,new RegExp(`data-seat="R${row}-S${pos}"`));
+  for(const row of [7,9]) assert.match(html,new RegExp(`data-seat="R${row}-S5"`));
+  assert.match(html,/grid-column:15 \/ span 1/);
+ }
+});

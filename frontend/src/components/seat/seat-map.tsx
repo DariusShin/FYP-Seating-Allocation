@@ -7,6 +7,7 @@ import {
 	TooltipContent,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { isAisleGap } from "@/lib/seat-groups";
 import { cn } from "@/lib/utils";
 import type { AllocationResult, Assignment } from "@/lib/allocation-types";
 import {
@@ -93,6 +94,12 @@ export function SeatMap({
 								R{String(row.row_number).padStart(2, "0")}
 							</span>
 							{row.seats.map((seat) => {
+                                if (isAisleGap(row.row_number, seat.physical_position)) return (
+                                    <Fragment key={seat.seat_id}>
+                                        {seat.physical_position === aisle_after_position + 1 && <div aria-hidden="true" className="w-10 shrink-0" />}
+                                        <div aria-hidden="true" className="min-w-0 flex-1" />
+                                    </Fragment>
+                                );
 								const assignment = assignmentBySeat.get(seat.seat_id);
 								const number = seatNumber(
 									row.row_number,
