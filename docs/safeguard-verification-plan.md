@@ -1,7 +1,17 @@
 # Safeguard verification screen — implementation plan
 
-Status: **Planning complete (2026-09-30). Not yet implemented.**
-Implementation target: `codex/seating-safeguards` branch. The current dashboard branch has the safeguard feature extracted; this plan is the handoff artifact for rebuilding it as a dedicated verification screen.
+Status: **Implemented on `codex/seating-safeguards-review`.**
+The original `codex/seating-safeguards` branch predates the current dashboard. This implementation starts from the current paid-seat-retention branch and retains its styling and paid-seat rules.
+
+Implementation notes:
+- `production/verification.py` performs pure structural validation and C12/C13/C15/C16 checks; `WorkspaceStore` serializes checks, acknowledgements and publication with SQLite transactions.
+- `workspace_reviews` stores review status, seen findings and acknowledgements per event/base plan. Immutable published plan snapshots include `safeguard_review` with actor, timestamp, findings and acknowledgement notes. Public projections omit these fields.
+- `workspace_check` without a state checks and persists the saved revision. With a state it provides read-only feedback after review entry. `workspace_ack` changes one current finding's status to `ACKED` or `OPEN`, with an optional note. All commands require the current workspace revision and event-scoped authenticated admin/staff access.
+- The verification screen serializes autosave/check/ack requests, discards obsolete check responses, groups findings by actor with related findings collapsed, and rechecks on resume. Keyboard move controls supplement drag-and-drop. Mixed-size moves preserve all registrations or offer a return to the holding dock.
+- C12 preserves the existing production **seat precedence** rule (including priority within a row), rather than weakening it to row-only precedence. Hints simulate both moved registrations against C12/C13; unrelated existing issues may remain. Forward hints choose the higher-priority actor; candidate ties prefer fewer entanglements. Backward-move hints are not generated.
+- Paid seats remain mandatory regardless of attendance: there is no “mark absent” bypass. Gap finding IDs include the gap seat as well as the rule and registration so a newly created gap is not silently acknowledged.
+- `IN_PROGRESS` means a resumable review, including an all-clear review awaiting publication. `PASSED` is recorded upon successful publication; a new saved revision of a published plan starts `NOT_CHECKED` with fresh acknowledgements.
+- Validation: Python lifecycle, integrity, privacy, hint and latency tests; frontend move/chain-swap, dashboard entry and grouping tests; TypeScript and ESLint. Browser checks use a separate temporary SQLite database.
 
 Supersedes the sequential alert-dialog review flow described in `seating-safeguard-separation.md` (that document remains the audit record of the C13 finding-explosion problem this design fixes).
 
@@ -17,7 +27,7 @@ The replacement: a **dedicated verification screen** entered after "Submit for r
 
 | Rule | Meaning | Severity | Blocking? | Overridable? |
 |---|---|---|---|---|
-| C12 | Tier row precedence (cross-tier) | 🔴 Red | Yes | Yes, one-click, note optional |
+| C12 | Tier seat precedence (cross-tier) | 🔴 Red | Yes | Yes, one-click, note optional |
 | C13 | Contribution row ordering (within tier) | 🔴 Red | Yes | Yes, one-click, note optional |
 | C15 | Empty available seat before an occupied row | 🟡 Yellow | No | Acknowledge |
 | C16 | Centre-out packing gap | 🟡 Yellow | No | Acknowledge |
@@ -37,7 +47,7 @@ stateDiagram-v2
     PUBLISHED --> EDIT: Start revision (new draft, NOT_CHECKED)
 ```
 
-- **Entry gate (client-side)**: "Submit for review" is disabled while any eligible registration in the saved state has empty `seat_ids`, with the reminder "N participants unseated — assign or mark absent first." The server re-verifies the persisted revision at entry; the server wins on mismatch.
+- **Entry gate (client-side)**: "Submit for review" is disabled while any eligible registration in the saved state has empty `seat_ids`, with the reminder "N participants unseated — assign every paid registration before review." The server re-verifies the persisted revision at entry; the server wins on mismatch.
 - **Entry gate (server-side)**: `workspace_check` on the persisted revision; findings + `review_status = IN_PROGRESS` persisted.
 - **Resume**: re-entering the dashboard with `review_status = IN_PROGRESS` shows a recovery popup ("Safeguard review in progress — 4 of 7 handled") with a Resume button. Stale findings are never shown — entry always triggers a fresh check.
 - **Back to editing**: two-way exit; partial fixes are kept as draft (autosave). Re-entry re-checks automatically.
@@ -153,7 +163,7 @@ One unified per-finding status: `OPEN | RESOLVED | ACKED`.
 
 ## 11. Out of scope / documented limitations
 
-- **Concurrency**: last-save-wins; no real locking. Stale-write banner is the only guard.
+- **Concurrency**: SQLite serializes mutations; revision checks reject stale saves. There is no collaborative editing or long-lived staff lock.
 - **Lock feature**: ignored for now (hints never target a locked registration; `locked_conflict` field reserved).
 - **Undo across reload**: not persisted (audit trail covers history).
 - **Lambda deployment**: relevant only to the ~60s solver generation step, a separate existing task — not to the check.

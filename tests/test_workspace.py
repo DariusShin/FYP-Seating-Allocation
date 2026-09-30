@@ -18,6 +18,8 @@ def setup(tmp_path):
 
 
 def action(ws, plan, command, revision=0, **kwargs):
+    if command == "workspace_publish":
+        action(ws, plan, "workspace_check", revision)
     return ws.action(
         plan["event_id"],
         "staff",
@@ -172,7 +174,7 @@ def test_dock_save_refresh_and_stale_write(setup):
 
 
 
-def test_publication_without_review_creates_workspace_and_rejects_stale_writes(setup):
+def test_reviewed_publication_creates_workspace_and_rejects_stale_writes(setup):
     store, ws, plan = setup
     result = action(ws, plan, "workspace_publish")
     assert result["base"]["publication_status"] == "PUBLISHED"
@@ -182,7 +184,8 @@ def test_publication_without_review_creates_workspace_and_rejects_stale_writes(s
     )
     assert result["revision"] == 1
     assert "review_acknowledgements" not in result["base"]
-    assert result["base"]["hard_constraint_validation"] == {"checked": False}
+    assert result["base"]["hard_constraint_validation"]["checked"] is True
+    assert result["base"]["safeguard_review"]["review_status"] == "PASSED"
     assert result["base"]["approved_by"] is None
     with store.connection() as db:
         actions = [
@@ -197,13 +200,12 @@ def test_publication_without_review_creates_workspace_and_rejects_stale_writes(s
         action(ws, plan, "workspace_save", state=initial_state(plan))
 
 
-def test_retired_review_command_is_rejected(setup):
+def test_review_command_checks_saved_draft(setup):
     _, ws, plan = setup
-    with pytest.raises(DomainError, match="Unknown workspace operation"):
-        action(ws, plan, "workspace_check")
+    assert action(ws, plan, "workspace_check")["summary"]["open_blocking"] == 0
 
 
-def test_publication_does_not_run_contribution_or_packing_review(tmp_path):
+def test_publication_blocks_contribution_but_allows_acknowledged_findings(tmp_path):
     from seat_solver.production.production_validator import validate_placements
 
     store = PlanStore(tmp_path / "plans.db")
@@ -223,9 +225,15 @@ def test_publication_does_not_run_contribution_or_packing_review(tmp_path):
     state["items"]["P0001"]["seat_ids"] = ["R02-S01"]
     state["items"]["P0002"]["seat_ids"] = ["R01-S01"]
     saved = action(ws, plan, "workspace_save", state=state)
+    report = action(ws, plan, "workspace_check", saved["revision"])
+    with pytest.raises(DomainError, match="blocking safeguard"):
+        action(ws, plan, "workspace_publish", saved["revision"])
+    for finding in report["findings"]:
+        if finding["severity"] == "RED":
+            action(ws, plan, "workspace_ack", saved["revision"], finding_id=finding["finding_id"], status="ACKED")
     result = action(ws, plan, "workspace_publish", saved["revision"])["base"]
     assert result["publication_status"] == "PUBLISHED"
-    # The engine's validator is retained; staff publication no longer calls it.
+    # A staff override is audited rather than claiming the solver rules passed.
     rules = {
         f["rule_id"]
         for f in validate_placements(result["source_request"], result["assignments"])[
