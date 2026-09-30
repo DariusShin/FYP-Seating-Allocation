@@ -186,18 +186,18 @@ test("saving a draft emits the success toast", async (t) => {
 	});
 });
 
-test("finishing edits emits the review guidance toast", () => {
-	const render = dashboard(fixture());
-	render()
-		.find("Button", (p) => p.children === "Edit plan")
-		.onClick();
-	render()
-		.find("Button", (p) => p.children === "Finish editing")
-		.onClick();
-	assert.deepEqual(render().notifications.at(-1), {
-		level: "info",
-		message: "Review your changes, save, then continue to publication.",
-	});
+test("submit for review opens the dedicated verification screen", async () => {
+    const value = fixture();
+    const render = dashboard(value);
+    render().find("Button", p => p.children === "Edit plan").onClick();
+    await render().find("Button", p => p.children === "Submit for review").onClick();
+    assert.equal(render().find("VerificationScreen").initial, value);
+});
+
+test("unseated paid registrations block review entry", () => {
+    const render = dashboard(fixture(true));
+    render().find("Button", p => p.children === "Edit plan").onClick();
+    assert.equal(render().find("Button", p => p.children === "Submit for review").disabled, true);
 });
 
 test("dock remains available for drag and drop in edit mode", () => {

@@ -35,16 +35,15 @@ import {
 import { HallMap, type SeatMarkers } from "./hall-map";
 import { AllocationDetails } from "./allocation-details";
 import { WeightControls } from "./weight-controls";
+import { VerificationScreen } from "./verification-screen";
 import { TIER_STYLES } from "./seat-theme";
 
 type Modal =
 	| "allocation"
 	| "checklist"
-	| "review"
 	| "settings"
 	| "versions"
 	| "legend"
-	| "publish"
 	| null;
 export function SeatDashboard({
 	initialResult,
@@ -55,6 +54,7 @@ export function SeatDashboard({
 }) {
 	const [workspace, setWorkspace] = useState<Workspace | null>(initialWorkspace ?? null);
 	const [state, setState] = useState<WorkingState | null>(initialWorkspace?.state ?? null);
+	const [resume, setResume] = useState(initialWorkspace?.review?.review_status === "IN_PROGRESS");
 	const [mode, setMode] = useState<"read" | "edit" | "review">("read");
 	const [selection, setSelection] = useState<{
 		participantId: string | null;
@@ -88,6 +88,7 @@ export function SeatDashboard({
 			if (!r.ok || !value) throw Error("Unable to load the working draft.");
 			setWorkspace(value);
 			setState(value.state);
+			setResume(value.review?.review_status === "IN_PROGRESS");
 			setTimeline({ past: [], future: [] });
 
 			setError("");
@@ -196,47 +197,37 @@ export function SeatDashboard({
 			setError(String(e));
 		}
 	}
-	async function operation(
-		command: "workspace_save" | "workspace_publish",
-		nextState = state,
-	) {
-		if (!workspace || !nextState) return false;
-		setBusy(true);
-		setError("");
-		try {
-			const r = await fetch("/api/workspace", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					command,
-					plan_version_id: base.plan_version_id,
-					revision: workspace.revision,
-					state: nextState,
-				}),
-			});
-			const value = await r.json();
-			if (!r.ok) throw Error(value.error?.message ?? "Operation failed");
-			setWorkspace(value);
-			setState(value.state);
-
-			toast.success(
-				command === "workspace_publish"
-					? "Seating plan published. Venue display now uses this version."
-					: "Working draft saved. Public seating is unchanged.",
-			);
-			if (command === "workspace_publish") {
-				setMode("read");
-				setModal(null);
-				setTimeline({ past: [], future: [] });
-			}
-			return true;
-		} catch (e) {
-			setError(String(e));
-			return false;
-		} finally {
-			setBusy(false);
-		}
-	}
+    async function submitReview() {
+        if (!workspace || !state || docked.length) return;
+        setBusy(true); setError("");
+        try {
+            let value = workspace;
+            if (dirty) {
+                const response = await fetch("/api/workspace", {
+                    method: "POST", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ command: "workspace_save", plan_version_id: base.plan_version_id, revision: workspace.revision, state }),
+                });
+                value = await response.json();
+                if (!response.ok) throw Error((value as unknown as { error?: { message: string } }).error?.message ?? "Unable to save draft");
+            }
+            setWorkspace(value); setState(value.state); setResume(false); setModal(null); setMode("review");
+        } catch (e) { setError(String(e)); } finally { setBusy(false); }
+    }
+    async function operation(command: "workspace_save", nextState = state) {
+        if (!workspace || !nextState) return false;
+        setBusy(true); setError("");
+        try {
+            const response = await fetch("/api/workspace", {
+                method: "POST", headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ command, plan_version_id: base.plan_version_id, revision: workspace.revision, state: nextState }),
+            });
+            const value = await response.json();
+            if (!response.ok) throw Error(value.error?.message ?? "Unable to save draft");
+            setWorkspace(value); setState(value.state);
+            toast.success("Working draft saved. Public seating is unchanged.");
+            return true;
+        } catch (e) { setError(String(e)); return false; } finally { setBusy(false); }
+    }
 	function selectSeat(sid: string) {
 		setSelection((current) => ({ ...current, seatId: sid }));
 		if (owners[sid]) {
@@ -271,6 +262,9 @@ export function SeatDashboard({
 				return true;
 		}
 	});
+    if (mode === "review" && workspace) return <VerificationScreen initial={workspace}
+        onExit={(value, seat) => { setWorkspace(value); setState(value.state); setMode("edit"); setSelection({ participantId: null, seatId: seat }); setTimeline({ past: [], future: [] }); }}
+        onPublished={value => { setWorkspace(value); setState(value.state); setMode("read"); setTimeline({ past: [], future: [] }); toast.success("Seating plan published. Venue display now uses this version."); }} />;
 	if (!state)
 		return (
 			<main className="p-8">
@@ -449,11 +443,7 @@ export function SeatDashboard({
 					className={`whitespace-nowrap rounded-md border bg-background px-2.5 py-1.25 font-medium text-foreground ${mode === "edit" ? "bg-secondary" : ""} ${mode === "review" ? "border-primary" : ""}`}
 				>
 					{published ? "Published" : "Draft"} ·{" "}
-					{mode === "read"
-						? "Read mode"
-						: mode === "edit"
-							? "Edit mode"
-							: "Review"}
+					{mode === "read" ? "Read mode" : "Edit mode"}
 				</span>
 				<span role="status">
 					{busy
@@ -491,34 +481,18 @@ export function SeatDashboard({
 							</Button>
 							<Button
 								size="sm"
-								onClick={() => {
-									setMode("review");
-									setModal("review");
-									toast.info(
-										"Review your changes, save, then continue to publication.",
-									);
-								}}
+								disabled={busy || docked.length > 0}
+                                onClick={submitReview}
 							>
-								Finish editing
+								Submit for review
 							</Button>
 						</>
 					)}
-					{mode === "review" && (
-						<Button
-							size="sm"
-							disabled={busy || dirty}
-							title={
-								dirty
-									? "Save your changes before publishing"
-									: "Review this saved revision for publication"
-							}
-							onClick={() => setModal("review")}
-						>
-							Review publication
-						</Button>
-					)}
+
 				</div>
 			</section>
+            {mode === "edit" && docked.length > 0 && <p role="status" className="border-b px-5 py-2 text-sm">{docked.length} participants unseated — assign every paid registration before review.</p>}
+            <Dialog open={resume} onOpenChange={setResume}><DialogContent><DialogHeader><DialogTitle>Safeguard review in progress</DialogTitle><DialogDescription>{(workspace?.review?.summary?.acked ?? 0) + (workspace?.review?.summary?.resolved ?? 0)} of {(workspace?.review?.summary?.acked ?? 0) + (workspace?.review?.summary?.resolved ?? 0) + (workspace?.review?.summary?.open_blocking ?? 0) + (workspace?.review?.summary?.open_advisory ?? 0)} handled in the last saved review. Resume to check the latest seating plan.</DialogDescription></DialogHeader><Button disabled={busy || docked.length > 0} onClick={submitReview}>Resume review</Button><Button variant="outline" onClick={() => { setResume(false); setMode("edit"); }}>Back to editing</Button></DialogContent></Dialog>
 			{error && (
 				<div
 					className="bg-muted px-6 py-2.25 text-sm text-destructive"
@@ -540,15 +514,7 @@ export function SeatDashboard({
 									Holding dock ({docked.length})
 								</Button>
 							)}
-							{mode === "review" && (
-								<Button
-									variant="outline"
-									size="sm"
-									onClick={() => setModal("review")}
-								>
-									Review plan
-								</Button>
-							)}
+
 							<Button
 								variant="outline"
 								size="sm"
@@ -778,19 +744,15 @@ export function SeatDashboard({
 							{
 								{
 									allocation: "Allocation details",
-									review: "Review before publishing",
 									checklist: "Participant checklist",
 									settings: "Allocation preferences",
 									versions: "Version history",
 									legend: "Map legend and help",
-									publish: "Publish seating plan",
 								}[modal ?? "legend"]
 							}
 						</DialogTitle>
 						<DialogDescription>
-							{modal === "publish"
-								? "This makes the saved seating plan visible on the venue display and participant lookup."
-								: "PJKIT staff workspace"}
+							PJKIT staff workspace
 						</DialogDescription>
 					</DialogHeader>
 					{modal === "allocation" && (
@@ -869,57 +831,7 @@ export function SeatDashboard({
 							)}
 						</>
 					)}
-					{modal === "review" && (
-						<>
-							{error && (
-								<p role="alert" className="text-destructive">
-									{error}
-								</p>
-							)}
-							<p className="my-1.75 mb-3 text-[13px] leading-[1.65] text-muted-foreground">
-								The public continues to see the last published version until you
-								confirm publication.
-							</p>
-							{dirty && (
-								<Button
-									disabled={busy}
-									onClick={() => operation("workspace_save")}
-								>
-									Save working draft
-								</Button>
-							)}
-							<div className="my-3 flex flex-col gap-2 rounded-lg border p-3 text-sm">
-								<strong>{docked.length} docked</strong>
-								<span>
-									{people.filter((p) => !eligible(p)).length} excluded
-									registrations
-								</span>
-								<span>
-									{
-										people.filter(
-											(p) => state.items[p.participant_id].changed_at,
-										).length
-									}{" "}
-									manually changed
-								</span>
-							</div>
-							<p className="my-1.75 mb-3 text-[13px] leading-[1.65] text-muted-foreground">
-								Inspect the map and names before publishing this saved draft.
-							</p>
-							{docked.length > 0 && (
-								<p className="my-1.75 mb-3 text-[13px] leading-[1.65] text-muted-foreground">
-									Assign every docked registration before publishing; paid seats
-									are retained regardless of attendance.
-								</p>
-							)}
-							<Button
-								disabled={busy || dirty || docked.length > 0}
-								onClick={() => setModal("publish")}
-							>
-								Continue to publication
-							</Button>
-						</>
-					)}
+
 
 					{modal === "checklist" && (
 						<>
@@ -1132,29 +1044,7 @@ export function SeatDashboard({
 							</div>
 						</div>
 					)}
-					{modal === "publish" && (
-						<>
-							{error && (
-								<p role="alert" className="text-destructive">
-									{error}
-								</p>
-							)}
-							<p>
-								{active.length} registrations · {Object.keys(owners).length}{" "}
-								occupied seats.
-							</p>
-							<p className="text-sm">
-								Publishing replaces the current public version. Future edits
-								create a private working revision.
-							</p>
-							<Button
-								disabled={busy || dirty || docked.length > 0}
-								onClick={() => operation("workspace_publish")}
-							>
-								Publish seating plan
-							</Button>
-						</>
-					)}
+
 				</DialogContent>
 			</Dialog>
 		</main>

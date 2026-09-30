@@ -8,7 +8,7 @@ export default async function EventSeatPage({ params }: {
     params: Promise<{ eventId: string }>;
 }) {
     const user = await identity();
-    if (user?.role !== "admin") return <main className="p-8">Sign in as an event administrator through the host platform.</main>;
+    if ((user?.role !== "admin" && user?.role !== "staff")) return <main className="p-8">Sign in as event staff through the host platform.</main>;
     const { eventId } = await params;
     if (eventId !== user.event_id) notFound();
     const [plan, setup] = await Promise.all([

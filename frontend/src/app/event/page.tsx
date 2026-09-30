@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 export default async function EventPage() {
   const user = await identity();
-  if (user?.role !== "admin") return <main className="p-8">Sign in as an event administrator through the host platform.</main>;
+  if ((user?.role !== "admin" && user?.role !== "staff")) return <main className="p-8">Sign in as event staff through the host platform.</main>;
   const [setup, plan] = await Promise.all([
     runProduction<{ floor_plan: AllocationResult["floor_plan"]; registrations: number }>({ command: "setup", event_id: user.event_id }),
     loadAllocationResult(),

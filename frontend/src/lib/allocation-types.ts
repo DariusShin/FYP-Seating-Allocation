@@ -103,7 +103,7 @@ export interface AllocationResult {
 	quality?: {
 		local_packing: number;
 	};
-	source_request?: { participants: Registration[] };
+	source_request?: { participants: Registration[]; layout?: { approved_pairs: number[][] } };
 	event_id?: string;
 	plan_version_id?: string;
 	validation_revision?: string;

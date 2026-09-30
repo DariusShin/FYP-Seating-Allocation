@@ -30,6 +30,10 @@ export function HallMap({
 	onAllocationDragStart,
 	onAllocationDragEnd,
 	presentation = false,
+	reviewSeats,
+	spotlight,
+	pulse = false,
+	validTargets,
 }: {
 	floor: AllocationResult["floor_plan"];
 	names: Record<string, string>;
@@ -46,8 +50,13 @@ export function HallMap({
 	onAllocationDragStart?: (pid: string) => void;
 	onAllocationDragEnd?: () => void;
 	presentation?: boolean;
+	reviewSeats?: Record<string, "RED" | "YELLOW">;
+	spotlight?: Set<string>;
+	pulse?: boolean;
+	validTargets?: Set<string>;
 }) {
 	const container = useRef<HTMLDivElement>(null);
+	const reviewing = !!reviewSeats;
 	useEffect(() => {
 		if (selected || selectedSeat)
 			container.current
@@ -57,11 +66,11 @@ export function HallMap({
 						: `[data-owner="${CSS.escape(selected!)}"]`,
 				)
 				?.scrollIntoView({
-					block: "nearest",
+					block: reviewing ? "center" : "nearest",
 					inline: "center",
 					behavior: "smooth",
 				});
-	}, [selected, selectedSeat]);
+	}, [selected, selectedSeat, reviewing]);
 	return (
 		<div
 			className={`hall-scroll flex min-h-0 flex-1 overflow-auto px-4 py-3 print:overflow-visible print:p-0 ${presentation ? "h-full min-w-0" : ""}`}
@@ -154,6 +163,13 @@ export function HallMap({
 											className={cn(
 												`seat-slot allocation-seat-group h-13 min-w-0 rounded-lg print:h-[3.8vh] ${presentation ? "h-full" : ""} ${presentation ? "print:h-[8mm] print:min-h-0 print:rounded-none print:shadow-none" : ""}`,
 												selectedGroup && "ring-2 ring-ring",
+												reviewSeats && !group.seats.some(s => spotlight?.size ? spotlight.has(s.seat_id) : reviewSeats[s.seat_id]) && "opacity-20",
+												reviewSeats && group.seats.some(s => reviewSeats[s.seat_id] === "RED") && "ring-2 ring-red-500",
+												reviewSeats && !group.seats.some(s => reviewSeats[s.seat_id] === "RED") && group.seats.some(s => reviewSeats[s.seat_id] === "YELLOW") && "ring-2 ring-amber-500",
+												spotlight?.size && group.seats.some(s => spotlight.has(s.seat_id)) && !group.seats.some(s => reviewSeats?.[s.seat_id]) && "ring-2 ring-sky-500",
+												pulse && group.seats.some(s => spotlight?.has(s.seat_id)) && "animate-pulse",
+												validTargets && group.seats.some(s => validTargets.has(s.seat_id)) && "outline-2 outline-emerald-500",
+												validTargets && !group.seats.some(s => validTargets.has(s.seat_id)) && "cursor-not-allowed",
 												paired && "focus-within:ring-2 focus-within:ring-ring",
 												matches && owner && !matches.has(owner) && "opacity-25",
 											)}
@@ -199,7 +215,10 @@ export function HallMap({
 															owner && tier
 																? TIER_STYLES[tier].cell
 																: "border-dashed bg-background text-muted-foreground hover:border-primary/40 hover:bg-muted/50",
-															editable &&
+													reviewSeats?.[seat.seat_id] === "RED" && "!bg-red-50 !text-red-950 dark:!bg-red-950 dark:!text-red-100",
+													reviewSeats?.[seat.seat_id] === "YELLOW" && "!bg-amber-50 !text-amber-950 dark:!bg-amber-950 dark:!text-amber-100",
+													validTargets && !validTargets.has(seat.seat_id) && "!cursor-not-allowed",
+														editable &&
 																owner &&
 																"cursor-grab active:cursor-grabbing",
 														)}
@@ -213,7 +232,7 @@ export function HallMap({
 														}}
 														onDragEnd={() => onAllocationDragEnd?.()}
 														onDragOver={(e) => {
-															if (editable) e.preventDefault();
+															if (editable && (!validTargets || validTargets.has(seat.seat_id))) e.preventDefault();
 														}}
 														onDrop={(e) => {
 															e.preventDefault();

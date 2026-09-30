@@ -12,6 +12,7 @@ export interface WorkingState {
 	items: Record<string, WorkingItem>;
 }
 export interface Workspace {
+	review?: import("./verification").Review;
 	base: AllocationResult & {
 		published_at?: string;
 	};
@@ -113,4 +114,50 @@ export function dock(state: WorkingState, pid: string): WorkingState {
 		changed_at: new Date().toISOString(),
 	};
 	return next;
+}
+
+/** Review rearrangements preserve every paid entitlement, including mixed sizes. */
+export function reviewMove(state: WorkingState, base: AllocationResult, pid: string, sid: string) {
+  const cells = base.floor_plan.rows.flatMap(row => row.seats.map(s => ({ ...s, row: row.row_number })));
+  const people = Object.fromEntries(state.participants.map(p => [p.participant_id, p]));
+  const person = people[pid];
+  if (!person || !eligible(person)) throw Error('Choose a paid registration.');
+  const pairs = base.source_request?.layout?.approved_pairs;
+  if (!pairs) throw Error('Reload the draft to retrieve its approved seat pairs.');
+  const optionsFor = (id: string) => {
+    const p = people[id];
+    const available = cells.filter(s => !s.is_blocked && (!p.requires_accessible_seat || s.is_accessible));
+    if (p.contribution_tier !== 'EMPEROR') return available.map(s => [s.seat_id]);
+    return base.floor_plan.rows.flatMap(row => pairs.flatMap(pair => {
+      const seats = pair.map(pos => available.find(s => s.row === row.row_number && s.physical_position === pos));
+      return seats.every(s => s) && seats[0]!.side === seats[1]!.side ? [seats.map(s => s!.seat_id)] : [];
+    }));
+  };
+  const target = optionsFor(pid).find(ids => ids.includes(sid));
+  if (!target) throw Error('This destination cannot fit the required seats or accessibility.');
+  const displaced = Object.keys(state.items).filter(id => id !== pid && state.items[id].seat_ids.some(s => target.includes(s)));
+  const occupied = new Set(Object.entries(state.items).filter(([id]) => id !== pid && !displaced.includes(id)).flatMap(([, item]) => item.seat_ids));
+  target.forEach(s => occupied.add(s));
+  const source = state.items[pid].seat_ids;
+  const assignments: Record<string, string[]> = { [pid]: target };
+  function place(index: number): boolean {
+    if (index === displaced.length) return true;
+    const id = displaced[index];
+    for (const option of optionsFor(id).filter(ids => ids.some(s => source.includes(s)))) {
+      if (option.some(s => occupied.has(s))) continue;
+      assignments[id] = option;
+      option.forEach(s => occupied.add(s));
+      if (place(index + 1)) return true;
+      option.forEach(s => occupied.delete(s));
+    }
+    return false;
+  }
+  if (!place(0)) throw Error('This rearrangement needs the holding dock — go back to editing.');
+  const next = structuredClone(state);
+  for (const [id, ids] of Object.entries(assignments)) next.items[id] = {
+    ...next.items[id], seat_ids: ids, previous_seat_ids: state.items[id].seat_ids,
+    changed_at: new Date().toISOString(), dock_reason: '',
+  };
+  return { state: next, chain: displaced.some(id => state.items[id].seat_ids.length !== target.length) || displaced.length > 1,
+    description: Object.keys(assignments).map(id => `${state.items[id].display_names[0]} → ${assignments[id].join(' + ')}`).join('; ') };
 }
