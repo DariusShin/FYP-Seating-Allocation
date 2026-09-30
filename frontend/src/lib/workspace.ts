@@ -66,6 +66,8 @@ export function move(
 		return seats.map((s) => s.seat_id);
 	}
 	const ids = destination(p, target);
+	if (m.seat_ids.length === ids.length && m.seat_ids.every(id => ids.includes(id)))
+		return state;
 	const others = Object.entries(state.items).filter(
 		([id, v]) => id !== pid && v.seat_ids.some((s) => ids.includes(s)),
 	);

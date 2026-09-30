@@ -212,9 +212,7 @@ test("dock remains available for drag and drop in edit mode", () => {
 	assert.equal(render().find("aside")["aria-label"], "Holding dock");
 	assert.equal(render().find("HallMap").editable, true);
 	render().find("HallMap").onDrop("P1", "S2");
-	render()
-		.find("Button", (p) => p.children === "Confirm move / swap")
-		.onClick();
+	assert.equal(render().find("Button", (p) => p.children === "Confirm move / swap"), undefined);
 	assert.equal(render().find("HallMap").owners.S2, "P1");
 });
 
@@ -349,4 +347,24 @@ test("details stay editable after failed save and exit editing only after succes
 		display_names: ["Participant"],
 		note: "Retain paid seats",
 	});
+});
+
+test("swaps apply immediately, undo and redo both registrations, and reject blocked targets", () => {
+    const value = fixture();
+    value.state.participants.push({ ...value.state.participants[0], participant_id: "P2", full_name: "Second" });
+    value.state.items.P2 = { ...value.state.items.P1, seat_ids: ["S2"], display_names: ["Second"] };
+    const render = dashboard(value);
+    render().find("HallMap").onDrop("P1", "S2");
+    assert.equal(render().find("HallMap").owners.S1, "P1");
+    render().find("Button", p => p.children === "Edit plan").onClick();
+    render().find("HallMap").onDrop("P1", "S2");
+    assert.deepEqual(render().find("HallMap").owners, { S2: "P1", S1: "P2" });
+    assert.equal(render().find("DialogTitle", p => p.children === "Confirm seat changes"), undefined);
+    render().find("Button", p => p["aria-label"] === "Undo").onClick();
+    assert.deepEqual(render().find("HallMap").owners, { S1: "P1", S2: "P2" });
+    render().find("Button", p => p["aria-label"] === "Redo").onClick();
+    assert.deepEqual(render().find("HallMap").owners, { S2: "P1", S1: "P2" });
+    render().find("HallMap").onDrop("P1", "S3");
+    assert.deepEqual(render().find("HallMap").owners, { S2: "P1", S1: "P2" });
+    assert.match(render().find("div", p => p.role === "alert").children, /cannot be assigned/);
 });

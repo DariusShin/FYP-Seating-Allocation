@@ -38,3 +38,6 @@ test('review targets use the actual approved pairs and accessibility of both reg
   s.participants[0].requires_accessible_seat=true;
   assert.throws(()=>reviewMove(s,reviewBase,'single','s7'),/holding dock/);
 });
+test('dropping a registration on its current seats is a no-op',()=>{
+ const s=state();assert.equal(move(s,base,'pair','s8'),s);assert.equal(move(s,base,'single','s6'),s);
+});

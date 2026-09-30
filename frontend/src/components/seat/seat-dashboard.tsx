@@ -72,11 +72,6 @@ export function SeatDashboard({
 	}>({ past: [], future: [] });
 	const [error, setError] = useState("");
 	const [busy, setBusy] = useState(false);
-	const [preview, setPreview] = useState<{
-		state: WorkingState;
-		description: string;
-		returnToAllocation?: boolean;
-	} | null>(null);
 	const [versions, setVersions] = useState<
 		{ id: string; state: string; created: string }[]
 	>([]);
@@ -167,17 +162,14 @@ export function SeatDashboard({
 
 		setError("");
 	}
-	function proposeMove(pid: string, sid: string) {
+	function applyMove(pid: string, sid: string) {
 		if (!canEdit || !state) return;
 		try {
 			const next = move(state, base, pid, sid);
-			const other = owners[sid];
+			if (next === state) return;
+			commit(next);
 			setModal(null);
-			setPreview({
-				state: next,
-				returnToAllocation: modal === "allocation",
-				description: `${state.items[pid].display_names[0]}: ${location(state.items[pid].seat_ids)} → ${location(next.items[pid].seat_ids)}${other && other !== pid ? `. ${state.items[other].display_names[0]}: ${location(state.items[other].seat_ids)} → ${location(next.items[other].seat_ids)}` : ""}`,
-			});
+			setDestination("");
 		} catch (e) {
 			setError(String(e));
 		}
@@ -236,7 +228,7 @@ export function SeatDashboard({
 			setModal("allocation");
 		} else if (canEdit && selection.participantId) {
 			setDestination(sid);
-			proposeMove(selection.participantId, sid);
+			applyMove(selection.participantId, sid);
 		}
 	}
 	function selectParticipant(participantId: string) {
@@ -552,7 +544,7 @@ export function SeatDashboard({
 						matches={query ? matches : undefined}
 						editable={canEdit}
 						onSelect={selectSeat}
-						onDrop={proposeMove}
+						onDrop={applyMove}
 						onAllocationDragStart={(pid) => {
 							draggingParticipant.current = pid;
 						}}
@@ -687,46 +679,6 @@ export function SeatDashboard({
 				)}
 			</section>
 			<Dialog
-				open={!!preview}
-				onOpenChange={(open) => {
-					if (!open) {
-						if (preview?.returnToAllocation) setModal("allocation");
-						setPreview(null);
-					}
-				}}
-			>
-				<DialogContent>
-					<DialogHeader>
-						<DialogTitle>Confirm seat changes</DialogTitle>
-						<DialogDescription>{preview?.description}</DialogDescription>
-					</DialogHeader>
-					<p className="text-sm">
-						Names and notes stay with each allocation. Packing and priority can
-						be inspected on the map.
-					</p>
-					<div className="flex gap-2">
-						<Button
-							disabled={!canEdit}
-							onClick={() => {
-								if (preview) commit(preview.state);
-								setPreview(null);
-							}}
-						>
-							Confirm move / swap
-						</Button>
-						<Button
-							variant="outline"
-							onClick={() => {
-								if (preview?.returnToAllocation) setModal("allocation");
-								setPreview(null);
-							}}
-						>
-							Cancel
-						</Button>
-					</div>
-				</DialogContent>
-			</Dialog>
-			<Dialog
 				open={!!modal}
 				onOpenChange={(open) => {
 					if (!open) setModal(null);
@@ -810,10 +762,10 @@ export function SeatDashboard({
 												size="sm"
 												disabled={!destination}
 												onClick={() =>
-													proposeMove(person.participant_id, destination)
+													applyMove(person.participant_id, destination)
 												}
 											>
-												<ArrowRightLeft /> Preview move / swap
+												<ArrowRightLeft /> Move / swap
 											</Button>
 											<Button
 												variant="outline"
@@ -949,7 +901,6 @@ export function SeatDashboard({
 									setState(value.state);
 														setTimeline({ past: [], future: [] });
 														setSelection({ participantId: null, seatId: null });
-									setPreview(null);
 									setDockOpen(false);
 									setMode("read");
 									setModal(null);
