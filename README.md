@@ -2,6 +2,8 @@
 
 A Python OR-Tools CP-SAT solver and Next.js review application for versioned seating allocation. Current venue: **16 × 16**, **24 blocked**, **232 assignable**. Emperor → Merit → Bodhi can share boundary rows. Tiers come from registration records; minimum contributions are RM5,000 / RM3,000 / RM2,000, with no assumed upper bounds.
 
+Each row fills 东单 (right) completely before 西单 (left), skipping blocked seats. Physical positions 1–16 have priority ranks `16 15 14 13 12 11 10 9 | 1 2 3 4 5 6 7 8`. This is a hard solver rule for initial generation and regeneration.
+
 Production preferences are contribution-to-seat matching, activeness and category suitability. Staff order and enable them; the backend maps enabled ranks to 40/30/20. These are relative coefficients, not percentages. Paid registrations retain their name and complete seat entitlement regardless of attendance.
 
 ## Run locally

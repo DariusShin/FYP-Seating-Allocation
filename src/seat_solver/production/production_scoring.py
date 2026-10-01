@@ -88,21 +88,27 @@ def candidate_cost(request, cfg, p, seats):
 
 
 def packing_pairs(layout):
+    """Hard row order: 东单 (right) outward, then 西单 (left) outward.
+
+    Blocked seats are skipped. Cross-island comparisons ensure no west seat
+    can be occupied while an assignable east seat in the same row is empty.
+    """
     available = [s for s in layout["seats"] if not s["is_blocked"]]
     comparisons = []
     for r in range(1, layout["row_count"] + 1):
-        for side, reverse in [("LEFT", True), ("RIGHT", False)]:
-            ordered = sorted(
+        ordered = []
+        for side, reverse in [("RIGHT", False), ("LEFT", True)]:
+            ordered.extend(sorted(
                 (s for s in available if s["row_number"] == r and s["side"] == side),
                 key=lambda s: s["physical_position"],
                 reverse=reverse,
-            )
-            # All inner/outer inversions (not merely adjacent gaps).
-            comparisons.extend(
-                (a["seat_id"], b["seat_id"])
-                for i, a in enumerate(ordered)
-                for b in ordered[i + 1 :]
-            )
+            ))
+        # All inversions, including east-before-west, for audit diagnostics.
+        comparisons.extend(
+            (a["seat_id"], b["seat_id"])
+            for i, a in enumerate(ordered)
+            for b in ordered[i + 1 :]
+        )
     return comparisons
 
 

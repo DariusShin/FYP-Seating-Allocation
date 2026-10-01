@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import type { AllocationResult } from "@/lib/allocation-types";
+import type { AllocationResult, Preference } from "@/lib/allocation-types";
 import {
 	dock,
 	eligible,
@@ -34,6 +34,7 @@ import {
 } from "@/lib/workspace";
 import { HallMap, type SeatMarkers } from "./hall-map";
 import { AllocationDetails } from "./allocation-details";
+import { MapLoadingOverlay } from "./map-loading-overlay";
 import { WeightControls } from "./weight-controls";
 import { VerificationScreen } from "./verification-screen";
 import { TIER_STYLES } from "./seat-theme";
@@ -72,6 +73,70 @@ export function SeatDashboard({
 	}>({ past: [], future: [] });
 	const [error, setError] = useState("");
 	const [busy, setBusy] = useState(false);
+	const [generationPhase, setGenerationPhase] = useState<"generating" | "loading-workspace" | "error" | null>(null);
+	const [generationError, setGenerationError] = useState("");
+	const generationInFlight = useRef(false);
+	const generationPreferences = useRef<Preference[]>([]);
+	const generatedPlanId = useRef<string | null>(null);
+	const [draftCreated, setDraftCreated] = useState(false);
+	const generationBlocked = generationPhase !== null;
+	async function regenerate(preferences?: Preference[]) {
+		if (generationInFlight.current) return;
+		generationInFlight.current = true;
+		if (preferences) {
+			generationPreferences.current = preferences;
+			generatedPlanId.current = null;
+			setDraftCreated(false);
+		}
+		setModal(null);
+		setResume(false);
+		setDockOpen(false);
+		draggingParticipant.current = null;
+		setBusy(true);
+		setError("");
+		setGenerationError("");
+		setGenerationPhase(generatedPlanId.current ? "loading-workspace" : "generating");
+		try {
+			if (!generatedPlanId.current) {
+				const response = await fetch("/api/solve", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						generation_mode: "REGENERATE_DRAFT",
+						preference_profile_version: "ranked-v1",
+						preferences: generationPreferences.current,
+					}),
+				});
+				const result = await response.json();
+				if (!response.ok || result?.status !== "success" || !result.plan_version_id)
+					throw new Error(result?.error?.message ?? "Unable to generate the draft. Please try again.");
+				generatedPlanId.current = result.plan_version_id;
+				setDraftCreated(true);
+			}
+			setGenerationPhase("loading-workspace");
+			const response = await fetch("/api/workspace", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ command: "workspace_open", plan_version_id: generatedPlanId.current }),
+			});
+			const value = await response.json();
+			if (!response.ok || !value?.base || !value?.state)
+				throw new Error(value?.error?.message ?? "Unable to open the new draft");
+			setWorkspace(value);
+			setState(value.state);
+			setTimeline({ past: [], future: [] });
+			setSelection({ participantId: null, seatId: null });
+			setMode("read");
+			setGenerationPhase(null);
+			toast.success("New seating draft ready. Public seating is unchanged.");
+		} catch (e) {
+			setGenerationError(e instanceof Error ? e.message : "Generation failed");
+			setGenerationPhase("error");
+		} finally {
+			generationInFlight.current = false;
+			setBusy(false);
+		}
+	}
 	const [versions, setVersions] = useState<
 		{ id: string; state: string; created: string }[]
 	>([]);
@@ -136,7 +201,7 @@ export function SeatDashboard({
 	const item = selection.participantId
 		? state?.items[selection.participantId]
 		: undefined;
-	const canEdit = mode === "edit" && !busy;
+	const canEdit = mode === "edit" && !busy && !generationBlocked;
 	const blocked = cells.filter((s) => s.is_blocked).length;
 	const published =
 		base.publication_status === "PUBLISHED" &&
@@ -267,7 +332,7 @@ export function SeatDashboard({
 		);
 	return (
 		<main
-			className="flex h-dvh flex-col overflow-hidden bg-background text-[15px] text-foreground print:h-auto"
+			className="relative flex h-dvh flex-col overflow-hidden bg-background text-[15px] text-foreground print:h-auto"
 			onDragOver={(e) => {
 				if (
 					canEdit &&
@@ -292,6 +357,7 @@ export function SeatDashboard({
 			}}
 		>
 			<header className="flex shrink-0 items-center gap-3 border-b px-5.5 py-2.5 max-[1100px]:px-3 max-[700px]:flex-wrap max-[700px]:gap-2 print:hidden">
+				<Link href="/event" className="shrink-0 text-sm text-muted-foreground hover:text-foreground">← Events</Link>
 				<div className="grid size-9 place-items-center rounded-lg bg-primary text-primary-foreground">
 					<Armchair size={20} />
 				</div>
@@ -306,7 +372,7 @@ export function SeatDashboard({
 						2026 梁皇寶懺大法會 · Staff workspace
 					</p>
 				</div>
-				<div className="relative z-30 ml-auto w-[min(340px,28vw)] max-[1100px]:w-[min(280px,30vw)] max-[700px]:order-3 max-[700px]:ml-0 max-[700px]:w-full">
+				<div inert={generationBlocked} className="relative z-30 ml-auto w-[min(340px,28vw)] max-[1100px]:w-[min(280px,30vw)] max-[700px]:order-3 max-[700px]:ml-0 max-[700px]:w-full">
 					<label className="flex h-9.5 items-center gap-2 rounded-lg border border-input bg-background px-2.5 text-muted-foreground focus-within:outline-2 focus-within:outline-ring focus-within:outline-offset-2">
 						<Search aria-hidden="true" className="size-4 shrink-0" />
 						<input
@@ -389,6 +455,7 @@ export function SeatDashboard({
 						variant="ghost"
 						size="sm"
 						className="max-[700px]:px-1.75 max-[700px]:text-[11px]"
+						disabled={generationBlocked}
 						onClick={() => setModal("checklist")}
 					>
 						<Users /> Participants
@@ -397,6 +464,7 @@ export function SeatDashboard({
 						variant="ghost"
 						size="sm"
 						className="max-[700px]:px-1.75 max-[700px]:text-[11px]"
+						disabled={generationBlocked}
 						onClick={() => setModal("settings")}
 					>
 						<Settings2 /> Settings
@@ -405,6 +473,7 @@ export function SeatDashboard({
 						variant="ghost"
 						size="sm"
 						className="max-[700px]:px-1.75 max-[700px]:text-[11px]"
+						disabled={generationBlocked}
 						onClick={async () => {
 							try {
 								const r = await fetch("/api/plans");
@@ -430,7 +499,7 @@ export function SeatDashboard({
 					</Button>
 				</nav>
 			</header>
-			<section className="flex min-h-13.5 shrink-0 items-center gap-4 border-b px-5.5 py-2 text-sm text-muted-foreground max-[1100px]:gap-2 max-[1100px]:px-3 print:hidden">
+			<section inert={generationBlocked} className="flex min-h-13.5 shrink-0 items-center gap-4 border-b px-5.5 py-2 text-sm text-muted-foreground max-[1100px]:gap-2 max-[1100px]:px-3 print:hidden">
 				<span
 					className={`whitespace-nowrap rounded-md border bg-background px-2.5 py-1.25 font-medium text-foreground ${mode === "edit" ? "bg-secondary" : ""} ${mode === "review" ? "border-primary" : ""}`}
 				>
@@ -495,7 +564,7 @@ export function SeatDashboard({
 			)}
 			<section className="flex min-h-0 flex-1">
 				<div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-					<div className="flex min-h-14.25 items-center gap-2.5 border-b px-4 py-2.5 print:hidden">
+					<div inert={generationBlocked} className="flex min-h-14.25 items-center gap-2.5 border-b px-4 py-2.5 print:hidden">
 						<div className="ml-auto flex items-center gap-0.5">
 							{mode === "edit" && docked.length > 0 && (
 								<Button
@@ -516,6 +585,8 @@ export function SeatDashboard({
 							</Button>
 						</div>
 					</div>
+					<div className="relative flex min-h-0 flex-1 flex-col overflow-hidden" aria-label="Seating map">
+					<div className="flex min-h-0 flex-1 flex-col" inert={generationBlocked} aria-busy={generationBlocked}>
 					<HallMap
 						floor={base.floor_plan}
 						names={names}
@@ -552,6 +623,16 @@ export function SeatDashboard({
 							draggingParticipant.current = null;
 						}}
 					/>
+					</div>
+					{generationPhase && (
+						<MapLoadingOverlay
+							phase={generationPhase}
+							error={generationError}
+							onRetry={() => void regenerate()}
+							draftCreated={draftCreated}
+						/>
+					)}
+					</div>
 					<footer className="flex min-h-10.5 shrink-0 items-center justify-between gap-2.5 border-t px-3.75 py-2 text-xs text-muted-foreground">
 						<span>
 							{active.length} registrations ·{" "}
@@ -883,32 +964,7 @@ export function SeatDashboard({
 							<WeightControls
 								result={base}
 								hasDraft={dirty || !!workspace?.saved_at}
-								onResult={async (result) => {
-									const response = await fetch("/api/workspace", {
-										method: "POST",
-										headers: { "Content-Type": "application/json" },
-										body: JSON.stringify({
-											command: "workspace_open",
-											plan_version_id: result.plan_version_id,
-										}),
-									});
-									const value = await response.json();
-									if (!response.ok || !value?.base || !value?.state)
-										throw new Error(
-											value?.error?.message ?? "Unable to open the new draft",
-										);
-									setWorkspace(value);
-									setState(value.state);
-														setTimeline({ past: [], future: [] });
-														setSelection({ participantId: null, seatId: null });
-									setDockOpen(false);
-									setMode("read");
-									setModal(null);
-									toast.success(
-										"New seating draft ready. Public seating is unchanged.",
-									);
-								}}
-								onSolvingChange={setBusy}
+								onGenerate={regenerate}
 							/>
 						</>
 					)}

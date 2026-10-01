@@ -133,6 +133,15 @@ def validate_request(request):
             raise DomainError(
                 "INVALID_INPUT", "Seat priority ranks must be unique within each row"
             )
+    for s in seats:
+        pos = s["physical_position"]
+        expected_rank = pos - aisle if pos > aisle else width - pos + 1
+        if s["priority_rank"] != expected_rank:
+            raise DomainError(
+                "INVALID_INPUT",
+                "Seat priority ranks must fill 东单 (right) before 西单 (left)",
+                {"seat_id": s["seat_id"], "expected_priority_rank": expected_rank},
+            )
     if len(set(layout["accessible_positions"])) != len(
         layout["accessible_positions"]
     ) or any(not 1 <= p <= width for p in layout["accessible_positions"]):

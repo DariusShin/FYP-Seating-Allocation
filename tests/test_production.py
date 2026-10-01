@@ -197,8 +197,8 @@ def test_canonical_input_order_invariant():
 
 
 def test_oracle_two_singles():
-    # Enumerate without solver-domain or scoring helpers. Initial two-seat centre-out
-    # occupancy permits {7,8}, {8,9}, {9,10}. Both assignments are compared.
+    # Enumerate without solver-domain or scoring helpers. East-first packing
+    # permits only {9,10}. Both assignments are compared.
     r = tiny(2)
     r["preferences"] = [
         {"key": "contribution_seat", "enabled": True},
@@ -210,7 +210,7 @@ def test_oracle_two_singles():
     o = solve(r)
     lookup = {s["physical_position"]: s for s in r["layout"]["seats"]}
     best = None
-    for positions in ((7, 8), (8, 9), (9, 10)):
+    for positions in ((9, 10),):
         for arrangement in itertools.permutations(positions):
             total = 0
             for coefficient, pos in zip((1, 100), arrangement):
@@ -378,13 +378,15 @@ def test_public_view_event_details_and_own_seat_names():
     )
 
 
-def test_regeneration_uses_current_obstacles_for_existing_hall(monkeypatch):
+def test_regeneration_uses_current_obstacles_and_priorities_for_existing_hall(monkeypatch):
     from seat_solver.production import service
 
     current = generate()
     old = copy.deepcopy(current)
     old["layout_version_id"] = old["layout"]["layout_version_id"] = "pjkit-2026-v1"
     for seat in old["layout"]["seats"]:
+        pos = seat["physical_position"]
+        seat["priority_rank"] = 2 * (pos - 9) + 1 if pos > 8 else 2 * (8 - pos) + 2
         if seat["row_number"] in (7, 9):
             seat["is_blocked"] = False
 
@@ -403,8 +405,9 @@ def test_regeneration_uses_current_obstacles_for_existing_hall(monkeypatch):
 
     monkeypatch.setattr(service, "solve", capture)
     dispatch({"command": "solve", "generation_mode": "INITIAL"}, ExistingStore())
-    assert captured["layout_version_id"] == "pjkit-2026-v2"
+    assert captured["layout_version_id"] == "pjkit-2026-v3"
     assert sum(s["is_blocked"] for s in captured["layout"]["seats"]) == 24
+    assert captured["layout"] == current["layout"]
     assert captured["participants"] == old["participants"]
 
 

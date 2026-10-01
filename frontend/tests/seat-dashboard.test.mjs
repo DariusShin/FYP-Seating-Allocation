@@ -153,6 +153,7 @@ test("new draft opens its exact version and updates the map", async (t) => {
 	next.base.plan_version_id = "new";
 	next.state.items.P1.seat_ids = ["S2"];
 	t.mock.method(globalThis, "fetch", async (url, options) => {
+		if (url === "/api/solve") return response({ status: "success", plan_version_id: "new" });
 		assert.equal(url, "/api/workspace");
 		assert.deepEqual(JSON.parse(options.body), {
 			command: "workspace_open",
@@ -160,7 +161,7 @@ test("new draft opens its exact version and updates the map", async (t) => {
 		});
 		return response(next);
 	});
-	await openSettings(render).onResult(next.base);
+	await openSettings(render).onGenerate(preferences);
 	assert.equal(render().find("HallMap").owners.S2, "P1");
 	assert.equal(render().find("WeightControls"), undefined);
 	assert.deepEqual(render().notifications, [
@@ -219,11 +220,11 @@ test("dock remains available for drag and drop in edit mode", () => {
 const preferences = ["contribution_seat", "activeness", "category_zone"].map(
 	(key) => ({ key, enabled: true }),
 );
-function controls(onResult = async () => {}) {
+function controls(onGenerate = async () => {}) {
 	return component(
 		"../src/components/seat/weight-controls.tsx",
 		"WeightControls",
-		{ result: { preferences }, onResult, onSolvingChange() {} },
+		{ result: { preferences }, onGenerate },
 	);
 }
 const generateButton = (render) =>
@@ -251,29 +252,83 @@ test("generation is enabled only by changed preference order or enabled flags", 
 	assert.equal(generateButton(render).disabled, true);
 });
 
-test("settings regenerates with changed preferences and retries opening without another solve", async (t) => {
+test("regeneration closes settings and blocks editing until the exact draft opens", async (t) => {
+	const render = dashboard(fixture());
+	render().find("Button", p => p.children === "Edit plan").onClick();
+	let finishSolve, finishOpen;
 	const requests = [];
-	let opens = 0;
-	const render = controls(async (result) => {
-		assert.equal(result.plan_version_id, "new");
-		if (++opens === 1) throw Error("Open failed");
+	t.mock.method(globalThis, "fetch", (url, options) => {
+		requests.push({ url, body: JSON.parse(options.body) });
+		return new Promise(resolve => {
+			if (url === "/api/solve") finishSolve = resolve;
+			else finishOpen = resolve;
+		});
 	});
-	t.mock.method(globalThis, "fetch", async (url, options) => {
-		requests.push(JSON.parse(options.body));
-		return response({ status: "success", plan_version_id: "new" });
-	});
-	render()
-		.find("Switch", (p) => p.id === "pref-activeness")
-		.onCheckedChange(false);
-	generateButton(render).onClick();
-	await settle();
-	assert.equal(requests[0].generation_mode, "REGENERATE_DRAFT");
-	assert.equal(requests[0].preferences[1].enabled, false);
-	assert.equal(generateButton(render).children, "Retry opening draft");
-	generateButton(render).onClick();
-	await settle();
+	const settings = openSettings(render);
+	const changed = preferences.map(p => ({ ...p, enabled: p.key !== "activeness" }));
+	const pending = settings.onGenerate(changed);
+	await settings.onGenerate(changed); // Double click cannot create another draft.
 	assert.equal(requests.length, 1);
+	assert.deepEqual(requests[0].body.preferences, changed);
+	assert.equal(render().find("WeightControls"), undefined);
+	assert.equal(render().find("MapLoadingOverlay").phase, "generating");
+	assert.equal(render().find("div", p => p.inert === true && p["aria-busy"] === true)["aria-busy"], true);
+	assert.equal(render().find("HallMap").editable, false);
+	render().find("HallMap").onDrop("P1", "S2");
+	assert.equal(render().find("HallMap").owners.S1, "P1");
+	finishSolve(response({ status: "success", plan_version_id: "new" }));
+	await settle();
+	assert.equal(render().find("MapLoadingOverlay").phase, "loading-workspace");
+	assert.equal(render().find("HallMap").editable, false);
+	assert.equal(requests[1].body.plan_version_id, "new");
+	const next = fixture();
+	next.base.plan_version_id = "new";
+	next.state.items.P1.seat_ids = ["S2"];
+	finishOpen(response(next));
+	await pending;
+	assert.equal(render().find("MapLoadingOverlay"), undefined);
+	assert.equal(render().find("div", p => p.inert === true), undefined);
+	assert.equal(render().find("HallMap").owners.S2, "P1");
+});
+
+test("failed draft opening retries from the overlay without another solve", async (t) => {
+	const render = dashboard(fixture());
+	let solves = 0, opens = 0;
+	t.mock.method(globalThis, "fetch", async url => {
+		if (url === "/api/solve") {
+			solves++;
+			return response({ status: "success", plan_version_id: "new" });
+		}
+		return ++opens === 1 ? response({ error: { message: "Open failed" } }, false) : response(fixture());
+	});
+	await openSettings(render).onGenerate(preferences);
+	assert.equal(render().find("MapLoadingOverlay").phase, "error");
+	assert.equal(render().find("MapLoadingOverlay").draftCreated, true);
+	assert.equal(render().find("MapLoadingOverlay").error, "Open failed");
+	render().find("MapLoadingOverlay").onRetry();
+	await settle();
+	assert.equal(solves, 1);
 	assert.equal(opens, 2);
+	assert.equal(render().find("MapLoadingOverlay"), undefined);
+});
+
+test("failed generation keeps preferences for an overlay retry", async (t) => {
+	const render = dashboard(fixture());
+	const attempts = [];
+	t.mock.method(globalThis, "fetch", async (url, options) => {
+		if (url === "/api/workspace") return response(fixture());
+		attempts.push(JSON.parse(options.body));
+		return attempts.length === 1
+			? response({ error: { message: "Try again" } }, false)
+			: response({ status: "success", plan_version_id: "new" });
+	});
+	await openSettings(render).onGenerate(preferences);
+	assert.equal(render().find("MapLoadingOverlay").phase, "error");
+	assert.equal(render().find("MapLoadingOverlay").draftCreated, false);
+	render().find("MapLoadingOverlay").onRetry();
+	await settle();
+	assert.deepEqual(attempts[0], attempts[1]);
+	assert.equal(render().find("MapLoadingOverlay"), undefined);
 });
 
 function details(onSave) {

@@ -11,7 +11,7 @@ export function MapLoadingOverlay({ phase, error, onRetry, draftCreated, title }
 }) {
     const failed = phase === "error";
     return (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-background/65 p-6 backdrop-blur-sm">
+        <div className="absolute inset-0 z-40 flex items-center justify-center bg-black/55 p-6 backdrop-blur-sm">
             <div className="w-full max-w-sm rounded-xl border bg-background p-6 text-center shadow-lg">
                 {failed ? <CircleAlert aria-hidden="true" className="mx-auto size-9 text-destructive"/> : <LoaderCircle aria-hidden="true" className="animate-spin mx-auto size-9 text-primary"/>}
                 <div role={failed ? "alert" : "status"} aria-atomic="true">

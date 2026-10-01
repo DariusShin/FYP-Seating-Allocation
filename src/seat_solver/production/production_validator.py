@@ -128,7 +128,7 @@ def validate_placements(request, assignments):
             )
     for inner, outer in packing_pairs(request["layout"]):
         if outer in occupied and inner not in occupied:
-            fail("C16", "Centre-out packing gap", seat_id=inner)
+            fail("C16", "East-before-west / centre-out packing gap", seat_id=inner)
     return {"passed": not issues, "issues": issues}
 
 
