@@ -32,3 +32,23 @@ test('workspace API admits authenticated staff and binds identity and event serv
   role='staff';assert.equal((await api.POST({...request,url:'http://localhost/api/workspace?event_id=other'})).status,403);
   assert.equal(calls.length,1);
 });
+
+const {participantSeats,findingSeats,reviewSeatHighlights,followSelectedSeat}=compile('../src/lib/verification.ts');
+test('review borders and selected-seat styling follow registrations immediately before recheck',()=>{
+ const before={items:{emperor:{seat_ids:['old1','old2']},merit1:{seat_ids:['east1']},merit2:{seat_ids:['east2']}}};
+ const after={items:{emperor:{seat_ids:['east1','east2']},merit1:{seat_ids:['old1']},merit2:{seat_ids:['old2']}}};
+ const finding={finding_id:'C12:emperor:merit1',rule_id:'C12',severity:'RED',status:'OPEN',participants:[{participant_id:'emperor',seat_ids:['old1','old2']},{participant_id:'merit1',seat_ids:['east1']}],involved_seat_ids:['old1','old2','east1']};
+ const review={findings:[finding],attribution:{groups:[{participant_ids:['emperor'],finding_ids:[finding.finding_id],focus_seat_ids:['old1','old2']}]}};
+ assert.deepEqual(reviewSeatHighlights(review,after),{east1:'RED',east2:'RED'});
+ assert.deepEqual(participantSeats(['emperor'],after),['east1','east2']);
+ assert.equal(followSelectedSeat('old2',before,after),'east1');
+ assert.deepEqual(new Set(findingSeats(finding,after)),new Set(['east1','east2','old1']));
+ assert.equal(followSelectedSeat('old1',before,{items:{...after.items,emperor:{seat_ids:[]}}}),null);
+});
+test('unattributed borders follow people while packing gaps stay attached to empty seats',()=>{
+ const finding={finding_id:'gap',severity:'YELLOW',status:'OPEN',participants:[{participant_id:'A',seat_ids:['old']}],involved_seat_ids:['old','gap']};
+ const state={items:{A:{seat_ids:['new']},B:{seat_ids:['elsewhere']}}};
+ assert.deepEqual(reviewSeatHighlights({findings:[finding]},state),{new:'YELLOW',gap:'YELLOW'});
+ state.items.B.seat_ids=['gap'];assert.deepEqual(reviewSeatHighlights({findings:[finding]},state),{new:'YELLOW'});
+ assert.deepEqual(reviewSeatHighlights({findings:[{...finding,status:'ACKED'}]},state),{});
+});
