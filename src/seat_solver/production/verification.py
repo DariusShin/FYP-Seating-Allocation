@@ -6,16 +6,16 @@ from seat_solver.production.policy import DomainError, ELIGIBLE, TIERS
 from seat_solver.production.production_scoring import options, packing_pairs
 
 
-def check(plan, state, previous=None):
-    from seat_solver.production.workspace import validate_state
+def finding_id(rule, pair, gaps):
+    return ':'.join(quote(part, safe='') for part in [rule, *sorted(pair), *gaps])
 
-    request = validate_state(plan, state)
-    previous = previous or {}
+
+def detect(request, state):
+    """Rule detection shared by review and history, including incomplete dock states."""
     seats = {s['seat_id']: s for s in request['layout']['seats']}
-    people = {p['participant_id']: p for p in state['participants'] if p['registration_status'] in ELIGIBLE}
+    people = {p['participant_id']: p for p in state['participants']
+              if p['registration_status'] in ELIGIBLE and state['items'][p['participant_id']]['seat_ids']}
     placed = {pid: state['items'][pid]['seat_ids'] for pid in people}
-    if any(not ids for ids in placed.values()):
-        raise DomainError('INVALID_INPUT', 'Assign every paid registration before review or publication; attendance does not remove paid seats.')
     rows = {pid: seats[ids[0]]['row_number'] for pid, ids in placed.items()}
     def order(sid):
         s = seats[sid]
@@ -46,6 +46,23 @@ def check(plan, state, previous=None):
     for inner, outer in packing_pairs(request['layout']):
         if outer in occupied and inner not in occupied:
             raw.append(('C16', [owners[outer]], [inner]))
+    return raw, violations
+
+
+def check(plan, state, previous=None):
+    from seat_solver.production.workspace import validate_state
+
+    request = validate_state(plan, state)
+    previous = previous or {}
+    seats = {s['seat_id']: s for s in request['layout']['seats']}
+    people = {p['participant_id']: p for p in state['participants'] if p['registration_status'] in ELIGIBLE}
+    placed = {pid: state['items'][pid]['seat_ids'] for pid in people}
+    if any(not ids for ids in placed.values()):
+        raise DomainError('INVALID_INPUT', 'Assign every paid registration before review or publication; attendance does not remove paid seats.')
+    rows = {pid: seats[ids[0]]['row_number'] for pid, ids in placed.items()}
+    raw, violations = detect(request, state)
+    occupied = {sid for ss in placed.values() for sid in ss}
+    ids = sorted(people)
     counts = Counter(pid for _, pair, _ in raw for pid in pair)
     valid = {pid: {tuple(sorted(s['seat_id'] for s in option)) for option in options(request, p)} for pid, p in people.items()}
     def detail(pid):
@@ -59,7 +76,7 @@ def check(plan, state, previous=None):
     for rule, pair, gaps in raw:
         # Stable pair IDs; gap findings also identify their physical gap so an
         # acknowledgement never silently suppresses a newly created gap.
-        fid = ':'.join(quote(part, safe='') for part in [rule, *sorted(pair), *gaps])
+        fid = finding_id(rule, pair, gaps)
         if rule == 'C12':
             actor = min(pair, key=lambda p: TIERS.index(people[p]['contribution_tier']))
         elif rule == 'C13':
@@ -109,3 +126,68 @@ def check(plan, state, previous=None):
                'acked': sum(f['status'] == 'ACKED' for f in findings), 'resolved': len(set(seen) - current)}
     return {'review_status': 'IN_PROGRESS', 'findings': findings, 'summary': summary,
             'acknowledgements': acks, 'seen': seen | {f['finding_id']: f for f in findings}}
+
+
+def attribute_history(plan, state, findings, context):
+    """Untrusted, optional display context. Never changes authoritative findings."""
+    import copy
+    from seat_solver.production.workspace import validate_state, validate_items
+
+    fallback = {'groups': [], 'message': 'Local edit history is unavailable; showing all safeguard findings.'}
+    if context is None:
+        return fallback
+    try:
+        if not isinstance(context, dict) or context.get('schema_version') != 1:
+            raise ValueError('Unsupported history format')
+        edits = context['edits']
+        if not isinstance(edits, list):
+            raise ValueError('Invalid edit list')
+        if len(edits) > 500:
+            return {**fallback, 'message': 'This branch exceeds the 500-edit analysis limit. All edits remain in local history; showing ordinary safeguard findings.'}
+        current = copy.deepcopy(context['baseline'])
+        request = validate_state(plan, current)
+        valid_options = {p['participant_id']: {tuple(sorted(s['seat_id'] for s in option))
+                         for option in options(request, p)} for p in request['participants']}
+        def detected(value):
+            return {finding_id(*raw) for raw in detect(request, value)[0]}
+        previous = detected(current)
+        introduced = {}
+        operations = {}
+        for edit in edits:
+            oid = edit['operation_id']
+            if not isinstance(oid, str) or not oid or len(oid) > 100 or oid in operations:
+                raise ValueError('Invalid or repeated operation ID')
+            changes = edit['changes']
+            if not isinstance(changes, list) or not changes or len(changes) > len(current['items']):
+                raise ValueError('Invalid operation changes')
+            changed = set()
+            for change in changes:
+                pid = change['participant_id']
+                if pid in changed or current['items'][pid] != change['before']:
+                    raise ValueError('History is not continuous')
+                changed.add(pid)
+                current['items'][pid] = copy.deepcopy(change['after'])
+            validate_items(request, current["items"], valid_options)
+            following = detected(current)
+            introduced = {fid: op for fid, op in introduced.items() if fid in following}
+            introduced.update({fid: oid for fid in following - previous})
+            operations[oid] = edit
+            previous = following
+        if current != state:
+            raise ValueError('History does not match this draft')
+        groups = {}
+        for finding in findings:
+            fid = finding['finding_id']
+            oid = introduced.get(fid)
+            if not oid:
+                continue
+            if oid not in groups:
+                changes = operations[oid]['changes']
+                pids = [c['participant_id'] for c in changes]
+                groups[oid] = {'operation_id': oid, 'participant_ids': pids,
+                    'finding_ids': [], 'changes': changes,
+                    'focus_seat_ids': sorted({sid for pid in pids for sid in state['items'][pid]['seat_ids']})}
+            groups[oid]['finding_ids'].append(fid)
+        return {'groups': list(groups.values()), 'message': None}
+    except (ValueError, KeyError, TypeError, IndexError, DomainError):
+        return {**fallback, 'message': 'Local edit history is incomplete or incompatible; showing all safeguard findings.'}
