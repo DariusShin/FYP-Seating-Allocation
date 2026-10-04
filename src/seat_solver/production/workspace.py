@@ -111,6 +111,13 @@ def validate_state(plan, state):
         raise DomainError(
             "INVALID_INPUT", "Every registration must remain accounted for"
         )
+    validate_items(request, items)
+    return request
+
+
+def validate_items(request, items, valid_options=None):
+    """Validate placement edits against already-validated immutable registration inputs."""
+    current = {p["participant_id"]: p for p in request["participants"]}
     validate_metadata(request, items)
     seats = {s["seat_id"]: s for s in request["layout"]["seats"]}
     occupied = set()
@@ -128,9 +135,9 @@ def validate_state(plan, state):
             raise DomainError(
                 "INVALID_INPUT", "Unconfirmed registrations cannot occupy paid seats"
             )
-        if ids and tuple(sorted(ids)) not in {
+        if ids and tuple(sorted(ids)) not in (valid_options[pid] if valid_options is not None else {
             tuple(sorted(seat["seat_id"] for seat in option)) for option in options(request, current[pid])
-        }:
+        }):
             raise DomainError("INVALID_INPUT", "Keep the paid seat count, valid adjacent pairs and required accessibility")
         if not isinstance(m.get("previous_seat_ids"), list) or any(
             s not in seats for s in m["previous_seat_ids"]
@@ -304,7 +311,10 @@ class WorkspaceStore:
                                    (event, plan["plan_version_id"], revision, json.dumps(state), now(), actor))
                     checked["checked_revision"] = revision
                     self.save_review(db, event, plan["plan_version_id"], checked)
-                return {**checked, "revision": revision}
+                from seat_solver.production.verification import attribute_history
+                attribution = attribute_history(plan, body["state"] if feedback else state,
+                                                checked["findings"], body.get("history_context"))
+                return {**checked, "revision": revision, "attribution": attribution}
             if command == "workspace_save":
                 new = copy.deepcopy(body["state"])
                 if isinstance(new, dict) and isinstance(new.get("items"), dict):

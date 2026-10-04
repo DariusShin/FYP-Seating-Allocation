@@ -148,3 +148,110 @@ def test_production_sized_check_latency_and_registration_group_bound():
     elapsed = time.perf_counter() - start
     assert elapsed < 1, elapsed
     assert len({f['resolution_hint']['actor_participant_id'] for f in report['findings']}) <= len(request['participants'])
+
+
+def history_edit(before, after, oid):
+    return {'operation_id': oid, 'changes': [
+        {'participant_id': pid, 'before': copy.deepcopy(before['items'][pid]), 'after': copy.deepcopy(after['items'][pid])}
+        for pid in before['items'] if before['items'][pid] != after['items'][pid]]}
+
+
+def test_compound_emperor_merit_history_focuses_four_seats_and_preserves_findings():
+    from seat_solver.production.verification import attribute_history
+    request = generate(emperor=2, merit=3, bodhi=0)
+    for p, amount in zip(request['participants'], [10000, 9000, 5000, 4000, 3000]):
+        p['contribution_amount_rm'] = amount
+    plan = {'source_request': request, 'assignments': []}
+    baseline = initial_state(plan)
+    for pid, seats in zip(baseline['items'], [['R02-S07', 'R02-S08'], ['R04-S07', 'R04-S08'], ['R06-S03'], ['R07-S07'], ['R07-S08']]):
+        baseline['items'][pid]['seat_ids'] = seats
+    edited = copy.deepcopy(baseline)
+    edited['items']['P0001']['seat_ids'] = ['R07-S07', 'R07-S08']
+    edited['items']['P0004']['seat_ids'] = ['R02-S07']
+    edited['items']['P0005']['seat_ids'] = ['R02-S08']
+    report = check(plan, edited)
+    context = {'schema_version': 1, 'baseline': baseline, 'edits': [history_edit(baseline, edited, 'compound')]}
+    attributed = attribute_history(plan, edited, report['findings'], context)
+    assert attributed['message'] is None
+    assert len(attributed['groups']) == 1
+    group = attributed['groups'][0]
+    assert group['participant_ids'] == ['P0001', 'P0004', 'P0005']
+    assert group['focus_seat_ids'] == ['R02-S07', 'R02-S08', 'R07-S07', 'R07-S08']
+    assert any(f['severity'] == 'RED' and 'R04-S07' in f['involved_seat_ids'] for f in report['findings'])
+    assert report == check(plan, edited)  # Attribution never filters authoritative review.
+
+
+def test_attribution_reappearance_metadata_docking_and_baseline(session):
+    from seat_solver.production.verification import attribute_history
+    _, _, plan, baseline, _, _ = session
+    first = copy.deepcopy(baseline)
+    first['items']['P0001']['seat_ids'], first['items']['P0003']['seat_ids'] = first['items']['P0003']['seat_ids'], first['items']['P0001']['seat_ids']
+    metadata = copy.deepcopy(first)
+    metadata['items']['P0001']['note'] = 'staff note'
+    docked = copy.deepcopy(metadata)
+    docked['items']['P0002']['seat_ids'] = []
+    returned = copy.deepcopy(metadata)
+    again = copy.deepcopy(returned)
+    again['items']['P0001']['seat_ids'], again['items']['P0003']['seat_ids'] = again['items']['P0003']['seat_ids'], again['items']['P0001']['seat_ids']
+    states = [baseline, first, metadata, docked, returned, again]
+    edits = [history_edit(a, b, str(i)) for i, (a, b) in enumerate(zip(states, states[1:]))]
+    report = check(plan, again)
+    attributed = attribute_history(plan, again, report['findings'], {'schema_version': 1, 'baseline': baseline, 'edits': edits})
+    assert attributed['message'] is None
+    assert not any(g['operation_id'] == '1' for g in attributed['groups'])
+    red_ids = {f['finding_id'] for f in report['findings'] if f['severity'] == 'RED'}
+    assert red_ids <= set(next(g for g in attributed['groups'] if g['operation_id'] == '4')['finding_ids'])
+    original = attribute_history(plan, baseline, check(plan, baseline)['findings'], {'schema_version': 1, 'baseline': baseline, 'edits': []})
+    assert original['groups'] == [] and original['message'] is None
+    # Undo/new branch supplies only active edits, so inactive swaps cannot be blamed.
+    active = attribute_history(plan, metadata, check(plan, metadata)['findings'], {'schema_version': 1, 'baseline': baseline, 'edits': edits[:2]})
+    assert active['message'] is None
+    assert not any(g['operation_id'] in {'2', '3', '4'} for g in active['groups'])
+
+
+def test_history_context_is_optional_untrusted_and_not_persisted(session):
+    from seat_solver.production.verification import attribute_history
+    _, ws, plan, state, _, act = session
+    original = act('workspace_check')
+    for context in [None, {}, {'schema_version': 1, 'baseline': state, 'edits': [{'operation_id': 'bad', 'changes': []}]}, {'schema_version': 1, 'baseline': state, 'edits': [None]}, {'schema_version': 1, 'baseline': state, 'edits': [{}] * 501}]:
+        report = act('workspace_check', history_context=context)
+        assert report['findings'] == act('workspace_check')['findings']
+        assert report['attribution']['groups'] == []
+        assert report['attribution']['message']
+        assert 'attribution' not in ws.load(plan['event_id'])['review']
+    edited = copy.deepcopy(state)
+    edited['items']['P0001']['note'] = 'new'
+    mismatch = attribute_history(plan, state, original['findings'], {'schema_version': 1, 'baseline': state, 'edits': [history_edit(state, edited, 'wrong-final')]})
+    assert mismatch['message']
+    with pytest.raises(DomainError, match='blocking safeguard'):
+        act('workspace_publish', history_context={'schema_version': 1, 'baseline': state, 'edits': []})
+
+
+def test_production_history_latency():
+    from seat_solver.production.production_scoring import options
+    from seat_solver.production.verification import attribute_history
+    request = generate()
+    plan = {'source_request': request, 'assignments': []}
+    baseline = initial_state(plan)
+    occupied = set()
+    for p in request['participants']:
+        choice = next(o for o in options(request, p) if not occupied.intersection(s['seat_id'] for s in o))
+        ids = [s['seat_id'] for s in choice]
+        occupied.update(ids)
+        baseline['items'][p['participant_id']]['seat_ids'] = ids
+    current = copy.deepcopy(baseline)
+    edits = []
+    # Twenty ordered whole-pair swaps, including repeated registrations.
+    for i in range(20):
+        following = copy.deepcopy(current)
+        a, b = 'P0003', 'P0004'
+        following['items'][a]['seat_ids'], following['items'][b]['seat_ids'] = following['items'][b]['seat_ids'], following['items'][a]['seat_ids']
+        edits.append(history_edit(current, following, str(i)))
+        current = following
+    report = check(plan, current)
+    start = time.perf_counter()
+    result = attribute_history(plan, current, report['findings'], {'schema_version': 1, 'baseline': baseline, 'edits': edits})
+    elapsed = time.perf_counter() - start
+    assert result['message'] is None
+    assert elapsed < 1, elapsed
+    print(f'History analysis: {len(request["participants"])} registrations / 20 edits in {elapsed:.3f}s')

@@ -162,6 +162,7 @@ export function HallMap({
 											data-seat={group.seats.map((s) => s.seat_id).join(" ")}
 											data-pair-display={paired ? "merged" : undefined}
 											className={cn(
+												presentation && "pointer-events-none",
 												`seat-slot allocation-seat-group h-13 min-w-0 rounded-lg print:h-[3.8vh] ${presentation ? "h-full" : ""} ${presentation ? "print:h-[8mm] print:min-h-0 print:rounded-none print:shadow-none" : ""}`,
 												selectedGroup && "ring-2 ring-ring",
 												reviewSeats && !group.seats.some(s => spotlight?.size ? spotlight.has(s.seat_id) : reviewSeats[s.seat_id]) && "opacity-20",
@@ -209,6 +210,7 @@ export function HallMap({
 													<button
 														key={seat.seat_id}
 														type="button"
+														disabled={presentation}
 														data-owner={owner}
 														data-seat={seat.seat_id}
 														className={cn(
@@ -223,7 +225,7 @@ export function HallMap({
 																owner &&
 																"cursor-grab active:cursor-grabbing",
 														)}
-														draggable={editable && !!owner}
+														draggable={!presentation && editable && !!owner}
 														onDragStart={(e) => {
 															if (owner) {
 																e.dataTransfer.setData("text/plain", owner);
@@ -244,10 +246,10 @@ export function HallMap({
 																	seat.seat_id,
 																);
 														}}
-														onClick={() => onSelect?.(seat.seat_id)}
+														onClick={presentation ? undefined : () => onSelect?.(seat.seat_id)}
 														title={
 															presentation
-																? label || "空位"
+																? undefined
 																: `${label || "Empty seat"} · ${location}${paired ? " · Emperor pair, two seats" : ""}${markerDescription ? ` · ${markerDescription}` : ""}`
 														}
 														aria-label={

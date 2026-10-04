@@ -1,6 +1,12 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+	useSyncExternalStore,
+} from "react";
 import {
 	Armchair,
 	Search,
@@ -29,6 +35,7 @@ import {
 	dock,
 	eligible,
 	move,
+	reviewMove,
 	type Workspace,
 	type WorkingState,
 } from "@/lib/workspace";
@@ -39,11 +46,15 @@ import { WeightControls } from "./weight-controls";
 import { VerificationScreen } from "./verification-screen";
 import { TIER_STYLES } from "./seat-theme";
 
+import { ManualHistory, equal } from "@/lib/manual-history";
+import { LocalHistoryPanel } from "./local-history-panel";
+
 type Modal =
 	| "allocation"
 	| "checklist"
 	| "settings"
 	| "versions"
+	| "history"
 	| "legend"
 	| null;
 export function SeatDashboard({
@@ -53,9 +64,15 @@ export function SeatDashboard({
 	initialResult: AllocationResult;
 	initialWorkspace?: Workspace;
 }) {
-	const [workspace, setWorkspace] = useState<Workspace | null>(initialWorkspace ?? null);
-	const [state, setState] = useState<WorkingState | null>(initialWorkspace?.state ?? null);
-	const [resume, setResume] = useState(initialWorkspace?.review?.review_status === "IN_PROGRESS");
+	const [workspace, setWorkspace] = useState<Workspace | null>(
+		initialWorkspace ?? null,
+	);
+	const [state, setState] = useState<WorkingState | null>(
+		initialWorkspace?.state ?? null,
+	);
+	const [resume, setResume] = useState(
+		initialWorkspace?.review?.review_status === "IN_PROGRESS",
+	);
 	const [mode, setMode] = useState<"read" | "edit" | "review">("read");
 	const [selection, setSelection] = useState<{
 		participantId: string | null;
@@ -67,13 +84,21 @@ export function SeatDashboard({
 	const [query, setQuery] = useState("");
 	const [filter, setFilter] = useState("all");
 	const [modal, setModal] = useState<Modal>(null);
-	const [timeline, setTimeline] = useState<{
-		past: WorkingState[];
-		future: WorkingState[];
-	}>({ past: [], future: [] });
+	const [history] = useState(() => new ManualHistory());
+	useSyncExternalStore(
+		history.subscribe,
+		history.getSnapshot,
+		history.getSnapshot,
+	);
+	const historyStartup = useRef<Promise<WorkingState> | null>(null);
+	const [chainPreview, setChainPreview] = useState<ReturnType<
+		typeof reviewMove
+	> | null>(null);
 	const [error, setError] = useState("");
 	const [busy, setBusy] = useState(false);
-	const [generationPhase, setGenerationPhase] = useState<"generating" | "loading-workspace" | "error" | null>(null);
+	const [generationPhase, setGenerationPhase] = useState<
+		"generating" | "loading-workspace" | "error" | null
+	>(null);
 	const [generationError, setGenerationError] = useState("");
 	const generationInFlight = useRef(false);
 	const generationPreferences = useRef<Preference[]>([]);
@@ -95,7 +120,9 @@ export function SeatDashboard({
 		setBusy(true);
 		setError("");
 		setGenerationError("");
-		setGenerationPhase(generatedPlanId.current ? "loading-workspace" : "generating");
+		setGenerationPhase(
+			generatedPlanId.current ? "loading-workspace" : "generating",
+		);
 		try {
 			if (!generatedPlanId.current) {
 				const response = await fetch("/api/solve", {
@@ -108,8 +135,15 @@ export function SeatDashboard({
 					}),
 				});
 				const result = await response.json();
-				if (!response.ok || result?.status !== "success" || !result.plan_version_id)
-					throw new Error(result?.error?.message ?? "Unable to generate the draft. Please try again.");
+				if (
+					!response.ok ||
+					result?.status !== "success" ||
+					!result.plan_version_id
+				)
+					throw new Error(
+						result?.error?.message ??
+							"Unable to generate the draft. Please try again.",
+					);
 				generatedPlanId.current = result.plan_version_id;
 				setDraftCreated(true);
 			}
@@ -117,14 +151,18 @@ export function SeatDashboard({
 			const response = await fetch("/api/workspace", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ command: "workspace_open", plan_version_id: generatedPlanId.current }),
+				body: JSON.stringify({
+					command: "workspace_open",
+					plan_version_id: generatedPlanId.current,
+				}),
 			});
 			const value = await response.json();
 			if (!response.ok || !value?.base || !value?.state)
-				throw new Error(value?.error?.message ?? "Unable to open the new draft");
+				throw new Error(
+					value?.error?.message ?? "Unable to open the new draft",
+				);
 			setWorkspace(value);
-			setState(value.state);
-			setTimeline({ past: [], future: [] });
+			setState(await history.open(value));
 			setSelection({ participantId: null, seatId: null });
 			setMode("read");
 			setGenerationPhase(null);
@@ -147,9 +185,8 @@ export function SeatDashboard({
 			const value = await r.json();
 			if (!r.ok || !value) throw Error("Unable to load the working draft.");
 			setWorkspace(value);
-			setState(value.state);
+			setState(await history.open(value));
 			setResume(value.review?.review_status === "IN_PROGRESS");
-			setTimeline({ past: [], future: [] });
 
 			setError("");
 			setMode("read");
@@ -162,9 +199,15 @@ export function SeatDashboard({
 		}
 	}
 	useEffect(() => {
-		if (initialWorkspace) return;
+		if (initialWorkspace) {
+			historyStartup.current ??= history.open(initialWorkspace);
+			void historyStartup.current.then(setState);
+			return;
+		}
 		const startup = window.setTimeout(() => void load(), 0);
 		return () => window.clearTimeout(startup);
+		// Startup only; later workspace changes explicitly reopen history.
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [initialWorkspace]);
 	const dirty =
 		!!workspace && JSON.stringify(state) !== JSON.stringify(workspace.state);
@@ -197,11 +240,14 @@ export function SeatDashboard({
 			)
 			.map((p) => p.participant_id),
 	);
-	const person = people.find((p) => p.participant_id === selection.participantId);
+	const person = people.find(
+		(p) => p.participant_id === selection.participantId,
+	);
 	const item = selection.participantId
 		? state?.items[selection.participantId]
 		: undefined;
-	const canEdit = mode === "edit" && !busy && !generationBlocked;
+	const canEdit =
+		mode === "edit" && !busy && !generationBlocked && history.ready;
 	const blocked = cells.filter((s) => s.is_blocked).length;
 	const published =
 		base.publication_status === "PUBLISHED" &&
@@ -219,10 +265,7 @@ export function SeatDashboard({
 	}
 	function commit(next: WorkingState) {
 		if (!canEdit) return;
-		setTimeline((current) => ({
-			past: [...current.past.slice(-49), state!],
-			future: [],
-		}));
+		history.commit(next);
 		setState(next);
 
 		setError("");
@@ -230,9 +273,12 @@ export function SeatDashboard({
 	function applyMove(pid: string, sid: string) {
 		if (!canEdit || !state) return;
 		try {
-			const next = move(state, base, pid, sid);
-			if (next === state) return;
-			commit(next);
+			const result = state.items[pid].seat_ids.length
+				? reviewMove(state, base, pid, sid)
+				: { state: move(state, base, pid, sid), chain: false, description: "" };
+			if (result.state === state) return;
+			if (result.chain) setChainPreview(result);
+			else commit(result.state);
 			setModal(null);
 			setDestination("");
 		} catch (e) {
@@ -254,37 +300,78 @@ export function SeatDashboard({
 			setError(String(e));
 		}
 	}
-    async function submitReview() {
-        if (!workspace || !state || docked.length) return;
-        setBusy(true); setError("");
-        try {
-            let value = workspace;
-            if (dirty) {
-                const response = await fetch("/api/workspace", {
-                    method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ command: "workspace_save", plan_version_id: base.plan_version_id, revision: workspace.revision, state }),
-                });
-                value = await response.json();
-                if (!response.ok) throw Error((value as unknown as { error?: { message: string } }).error?.message ?? "Unable to save draft");
-            }
-            setWorkspace(value); setState(value.state); setResume(false); setModal(null); setMode("review");
-        } catch (e) { setError(String(e)); } finally { setBusy(false); }
-    }
-    async function operation(command: "workspace_save", nextState = state) {
-        if (!workspace || !nextState) return false;
-        setBusy(true); setError("");
-        try {
-            const response = await fetch("/api/workspace", {
-                method: "POST", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ command, plan_version_id: base.plan_version_id, revision: workspace.revision, state: nextState }),
-            });
-            const value = await response.json();
-            if (!response.ok) throw Error(value.error?.message ?? "Unable to save draft");
-            setWorkspace(value); setState(value.state);
-            toast.success("Working draft saved. Public seating is unchanged.");
-            return true;
-        } catch (e) { setError(String(e)); return false; } finally { setBusy(false); }
-    }
+	async function submitReview() {
+		if (!workspace || !state || docked.length || !history.ready) return;
+		setBusy(true);
+		setError("");
+		try {
+			let value = workspace;
+			if (dirty) {
+				const capture = await history.prepareSave(state, workspace.revision);
+				const response = await fetch("/api/workspace", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						command: "workspace_save",
+						plan_version_id: base.plan_version_id,
+						revision: workspace.revision,
+						state,
+					}),
+				});
+				value = await response.json();
+				if (!response.ok)
+					throw Error(
+						(value as unknown as { error?: { message: string } }).error
+							?.message ?? "Unable to save draft",
+					);
+				await history.saved(value, capture);
+			}
+			setWorkspace(value);
+			setState(value.state);
+			setResume(false);
+			setModal(null);
+			setMode("review");
+		} catch (e) {
+			setError(String(e));
+		} finally {
+			setBusy(false);
+		}
+	}
+	async function operation(command: "workspace_save", nextState = state) {
+		if (!workspace || !nextState || !history.ready) return false;
+		setBusy(true);
+		setError("");
+		try {
+			if (!equal(history.session?.state, nextState)) {
+				history.commit(nextState, "DETAILS");
+				setState(nextState);
+			}
+			const capture = await history.prepareSave(nextState, workspace.revision);
+			const response = await fetch("/api/workspace", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					command,
+					plan_version_id: base.plan_version_id,
+					revision: workspace.revision,
+					state: nextState,
+				}),
+			});
+			const value = await response.json();
+			if (!response.ok)
+				throw Error(value.error?.message ?? "Unable to save draft");
+			await history.saved(value, capture);
+			setWorkspace(value);
+			setState(value.state);
+			toast.success("Working draft saved. Public seating is unchanged.");
+			return true;
+		} catch (e) {
+			setError(String(e));
+			return false;
+		} finally {
+			setBusy(false);
+		}
+	}
 	function selectSeat(sid: string) {
 		setSelection((current) => ({ ...current, seatId: sid }));
 		if (owners[sid]) {
@@ -319,9 +406,27 @@ export function SeatDashboard({
 				return true;
 		}
 	});
-    if (mode === "review" && workspace) return <VerificationScreen initial={workspace}
-        onExit={(value, seat) => { setWorkspace(value); setState(value.state); setMode("edit"); setSelection({ participantId: null, seatId: seat }); setTimeline({ past: [], future: [] }); }}
-        onPublished={value => { setWorkspace(value); setState(value.state); setMode("read"); setTimeline({ past: [], future: [] }); toast.success("Seating plan published. Venue display now uses this version."); }} />;
+	if (mode === "review" && workspace)
+		return (
+			<VerificationScreen
+				initial={workspace}
+				history={history}
+				onExit={(value, seat) => {
+					setWorkspace(value);
+					setState(value.state);
+					setMode("edit");
+					setSelection({ participantId: null, seatId: seat });
+				}}
+				onPublished={async (value) => {
+					setWorkspace(value);
+					setState(await history.open(value));
+					setMode("read");
+					toast.success(
+						"Seating plan published. Venue display now uses this version.",
+					);
+				}}
+			/>
+		);
 	if (!state)
 		return (
 			<main className="p-8">
@@ -357,7 +462,12 @@ export function SeatDashboard({
 			}}
 		>
 			<header className="flex shrink-0 items-center gap-3 border-b px-5.5 py-2.5 max-[1100px]:px-3 max-[700px]:flex-wrap max-[700px]:gap-2 print:hidden">
-				<Link href="/event" className="shrink-0 text-sm text-muted-foreground hover:text-foreground">← Events</Link>
+				<Link
+					href="/event"
+					className="shrink-0 text-sm text-muted-foreground hover:text-foreground"
+				>
+					← Events
+				</Link>
 				<div className="grid size-9 place-items-center rounded-lg bg-primary text-primary-foreground">
 					<Armchair size={20} />
 				</div>
@@ -372,7 +482,10 @@ export function SeatDashboard({
 						2026 梁皇寶懺大法會 · Staff workspace
 					</p>
 				</div>
-				<div inert={generationBlocked} className="relative z-30 ml-auto w-[min(340px,28vw)] max-[1100px]:w-[min(280px,30vw)] max-[700px]:order-3 max-[700px]:ml-0 max-[700px]:w-full">
+				<div
+					inert={generationBlocked}
+					className="relative z-30 ml-auto w-[min(340px,28vw)] max-[1100px]:w-[min(280px,30vw)] max-[700px]:order-3 max-[700px]:ml-0 max-[700px]:w-full"
+				>
 					<label className="flex h-9.5 items-center gap-2 rounded-lg border border-input bg-background px-2.5 text-muted-foreground focus-within:outline-2 focus-within:outline-ring focus-within:outline-offset-2">
 						<Search aria-hidden="true" className="size-4 shrink-0" />
 						<input
@@ -447,10 +560,26 @@ export function SeatDashboard({
 						</div>
 					)}
 				</div>
+				<Button
+					variant="ghost"
+					size="sm"
+					disabled={!history.ready || generationBlocked}
+					onClick={() => setModal("history")}
+				>
+					Local history
+				</Button>
 				<nav
 					className="ml-auto flex items-center gap-1 max-[1100px]:ml-0 max-[1100px]:gap-0 max-[700px]:ml-auto"
 					aria-label="Workspace"
 				>
+					<Button
+						variant="ghost"
+						size="sm"
+						className="max-[700px]:px-1.75 max-[700px]:text-[11px]"
+						onClick={() => setModal("legend")}
+					>
+						<MapPinned data-icon="inline-start" /> Legend & map guide
+					</Button>
 					<Button
 						variant="ghost"
 						size="sm"
@@ -499,7 +628,18 @@ export function SeatDashboard({
 					</Button>
 				</nav>
 			</header>
-			<section inert={generationBlocked} className="flex min-h-13.5 shrink-0 items-center gap-4 border-b px-5.5 py-2 text-sm text-muted-foreground max-[1100px]:gap-2 max-[1100px]:px-3 print:hidden">
+			{history.warning && (
+				<p
+					role="status"
+					className="border-b bg-amber-50 p-2 text-sm text-amber-950"
+				>
+					{history.warning}
+				</p>
+			)}
+			<section
+				inert={generationBlocked}
+				className="flex min-h-13.5 shrink-0 items-center gap-4 border-b px-5.5 py-2 text-sm text-muted-foreground max-[1100px]:gap-2 max-[1100px]:px-3 print:hidden"
+			>
 				<span
 					className={`whitespace-nowrap rounded-md border bg-background px-2.5 py-1.25 font-medium text-foreground ${mode === "edit" ? "bg-secondary" : ""} ${mode === "review" ? "border-primary" : ""}`}
 				>
@@ -522,7 +662,6 @@ export function SeatDashboard({
 					{mode !== "edit" ? (
 						<Button
 							size="sm"
-							variant="outline"
 							disabled={busy}
 							onClick={() => {
 								setMode("edit");
@@ -535,6 +674,18 @@ export function SeatDashboard({
 							<Button
 								size="sm"
 								variant="outline"
+								aria-label="Undo last change"
+								disabled={!canEdit || !history.session?.active.length}
+								onClick={() => {
+									setState(history.undo());
+								}}
+							>
+								<Undo2 />
+								Undo last change
+							</Button>
+							<Button
+								size="sm"
+								variant="outline"
 								disabled={busy || !dirty}
 								onClick={() => operation("workspace_save")}
 							>
@@ -542,18 +693,54 @@ export function SeatDashboard({
 							</Button>
 							<Button
 								size="sm"
-								disabled={busy || docked.length > 0}
-                                onClick={submitReview}
+								disabled={busy || !history.ready || docked.length > 0}
+								onClick={submitReview}
 							>
 								Submit for review
 							</Button>
 						</>
 					)}
-
 				</div>
 			</section>
-            {mode === "edit" && docked.length > 0 && <p role="status" className="border-b px-5 py-2 text-sm">{docked.length} participants unseated — assign every paid registration before review.</p>}
-            <Dialog open={resume} onOpenChange={setResume}><DialogContent><DialogHeader><DialogTitle>Safeguard review in progress</DialogTitle><DialogDescription>{(workspace?.review?.summary?.acked ?? 0) + (workspace?.review?.summary?.resolved ?? 0)} of {(workspace?.review?.summary?.acked ?? 0) + (workspace?.review?.summary?.resolved ?? 0) + (workspace?.review?.summary?.open_blocking ?? 0) + (workspace?.review?.summary?.open_advisory ?? 0)} handled in the last saved review. Resume to check the latest seating plan.</DialogDescription></DialogHeader><Button disabled={busy || docked.length > 0} onClick={submitReview}>Resume review</Button><Button variant="outline" onClick={() => { setResume(false); setMode("edit"); }}>Back to editing</Button></DialogContent></Dialog>
+			{mode === "edit" && docked.length > 0 && (
+				<p role="status" className="border-b px-5 py-2 text-sm">
+					{docked.length} participants unseated — assign every paid registration
+					before review.
+				</p>
+			)}
+			<Dialog open={resume} onOpenChange={setResume}>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Safeguard review in progress</DialogTitle>
+						<DialogDescription>
+							{(workspace?.review?.summary?.acked ?? 0) +
+								(workspace?.review?.summary?.resolved ?? 0)}{" "}
+							of{" "}
+							{(workspace?.review?.summary?.acked ?? 0) +
+								(workspace?.review?.summary?.resolved ?? 0) +
+								(workspace?.review?.summary?.open_blocking ?? 0) +
+								(workspace?.review?.summary?.open_advisory ?? 0)}{" "}
+							handled in the last saved review. Resume to check the latest
+							seating plan.
+						</DialogDescription>
+					</DialogHeader>
+					<Button
+						disabled={busy || !history.ready || docked.length > 0}
+						onClick={submitReview}
+					>
+						Resume review
+					</Button>
+					<Button
+						variant="outline"
+						onClick={() => {
+							setResume(false);
+							setMode("edit");
+						}}
+					>
+						Back to editing
+					</Button>
+				</DialogContent>
+			</Dialog>
 			{error && (
 				<div
 					className="bg-muted px-6 py-2.25 text-sm text-destructive"
@@ -564,7 +751,10 @@ export function SeatDashboard({
 			)}
 			<section className="flex min-h-0 flex-1">
 				<div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-					<div inert={generationBlocked} className="flex min-h-14.25 items-center gap-2.5 border-b px-4 py-2.5 print:hidden">
+					{/* <div
+						inert={generationBlocked}
+						className="flex min-h-14.25 items-center gap-2.5 border-b px-4 py-2.5 print:hidden"
+					>
 						<div className="ml-auto flex items-center gap-0.5">
 							{mode === "edit" && docked.length > 0 && (
 								<Button
@@ -584,54 +774,66 @@ export function SeatDashboard({
 								<MapPinned data-icon="inline-start" /> Legend & map guide
 							</Button>
 						</div>
-					</div>
-					<div className="relative flex min-h-0 flex-1 flex-col overflow-hidden" aria-label="Seating map">
-					<div className="flex min-h-0 flex-1 flex-col" inert={generationBlocked} aria-busy={generationBlocked}>
-					<HallMap
-						floor={base.floor_plan}
-						names={names}
-						owners={owners}
-						primaryNames={Object.fromEntries(
-							people.map((p) => [
-								p.participant_id,
-								state.items[p.participant_id].display_names[0],
-							]),
+					</div> */}
+					<div
+						className="relative flex min-h-0 flex-1 flex-col overflow-hidden"
+						aria-label="Seating map"
+					>
+						<div
+							className="flex min-h-0 flex-1 flex-col"
+							inert={generationBlocked}
+							aria-busy={generationBlocked}
+						>
+							<HallMap
+								floor={base.floor_plan}
+								names={names}
+								owners={owners}
+								primaryNames={Object.fromEntries(
+									people.map((p) => [
+										p.participant_id,
+										state.items[p.participant_id].display_names[0],
+									]),
+								)}
+								tiers={Object.fromEntries(
+									people.map((p) => [p.participant_id, p.contribution_tier]),
+								)}
+								markers={Object.fromEntries(
+									people.map((p) => [
+										p.participant_id,
+										{
+											hasNote: !!state.items[p.participant_id].note,
+											elderly: p.age >= 60,
+											accessible: p.requires_accessible_seat,
+										} satisfies SeatMarkers,
+									]),
+								)}
+								selected={selection.participantId}
+								selectedSeat={
+									selection.participantId
+										? (state.items[selection.participantId]?.seat_ids[0] ??
+											null)
+										: selection.seatId
+								}
+								matches={query ? matches : undefined}
+								editable={canEdit}
+								onSelect={selectSeat}
+								onDrop={applyMove}
+								onAllocationDragStart={(pid) => {
+									draggingParticipant.current = pid;
+								}}
+								onAllocationDragEnd={() => {
+									draggingParticipant.current = null;
+								}}
+							/>
+						</div>
+						{generationPhase && (
+							<MapLoadingOverlay
+								phase={generationPhase}
+								error={generationError}
+								onRetry={() => void regenerate()}
+								draftCreated={draftCreated}
+							/>
 						)}
-						tiers={Object.fromEntries(
-							people.map((p) => [p.participant_id, p.contribution_tier]),
-						)}
-						markers={Object.fromEntries(
-							people.map((p) => [
-								p.participant_id,
-								{
-									hasNote: !!state.items[p.participant_id].note,
-									elderly: p.age >= 60,
-									accessible: p.requires_accessible_seat,
-								} satisfies SeatMarkers,
-							]),
-						)}
-						selected={selection.participantId}
-						selectedSeat={selection.seatId}
-						matches={query ? matches : undefined}
-						editable={canEdit}
-						onSelect={selectSeat}
-						onDrop={applyMove}
-						onAllocationDragStart={(pid) => {
-							draggingParticipant.current = pid;
-						}}
-						onAllocationDragEnd={() => {
-							draggingParticipant.current = null;
-						}}
-					/>
-					</div>
-					{generationPhase && (
-						<MapLoadingOverlay
-							phase={generationPhase}
-							error={generationError}
-							onRetry={() => void regenerate()}
-							draftCreated={draftCreated}
-						/>
-					)}
 					</div>
 					<footer className="flex min-h-10.5 shrink-0 items-center justify-between gap-2.5 border-t px-3.75 py-2 text-xs text-muted-foreground">
 						<span>
@@ -653,14 +855,9 @@ export function SeatDashboard({
 									variant="ghost"
 									size="icon-sm"
 									aria-label="Undo"
-									disabled={!canEdit || !timeline.past.length}
+									disabled={!canEdit || !history.session?.active.length}
 									onClick={() => {
-										const previous = timeline.past.at(-1)!;
-										setTimeline((current) => ({
-											past: current.past.slice(0, -1),
-											future: [state, ...current.future],
-										}));
-										setState(previous);
+										setState(history.undo());
 									}}
 								>
 									<Undo2 />
@@ -669,14 +866,9 @@ export function SeatDashboard({
 									variant="ghost"
 									size="icon-sm"
 									aria-label="Redo"
-									disabled={!canEdit || !timeline.future.length}
+									disabled={!canEdit || !history.session?.redo.length}
 									onClick={() => {
-										const next = timeline.future[0];
-										setTimeline((current) => ({
-											past: [...current.past, state],
-											future: current.future.slice(1),
-										}));
-										setState(next);
+										setState(history.redo());
 									}}
 								>
 									<Redo2 />
@@ -732,7 +924,11 @@ export function SeatDashboard({
 											e.dataTransfer.setData("text/plain", p.participant_id)
 										}
 										onClick={() => {
-											setSelection({ participantId: p.participant_id, seatId: state.items[p.participant_id].seat_ids[0] ?? null });
+											setSelection({
+												participantId: p.participant_id,
+												seatId:
+													state.items[p.participant_id].seat_ids[0] ?? null,
+											});
 											setModal("allocation");
 										}}
 									>
@@ -780,13 +976,12 @@ export function SeatDashboard({
 									checklist: "Participant checklist",
 									settings: "Allocation preferences",
 									versions: "Version history",
+									history: "Local history · this browser",
 									legend: "Map legend and help",
 								}[modal ?? "legend"]
 							}
 						</DialogTitle>
-						<DialogDescription>
-							PJKIT staff workspace
-						</DialogDescription>
+						<DialogDescription>PJKIT staff workspace</DialogDescription>
 					</DialogHeader>
 					{modal === "allocation" && (
 						<>
@@ -802,7 +997,7 @@ export function SeatDashboard({
 										person={person}
 										item={item}
 										location={location(item.seat_ids)}
-										busy={busy}
+										busy={busy || !history.ready}
 										onClose={() => setModal(null)}
 										onSave={(details) =>
 											operation("workspace_save", {
@@ -865,7 +1060,6 @@ export function SeatDashboard({
 						</>
 					)}
 
-
 					{modal === "checklist" && (
 						<>
 							<label className="flex gap-2 text-sm">
@@ -905,7 +1099,10 @@ export function SeatDashboard({
 											<button
 												className="flex-1 text-left"
 												onClick={() => {
-																setSelection({ participantId: p.participant_id, seatId: m.seat_ids[0] ?? null });
+													setSelection({
+														participantId: p.participant_id,
+														seatId: m.seat_ids[0] ?? null,
+													});
 													setModal("allocation");
 												}}
 											>
@@ -930,10 +1127,10 @@ export function SeatDashboard({
 										const index = visible.findIndex(
 											(p) => p.participant_id === selection.participantId,
 										);
-										const participant = visible[
-											(index - 1 + visible.length) % visible.length
-										];
-										if (participant) selectParticipant(participant.participant_id);
+										const participant =
+											visible[(index - 1 + visible.length) % visible.length];
+										if (participant)
+											selectParticipant(participant.participant_id);
 									}}
 								>
 									Previous
@@ -946,7 +1143,8 @@ export function SeatDashboard({
 											(p) => p.participant_id === selection.participantId,
 										);
 										const participant = visible[(index + 1) % visible.length];
-										if (participant) selectParticipant(participant.participant_id);
+										if (participant)
+											selectParticipant(participant.participant_id);
 									}}
 								>
 									Next
@@ -967,6 +1165,28 @@ export function SeatDashboard({
 								onGenerate={regenerate}
 							/>
 						</>
+					)}
+					{modal === "history" && workspace && (
+						<LocalHistoryPanel
+							history={history}
+							workspace={workspace}
+							current={state}
+							disabled={busy || generationBlocked}
+							onRestore={(next) => {
+								history.commit(next, "RESTORE_VERSION");
+								setState(next);
+								setMode("edit");
+								setModal(null);
+							}}
+							onDelete={async () => {
+								setBusy(true);
+								try {
+									setState(await history.deleteHistory(workspace));
+								} finally {
+									setBusy(false);
+								}
+							}}
+						/>
 					)}
 					{modal === "versions" && (
 						<div className="space-y-2">
@@ -1035,23 +1255,30 @@ export function SeatDashboard({
 									</div>
 								</div>
 							</section>
-							<div className="grid gap-1.75 rounded-lg bg-muted p-3 text-xs leading-[1.6] [&>strong]:text-[13px]">
-								<strong>How to read the hall</strong>
-								<p>
-									三寶佛 is the front. 西單 columns are 1–8; 東單 columns are
-									9–16. The centre aisle separates the two sides. Emperor pairs
-									appear as one double-width card and move together.
-								</p>
-								<p>
-									Select a participant card to review its registration. Search
-									highlights matching names; other allocations are dimmed. In
-									read mode the plan is protected; edit mode enables
-									drag-and-drop and move/swap.
-								</p>
-							</div>
 						</div>
 					)}
-
+				</DialogContent>
+			</Dialog>
+			<Dialog
+				open={!!chainPreview}
+				onOpenChange={(open) => {
+					if (!open) setChainPreview(null);
+				}}
+			>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Apply rearrangement</DialogTitle>
+						<DialogDescription>{chainPreview?.description}</DialogDescription>
+					</DialogHeader>
+					<Button
+						disabled={!canEdit}
+						onClick={() => {
+							if (chainPreview) commit(chainPreview.state);
+							setChainPreview(null);
+						}}
+					>
+						Apply rearrangement
+					</Button>
 				</DialogContent>
 			</Dialog>
 		</main>

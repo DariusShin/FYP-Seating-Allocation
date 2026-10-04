@@ -41,3 +41,11 @@ test('review targets use the actual approved pairs and accessibility of both reg
 test('dropping a registration on its current seats is a no-op',()=>{
  const s=state();assert.equal(move(s,base,'pair','s8'),s);assert.equal(move(s,base,'single','s6'),s);
 });
+test('pair-to-two-Merit exchange moves all three registrations in one preview',()=>{
+ const s=state();s.items.single.seat_ids=['s3'];s.items.second={seat_ids:['s4'],display_names:['Second']};
+ s.participants.push({participant_id:'second',contribution_tier:'MERIT',registration_status:'CONFIRMED',requires_accessible_seat:false});
+ const result=reviewMove(s,reviewBase,'pair','s3');assert.equal(result.chain,true);
+ assert.deepEqual(result.state.items.pair.seat_ids,['s3','s4']);assert.deepEqual(result.state.items.single.seat_ids,['s7']);assert.deepEqual(result.state.items.second.seat_ids,['s8']);
+ assert.equal(new Set(Object.values(result.state.items).flatMap(i=>i.seat_ids)).size,4);
+ assert.equal(reviewMove(s,reviewBase,'pair','s8').state,s);
+});

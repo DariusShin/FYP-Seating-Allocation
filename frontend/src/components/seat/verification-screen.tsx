@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import {
 	LoaderCircle,
 	Undo2,
@@ -18,14 +18,18 @@ import {
 import { HallMap } from "./hall-map";
 import { MapLoadingOverlay } from "./map-loading-overlay";
 import { reviewMove, type WorkingState, type Workspace } from "@/lib/workspace";
-import { groupFindings, type Finding, type Review } from "@/lib/verification";
+import { focusedGroups, restorationResolves, participantSeats, findingSeats, reviewSeatHighlights, followSelectedSeat, type AttributedEdit, type Finding, type Review } from "@/lib/verification";
+
+import { ManualHistory, restorationFromHistory, type HistoryRestoration } from "@/lib/manual-history";
 
 export function VerificationScreen({
 	initial,
+	history,
 	onExit,
 	onPublished,
 }: {
 	initial: Workspace;
+	history: ManualHistory;
 	onExit: (workspace: Workspace, seat: string | null) => void;
 	onPublished: (workspace: Workspace) => void;
 }) {
@@ -50,10 +54,12 @@ export function VerificationScreen({
 		null,
 	);
 	const [confirmPublish, setConfirmPublish] = useState(false);
-	const [history, setHistory] = useState<{
-		past: WorkingState[];
-		future: WorkingState[];
-	}>({ past: [], future: [] });
+    useSyncExternalStore(history.subscribe, history.getSnapshot, history.getSnapshot);
+    const [selectedEdit, setSelectedEdit] = useState<string | null>(null);
+    const [restoreError, setRestoreError] = useState<{ operation: string; message: string } | null>(null);
+    const [leaving, setLeaving] = useState(false);
+    const [showCandidates, setShowCandidates] = useState(false);
+    const [restorePreview, setRestorePreview] = useState<{ state: WorkingState; source: WorkingState; revision: number; restoration: HistoryRestoration } | null>(null);
 	const saved = useRef(initial);
 	const latest = useRef(initial.state);
 	const queue = useRef<Promise<unknown>>(Promise.resolve());
@@ -64,31 +70,18 @@ export function VerificationScreen({
 	const findings = review?.findings ?? [];
 	const summary = review?.summary;
 	const selectedFinding = findings.find((f) => f.finding_id === selected);
-	const groups = groupFindings(
+	const groups = focusedGroups(
 		findings.filter(
 			(f) =>
 				(showHandled || f.status === "OPEN") &&
 				(filter === "All" || f.severity === filter || f.rule_id === filter),
-		),
+		), review?.attribution,
 	);
-	const reviewSeats = useMemo(() => {
-		const result: Record<string, "RED" | "YELLOW"> = {};
-		for (const f of review?.findings ?? [])
-			if (f.status === "OPEN")
-				for (const s of f.involved_seat_ids)
-					if (result[s] !== "RED") result[s] = f.severity;
-		return result;
-	}, [review]);
-	const spotlight = new Set(
-		selectedFinding
-			? [
-					...selectedFinding.involved_seat_ids,
-					...selectedFinding.resolution_hint.swap_candidates.flatMap(
-						(p) => p.seat_ids,
-					),
-				]
-			: [],
-	);
+	const reviewSeats = useMemo(() => reviewSeatHighlights(review, state), [review, state]);
+    const focusedEdit = review?.attribution?.groups.find(g => g.operation_id === selectedEdit);
+    const spotlight = new Set(selectedFinding
+      ? [...findingSeats(selectedFinding, state), ...(showCandidates ? participantSeats(selectedFinding.resolution_hint.swap_candidates.map(p => p.participant_id), state) : [])]
+      : focusedEdit ? participantSeats(focusedEdit.participant_ids, state) : []);
 	const cells = base.floor_plan.rows.flatMap((r) => r.seats);
 	const validTargets = useMemo(() => {
 		if (!dragging) return undefined;
@@ -121,6 +114,7 @@ export function VerificationScreen({
 				command,
 				plan_version_id: saved.current.base.plan_version_id,
 				revision: saved.current.revision,
+				history_context: command === "workspace_check" || command === "workspace_ack" ? history.context((extra.state as WorkingState | undefined) ?? saved.current.state) : undefined,
 				...extra,
 			}),
 		});
@@ -137,14 +131,15 @@ export function VerificationScreen({
 		return next;
 	}
 	async function persist(snapshot: WorkingState) {
-		if (JSON.stringify(snapshot) !== JSON.stringify(saved.current.state))
-			saved.current = await request("workspace_save", { state: snapshot });
+		if (JSON.stringify(snapshot) !== JSON.stringify(saved.current.state)) {
+            const capture = await history.prepareSave(snapshot, saved.current.revision);
+            saved.current = await request("workspace_save", { state: snapshot });
+            await history.saved(saved.current, capture);
+        }
 	}
 	async function refresh(snapshot: WorkingState, token: number) {
-		// Feedback validates the unsaved payload; the subsequent saved check is the
-		// recoverable review snapshot. Both use the same serialized revision stream.
-		if (JSON.stringify(snapshot) !== JSON.stringify(saved.current.state))
-			await request("workspace_check", { state: snapshot });
+        if (token !== sequence.current) return;
+		// Save and check share one revision stream; obsolete queued snapshots are skipped.
 		await persist(snapshot);
 		const result: Review = await request("workspace_check");
 		saved.current = { ...saved.current, review: result };
@@ -210,17 +205,19 @@ export function VerificationScreen({
 		return () => window.removeEventListener("beforeunload", warn);
 	}, [dirty]);
 	function update(next: WorkingState) {
+        setRestorePreview(null); setRestoreError(null); setPreview(null); setShowCandidates(false);
+        setSelectedSeat(current => followSelectedSeat(current, state, next));
 		sequence.current++;
 		latest.current = next;
 		setState(next);
 		setError("");
 	}
 	function commit(next: WorkingState) {
-		setHistory((h) => ({ past: [...h.past.slice(-49), state], future: [] }));
+		history.commit(next);
 		update(next);
 	}
 	function move(pid: string, sid: string) {
-		if (stale || phase || (working && confirmPublish)) return;
+		if (stale || phase || leaving || (working && confirmPublish)) return;
 		setDragging(null);
 		try {
 			const next = reviewMove(state, base, pid, sid);
@@ -231,15 +228,32 @@ export function VerificationScreen({
 		}
 	}
 	function locate(f: Finding) {
+        setSelectedEdit(null); setShowCandidates(false);
 		setSelected(f.finding_id);
 		setPulse(true);
 		setMoveActor(f.resolution_hint.actor_participant_id);
 		setSelectedSeat(
-			f.participants.find(
-				(p) => p.participant_id === f.resolution_hint.actor_participant_id,
-			)?.seat_ids[0] ?? f.involved_seat_ids[0],
+			state.items[f.resolution_hint.actor_participant_id]?.seat_ids[0] ?? findingSeats(f, state)[0] ?? null,
 		);
 	}
+    function focusEdit(group: AttributedEdit) {
+        setSelected(null); setSelectedEdit(group.operation_id); setSelectedSeat(participantSeats(group.participant_ids, state)[0] ?? null); setPulse(true);
+        document.getElementById(`edit-${group.operation_id}`)?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+    async function previewRestore(group: AttributedEdit) {
+        setWorking(true); setRestoreError(null);
+        const source = latest.current;
+        const revision = saved.current.revision;
+        try {
+            const related = findings.filter(f => group.finding_ids.includes(f.finding_id)).flatMap(f => f.participants.map(p => p.participant_id));
+            const plan = restorationFromHistory(source, history.context(source), group.operation_id, related);
+            const candidate = plan.state;
+            const result: Review = await enqueue(() => request("workspace_check", { state: candidate, history_context: undefined }));
+            if (source !== latest.current || revision !== saved.current.revision) throw Error("The draft changed. Preview restoration again.");
+            if (!restorationResolves(findings, result.findings ?? [], group.finding_ids)) throw Error("Restoration would leave linked findings or introduce new violations. Use the related findings to choose another correction.");
+            setRestorePreview({ state: candidate, source, revision, restoration: plan });
+        } catch(e) { setRestoreError({ operation: group.operation_id, message: String(e) }); setExpanded(values => ({ ...values, [`edit:${group.operation_id}`]: true })); } finally { setWorking(false); }
+    }
 	async function acknowledge(f: Finding) {
 		setWorking(true);
 		try {
@@ -263,6 +277,7 @@ export function VerificationScreen({
 		}
 	}
 	async function exit() {
+        setLeaving(true);
 		setWorking(true);
 		try {
 			await enqueue(async () => {
@@ -271,6 +286,7 @@ export function VerificationScreen({
 			});
 		} catch (e) {
 			setError(String(e));
+            setLeaving(false);
 			setWorking(false);
 		}
 	}
@@ -318,12 +334,13 @@ export function VerificationScreen({
 					<ArrowLeft /> Back to editing
 				</Button>
 			</header>
-			{error && (
+            {history.warning && <p role="status" className="border-b p-2 text-sm">{history.warning}</p>}
+			{(error || stale) && (
 				<div
 					role="alert"
 					className="flex items-center gap-3 border-b bg-destructive/10 p-3 text-sm"
 				>
-					<span>{error}</span>
+					<span>{error || "Another staff member changed the saved draft. Reload before continuing."}</span>
 					{stale ? (
 						<Button variant="outline" onClick={() => window.location.reload()}>
 							Reload latest draft
@@ -359,14 +376,9 @@ export function VerificationScreen({
 							variant="ghost"
 							size="icon-sm"
 							aria-label="Undo"
-							disabled={!history.past.length || stale || !!phase}
+							disabled={!history.session?.active.length || stale || leaving || !!phase}
 							onClick={() => {
-								const next = history.past.at(-1)!;
-								setHistory((h) => ({
-									past: h.past.slice(0, -1),
-									future: [state, ...h.future],
-								}));
-								update(next);
+								update(history.undo());
 							}}
 						>
 							<Undo2 />
@@ -375,14 +387,9 @@ export function VerificationScreen({
 							variant="ghost"
 							size="icon-sm"
 							aria-label="Redo"
-							disabled={!history.future.length || stale || !!phase}
+							disabled={!history.session?.redo.length || stale || leaving || !!phase}
 							onClick={() => {
-								const next = history.future[0];
-								setHistory((h) => ({
-									past: [...h.past, state],
-									future: h.future.slice(1),
-								}));
-								update(next);
+								update(history.redo());
 							}}
 						>
 							<Redo2 />
@@ -420,7 +427,7 @@ export function VerificationScreen({
 						<Button
 							size="sm"
 							variant="outline"
-							disabled={!moveActor || !destination || stale || !!phase}
+							disabled={!moveActor || !destination || stale || leaving || !!phase}
 							onClick={() => move(moveActor, destination)}
 						>
 							Move / swap
@@ -450,13 +457,15 @@ export function VerificationScreen({
 						pulse={pulse}
 						selectedSeat={selectedSeat}
 						validTargets={validTargets}
-						editable={!stale && !phase}
+						editable={!stale && !phase && !leaving}
 						onDrop={move}
 						onAllocationDragStart={setDragging}
 						onAllocationDragEnd={() => setDragging(null)}
 						onSelect={(sid) => {
-							const f = findings.find(
-								(f) => f.status === "OPEN" && f.involved_seat_ids.includes(sid),
+							const edit = review?.attribution?.groups.find(g => participantSeats(g.participant_ids, state).includes(sid) && findings.some(f => f.status === "OPEN" && g.finding_ids.includes(f.finding_id)));
+                            if (edit) { setFilter("All"); focusEdit(edit); return; }
+                            const f = findings.find(
+								(f) => f.status === "OPEN" && findingSeats(f, state).includes(sid),
 							);
 							if (f) {
 								setFilter("All");
@@ -486,7 +495,7 @@ export function VerificationScreen({
 							className={`text-sm ${dirty || working ? "opacity-50" : ""}`}
 							role="status"
 						>
-							{handled} of {total} handled · {summary?.open_blocking ?? "…"}{" "}
+							{handled} of {total} findings handled · {summary?.open_blocking ?? "…"}{" "}
 							blocking
 						</p>
 						<div
@@ -518,19 +527,7 @@ export function VerificationScreen({
 								</>
 							)}
 						</div>
-						<div className="flex flex-wrap gap-1">
-							{["All", "RED", "YELLOW", "C12", "C13", "C15", "C16"].map((v) => (
-								<Button
-									key={v}
-									size="sm"
-									variant={filter === v ? "secondary" : "ghost"}
-									aria-pressed={filter === v}
-									onClick={() => setFilter(v)}
-								>
-									{v === "RED" ? "Blocking" : v === "YELLOW" ? "Advisory" : v}
-								</Button>
-							))}
-						</div>
+
 						{!!summary?.acked && (
 							<label className="flex gap-2 text-xs">
 								<input
@@ -550,6 +547,8 @@ export function VerificationScreen({
 						</Button>
 					</div>
 					<div className="min-h-0 flex-1 space-y-3 overflow-auto p-4">
+                        {review?.attribution?.message && <p className="text-xs text-muted-foreground">{review.attribution.message}</p>}
+                        <p className="text-xs">{groups.filter(([key]) => key.startsWith("edit:")).length} edit groups · {groups.filter(([key]) => !key.startsWith("edit:")).length} baseline / unattributed groups</p>
 						{summary?.open_blocking === 0 && !dirty && (
 							<div
 								role="status"
@@ -561,25 +560,28 @@ export function VerificationScreen({
 									: "Ready to publish."}
 							</div>
 						)}
-						{groups.map(([actor, issues]) => (
-							<article
+						{groups.map(([actor, issues]) => {
+                            const edit = review?.attribution?.groups.find(g => `edit:${g.operation_id}` === actor);
+                            return <article id={edit ? `edit-${edit.operation_id}` : undefined}
 								key={actor}
 								className={`rounded-lg border-l-4 border p-3 ${issues.some((f) => f.severity === "RED") ? "border-l-red-500" : "border-l-amber-500"}`}
 							>
-								<h3 className="font-semibold">
-									{
-										issues[0].participants.find(
-											(p) => p.participant_id === actor,
-										)?.display_name
-									}
-								</h3>
+								<h3 className="font-semibold">{edit ? "Introduced by this edit" : "Baseline / unattributed issue"}</h3>
+                                {edit ? <div className="my-2 space-y-2 text-sm">
+                                  {edit.changes.map(c => <p key={c.participant_id}>{state.items[c.participant_id].display_names[0]}: {c.before.seat_ids.join(" + ") || "Dock"} → {state.items[c.participant_id].seat_ids.join(" + ") || "Dock"}</p>)}
+                                  <p>{[...new Set(issues.map(f => f.rule_id))].join(" · ")}</p>
+                                  {restoreError?.operation === edit.operation_id && <p role="status" className="text-destructive">{restoreError.message}</p>}
+                                  <Button variant="outline" size="sm" onClick={() => focusEdit(edit)}>Locate edit</Button>{" "}
+                                  <Button variant="outline" size="sm" disabled={dirty || working || stale || leaving || !!phase} onClick={() => previewRestore(edit)}>Preview restore positions</Button>
+                                </div> : <p>{issues[0].participants.find(p => p.participant_id === actor)?.display_name}</p>}
+
 								<p className="mb-2 text-xs text-muted-foreground">
 									{issues.length} related{" "}
 									{issues.length === 1 ? "finding" : "findings"}
 								</p>
 								{(expanded[actor]
 									? issues
-									: [issues.find((f) => f.finding_id === selected) ?? issues[0]]
+									: edit ? [] : [issues.find((f) => f.finding_id === selected) ?? issues[0]]
 								).map((f) => (
 									<section
 										id={`finding-${f.finding_id}`}
@@ -608,6 +610,7 @@ export function VerificationScreen({
 										))}
 										<p className="text-muted-foreground">
 											{f.resolution_hint.message}
+                                            <button className="ml-2 underline" onClick={() => { locate(f); setShowCandidates(true); }}>Inspect correction candidates</button>
 										</p>
 										<details>
 											<summary className="cursor-pointer text-xs">
@@ -660,7 +663,7 @@ export function VerificationScreen({
 										</div>
 									</section>
 								))}
-								{issues.length > 1 && (
+								{(edit || issues.length > 1) && (
 									<Button
 										size="sm"
 										variant="ghost"
@@ -673,8 +676,8 @@ export function VerificationScreen({
 											: `Show all ${issues.length} related findings`}
 									</Button>
 								)}
-							</article>
-						))}
+							</article>;
+                        })}
 						{!groups.length && review && (
 							<p className="text-sm text-muted-foreground">
 								No open issues in this filter.
@@ -720,7 +723,14 @@ export function VerificationScreen({
 					</Button>
 				</DialogContent>
 			</Dialog>
-			<Dialog open={confirmPublish} onOpenChange={setConfirmPublish}>
+			<Dialog open={!!restorePreview} onOpenChange={open => { if (!open) setRestorePreview(null); }}>
+                <DialogContent><DialogHeader><DialogTitle>Restore previous positions</DialogTitle><DialogDescription>Checked against every safeguard: linked findings resolve and no new violations are introduced. Names and notes stay current.</DialogDescription></DialogHeader>
+                  <p className="text-sm">This restores {restorePreview?.restoration.changes.length} registrations across {restorePreview?.restoration.operation_ids.length} connected placement edits together.</p>
+                  {restorePreview?.restoration.changes.map(c => <p key={c.participant_id}>{state.items[c.participant_id].display_names[0]} → {c.before.seat_ids.join(" + ")}</p>)}
+                  <Button disabled={!restorePreview || restorePreview.source !== state || working || stale || leaving || !!phase} onClick={() => { if (restorePreview && restorePreview.source === latest.current && restorePreview.revision === saved.current.revision) { history.commit(restorePreview.state, "RESTORE_POSITIONS"); update(restorePreview.state); } }}>Apply restoration</Button>
+                </DialogContent>
+            </Dialog>
+            <Dialog open={confirmPublish} onOpenChange={setConfirmPublish}>
 				<DialogContent>
 					<DialogHeader>
 						<DialogTitle>Publish seating plan</DialogTitle>

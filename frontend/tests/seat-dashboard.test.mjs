@@ -8,8 +8,10 @@ const require = createRequire(import.meta.url);
 function compile(file, load) {
 	const source = fs.readFileSync(new URL(file, import.meta.url), "utf8");
 	const compiled = ts.transpileModule(source, {
+        fileName: file,
 		compilerOptions: {
 			module: ts.ModuleKind.CommonJS,
+            target: ts.ScriptTarget.ES2022,
 			jsx: ts.JsxEmit.ReactJSX,
 			esModuleInterop: true,
 		},
@@ -22,6 +24,7 @@ function compile(file, load) {
 	);
 	return mod.exports;
 }
+const historyFunctions = compile("../src/lib/manual-history.ts", require);
 const workspaceFunctions = compile("../src/lib/workspace.ts", require);
 // Exercise dashboard handlers and rendered props without a browser or new dependencies.
 // Child components are boundaries; state/ref slots persist across explicit rerenders.
@@ -47,11 +50,16 @@ function component(file, exportName, props) {
 		},
 		useMemo: (fn) => fn(),
 		useEffect() {},
+        useSyncExternalStore(_subscribe, get) { return get(); },
 	};
 	const Component = compile(file, (name) => {
 		if (name === "react") return hooks;
 		if (name === "react/jsx-runtime") return require(name);
 		if (name === "@/lib/workspace") return workspaceFunctions;
+        if (name === "@/lib/manual-history") return { ...historyFunctions, ManualHistory: class extends historyFunctions.ManualHistory {
+            constructor() { super(); this.ready = true; this.failed = true; this.session = { id: 'test', state: structuredClone(props.initialWorkspace.state), baseline: structuredClone(props.initialWorkspace.state), active: [], redo: [], sequence: 0, generation: 0 }; }
+            async open(workspace) { this.session.state = structuredClone(workspace.state); return workspace.state; }
+        }};
 		if (name === "./seat-theme") return { TIER_STYLES: { MERIT: {} } };
 		if (name === "sonner")
 			return {
@@ -92,6 +100,7 @@ function fixture(docked = false) {
 			plan_version_id: "old",
 			publication_status: "DRAFT",
 			assignments: [],
+            source_request: { layout: { approved_pairs: [[1,2]] } },
 			floor_plan: {
 				rows: [
 					{
@@ -412,14 +421,27 @@ test("swaps apply immediately, undo and redo both registrations, and reject bloc
     render().find("HallMap").onDrop("P1", "S2");
     assert.equal(render().find("HallMap").owners.S1, "P1");
     render().find("Button", p => p.children === "Edit plan").onClick();
+    assert.equal(render().find("Button", p => p["aria-label"] === "Undo last change").disabled, true);
     render().find("HallMap").onDrop("P1", "S2");
     assert.deepEqual(render().find("HallMap").owners, { S2: "P1", S1: "P2" });
     assert.equal(render().find("DialogTitle", p => p.children === "Confirm seat changes"), undefined);
-    render().find("Button", p => p["aria-label"] === "Undo").onClick();
+    assert.equal(render().find("Button", p => p["aria-label"] === "Undo last change").disabled, false);
+    render().find("Button", p => p["aria-label"] === "Undo last change").onClick();
     assert.deepEqual(render().find("HallMap").owners, { S1: "P1", S2: "P2" });
+    assert.equal(render().find("Button", p => p["aria-label"] === "Undo last change").disabled, true);
     render().find("Button", p => p["aria-label"] === "Redo").onClick();
     assert.deepEqual(render().find("HallMap").owners, { S2: "P1", S1: "P2" });
     render().find("HallMap").onDrop("P1", "S3");
     assert.deepEqual(render().find("HallMap").owners, { S2: "P1", S1: "P2" });
-    assert.match(render().find("div", p => p.role === "alert").children, /cannot be assigned/);
+    assert.match(render().find("div", p => p.role === "alert").children, /cannot fit/);
+});
+
+test('the selected registration border follows swap, undo, redo and docking',()=>{
+ const value=fixture();value.state.participants.push({...value.state.participants[0],participant_id:'P2',full_name:'Second'});value.state.items.P2={...value.state.items.P1,seat_ids:['S2'],display_names:['Second']};
+ const render=dashboard(value);render().find('Button',p=>p.children==='Edit plan').onClick();
+ render().find('HallMap').onSelect('S1');assert.equal(render().find('HallMap').selectedSeat,'S1');
+ render().find('HallMap').onDrop('P1','S2');assert.equal(render().find('HallMap').selected,'P1');assert.equal(render().find('HallMap').selectedSeat,'S2');
+ render().find('Button',p=>p['aria-label']==='Undo').onClick();assert.equal(render().find('HallMap').selectedSeat,'S1');
+ render().find('Button',p=>p['aria-label']==='Redo').onClick();assert.equal(render().find('HallMap').selectedSeat,'S2');
+ render().find('HallMap').onSelect('S2');render().find('Button',p=>p.children==='Send to holding dock').onClick();assert.equal(render().find('HallMap').selectedSeat,null);
 });
