@@ -212,7 +212,6 @@ export function AssignmentsTable({
                     <td className="py-1.5 pr-2 text-right tabular-nums">
                       {isDraft ? "Draft" : assignment.penalty.weighted.total}
                     </td>
-
                   </tr>
                 );
               })}

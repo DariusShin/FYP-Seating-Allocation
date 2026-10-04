@@ -66,12 +66,22 @@ export function ParticipantDialog({
               <Badge variant="outline">
                 {CATEGORY_LABELS[assignment.participant_category]}
               </Badge>
-              {assignment.is_monk && <Badge variant="outline">☸ Monastic</Badge>}
+              {assignment.is_monk && (
+                <Badge variant="outline">☸ Monastic</Badge>
+              )}
               {assignment.is_elderly && (
-                <Badge variant="outline" className="gap-1"><Star aria-hidden="true" className="size-3.5" /> Elderly</Badge>
+                <Badge variant="outline" className="gap-1">
+                  <Star aria-hidden="true" className="size-3.5" /> Elderly
+                </Badge>
               )}
               {assignment.requires_accessible_seat && (
-                <Badge variant="outline" className="gap-1 border-sky-700/40 text-sky-900 dark:text-sky-200"><Accessibility aria-hidden="true" className="size-4" /> Accessible seating required</Badge>
+                <Badge
+                  variant="outline"
+                  className="gap-1 border-sky-700/40 text-sky-900 dark:text-sky-200"
+                >
+                  <Accessibility aria-hidden="true" className="size-4" />{" "}
+                  Accessible seating required
+                </Badge>
               )}
             </div>
 
@@ -81,9 +91,7 @@ export function ParticipantDialog({
                 label="Events (last 2 yrs)"
                 value={String(assignment.events_joined_last_2_years)}
               />
-
             </div>
-
           </div>
         )}
       </DialogContent>

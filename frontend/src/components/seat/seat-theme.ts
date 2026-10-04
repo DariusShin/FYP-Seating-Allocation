@@ -37,7 +37,10 @@ export const TIER_STYLES: Record<TierName, TierStyle> = {
   },
 };
 
-export const CATEGORY_LABELS: Record<Assignment["participant_category"], string> = {
+export const CATEGORY_LABELS: Record<
+  Assignment["participant_category"],
+  string
+> = {
   MONASTIC: "Monastic",
   COMMITTEE: "Committee",
   VOLUNTEER: "Volunteer",
@@ -65,11 +68,7 @@ export function seatNumber(
   return (rowNumber - 1) * seatsPerRow + priorityRank;
 }
 
-export type HighlightMode =
-  | "none"
-  | "elderly"
-  | "monk"
-  | "accessible";
+export type HighlightMode = "none" | "elderly" | "monk" | "accessible";
 
 export const HIGHLIGHT_OPTIONS: { value: HighlightMode; label: string }[] = [
   { value: "none", label: "No highlight" },

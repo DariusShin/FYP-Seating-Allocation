@@ -77,28 +77,9 @@
     }
   },
   "tier_bands": {
-    "EMPEROR": [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13
-    ],
-    "BODHI": [
-      14
-    ],
-    "MERIT": [
-      15,
-      16
-    ]
+    "EMPEROR": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    "BODHI": [14],
+    "MERIT": [15, 16]
   },
   "floor_plan": {
     "row_count": 16,
@@ -3288,10 +3269,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 14,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R03-S07",
-        "R03-S08"
-      ],
+      "seat_ids": ["R03-S07", "R03-S08"],
       "seats": [
         {
           "seat_id": "R03-S07",
@@ -3347,10 +3325,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 18,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R02-S05",
-        "R02-S06"
-      ],
+      "seat_ids": ["R02-S05", "R02-S06"],
       "seats": [
         {
           "seat_id": "R02-S05",
@@ -3370,10 +3345,7 @@
         }
       ],
       "pair_priority": 4,
-      "previous_seat_ids": [
-        "R02-S07",
-        "R02-S08"
-      ],
+      "previous_seat_ids": ["R02-S07", "R02-S08"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -3409,10 +3381,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 3,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R08-S01",
-        "R08-S02"
-      ],
+      "seat_ids": ["R08-S01", "R08-S02"],
       "seats": [
         {
           "seat_id": "R08-S01",
@@ -3468,10 +3437,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 15,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R12-S03",
-        "R12-S04"
-      ],
+      "seat_ids": ["R12-S03", "R12-S04"],
       "seats": [
         {
           "seat_id": "R12-S03",
@@ -3491,10 +3457,7 @@
         }
       ],
       "pair_priority": 6,
-      "previous_seat_ids": [
-        "R11-S13",
-        "R11-S14"
-      ],
+      "previous_seat_ids": ["R11-S13", "R11-S14"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -3530,10 +3493,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 0,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R10-S03",
-        "R10-S04"
-      ],
+      "seat_ids": ["R10-S03", "R10-S04"],
       "seats": [
         {
           "seat_id": "R10-S03",
@@ -3553,10 +3513,7 @@
         }
       ],
       "pair_priority": 6,
-      "previous_seat_ids": [
-        "R10-S03",
-        "R10-S04"
-      ],
+      "previous_seat_ids": ["R10-S03", "R10-S04"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -3592,10 +3549,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 14,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R10-S11",
-        "R10-S12"
-      ],
+      "seat_ids": ["R10-S11", "R10-S12"],
       "seats": [
         {
           "seat_id": "R10-S11",
@@ -3651,10 +3605,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 10,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R12-S13",
-        "R12-S14"
-      ],
+      "seat_ids": ["R12-S13", "R12-S14"],
       "seats": [
         {
           "seat_id": "R12-S13",
@@ -3710,10 +3661,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 17,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R09-S15",
-        "R09-S16"
-      ],
+      "seat_ids": ["R09-S15", "R09-S16"],
       "seats": [
         {
           "seat_id": "R09-S15",
@@ -3733,10 +3681,7 @@
         }
       ],
       "pair_priority": 7,
-      "previous_seat_ids": [
-        "R09-S15",
-        "R09-S16"
-      ],
+      "previous_seat_ids": ["R09-S15", "R09-S16"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -3772,10 +3717,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 13,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R01-S09",
-        "R01-S10"
-      ],
+      "seat_ids": ["R01-S09", "R01-S10"],
       "seats": [
         {
           "seat_id": "R01-S09",
@@ -3795,10 +3737,7 @@
         }
       ],
       "pair_priority": 1,
-      "previous_seat_ids": [
-        "R01-S09",
-        "R01-S10"
-      ],
+      "previous_seat_ids": ["R01-S09", "R01-S10"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -3834,10 +3773,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 19,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R11-S11",
-        "R11-S12"
-      ],
+      "seat_ids": ["R11-S11", "R11-S12"],
       "seats": [
         {
           "seat_id": "R11-S11",
@@ -3857,10 +3793,7 @@
         }
       ],
       "pair_priority": 3,
-      "previous_seat_ids": [
-        "R11-S15",
-        "R11-S16"
-      ],
+      "previous_seat_ids": ["R11-S15", "R11-S16"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -3896,10 +3829,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 7,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R13-S11",
-        "R13-S12"
-      ],
+      "seat_ids": ["R13-S11", "R13-S12"],
       "seats": [
         {
           "seat_id": "R13-S11",
@@ -3955,10 +3885,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 21,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R06-S03",
-        "R06-S04"
-      ],
+      "seat_ids": ["R06-S03", "R06-S04"],
       "seats": [
         {
           "seat_id": "R06-S03",
@@ -4014,10 +3941,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 4,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R01-S07",
-        "R01-S08"
-      ],
+      "seat_ids": ["R01-S07", "R01-S08"],
       "seats": [
         {
           "seat_id": "R01-S07",
@@ -4037,10 +3961,7 @@
         }
       ],
       "pair_priority": 2,
-      "previous_seat_ids": [
-        "R01-S07",
-        "R01-S08"
-      ],
+      "previous_seat_ids": ["R01-S07", "R01-S08"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -4076,10 +3997,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 16,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R10-S13",
-        "R10-S14"
-      ],
+      "seat_ids": ["R10-S13", "R10-S14"],
       "seats": [
         {
           "seat_id": "R10-S13",
@@ -4135,10 +4053,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 0,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R05-S15",
-        "R05-S16"
-      ],
+      "seat_ids": ["R05-S15", "R05-S16"],
       "seats": [
         {
           "seat_id": "R05-S15",
@@ -4158,10 +4073,7 @@
         }
       ],
       "pair_priority": 7,
-      "previous_seat_ids": [
-        "R05-S07",
-        "R05-S08"
-      ],
+      "previous_seat_ids": ["R05-S07", "R05-S08"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -4197,10 +4109,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 12,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R02-S01",
-        "R02-S02"
-      ],
+      "seat_ids": ["R02-S01", "R02-S02"],
       "seats": [
         {
           "seat_id": "R02-S01",
@@ -4220,10 +4129,7 @@
         }
       ],
       "pair_priority": 8,
-      "previous_seat_ids": [
-        "R02-S11",
-        "R02-S12"
-      ],
+      "previous_seat_ids": ["R02-S11", "R02-S12"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -4259,10 +4165,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 7,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R12-S09",
-        "R12-S10"
-      ],
+      "seat_ids": ["R12-S09", "R12-S10"],
       "seats": [
         {
           "seat_id": "R12-S09",
@@ -4282,10 +4185,7 @@
         }
       ],
       "pair_priority": 1,
-      "previous_seat_ids": [
-        "R12-S09",
-        "R12-S10"
-      ],
+      "previous_seat_ids": ["R12-S09", "R12-S10"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -4321,10 +4221,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 17,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R02-S03",
-        "R02-S04"
-      ],
+      "seat_ids": ["R02-S03", "R02-S04"],
       "seats": [
         {
           "seat_id": "R02-S03",
@@ -4344,10 +4241,7 @@
         }
       ],
       "pair_priority": 6,
-      "previous_seat_ids": [
-        "R02-S05",
-        "R02-S06"
-      ],
+      "previous_seat_ids": ["R02-S05", "R02-S06"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -4383,10 +4277,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 11,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R10-S01",
-        "R10-S02"
-      ],
+      "seat_ids": ["R10-S01", "R10-S02"],
       "seats": [
         {
           "seat_id": "R10-S01",
@@ -4406,10 +4297,7 @@
         }
       ],
       "pair_priority": 8,
-      "previous_seat_ids": [
-        "R10-S09",
-        "R10-S10"
-      ],
+      "previous_seat_ids": ["R10-S09", "R10-S10"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -4445,10 +4333,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 5,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R02-S15",
-        "R02-S16"
-      ],
+      "seat_ids": ["R02-S15", "R02-S16"],
       "seats": [
         {
           "seat_id": "R02-S15",
@@ -4504,10 +4389,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 6,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R07-S15",
-        "R07-S16"
-      ],
+      "seat_ids": ["R07-S15", "R07-S16"],
       "seats": [
         {
           "seat_id": "R07-S15",
@@ -4527,10 +4409,7 @@
         }
       ],
       "pair_priority": 7,
-      "previous_seat_ids": [
-        "R07-S15",
-        "R07-S16"
-      ],
+      "previous_seat_ids": ["R07-S15", "R07-S16"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -4566,10 +4445,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 11,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R05-S11",
-        "R05-S12"
-      ],
+      "seat_ids": ["R05-S11", "R05-S12"],
       "seats": [
         {
           "seat_id": "R05-S11",
@@ -4589,10 +4465,7 @@
         }
       ],
       "pair_priority": 3,
-      "previous_seat_ids": [
-        "R05-S11",
-        "R05-S12"
-      ],
+      "previous_seat_ids": ["R05-S11", "R05-S12"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -4628,10 +4501,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 4,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R13-S09",
-        "R13-S10"
-      ],
+      "seat_ids": ["R13-S09", "R13-S10"],
       "seats": [
         {
           "seat_id": "R13-S09",
@@ -4651,10 +4521,7 @@
         }
       ],
       "pair_priority": 1,
-      "previous_seat_ids": [
-        "R12-S07",
-        "R12-S08"
-      ],
+      "previous_seat_ids": ["R12-S07", "R12-S08"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -4690,10 +4557,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 8,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R07-S07",
-        "R07-S08"
-      ],
+      "seat_ids": ["R07-S07", "R07-S08"],
       "seats": [
         {
           "seat_id": "R07-S07",
@@ -4713,10 +4577,7 @@
         }
       ],
       "pair_priority": 2,
-      "previous_seat_ids": [
-        "R07-S01",
-        "R07-S02"
-      ],
+      "previous_seat_ids": ["R07-S01", "R07-S02"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -4752,10 +4613,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 13,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R03-S01",
-        "R03-S02"
-      ],
+      "seat_ids": ["R03-S01", "R03-S02"],
       "seats": [
         {
           "seat_id": "R03-S01",
@@ -4811,10 +4669,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 19,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R02-S11",
-        "R02-S12"
-      ],
+      "seat_ids": ["R02-S11", "R02-S12"],
       "seats": [
         {
           "seat_id": "R02-S11",
@@ -4834,10 +4689,7 @@
         }
       ],
       "pair_priority": 3,
-      "previous_seat_ids": [
-        "R02-S15",
-        "R02-S16"
-      ],
+      "previous_seat_ids": ["R02-S15", "R02-S16"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -4873,10 +4725,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 0,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R05-S01",
-        "R05-S02"
-      ],
+      "seat_ids": ["R05-S01", "R05-S02"],
       "seats": [
         {
           "seat_id": "R05-S01",
@@ -4896,10 +4745,7 @@
         }
       ],
       "pair_priority": 8,
-      "previous_seat_ids": [
-        "R05-S05",
-        "R05-S06"
-      ],
+      "previous_seat_ids": ["R05-S05", "R05-S06"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -4935,10 +4781,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 10,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R05-S07",
-        "R05-S08"
-      ],
+      "seat_ids": ["R05-S07", "R05-S08"],
       "seats": [
         {
           "seat_id": "R05-S07",
@@ -4994,10 +4837,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 11,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R08-S03",
-        "R08-S04"
-      ],
+      "seat_ids": ["R08-S03", "R08-S04"],
       "seats": [
         {
           "seat_id": "R08-S03",
@@ -5017,10 +4857,7 @@
         }
       ],
       "pair_priority": 6,
-      "previous_seat_ids": [
-        "R08-S13",
-        "R08-S14"
-      ],
+      "previous_seat_ids": ["R08-S13", "R08-S14"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -5056,10 +4893,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 17,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R06-S13",
-        "R06-S14"
-      ],
+      "seat_ids": ["R06-S13", "R06-S14"],
       "seats": [
         {
           "seat_id": "R06-S13",
@@ -5115,10 +4949,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 13,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R02-S07",
-        "R02-S08"
-      ],
+      "seat_ids": ["R02-S07", "R02-S08"],
       "seats": [
         {
           "seat_id": "R02-S07",
@@ -5138,10 +4969,7 @@
         }
       ],
       "pair_priority": 2,
-      "previous_seat_ids": [
-        "R02-S01",
-        "R02-S02"
-      ],
+      "previous_seat_ids": ["R02-S01", "R02-S02"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -5177,10 +5005,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 0,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R03-S15",
-        "R03-S16"
-      ],
+      "seat_ids": ["R03-S15", "R03-S16"],
       "seats": [
         {
           "seat_id": "R03-S15",
@@ -5200,10 +5025,7 @@
         }
       ],
       "pair_priority": 7,
-      "previous_seat_ids": [
-        "R03-S15",
-        "R03-S16"
-      ],
+      "previous_seat_ids": ["R03-S15", "R03-S16"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -5239,10 +5061,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 11,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R03-S13",
-        "R03-S14"
-      ],
+      "seat_ids": ["R03-S13", "R03-S14"],
       "seats": [
         {
           "seat_id": "R03-S13",
@@ -5262,10 +5081,7 @@
         }
       ],
       "pair_priority": 5,
-      "previous_seat_ids": [
-        "R03-S13",
-        "R03-S14"
-      ],
+      "previous_seat_ids": ["R03-S13", "R03-S14"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -5301,10 +5117,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 0,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R10-S07",
-        "R10-S08"
-      ],
+      "seat_ids": ["R10-S07", "R10-S08"],
       "seats": [
         {
           "seat_id": "R10-S07",
@@ -5324,10 +5137,7 @@
         }
       ],
       "pair_priority": 2,
-      "previous_seat_ids": [
-        "R10-S07",
-        "R10-S08"
-      ],
+      "previous_seat_ids": ["R10-S07", "R10-S08"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -5363,10 +5173,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 11,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R01-S15",
-        "R01-S16"
-      ],
+      "seat_ids": ["R01-S15", "R01-S16"],
       "seats": [
         {
           "seat_id": "R01-S15",
@@ -5386,10 +5193,7 @@
         }
       ],
       "pair_priority": 7,
-      "previous_seat_ids": [
-        "R01-S11",
-        "R01-S12"
-      ],
+      "previous_seat_ids": ["R01-S11", "R01-S12"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -5425,10 +5229,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 20,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R05-S09",
-        "R05-S10"
-      ],
+      "seat_ids": ["R05-S09", "R05-S10"],
       "seats": [
         {
           "seat_id": "R05-S09",
@@ -5448,10 +5249,7 @@
         }
       ],
       "pair_priority": 1,
-      "previous_seat_ids": [
-        "R05-S15",
-        "R05-S16"
-      ],
+      "previous_seat_ids": ["R05-S15", "R05-S16"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -5487,10 +5285,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 12,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R07-S01",
-        "R07-S02"
-      ],
+      "seat_ids": ["R07-S01", "R07-S02"],
       "seats": [
         {
           "seat_id": "R07-S01",
@@ -5546,10 +5341,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 7,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R01-S03",
-        "R01-S04"
-      ],
+      "seat_ids": ["R01-S03", "R01-S04"],
       "seats": [
         {
           "seat_id": "R01-S03",
@@ -5605,10 +5397,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 21,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R04-S13",
-        "R04-S14"
-      ],
+      "seat_ids": ["R04-S13", "R04-S14"],
       "seats": [
         {
           "seat_id": "R04-S13",
@@ -5628,10 +5417,7 @@
         }
       ],
       "pair_priority": 5,
-      "previous_seat_ids": [
-        "R04-S09",
-        "R04-S10"
-      ],
+      "previous_seat_ids": ["R04-S09", "R04-S10"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -5667,10 +5453,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 22,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R10-S09",
-        "R10-S10"
-      ],
+      "seat_ids": ["R10-S09", "R10-S10"],
       "seats": [
         {
           "seat_id": "R10-S09",
@@ -5690,10 +5473,7 @@
         }
       ],
       "pair_priority": 1,
-      "previous_seat_ids": [
-        "R10-S01",
-        "R10-S02"
-      ],
+      "previous_seat_ids": ["R10-S01", "R10-S02"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -5729,10 +5509,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 12,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R08-S13",
-        "R08-S14"
-      ],
+      "seat_ids": ["R08-S13", "R08-S14"],
       "seats": [
         {
           "seat_id": "R08-S13",
@@ -5752,10 +5529,7 @@
         }
       ],
       "pair_priority": 5,
-      "previous_seat_ids": [
-        "R08-S15",
-        "R08-S16"
-      ],
+      "previous_seat_ids": ["R08-S15", "R08-S16"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -5791,10 +5565,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 18,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R03-S09",
-        "R03-S10"
-      ],
+      "seat_ids": ["R03-S09", "R03-S10"],
       "seats": [
         {
           "seat_id": "R03-S09",
@@ -5814,10 +5585,7 @@
         }
       ],
       "pair_priority": 1,
-      "previous_seat_ids": [
-        "R03-S09",
-        "R03-S10"
-      ],
+      "previous_seat_ids": ["R03-S09", "R03-S10"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -5853,10 +5621,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 21,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R05-S03",
-        "R05-S04"
-      ],
+      "seat_ids": ["R05-S03", "R05-S04"],
       "seats": [
         {
           "seat_id": "R05-S03",
@@ -5876,10 +5641,7 @@
         }
       ],
       "pair_priority": 6,
-      "previous_seat_ids": [
-        "R05-S01",
-        "R05-S02"
-      ],
+      "previous_seat_ids": ["R05-S01", "R05-S02"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -5915,10 +5677,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 12,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R10-S15",
-        "R10-S16"
-      ],
+      "seat_ids": ["R10-S15", "R10-S16"],
       "seats": [
         {
           "seat_id": "R10-S15",
@@ -5974,10 +5733,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 22,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R07-S09",
-        "R07-S10"
-      ],
+      "seat_ids": ["R07-S09", "R07-S10"],
       "seats": [
         {
           "seat_id": "R07-S09",
@@ -6033,10 +5789,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 21,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R09-S07",
-        "R09-S08"
-      ],
+      "seat_ids": ["R09-S07", "R09-S08"],
       "seats": [
         {
           "seat_id": "R09-S07",
@@ -6056,10 +5809,7 @@
         }
       ],
       "pair_priority": 2,
-      "previous_seat_ids": [
-        "R08-S01",
-        "R08-S02"
-      ],
+      "previous_seat_ids": ["R08-S01", "R08-S02"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -6095,10 +5845,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 6,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R12-S05",
-        "R12-S06"
-      ],
+      "seat_ids": ["R12-S05", "R12-S06"],
       "seats": [
         {
           "seat_id": "R12-S05",
@@ -6154,10 +5901,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 20,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R12-S07",
-        "R12-S08"
-      ],
+      "seat_ids": ["R12-S07", "R12-S08"],
       "seats": [
         {
           "seat_id": "R12-S07",
@@ -6177,10 +5921,7 @@
         }
       ],
       "pair_priority": 2,
-      "previous_seat_ids": [
-        "R12-S05",
-        "R12-S06"
-      ],
+      "previous_seat_ids": ["R12-S05", "R12-S06"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -6216,10 +5957,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 9,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R11-S05",
-        "R11-S06"
-      ],
+      "seat_ids": ["R11-S05", "R11-S06"],
       "seats": [
         {
           "seat_id": "R11-S05",
@@ -6275,10 +6013,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 12,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R03-S11",
-        "R03-S12"
-      ],
+      "seat_ids": ["R03-S11", "R03-S12"],
       "seats": [
         {
           "seat_id": "R03-S11",
@@ -6298,10 +6033,7 @@
         }
       ],
       "pair_priority": 3,
-      "previous_seat_ids": [
-        "R03-S07",
-        "R03-S08"
-      ],
+      "previous_seat_ids": ["R03-S07", "R03-S08"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -6337,10 +6069,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 18,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R02-S13",
-        "R02-S14"
-      ],
+      "seat_ids": ["R02-S13", "R02-S14"],
       "seats": [
         {
           "seat_id": "R02-S13",
@@ -6396,10 +6125,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 13,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R03-S05",
-        "R03-S06"
-      ],
+      "seat_ids": ["R03-S05", "R03-S06"],
       "seats": [
         {
           "seat_id": "R03-S05",
@@ -6419,10 +6145,7 @@
         }
       ],
       "pair_priority": 4,
-      "previous_seat_ids": [
-        "R03-S05",
-        "R03-S06"
-      ],
+      "previous_seat_ids": ["R03-S05", "R03-S06"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -6458,10 +6181,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 0,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R11-S15",
-        "R11-S16"
-      ],
+      "seat_ids": ["R11-S15", "R11-S16"],
       "seats": [
         {
           "seat_id": "R11-S15",
@@ -6481,10 +6201,7 @@
         }
       ],
       "pair_priority": 7,
-      "previous_seat_ids": [
-        "R11-S09",
-        "R11-S10"
-      ],
+      "previous_seat_ids": ["R11-S09", "R11-S10"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -6520,10 +6237,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 2,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R04-S15",
-        "R04-S16"
-      ],
+      "seat_ids": ["R04-S15", "R04-S16"],
       "seats": [
         {
           "seat_id": "R04-S15",
@@ -6543,10 +6257,7 @@
         }
       ],
       "pair_priority": 7,
-      "previous_seat_ids": [
-        "R04-S07",
-        "R04-S08"
-      ],
+      "previous_seat_ids": ["R04-S07", "R04-S08"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -6582,10 +6293,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 4,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R04-S11",
-        "R04-S12"
-      ],
+      "seat_ids": ["R04-S11", "R04-S12"],
       "seats": [
         {
           "seat_id": "R04-S11",
@@ -6605,10 +6313,7 @@
         }
       ],
       "pair_priority": 3,
-      "previous_seat_ids": [
-        "R04-S11",
-        "R04-S12"
-      ],
+      "previous_seat_ids": ["R04-S11", "R04-S12"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -6644,10 +6349,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 16,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R05-S13",
-        "R05-S14"
-      ],
+      "seat_ids": ["R05-S13", "R05-S14"],
       "seats": [
         {
           "seat_id": "R05-S13",
@@ -6703,10 +6405,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 3,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R04-S05",
-        "R04-S06"
-      ],
+      "seat_ids": ["R04-S05", "R04-S06"],
       "seats": [
         {
           "seat_id": "R04-S05",
@@ -6726,10 +6425,7 @@
         }
       ],
       "pair_priority": 4,
-      "previous_seat_ids": [
-        "R04-S05",
-        "R04-S06"
-      ],
+      "previous_seat_ids": ["R04-S05", "R04-S06"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -6765,10 +6461,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 18,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R10-S05",
-        "R10-S06"
-      ],
+      "seat_ids": ["R10-S05", "R10-S06"],
       "seats": [
         {
           "seat_id": "R10-S05",
@@ -6788,10 +6481,7 @@
         }
       ],
       "pair_priority": 4,
-      "previous_seat_ids": [
-        "R10-S05",
-        "R10-S06"
-      ],
+      "previous_seat_ids": ["R10-S05", "R10-S06"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -6827,10 +6517,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 8,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R09-S13",
-        "R09-S14"
-      ],
+      "seat_ids": ["R09-S13", "R09-S14"],
       "seats": [
         {
           "seat_id": "R09-S13",
@@ -6850,10 +6537,7 @@
         }
       ],
       "pair_priority": 5,
-      "previous_seat_ids": [
-        "R09-S09",
-        "R09-S10"
-      ],
+      "previous_seat_ids": ["R09-S09", "R09-S10"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -6889,10 +6573,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 16,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R04-S07",
-        "R04-S08"
-      ],
+      "seat_ids": ["R04-S07", "R04-S08"],
       "seats": [
         {
           "seat_id": "R04-S07",
@@ -6912,10 +6593,7 @@
         }
       ],
       "pair_priority": 2,
-      "previous_seat_ids": [
-        "R04-S13",
-        "R04-S14"
-      ],
+      "previous_seat_ids": ["R04-S13", "R04-S14"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -6951,10 +6629,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 1,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R09-S01",
-        "R09-S02"
-      ],
+      "seat_ids": ["R09-S01", "R09-S02"],
       "seats": [
         {
           "seat_id": "R09-S01",
@@ -6974,10 +6649,7 @@
         }
       ],
       "pair_priority": 8,
-      "previous_seat_ids": [
-        "R10-S13",
-        "R10-S14"
-      ],
+      "previous_seat_ids": ["R10-S13", "R10-S14"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -7013,10 +6685,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 11,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R08-S15",
-        "R08-S16"
-      ],
+      "seat_ids": ["R08-S15", "R08-S16"],
       "seats": [
         {
           "seat_id": "R08-S15",
@@ -7036,10 +6705,7 @@
         }
       ],
       "pair_priority": 7,
-      "previous_seat_ids": [
-        "R09-S07",
-        "R09-S08"
-      ],
+      "previous_seat_ids": ["R09-S07", "R09-S08"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -7075,10 +6741,7 @@
       "requires_accessible_seat": true,
       "events_joined_last_2_years": 12,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R02-S09",
-        "R02-S10"
-      ],
+      "seat_ids": ["R02-S09", "R02-S10"],
       "seats": [
         {
           "seat_id": "R02-S09",
@@ -7134,10 +6797,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 20,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R11-S03",
-        "R11-S04"
-      ],
+      "seat_ids": ["R11-S03", "R11-S04"],
       "seats": [
         {
           "seat_id": "R11-S03",
@@ -7157,10 +6817,7 @@
         }
       ],
       "pair_priority": 6,
-      "previous_seat_ids": [
-        "R11-S07",
-        "R11-S08"
-      ],
+      "previous_seat_ids": ["R11-S07", "R11-S08"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -7196,10 +6853,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 7,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R04-S01",
-        "R04-S02"
-      ],
+      "seat_ids": ["R04-S01", "R04-S02"],
       "seats": [
         {
           "seat_id": "R04-S01",
@@ -7219,10 +6873,7 @@
         }
       ],
       "pair_priority": 8,
-      "previous_seat_ids": [
-        "R04-S03",
-        "R04-S04"
-      ],
+      "previous_seat_ids": ["R04-S03", "R04-S04"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -7258,10 +6909,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 19,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R12-S11",
-        "R12-S12"
-      ],
+      "seat_ids": ["R12-S11", "R12-S12"],
       "seats": [
         {
           "seat_id": "R12-S11",
@@ -7281,10 +6929,7 @@
         }
       ],
       "pair_priority": 3,
-      "previous_seat_ids": [
-        "R12-S03",
-        "R12-S04"
-      ],
+      "previous_seat_ids": ["R12-S03", "R12-S04"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -7320,10 +6965,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 2,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R12-S15",
-        "R12-S16"
-      ],
+      "seat_ids": ["R12-S15", "R12-S16"],
       "seats": [
         {
           "seat_id": "R12-S15",
@@ -7379,10 +7021,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 4,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R01-S13",
-        "R01-S14"
-      ],
+      "seat_ids": ["R01-S13", "R01-S14"],
       "seats": [
         {
           "seat_id": "R01-S13",
@@ -7402,10 +7041,7 @@
         }
       ],
       "pair_priority": 5,
-      "previous_seat_ids": [
-        "R01-S13",
-        "R01-S14"
-      ],
+      "previous_seat_ids": ["R01-S13", "R01-S14"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -7441,10 +7077,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 22,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R11-S09",
-        "R11-S10"
-      ],
+      "seat_ids": ["R11-S09", "R11-S10"],
       "seats": [
         {
           "seat_id": "R11-S09",
@@ -7464,10 +7097,7 @@
         }
       ],
       "pair_priority": 1,
-      "previous_seat_ids": [
-        "R12-S01",
-        "R12-S02"
-      ],
+      "previous_seat_ids": ["R12-S01", "R12-S02"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -7503,10 +7133,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 1,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R05-S05",
-        "R05-S06"
-      ],
+      "seat_ids": ["R05-S05", "R05-S06"],
       "seats": [
         {
           "seat_id": "R05-S05",
@@ -7562,10 +7189,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 1,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R01-S11",
-        "R01-S12"
-      ],
+      "seat_ids": ["R01-S11", "R01-S12"],
       "seats": [
         {
           "seat_id": "R01-S11",
@@ -7585,10 +7209,7 @@
         }
       ],
       "pair_priority": 3,
-      "previous_seat_ids": [
-        "R01-S03",
-        "R01-S04"
-      ],
+      "previous_seat_ids": ["R01-S03", "R01-S04"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -7624,10 +7245,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 14,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R09-S09",
-        "R09-S10"
-      ],
+      "seat_ids": ["R09-S09", "R09-S10"],
       "seats": [
         {
           "seat_id": "R09-S09",
@@ -7647,10 +7265,7 @@
         }
       ],
       "pair_priority": 1,
-      "previous_seat_ids": [
-        "R09-S13",
-        "R09-S14"
-      ],
+      "previous_seat_ids": ["R09-S13", "R09-S14"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -7686,10 +7301,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 17,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R06-S01",
-        "R06-S02"
-      ],
+      "seat_ids": ["R06-S01", "R06-S02"],
       "seats": [
         {
           "seat_id": "R06-S01",
@@ -7709,10 +7321,7 @@
         }
       ],
       "pair_priority": 8,
-      "previous_seat_ids": [
-        "R06-S01",
-        "R06-S02"
-      ],
+      "previous_seat_ids": ["R06-S01", "R06-S02"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -7748,10 +7357,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 21,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R09-S03",
-        "R09-S04"
-      ],
+      "seat_ids": ["R09-S03", "R09-S04"],
       "seats": [
         {
           "seat_id": "R09-S03",
@@ -7771,10 +7377,7 @@
         }
       ],
       "pair_priority": 6,
-      "previous_seat_ids": [
-        "R09-S03",
-        "R09-S04"
-      ],
+      "previous_seat_ids": ["R09-S03", "R09-S04"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -7810,10 +7413,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 20,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R11-S13",
-        "R11-S14"
-      ],
+      "seat_ids": ["R11-S13", "R11-S14"],
       "seats": [
         {
           "seat_id": "R11-S13",
@@ -7833,10 +7433,7 @@
         }
       ],
       "pair_priority": 5,
-      "previous_seat_ids": [
-        "R11-S11",
-        "R11-S12"
-      ],
+      "previous_seat_ids": ["R11-S11", "R11-S12"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -7872,10 +7469,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 6,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R07-S13",
-        "R07-S14"
-      ],
+      "seat_ids": ["R07-S13", "R07-S14"],
       "seats": [
         {
           "seat_id": "R07-S13",
@@ -7895,10 +7489,7 @@
         }
       ],
       "pair_priority": 5,
-      "previous_seat_ids": [
-        "R07-S09",
-        "R07-S10"
-      ],
+      "previous_seat_ids": ["R07-S09", "R07-S10"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -7934,10 +7525,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 15,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R03-S03",
-        "R03-S04"
-      ],
+      "seat_ids": ["R03-S03", "R03-S04"],
       "seats": [
         {
           "seat_id": "R03-S03",
@@ -7957,10 +7545,7 @@
         }
       ],
       "pair_priority": 6,
-      "previous_seat_ids": [
-        "R03-S03",
-        "R03-S04"
-      ],
+      "previous_seat_ids": ["R03-S03", "R03-S04"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -7996,10 +7581,7 @@
       "requires_accessible_seat": true,
       "events_joined_last_2_years": 20,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R04-S09",
-        "R04-S10"
-      ],
+      "seat_ids": ["R04-S09", "R04-S10"],
       "seats": [
         {
           "seat_id": "R04-S09",
@@ -8019,10 +7601,7 @@
         }
       ],
       "pair_priority": 1,
-      "previous_seat_ids": [
-        "R04-S15",
-        "R04-S16"
-      ],
+      "previous_seat_ids": ["R04-S15", "R04-S16"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -8058,10 +7637,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 21,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R04-S03",
-        "R04-S04"
-      ],
+      "seat_ids": ["R04-S03", "R04-S04"],
       "seats": [
         {
           "seat_id": "R04-S03",
@@ -8117,10 +7693,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 15,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R07-S03",
-        "R07-S04"
-      ],
+      "seat_ids": ["R07-S03", "R07-S04"],
       "seats": [
         {
           "seat_id": "R07-S03",
@@ -8140,10 +7713,7 @@
         }
       ],
       "pair_priority": 6,
-      "previous_seat_ids": [
-        "R07-S07",
-        "R07-S08"
-      ],
+      "previous_seat_ids": ["R07-S07", "R07-S08"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -8179,10 +7749,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 0,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R06-S15",
-        "R06-S16"
-      ],
+      "seat_ids": ["R06-S15", "R06-S16"],
       "seats": [
         {
           "seat_id": "R06-S15",
@@ -8202,10 +7769,7 @@
         }
       ],
       "pair_priority": 7,
-      "previous_seat_ids": [
-        "R07-S13",
-        "R07-S14"
-      ],
+      "previous_seat_ids": ["R07-S13", "R07-S14"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -8241,10 +7805,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 7,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R11-S01",
-        "R11-S02"
-      ],
+      "seat_ids": ["R11-S01", "R11-S02"],
       "seats": [
         {
           "seat_id": "R11-S01",
@@ -8300,10 +7861,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 18,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R11-S07",
-        "R11-S08"
-      ],
+      "seat_ids": ["R11-S07", "R11-S08"],
       "seats": [
         {
           "seat_id": "R11-S07",
@@ -8359,10 +7917,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 10,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R12-S01",
-        "R12-S02"
-      ],
+      "seat_ids": ["R12-S01", "R12-S02"],
       "seats": [
         {
           "seat_id": "R12-S01",
@@ -8382,10 +7937,7 @@
         }
       ],
       "pair_priority": 8,
-      "previous_seat_ids": [
-        "R13-S07",
-        "R13-S08"
-      ],
+      "previous_seat_ids": ["R13-S07", "R13-S08"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -8421,10 +7973,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 18,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R01-S05",
-        "R01-S06"
-      ],
+      "seat_ids": ["R01-S05", "R01-S06"],
       "seats": [
         {
           "seat_id": "R01-S05",
@@ -8444,10 +7993,7 @@
         }
       ],
       "pair_priority": 4,
-      "previous_seat_ids": [
-        "R01-S15",
-        "R01-S16"
-      ],
+      "previous_seat_ids": ["R01-S15", "R01-S16"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -8483,10 +8029,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 4,
       "allocation_type": "EMPEROR_PAIR",
-      "seat_ids": [
-        "R01-S01",
-        "R01-S02"
-      ],
+      "seat_ids": ["R01-S01", "R01-S02"],
       "seats": [
         {
           "seat_id": "R01-S01",
@@ -8506,10 +8049,7 @@
         }
       ],
       "pair_priority": 8,
-      "previous_seat_ids": [
-        "R01-S01",
-        "R01-S02"
-      ],
+      "previous_seat_ids": ["R01-S01", "R01-S02"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -8545,9 +8085,7 @@
       "requires_accessible_seat": true,
       "events_joined_last_2_years": 5,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R14-S08"
-      ],
+      "seat_ids": ["R14-S08"],
       "seats": [
         {
           "seat_id": "R14-S08",
@@ -8595,9 +8133,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 13,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R14-S07"
-      ],
+      "seat_ids": ["R14-S07"],
       "seats": [
         {
           "seat_id": "R14-S07",
@@ -8645,9 +8181,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 6,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R14-S04"
-      ],
+      "seat_ids": ["R14-S04"],
       "seats": [
         {
           "seat_id": "R14-S04",
@@ -8659,9 +8193,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R14-S04"
-      ],
+      "previous_seat_ids": ["R14-S04"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -8697,9 +8229,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 1,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R14-S12"
-      ],
+      "seat_ids": ["R14-S12"],
       "seats": [
         {
           "seat_id": "R14-S12",
@@ -8747,9 +8277,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 7,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R14-S11"
-      ],
+      "seat_ids": ["R14-S11"],
       "seats": [
         {
           "seat_id": "R14-S11",
@@ -8761,9 +8289,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R14-S14"
-      ],
+      "previous_seat_ids": ["R14-S14"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -8799,9 +8325,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 19,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R14-S13"
-      ],
+      "seat_ids": ["R14-S13"],
       "seats": [
         {
           "seat_id": "R14-S13",
@@ -8849,9 +8373,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 4,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R14-S14"
-      ],
+      "seat_ids": ["R14-S14"],
       "seats": [
         {
           "seat_id": "R14-S14",
@@ -8899,9 +8421,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 10,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R14-S10"
-      ],
+      "seat_ids": ["R14-S10"],
       "seats": [
         {
           "seat_id": "R14-S10",
@@ -8913,9 +8433,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R14-S13"
-      ],
+      "previous_seat_ids": ["R14-S13"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -8951,9 +8469,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 0,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R14-S05"
-      ],
+      "seat_ids": ["R14-S05"],
       "seats": [
         {
           "seat_id": "R14-S05",
@@ -8965,9 +8481,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R14-S06"
-      ],
+      "previous_seat_ids": ["R14-S06"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -9003,9 +8517,7 @@
       "requires_accessible_seat": true,
       "events_joined_last_2_years": 11,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R14-S09"
-      ],
+      "seat_ids": ["R14-S09"],
       "seats": [
         {
           "seat_id": "R14-S09",
@@ -9053,9 +8565,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 15,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R14-S06"
-      ],
+      "seat_ids": ["R14-S06"],
       "seats": [
         {
           "seat_id": "R14-S06",
@@ -9067,9 +8577,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R14-S10"
-      ],
+      "previous_seat_ids": ["R14-S10"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -9105,9 +8613,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 1,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R14-S03"
-      ],
+      "seat_ids": ["R14-S03"],
       "seats": [
         {
           "seat_id": "R14-S03",
@@ -9119,9 +8625,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R14-S07"
-      ],
+      "previous_seat_ids": ["R14-S07"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -9157,9 +8661,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 5,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R16-S11"
-      ],
+      "seat_ids": ["R16-S11"],
       "seats": [
         {
           "seat_id": "R16-S11",
@@ -9171,9 +8673,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R16-S12"
-      ],
+      "previous_seat_ids": ["R16-S12"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -9209,9 +8709,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 12,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R15-S05"
-      ],
+      "seat_ids": ["R15-S05"],
       "seats": [
         {
           "seat_id": "R15-S05",
@@ -9223,9 +8721,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R15-S09"
-      ],
+      "previous_seat_ids": ["R15-S09"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -9261,9 +8757,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 12,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R16-S09"
-      ],
+      "seat_ids": ["R16-S09"],
       "seats": [
         {
           "seat_id": "R16-S09",
@@ -9275,9 +8769,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R16-S11"
-      ],
+      "previous_seat_ids": ["R16-S11"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -9313,9 +8805,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 2,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R15-S01"
-      ],
+      "seat_ids": ["R15-S01"],
       "seats": [
         {
           "seat_id": "R15-S01",
@@ -9327,9 +8817,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R15-S13"
-      ],
+      "previous_seat_ids": ["R15-S13"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -9365,9 +8853,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 20,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R15-S04"
-      ],
+      "seat_ids": ["R15-S04"],
       "seats": [
         {
           "seat_id": "R15-S04",
@@ -9379,9 +8865,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R15-S04"
-      ],
+      "previous_seat_ids": ["R15-S04"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -9417,9 +8901,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 14,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R15-S14"
-      ],
+      "seat_ids": ["R15-S14"],
       "seats": [
         {
           "seat_id": "R15-S14",
@@ -9431,9 +8913,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R15-S14"
-      ],
+      "previous_seat_ids": ["R15-S14"],
       "moved": false,
       "penalty": {
         "unweighted": {
@@ -9469,9 +8949,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 17,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R16-S13"
-      ],
+      "seat_ids": ["R16-S13"],
       "seats": [
         {
           "seat_id": "R16-S13",
@@ -9483,9 +8961,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R16-S10"
-      ],
+      "previous_seat_ids": ["R16-S10"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -9521,9 +8997,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 3,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R15-S10"
-      ],
+      "seat_ids": ["R15-S10"],
       "seats": [
         {
           "seat_id": "R15-S10",
@@ -9535,9 +9009,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R15-S06"
-      ],
+      "previous_seat_ids": ["R15-S06"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -9573,9 +9045,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 2,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R16-S15"
-      ],
+      "seat_ids": ["R16-S15"],
       "seats": [
         {
           "seat_id": "R16-S15",
@@ -9587,9 +9057,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R16-S09"
-      ],
+      "previous_seat_ids": ["R16-S09"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -9625,9 +9093,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 10,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R15-S13"
-      ],
+      "seat_ids": ["R15-S13"],
       "seats": [
         {
           "seat_id": "R15-S13",
@@ -9675,9 +9141,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 10,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R15-S11"
-      ],
+      "seat_ids": ["R15-S11"],
       "seats": [
         {
           "seat_id": "R15-S11",
@@ -9689,9 +9153,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R15-S12"
-      ],
+      "previous_seat_ids": ["R15-S12"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -9727,9 +9189,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 22,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R15-S06"
-      ],
+      "seat_ids": ["R15-S06"],
       "seats": [
         {
           "seat_id": "R15-S06",
@@ -9741,9 +9201,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R15-S07"
-      ],
+      "previous_seat_ids": ["R15-S07"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -9779,9 +9237,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 4,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R15-S15"
-      ],
+      "seat_ids": ["R15-S15"],
       "seats": [
         {
           "seat_id": "R15-S15",
@@ -9829,9 +9285,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 9,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R15-S07"
-      ],
+      "seat_ids": ["R15-S07"],
       "seats": [
         {
           "seat_id": "R15-S07",
@@ -9843,9 +9297,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R15-S03"
-      ],
+      "previous_seat_ids": ["R15-S03"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -9881,9 +9333,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 18,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R15-S12"
-      ],
+      "seat_ids": ["R15-S12"],
       "seats": [
         {
           "seat_id": "R15-S12",
@@ -9895,9 +9345,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R15-S15"
-      ],
+      "previous_seat_ids": ["R15-S15"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -9933,9 +9381,7 @@
       "requires_accessible_seat": true,
       "events_joined_last_2_years": 10,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R16-S08"
-      ],
+      "seat_ids": ["R16-S08"],
       "seats": [
         {
           "seat_id": "R16-S08",
@@ -9983,9 +9429,7 @@
       "requires_accessible_seat": true,
       "events_joined_last_2_years": 4,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R15-S16"
-      ],
+      "seat_ids": ["R15-S16"],
       "seats": [
         {
           "seat_id": "R15-S16",
@@ -9997,9 +9441,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R15-S08"
-      ],
+      "previous_seat_ids": ["R15-S08"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -10035,9 +9477,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 5,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R15-S02"
-      ],
+      "seat_ids": ["R15-S02"],
       "seats": [
         {
           "seat_id": "R15-S02",
@@ -10085,9 +9525,7 @@
       "requires_accessible_seat": true,
       "events_joined_last_2_years": 6,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R15-S09"
-      ],
+      "seat_ids": ["R15-S09"],
       "seats": [
         {
           "seat_id": "R15-S09",
@@ -10099,9 +9537,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R15-S01"
-      ],
+      "previous_seat_ids": ["R15-S01"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -10137,9 +9573,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 6,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R16-S14"
-      ],
+      "seat_ids": ["R16-S14"],
       "seats": [
         {
           "seat_id": "R16-S14",
@@ -10151,9 +9585,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R16-S06"
-      ],
+      "previous_seat_ids": ["R16-S06"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -10189,9 +9621,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 7,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R16-S10"
-      ],
+      "seat_ids": ["R16-S10"],
       "seats": [
         {
           "seat_id": "R16-S10",
@@ -10203,9 +9633,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R16-S07"
-      ],
+      "previous_seat_ids": ["R16-S07"],
       "moved": true,
       "penalty": {
         "unweighted": {
@@ -10241,9 +9669,7 @@
       "requires_accessible_seat": true,
       "events_joined_last_2_years": 20,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R15-S08"
-      ],
+      "seat_ids": ["R15-S08"],
       "seats": [
         {
           "seat_id": "R15-S08",
@@ -10291,9 +9717,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 7,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R15-S03"
-      ],
+      "seat_ids": ["R15-S03"],
       "seats": [
         {
           "seat_id": "R15-S03",
@@ -10341,9 +9765,7 @@
       "requires_accessible_seat": false,
       "events_joined_last_2_years": 15,
       "allocation_type": "SINGLE",
-      "seat_ids": [
-        "R16-S12"
-      ],
+      "seat_ids": ["R16-S12"],
       "seats": [
         {
           "seat_id": "R16-S12",
@@ -10355,9 +9777,7 @@
         }
       ],
       "pair_priority": null,
-      "previous_seat_ids": [
-        "R16-S05"
-      ],
+      "previous_seat_ids": ["R16-S05"],
       "moved": true,
       "penalty": {
         "unweighted": {
