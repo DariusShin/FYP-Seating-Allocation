@@ -12,6 +12,7 @@ export interface WorkingState {
 	items: Record<string, WorkingItem>;
 }
 export interface Workspace {
+	history_scope?: { actor: string; event_id: string };
 	review?: import("./verification").Review;
 	base: AllocationResult & {
 		published_at?: string;
@@ -137,6 +138,7 @@ export function reviewMove(state: WorkingState, base: AllocationResult, pid: str
   };
   const target = optionsFor(pid).find(ids => ids.includes(sid));
   if (!target) throw Error('This destination cannot fit the required seats or accessibility.');
+  if (target.length === state.items[pid].seat_ids.length && target.every(s => state.items[pid].seat_ids.includes(s))) return { state, chain: false, description: '' };
   const displaced = Object.keys(state.items).filter(id => id !== pid && state.items[id].seat_ids.some(s => target.includes(s)));
   const occupied = new Set(Object.entries(state.items).filter(([id]) => id !== pid && !displaced.includes(id)).flatMap(([, item]) => item.seat_ids));
   target.forEach(s => occupied.add(s));
