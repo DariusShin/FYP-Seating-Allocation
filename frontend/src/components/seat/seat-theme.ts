@@ -1,4 +1,4 @@
-import type { Assignment, TierName } from "@/lib/allocation-types";
+import type { TierName } from "./types";
 
 export interface TierStyle {
   label: string;
@@ -36,76 +36,3 @@ export const TIER_STYLES: Record<TierName, TierStyle> = {
     bar: "bg-orange-400 dark:bg-orange-500",
   },
 };
-
-export const CATEGORY_LABELS: Record<
-  Assignment["participant_category"],
-  string
-> = {
-  MONASTIC: "Monastic",
-  COMMITTEE: "Committee",
-  VOLUNTEER: "Volunteer",
-  GENERAL_DEVOTEE: "General devotee",
-};
-
-/** Plain-language names for current preference components and historical aliases. */
-export const COMPONENT_LABELS: Record<string, string> = {
-  priority_seat: "Contribution-to-seat matching",
-  category_zone: "Preferred areas",
-  activeness: "Participation",
-};
-
-/**
- * Unique hall-wide seat number, counted from the centre aisle outward:
- * row 1 reads 12 10 8 6 4 2 | 1 3 5 7 9 11 and row 2 continues with
- * 24 22 20 18 16 14 | 13 15 17 19 21 23. The per-row pattern is exactly the
- * seat's priority_rank, offset by the seats in earlier rows.
- */
-export function seatNumber(
-  rowNumber: number,
-  priorityRank: number,
-  seatsPerRow: number,
-): number {
-  return (rowNumber - 1) * seatsPerRow + priorityRank;
-}
-
-export type HighlightMode = "none" | "elderly" | "monk" | "accessible";
-
-export const HIGHLIGHT_OPTIONS: { value: HighlightMode; label: string }[] = [
-  { value: "none", label: "No highlight" },
-  { value: "elderly", label: "Elderly ★" },
-  { value: "monk", label: "Monastics ☸" },
-  { value: "accessible", label: "Accessible ♿" },
-];
-
-export function matchesHighlight(
-  assignment: Assignment | undefined,
-  mode: HighlightMode,
-): boolean {
-  if (mode === "none") return true;
-  if (!assignment) return false;
-  switch (mode) {
-    case "elderly":
-      return assignment.is_elderly;
-    case "monk":
-      return assignment.is_monk;
-    case "accessible":
-      return assignment.requires_accessible_seat;
-    default:
-      return true;
-  }
-}
-
-export function seatMarkers(assignment: Assignment | undefined): string[] {
-  if (!assignment) return [];
-  const markers: string[] = [];
-  if (assignment.is_monk) markers.push("☸");
-  if (assignment.is_elderly) markers.push("★");
-  if (assignment.requires_accessible_seat) markers.push("♿");
-  return markers;
-}
-
-export const formatNumber = (value: number): string =>
-  value.toLocaleString("en-MY");
-
-export const formatRM = (value: number): string =>
-  `RM${value.toLocaleString("en-MY")}`;

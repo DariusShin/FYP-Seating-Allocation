@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import type { Registration } from "@/lib/allocation-types";
-import type { WorkingItem } from "@/lib/workspace";
+import type { Registration, WorkingItem, DetailChanges } from "./types";
 
 /** Details stay local until Save succeeds; Cancel never mutates the workspace. */
 export function AllocationDetails({
@@ -19,7 +18,7 @@ export function AllocationDetails({
   location: string;
   busy: boolean;
   onSave: (
-    details: Pick<WorkingItem, "display_names" | "note">,
+    details: DetailChanges,
   ) => Promise<boolean>;
   onClose: () => void;
 }) {

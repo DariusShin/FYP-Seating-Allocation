@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { HallMap } from "./hall-map";
 import { MapLoadingOverlay } from "./map-loading-overlay";
 import { SeatDashboard } from "./seat-dashboard";
-import type { Workspace } from "@/lib/workspace";
-import type { AllocationResult } from "@/lib/allocation-types";
+import type { Workspace } from "./types";
+import type { AllocationResult } from "./types";
 
 export function GenerateDraft({
   floor,

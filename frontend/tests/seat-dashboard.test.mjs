@@ -26,11 +26,14 @@ function compile(file, load) {
 }
 const historyFunctions = compile("../src/lib/manual-history.ts", require);
 const workspaceFunctions = compile("../src/lib/workspace.ts", require);
+const verificationFunctions = compile("../src/lib/verification.ts", require);
 // Exercise dashboard handlers and rendered props without a browser or new dependencies.
-// Child components are boundaries; state/ref slots persist across explicit rerenders.
+// Pure view sections render together; stateful children remain boundaries.
+// State/ref slots persist across explicit rerenders.
 function component(file, exportName, props) {
   const slots = [];
   const notifications = [];
+  const navigations = [];
   let cursor = 0;
   const hooks = {
     useState(initial) {
@@ -54,10 +57,38 @@ function component(file, exportName, props) {
       return get();
     },
   };
-  const Component = compile(file, (name) => {
+  const extracted = new Set([
+    "workspace-header",
+    "workspace-toolbar",
+    "workspace-footer",
+    "workspace-dialogs",
+    "holding-dock",
+    "participant-checklist",
+    "map-legend",
+  ]);
+  const dependencies = new Map();
+  function load(name) {
+    if (name === "next/navigation")
+      return { useRouter: () => ({ push: (path) => navigations.push(path) }) };
+    if (
+      name === "./helpers" ||
+      name === "./history-controller" ||
+      extracted.has(name.slice(2))
+    ) {
+      if (!dependencies.has(name))
+        dependencies.set(
+          name,
+          compile(
+            `../src/components/seat/${name.slice(2)}.${extracted.has(name.slice(2)) ? "tsx" : "ts"}`,
+            load,
+          ),
+        );
+      return dependencies.get(name);
+    }
     if (name === "react") return hooks;
     if (name === "react/jsx-runtime") return require(name);
     if (name === "@/lib/workspace") return workspaceFunctions;
+    if (name === "@/lib/verification") return verificationFunctions;
     if (name === "@/lib/manual-history")
       return {
         ...historyFunctions,
@@ -96,7 +127,8 @@ function component(file, exportName, props) {
       {},
       { get: (_, key) => (key === "__esModule" ? true : String(key)) },
     );
-  })[exportName];
+  }
+  const Component = compile(file, load)[exportName];
   return () => {
     cursor = 0;
     const tree = Component(props);
@@ -105,13 +137,18 @@ function component(file, exportName, props) {
       if (Array.isArray(node)) return node.forEach(visit);
       if (!node || typeof node !== "object") return;
       nodes.push(node);
+      if (typeof node.type === "function") return visit(node.type(node.props));
       visit(node.props?.children);
     }
     visit(tree);
     return {
       notifications,
+      navigations,
       find: (type, predicate = () => true) =>
-        nodes.find((n) => n.type === type && predicate(n.props))?.props,
+        nodes.find(
+          (n) =>
+            (n.type === type || n.type?.name === type) && predicate(n.props),
+        )?.props,
     };
   };
 }
@@ -184,9 +221,9 @@ test("new draft opens its exact version and updates the map", async (t) => {
   next.base.plan_version_id = "new";
   next.state.items.P1.seat_ids = ["S2"];
   t.mock.method(globalThis, "fetch", async (url, options) => {
-    if (url === "/api/solve")
+    if (url === "/api/solve?event_id=demo")
       return response({ status: "success", plan_version_id: "new" });
-    assert.equal(url, "/api/workspace");
+    assert.equal(url, "/api/workspace?event_id=demo");
     assert.deepEqual(JSON.parse(options.body), {
       command: "workspace_open",
       plan_version_id: "new",
@@ -219,7 +256,7 @@ test("saving a draft emits the success toast", async (t) => {
   });
 });
 
-test("submit for review opens the dedicated verification screen", async () => {
+test("submit for review navigates to the event and plan verification route", async () => {
   const value = fixture();
   const render = dashboard(value);
   render()
@@ -228,7 +265,10 @@ test("submit for review opens the dedicated verification screen", async () => {
   await render()
     .find("Button", (p) => p.children === "Submit for review")
     .onClick();
-  assert.equal(render().find("VerificationScreen").initial, value);
+  await settle();
+  assert.deepEqual(render().navigations, [
+    "/events/demo/seating-plans/old/verification",
+  ]);
 });
 
 test("unseated paid registrations block review entry", () => {
@@ -306,7 +346,7 @@ test("regeneration closes settings and blocks editing until the exact draft open
   t.mock.method(globalThis, "fetch", (url, options) => {
     requests.push({ url, body: JSON.parse(options.body) });
     return new Promise((resolve) => {
-      if (url === "/api/solve") finishSolve = resolve;
+      if (url === "/api/solve?event_id=demo") finishSolve = resolve;
       else finishOpen = resolve;
     });
   });
@@ -353,7 +393,7 @@ test("failed draft opening retries from the overlay without another solve", asyn
   let solves = 0,
     opens = 0;
   t.mock.method(globalThis, "fetch", async (url) => {
-    if (url === "/api/solve") {
+    if (url === "/api/solve?event_id=demo") {
       solves++;
       return response({ status: "success", plan_version_id: "new" });
     }
@@ -376,7 +416,7 @@ test("failed generation keeps preferences for an overlay retry", async (t) => {
   const render = dashboard(fixture());
   const attempts = [];
   t.mock.method(globalThis, "fetch", async (url, options) => {
-    if (url === "/api/workspace") return response(fixture());
+    if (url === "/api/workspace?event_id=demo") return response(fixture());
     attempts.push(JSON.parse(options.body));
     return attempts.length === 1
       ? response({ error: { message: "Try again" } }, false)

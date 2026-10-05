@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   useEffect,
   useMemo,
@@ -7,20 +7,6 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
-import {
-  Armchair,
-  Search,
-  Undo2,
-  Redo2,
-  Users,
-  Settings2,
-  PanelRightClose,
-  ArrowRightLeft,
-  Accessibility,
-  MapPinned,
-  StickyNote,
-  Star,
-} from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -30,40 +16,55 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import type { AllocationResult, Preference } from "@/lib/allocation-types";
+import { equal } from "@/lib/manual-history";
+import type {
+  AllocationResult,
+  Preference,
+  Workspace,
+  WorkingState,
+  SeatMode,
+  SeatModal,
+  SeatSelection,
+  PlanVersion,
+  GenerationPhase,
+} from "./types";
+import { HallMap } from "./hall-map";
+import { MapLoadingOverlay } from "./map-loading-overlay";
+import { WorkspaceHeader } from "./workspace-header";
+import { WorkspaceToolbar } from "./workspace-toolbar";
+import { WorkspaceFooter } from "./workspace-footer";
+import { WorkspaceDialogs } from "./workspace-dialogs";
+import { HoldingDock } from "./holding-dock";
 import {
   dock,
   eligible,
   move,
   reviewMove,
-  type Workspace,
-  type WorkingState,
-} from "@/lib/workspace";
-import { HallMap, type SeatMarkers } from "./hall-map";
-import { AllocationDetails } from "./allocation-details";
-import { MapLoadingOverlay } from "./map-loading-overlay";
-import { WeightControls } from "./weight-controls";
-import { VerificationScreen } from "./verification-screen";
-import { TIER_STYLES } from "./seat-theme";
+  floorCells,
+  seatLocation,
+  workspaceMapData,
+  participantMatches,
+  verificationPath,
+  eventApi,
+} from "./helpers";
+import {
+  manualHistoryFor,
+  openManualHistory,
+  retainManualHistory,
+} from "./history-controller";
 
-import { ManualHistory, equal } from "@/lib/manual-history";
-import { LocalHistoryPanel } from "./local-history-panel";
-
-type Modal =
-  | "allocation"
-  | "checklist"
-  | "settings"
-  | "versions"
-  | "history"
-  | "legend"
-  | null;
 export function SeatDashboard({
   initialResult,
   initialWorkspace,
+  initialMode = "read",
+  initialSeat = null,
 }: {
   initialResult: AllocationResult;
   initialWorkspace?: Workspace;
+  initialMode?: SeatMode;
+  initialSeat?: string | null;
 }) {
+  const router = useRouter();
   const [workspace, setWorkspace] = useState<Workspace | null>(
     initialWorkspace ?? null,
   );
@@ -71,20 +72,21 @@ export function SeatDashboard({
     initialWorkspace?.state ?? null,
   );
   const [resume, setResume] = useState(
-    initialWorkspace?.review?.review_status === "IN_PROGRESS",
+    initialMode !== "edit" &&
+      initialWorkspace?.review?.review_status === "IN_PROGRESS",
   );
-  const [mode, setMode] = useState<"read" | "edit" | "review">("read");
-  const [selection, setSelection] = useState<{
-    participantId: string | null;
-    seatId: string | null;
-  }>({ participantId: null, seatId: null });
+  const [mode, setMode] = useState<SeatMode>(initialMode);
+  const [selection, setSelection] = useState<SeatSelection>({
+    participantId: null,
+    seatId: initialSeat,
+  });
   const [dockOpen, setDockOpen] = useState(false);
   const draggingParticipant = useRef<string | null>(null);
   const [destination, setDestination] = useState("");
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState("all");
-  const [modal, setModal] = useState<Modal>(null);
-  const [history] = useState(() => new ManualHistory());
+  const [modal, setModal] = useState<SeatModal>(null);
+  const [history] = useState(() => manualHistoryFor(initialWorkspace));
   useSyncExternalStore(
     history.subscribe,
     history.getSnapshot,
@@ -96,9 +98,8 @@ export function SeatDashboard({
   > | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [generationPhase, setGenerationPhase] = useState<
-    "generating" | "loading-workspace" | "error" | null
-  >(null);
+  const [generationPhase, setGenerationPhase] =
+    useState<GenerationPhase | null>(null);
   const [generationError, setGenerationError] = useState("");
   const generationInFlight = useRef(false);
   const generationPreferences = useRef<Preference[]>([]);
@@ -125,15 +126,18 @@ export function SeatDashboard({
     );
     try {
       if (!generatedPlanId.current) {
-        const response = await fetch("/api/solve", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            generation_mode: "REGENERATE_DRAFT",
-            preference_profile_version: "ranked-v1",
-            preferences: generationPreferences.current,
-          }),
-        });
+        const response = await fetch(
+          eventApi("/api/solve", initialResult.event_id!),
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              generation_mode: "REGENERATE_DRAFT",
+              preference_profile_version: "ranked-v1",
+              preferences: generationPreferences.current,
+            }),
+          },
+        );
         const result = await response.json();
         if (
           !response.ok ||
@@ -148,21 +152,24 @@ export function SeatDashboard({
         setDraftCreated(true);
       }
       setGenerationPhase("loading-workspace");
-      const response = await fetch("/api/workspace", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          command: "workspace_open",
-          plan_version_id: generatedPlanId.current,
-        }),
-      });
+      const response = await fetch(
+        eventApi("/api/workspace", initialResult.event_id!),
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            command: "workspace_open",
+            plan_version_id: generatedPlanId.current,
+          }),
+        },
+      );
       const value = await response.json();
       if (!response.ok || !value?.base || !value?.state)
         throw new Error(
           value?.error?.message ?? "Unable to open the new draft",
         );
       setWorkspace(value);
-      setState(await history.open(value));
+      setState(await openManualHistory(history, value));
       setSelection({ participantId: null, seatId: null });
       setMode("read");
       setGenerationPhase(null);
@@ -175,17 +182,18 @@ export function SeatDashboard({
       setBusy(false);
     }
   }
-  const [versions, setVersions] = useState<
-    { id: string; state: string; created: string }[]
-  >([]);
+  const [versions, setVersions] = useState<PlanVersion[]>([]);
   async function load() {
     setBusy(true);
     try {
-      const r = await fetch("/api/workspace", { cache: "no-store" });
+      const r = await fetch(
+        eventApi("/api/workspace", initialResult.event_id!),
+        { cache: "no-store" },
+      );
       const value = await r.json();
       if (!r.ok || !value) throw Error("Unable to load the working draft.");
       setWorkspace(value);
-      setState(await history.open(value));
+      setState(await openManualHistory(history, value));
       setResume(value.review?.review_status === "IN_PROGRESS");
 
       setError("");
@@ -200,7 +208,7 @@ export function SeatDashboard({
   }
   useEffect(() => {
     if (initialWorkspace) {
-      historyStartup.current ??= history.open(initialWorkspace);
+      historyStartup.current ??= openManualHistory(history, initialWorkspace);
       void historyStartup.current.then(setState);
       return;
     }
@@ -212,40 +220,17 @@ export function SeatDashboard({
   const dirty =
     !!workspace && JSON.stringify(state) !== JSON.stringify(workspace.state);
   const base = workspace?.base ?? initialResult;
-  const rows = base.floor_plan.rows;
-  const cells = useMemo(
-    () =>
-      rows.flatMap((r) => r.seats.map((s) => ({ ...s, row: r.row_number }))),
-    [rows],
-  );
-  const names: Record<string, string> = {};
-  const owners: Record<string, string> = {};
-  if (state)
-    for (const [pid, m] of Object.entries(state.items))
-      m.seat_ids.forEach((sid) => {
-        names[sid] = m.display_names[0];
-        owners[sid] = pid;
-      });
+  const cells = useMemo(() => floorCells(base.floor_plan), [base.floor_plan]);
+  const mapData = state
+    ? workspaceMapData(state)
+    : { names: {}, owners: {}, primaryNames: {}, tiers: {}, markers: {} };
+  const { names, owners } = mapData;
   const people = state?.participants ?? [];
   const active = people.filter(eligible);
   const docked = active.filter(
     (p) => !state?.items[p.participant_id].seat_ids.length,
   );
-  const matches = new Set(
-    people
-      .filter((p) =>
-        `${p.full_name} ${state?.items[p.participant_id].display_names.join(" ")}`
-          .toLocaleLowerCase()
-          .includes(query.trim().toLocaleLowerCase()),
-      )
-      .map((p) => p.participant_id),
-  );
-  const person = people.find(
-    (p) => p.participant_id === selection.participantId,
-  );
-  const item = selection.participantId
-    ? state?.items[selection.participantId]
-    : undefined;
+  const matches = state ? participantMatches(state, query) : new Set<string>();
   const canEdit =
     mode === "edit" && !busy && !generationBlocked && history.ready;
   const blocked = cells.filter((s) => s.is_blocked).length;
@@ -253,15 +238,16 @@ export function SeatDashboard({
     base.publication_status === "PUBLISHED" &&
     (!workspace?.saved_at || workspace.saved_at === base.published_at) &&
     !dirty;
-  function location(ids: string[]) {
-    return ids.length
-      ? ids
-          .map((id) => {
-            const s = cells.find((s) => s.seat_id === id)!;
-            return `${s.side === "LEFT" ? "西單" : "東單"} ${s.row} · ${s.physical_position <= 8 ? s.physical_position : s.physical_position - 8}`;
-          })
-          .join(" + ")
-      : "Holding dock";
+  const location = (ids: string[]) => seatLocation(cells, ids);
+  async function loadVersions() {
+    try {
+      const response = await fetch(eventApi("/api/plans", base.event_id!));
+      if (!response.ok) throw Error("Version history unavailable");
+      setVersions((await response.json()).plans);
+      setModal("versions");
+    } catch (e) {
+      setError(String(e));
+    }
   }
   function commit(next: WorkingState) {
     if (!canEdit) return;
@@ -308,16 +294,19 @@ export function SeatDashboard({
       let value = workspace;
       if (dirty) {
         const capture = await history.prepareSave(state, workspace.revision);
-        const response = await fetch("/api/workspace", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            command: "workspace_save",
-            plan_version_id: base.plan_version_id,
-            revision: workspace.revision,
-            state,
-          }),
-        });
+        const response = await fetch(
+          eventApi("/api/workspace", initialResult.event_id!),
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              command: "workspace_save",
+              plan_version_id: base.plan_version_id,
+              revision: workspace.revision,
+              state,
+            }),
+          },
+        );
         value = await response.json();
         if (!response.ok)
           throw Error(
@@ -330,7 +319,10 @@ export function SeatDashboard({
       setState(value.state);
       setResume(false);
       setModal(null);
-      setMode("review");
+      await retainManualHistory(value, history);
+      router.push(
+        verificationPath(value.base.event_id!, value.base.plan_version_id!),
+      );
     } catch (e) {
       setError(String(e));
     } finally {
@@ -347,16 +339,19 @@ export function SeatDashboard({
         setState(nextState);
       }
       const capture = await history.prepareSave(nextState, workspace.revision);
-      const response = await fetch("/api/workspace", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          command,
-          plan_version_id: base.plan_version_id,
-          revision: workspace.revision,
-          state: nextState,
-        }),
-      });
+      const response = await fetch(
+        eventApi("/api/workspace", initialResult.event_id!),
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            command,
+            plan_version_id: base.plan_version_id,
+            revision: workspace.revision,
+            state: nextState,
+          }),
+        },
+      );
       const value = await response.json();
       if (!response.ok)
         throw Error(value.error?.message ?? "Unable to save draft");
@@ -406,27 +401,6 @@ export function SeatDashboard({
         return true;
     }
   });
-  if (mode === "review" && workspace)
-    return (
-      <VerificationScreen
-        initial={workspace}
-        history={history}
-        onExit={(value, seat) => {
-          setWorkspace(value);
-          setState(value.state);
-          setMode("edit");
-          setSelection({ participantId: null, seatId: seat });
-        }}
-        onPublished={async (value) => {
-          setWorkspace(value);
-          setState(await history.open(value));
-          setMode("read");
-          toast.success(
-            "Seating plan published. Venue display now uses this version.",
-          );
-        }}
-      />
-    );
   if (!state)
     return (
       <main className="p-8">
@@ -461,173 +435,21 @@ export function SeatDashboard({
         }
       }}
     >
-      <header className="flex shrink-0 items-center gap-3 border-b px-5.5 py-2.5 max-[1100px]:px-3 max-[700px]:flex-wrap max-[700px]:gap-2 print:hidden">
-        <Link
-          href="/event"
-          className="shrink-0 text-sm text-muted-foreground hover:text-foreground"
-        >
-          ← Events
-        </Link>
-        <div className="grid size-9 place-items-center rounded-lg bg-primary text-primary-foreground">
-          <Armchair size={20} />
-        </div>
-        <div>
-          <h1 className="text-base font-semibold">
-            PJKIT{" "}
-            <span className="ml-2 text-sm font-normal text-muted-foreground max-[1100px]:hidden">
-              Seating workspace
-            </span>
-          </h1>
-          <p className="mt-0.5 text-[13px] text-muted-foreground">
-            2026 梁皇寶懺大法會 · Staff workspace
-          </p>
-        </div>
-        <div
-          inert={generationBlocked}
-          className="relative z-30 ml-auto w-[min(340px,28vw)] max-[1100px]:w-[min(280px,30vw)] max-[700px]:order-3 max-[700px]:ml-0 max-[700px]:w-full"
-        >
-          <label className="flex h-9.5 items-center gap-2 rounded-lg border border-input bg-background px-2.5 text-muted-foreground focus-within:outline-2 focus-within:outline-ring focus-within:outline-offset-2">
-            <Search aria-hidden="true" className="size-4 shrink-0" />
-            <input
-              aria-label="Search participants by name or ID"
-              placeholder="Search participants · 搜尋姓名"
-              value={query}
-              className="min-w-0 flex-1 bg-transparent text-[13px] text-foreground outline-none placeholder:text-muted-foreground"
-              onChange={(event) => setQuery(event.target.value)}
-              onKeyDown={(event) => {
-                if (event.key === "Enter") {
-                  const firstMatch = people.find((p) =>
-                    matches.has(p.participant_id),
-                  );
-                  if (firstMatch) selectParticipant(firstMatch.participant_id);
-                }
-              }}
-            />
-            {query && (
-              <button
-                type="button"
-                aria-label="Clear participant search"
-                className="grid size-6 shrink-0 place-items-center rounded text-lg hover:bg-muted"
-                onClick={() => setQuery("")}
-              >
-                ×
-              </button>
-            )}
-          </label>
-          {query.trim() && (
-            <div
-              className="absolute inset-x-0 top-[calc(100%+7px)] max-h-[min(60vh,440px)] overflow-auto rounded-lg border bg-popover p-1.5 text-popover-foreground shadow-xl"
-              role="listbox"
-              aria-label="Matching participants"
-            >
-              <p
-                className="px-2 py-1.5 text-[11px] text-muted-foreground"
-                aria-live="polite"
-              >
-                {matches.size} matches
-              </p>
-              {people
-                .filter((p) => matches.has(p.participant_id))
-                .slice(0, 8)
-                .map((p) => (
-                  <button
-                    type="button"
-                    role="option"
-                    aria-selected={selection.participantId === p.participant_id}
-                    key={p.participant_id}
-                    className="flex w-full flex-col gap-0.5 rounded-md p-2 text-left hover:bg-accent hover:text-accent-foreground aria-selected:bg-accent"
-                    onClick={() => selectParticipant(p.participant_id)}
-                  >
-                    <span className="text-[13px] font-medium">
-                      {state.items[p.participant_id].display_names[0]}
-                    </span>
-                    <small className="text-[11px] text-muted-foreground">
-                      {p.participant_id} ·{" "}
-                      {location(state.items[p.participant_id].seat_ids)}
-                    </small>
-                  </button>
-                ))}
-              {matches.size === 0 && (
-                <span className="block p-2 text-[11px] text-muted-foreground">
-                  No matching participants
-                </span>
-              )}
-              {matches.size > 8 && (
-                <span className="block p-2 text-[11px] text-muted-foreground">
-                  Type more to narrow results
-                </span>
-              )}
-            </div>
-          )}
-        </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          disabled={!history.ready || generationBlocked}
-          onClick={() => setModal("history")}
-        >
-          Local history
-        </Button>
-        <nav
-          className="ml-auto flex items-center gap-1 max-[1100px]:ml-0 max-[1100px]:gap-0 max-[700px]:ml-auto"
-          aria-label="Workspace"
-        >
-          <Button
-            variant="ghost"
-            size="sm"
-            className="max-[700px]:px-1.75 max-[700px]:text-[11px]"
-            onClick={() => setModal("legend")}
-          >
-            <MapPinned data-icon="inline-start" /> Legend & map guide
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="max-[700px]:px-1.75 max-[700px]:text-[11px]"
-            disabled={generationBlocked}
-            onClick={() => setModal("checklist")}
-          >
-            <Users /> Participants
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="max-[700px]:px-1.75 max-[700px]:text-[11px]"
-            disabled={generationBlocked}
-            onClick={() => setModal("settings")}
-          >
-            <Settings2 /> Settings
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="max-[700px]:px-1.75 max-[700px]:text-[11px]"
-            disabled={generationBlocked}
-            onClick={async () => {
-              try {
-                const r = await fetch("/api/plans");
-                if (!r.ok) throw Error("Version history unavailable");
-                setVersions((await r.json()).plans);
-                setModal("versions");
-              } catch (e) {
-                setError(String(e));
-              }
-            }}
-          >
-            Versions
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className="max-[700px]:px-1.75 max-[700px]:text-[11px]"
-            asChild
-          >
-            <Link href="/venue" target="_blank">
-              Venue display ↗
-            </Link>
-          </Button>
-        </nav>
-      </header>
+      <WorkspaceHeader
+        state={state}
+        selection={selection}
+        query={query}
+        setQuery={setQuery}
+        matches={matches}
+        people={people}
+        location={location}
+        selectParticipant={selectParticipant}
+        generationBlocked={generationBlocked}
+        historyReady={history.ready}
+        setModal={setModal}
+        loadVersions={loadVersions}
+        eventId={base.event_id!}
+      />
       {history.warning && (
         <p
           role="status"
@@ -636,72 +458,23 @@ export function SeatDashboard({
           {history.warning}
         </p>
       )}
-      <section
-        inert={generationBlocked}
-        className="flex min-h-13.5 shrink-0 items-center gap-4 border-b px-5.5 py-2 text-sm text-muted-foreground max-[1100px]:gap-2 max-[1100px]:px-3 print:hidden"
-      >
-        <span
-          className={`whitespace-nowrap rounded-md border bg-background px-2.5 py-1.25 font-medium text-foreground ${mode === "edit" ? "bg-secondary" : ""} ${mode === "review" ? "border-primary" : ""}`}
-        >
-          {published ? "Published" : "Draft"} ·{" "}
-          {mode === "read" ? "Read mode" : "Edit mode"}
-        </span>
-        <span role="status">
-          {busy
-            ? "Working…"
-            : dirty
-              ? "Unsaved changes"
-              : workspace?.saved_at
-                ? `Saved ${new Date(workspace.saved_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
-                : "Generated draft"}
-        </span>
-        <span className="text-muted-foreground max-[1100px]:hidden">
-          {active.length} paid registrations · {docked.length} in dock
-        </span>
-        <div className="ml-auto flex gap-2">
-          {mode !== "edit" ? (
-            <Button
-              size="sm"
-              disabled={busy}
-              onClick={() => {
-                setMode("edit");
-              }}
-            >
-              {published ? "Start revision" : "Edit plan"}
-            </Button>
-          ) : (
-            <>
-              <Button
-                size="sm"
-                variant="outline"
-                aria-label="Undo last change"
-                disabled={!canEdit || !history.session?.active.length}
-                onClick={() => {
-                  setState(history.undo());
-                }}
-              >
-                <Undo2 />
-                Undo last change
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                disabled={busy || !dirty}
-                onClick={() => operation("workspace_save")}
-              >
-                Save draft
-              </Button>
-              <Button
-                size="sm"
-                disabled={busy || !history.ready || docked.length > 0}
-                onClick={submitReview}
-              >
-                Submit for review
-              </Button>
-            </>
-          )}
-        </div>
-      </section>
+      <WorkspaceToolbar
+        generationBlocked={generationBlocked}
+        published={published}
+        mode={mode}
+        busy={busy}
+        dirty={dirty}
+        workspace={workspace}
+        registrationCount={active.length}
+        dockCount={docked.length}
+        canUndo={canEdit && !!history.session?.active.length}
+        historyReady={history.ready}
+        onUndo={() => setState(history.undo())}
+        onEdit={() => setMode("edit")}
+        onSave={() => operation("workspace_save")}
+        onReview={submitReview}
+        onDock={() => setDockOpen((v) => !v)}
+      />
       {mode === "edit" && docked.length > 0 && (
         <p role="status" className="border-b px-5 py-2 text-sm">
           {docked.length} participants unseated — assign every paid registration
@@ -751,30 +524,6 @@ export function SeatDashboard({
       )}
       <section className="flex min-h-0 flex-1">
         <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-          {/* <div
-						inert={generationBlocked}
-						className="flex min-h-14.25 items-center gap-2.5 border-b px-4 py-2.5 print:hidden"
-					>
-						<div className="ml-auto flex items-center gap-0.5">
-							{mode === "edit" && docked.length > 0 && (
-								<Button
-									variant="outline"
-									size="sm"
-									onClick={() => setDockOpen((v) => !v)}
-								>
-									Holding dock ({docked.length})
-								</Button>
-							)}
-
-							<Button
-								variant="outline"
-								size="sm"
-								onClick={() => setModal("legend")}
-							>
-								<MapPinned data-icon="inline-start" /> Legend & map guide
-							</Button>
-						</div>
-					</div> */}
           <div
             className="relative flex min-h-0 flex-1 flex-col overflow-hidden"
             aria-label="Seating map"
@@ -786,27 +535,7 @@ export function SeatDashboard({
             >
               <HallMap
                 floor={base.floor_plan}
-                names={names}
-                owners={owners}
-                primaryNames={Object.fromEntries(
-                  people.map((p) => [
-                    p.participant_id,
-                    state.items[p.participant_id].display_names[0],
-                  ]),
-                )}
-                tiers={Object.fromEntries(
-                  people.map((p) => [p.participant_id, p.contribution_tier]),
-                )}
-                markers={Object.fromEntries(
-                  people.map((p) => [
-                    p.participant_id,
-                    {
-                      hasNote: !!state.items[p.participant_id].note,
-                      elderly: p.age >= 60,
-                      accessible: p.requires_accessible_seat,
-                    } satisfies SeatMarkers,
-                  ]),
-                )}
+                {...mapData}
                 selected={selection.participantId}
                 selectedSeat={
                   selection.participantId
@@ -835,430 +564,88 @@ export function SeatDashboard({
               />
             )}
           </div>
-          <footer className="flex min-h-10.5 shrink-0 items-center justify-between gap-2.5 border-t px-3.75 py-2 text-xs text-muted-foreground">
-            <span>
-              {active.length} registrations ·{" "}
-              {active.reduce(
-                (n, p) => n + (p.contribution_tier === "EMPEROR" ? 2 : 1),
-                0,
-              )}{" "}
-              people
-            </span>
-            <span>
-              {Object.keys(owners).length} occupied ·{" "}
-              {cells.length - blocked - Object.keys(owners).length} empty ·{" "}
-              {blocked} blocked
-            </span>
-            {mode === "edit" && (
-              <div>
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  aria-label="Undo"
-                  disabled={!canEdit || !history.session?.active.length}
-                  onClick={() => {
-                    setState(history.undo());
-                  }}
-                >
-                  <Undo2 />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  aria-label="Redo"
-                  disabled={!canEdit || !history.session?.redo.length}
-                  onClick={() => {
-                    setState(history.redo());
-                  }}
-                >
-                  <Redo2 />
-                </Button>
-              </div>
-            )}
-          </footer>
+          <WorkspaceFooter
+            active={active}
+            occupied={Object.keys(owners).length}
+            total={cells.length}
+            blocked={blocked}
+            mode={mode}
+            canUndo={canEdit && !!history.session?.active.length}
+            canRedo={canEdit && !!history.session?.redo.length}
+            onUndo={() => setState(history.undo())}
+            onRedo={() => setState(history.redo())}
+          />
         </div>
         {mode === "edit" && dockOpen && (
-          <aside
-            className="w-80 shrink-0 overflow-auto border-l bg-background p-4 print:hidden max-[1100px]:w-70"
-            aria-label="Holding dock"
-          >
-            <div className="mb-2.5 flex items-center justify-between">
-              <h2 className="text-base font-medium">Holding dock</h2>
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                aria-label="Close holding dock"
-                onClick={() => setDockOpen(false)}
-              >
-                <PanelRightClose />
-              </Button>
-            </div>
-            <section
-              className="mt-4 border-t-0 pt-0 [&>h3]:text-[15px] [&>h3]:font-medium [&>h3>span]:ml-1.5 [&>h3>span]:rounded-sm [&>h3>span]:bg-secondary [&>h3>span]:px-1.75 [&>h3>span]:py-0.5 [&>p]:my-1.25 [&>p]:mb-2.5 [&>p]:text-xs [&>p]:text-muted-foreground"
-              onDragOver={(e) => {
-                if (canEdit) e.preventDefault();
-              }}
-              onDrop={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                sendToDock(e.dataTransfer.getData("text/plain"));
-              }}
-            >
-              <h3>
-                Holding dock <span>{docked.length}</span>
-              </h3>
-              <p>Drop allocations here while rearranging.</p>
-              {docked.length === 0 ? (
-                <div className="rounded-lg border border-dashed px-3 py-5 text-center text-[13px] leading-[1.8] text-muted-foreground">
-                  Everyone has a place.
-                  <br />
-                  The dock is ready when you need it.
-                </div>
-              ) : (
-                docked.map((p) => (
-                  <button
-                    className={`mb-2 flex w-full flex-col gap-0.75 rounded-lg border bg-secondary p-2.5 text-left ${selection.participantId === p.participant_id ? "outline-2 outline-ring" : ""} [&>strong]:text-[15px] [&>strong]:font-medium [&>span]:text-xs [&>span]:text-muted-foreground [&>small]:text-xs [&>small]:text-muted-foreground`}
-                    key={p.participant_id}
-                    draggable={canEdit}
-                    onDragStart={(e) =>
-                      e.dataTransfer.setData("text/plain", p.participant_id)
-                    }
-                    onClick={() => {
-                      setSelection({
-                        participantId: p.participant_id,
-                        seatId:
-                          state.items[p.participant_id].seat_ids[0] ?? null,
-                      });
-                      setModal("allocation");
-                    }}
-                  >
-                    <strong>
-                      {state.items[p.participant_id].display_names[0]}
-                    </strong>
-                    <span>
-                      {p.contribution_tier === "EMPEROR"
-                        ? "Pair · 2 seats"
-                        : "Individual · 1 seat"}
-                    </span>
-                    <small>
-                      {state.items[p.participant_id].dock_reason ||
-                        "Awaiting placement"}{" "}
-                      · from{" "}
-                      {location(
-                        state.items[p.participant_id].previous_seat_ids,
-                      )}
-                    </small>
-                  </button>
-                ))
-              )}
-            </section>
-          </aside>
+          <HoldingDock
+            state={state}
+            docked={docked}
+            selection={selection}
+            canEdit={canEdit}
+            location={location}
+            onClose={() => setDockOpen(false)}
+            sendToDock={sendToDock}
+            selectParticipant={selectParticipant}
+          />
         )}
       </section>
-      <Dialog
-        open={!!modal}
-        onOpenChange={(open) => {
-          if (!open) setModal(null);
+      <WorkspaceDialogs
+        modal={modal}
+        setModal={setModal}
+        state={state}
+        workspace={workspace}
+        base={base}
+        selection={selection}
+        error={error}
+        busy={busy}
+        generationBlocked={generationBlocked}
+        history={history}
+        canEdit={canEdit}
+        cells={cells}
+        names={names}
+        location={location}
+        destination={destination}
+        setDestination={setDestination}
+        applyMove={applyMove}
+        sendToDock={sendToDock}
+        onSaveDetails={(details) =>
+          operation("workspace_save", {
+            ...state,
+            items: {
+              ...state.items,
+              [selection.participantId!]: {
+                ...state.items[selection.participantId!],
+                ...details,
+                changed_at: new Date().toISOString(),
+              },
+            },
+          })
+        }
+        visible={visible}
+        filter={filter}
+        setFilter={setFilter}
+        query={query}
+        setQuery={setQuery}
+        selectParticipant={selectParticipant}
+        dirty={dirty}
+        regenerate={regenerate}
+        versions={versions}
+        onRestore={(next) => {
+          history.commit(next, "RESTORE_VERSION");
+          setState(next);
+          setMode("edit");
+          setModal(null);
         }}
-      >
-        <DialogContent
-          className={
-            modal === "checklist"
-              ? "sm:max-w-3xl max-h-[85vh] overflow-auto"
-              : "max-h-[85vh] overflow-auto"
+        onDelete={async () => {
+          if (!workspace) return;
+          setBusy(true);
+          try {
+            setState(await history.deleteHistory(workspace));
+          } finally {
+            setBusy(false);
           }
-        >
-          <DialogHeader>
-            <DialogTitle>
-              {
-                {
-                  allocation: "Allocation details",
-                  checklist: "Participant checklist",
-                  settings: "Allocation preferences",
-                  versions: "Version history",
-                  history: "Local history · this browser",
-                  legend: "Map legend and help",
-                }[modal ?? "legend"]
-              }
-            </DialogTitle>
-            <DialogDescription>PJKIT staff workspace</DialogDescription>
-          </DialogHeader>
-          {modal === "allocation" && (
-            <>
-              {error && (
-                <p role="alert" className="text-destructive">
-                  {error}
-                </p>
-              )}
-              {person && item ? (
-                <>
-                  <AllocationDetails
-                    key={person.participant_id}
-                    person={person}
-                    item={item}
-                    location={location(item.seat_ids)}
-                    busy={busy || !history.ready}
-                    onClose={() => setModal(null)}
-                    onSave={(details) =>
-                      operation("workspace_save", {
-                        ...state,
-                        items: {
-                          ...state.items,
-                          [person.participant_id]: {
-                            ...item,
-                            ...details,
-                            changed_at: new Date().toISOString(),
-                          },
-                        },
-                      })
-                    }
-                  />
-                  {canEdit && eligible(person) && (
-                    <div className="mt-2.5 flex flex-col gap-1.75 [&>label]:my-2.5 [&>label]:block [&>label]:text-[13px] [&>label]:text-muted-foreground [&_select]:mt-1 [&_select]:w-full [&_select]:rounded-md [&_select]:border [&_select]:border-input [&_select]:bg-background [&_select]:px-2 [&_select]:py-1.5 [&_select]:text-[15px] [&_select]:text-foreground">
-                      <label>
-                        Move / swap destination
-                        <select
-                          aria-label="Move or swap destination"
-                          value={destination}
-                          onChange={(e) => setDestination(e.target.value)}
-                        >
-                          <option value="">Choose a seat…</option>
-                          {cells
-                            .filter((s) => !s.is_blocked)
-                            .map((s) => (
-                              <option key={s.seat_id} value={s.seat_id}>
-                                {location([s.seat_id])} ·{" "}
-                                {names[s.seat_id] || "Empty"}
-                              </option>
-                            ))}
-                        </select>
-                      </label>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        disabled={!destination}
-                        onClick={() =>
-                          applyMove(person.participant_id, destination)
-                        }
-                      >
-                        <ArrowRightLeft /> Move / swap
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        disabled={!item.seat_ids.length}
-                        onClick={() => sendToDock(person.participant_id)}
-                      >
-                        Send to holding dock
-                      </Button>
-                    </div>
-                  )}
-                </>
-              ) : (
-                <p>Select a registration to view its details.</p>
-              )}
-            </>
-          )}
-
-          {modal === "checklist" && (
-            <>
-              <label className="flex gap-2 text-sm">
-                Filter
-                <select
-                  className="border p-1"
-                  value={filter}
-                  onChange={(e) => setFilter(e.target.value)}
-                >
-                  {Object.entries({
-                    all: "All registrations",
-                    dock: "Unseated / in dock",
-                    note: "Has note",
-                    changed: "Changed today",
-                  }).map(([value, label]) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <input
-                className="border rounded p-2"
-                aria-label="Search checklist"
-                placeholder="Search registered or displayed names"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-              />
-              <div className="divide-y">
-                {visible.map((p) => {
-                  const m = state.items[p.participant_id];
-                  return (
-                    <div
-                      key={p.participant_id}
-                      className={`flex items-center gap-3 p-2 text-[13px] ${selection.participantId === p.participant_id ? "bg-accent" : ""}`}
-                    >
-                      <button
-                        className="flex-1 text-left"
-                        onClick={() => {
-                          setSelection({
-                            participantId: p.participant_id,
-                            seatId: m.seat_ids[0] ?? null,
-                          });
-                          setModal("allocation");
-                        }}
-                      >
-                        <strong className="block text-base font-medium">
-                          {m.display_names[0]}
-                        </strong>
-                        <small className="block text-muted-foreground">
-                          {p.full_name} · {location(m.seat_ids)} ·{" "}
-                          {p.registration_status}
-                        </small>
-                      </button>
-                    </div>
-                  );
-                })}
-                {!visible.length && <p>No matching participants.</p>}
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  disabled={!visible.length}
-                  onClick={() => {
-                    const index = visible.findIndex(
-                      (p) => p.participant_id === selection.participantId,
-                    );
-                    const participant =
-                      visible[(index - 1 + visible.length) % visible.length];
-                    if (participant)
-                      selectParticipant(participant.participant_id);
-                  }}
-                >
-                  Previous
-                </Button>
-                <Button
-                  variant="outline"
-                  disabled={!visible.length}
-                  onClick={() => {
-                    const index = visible.findIndex(
-                      (p) => p.participant_id === selection.participantId,
-                    );
-                    const participant = visible[(index + 1) % visible.length];
-                    if (participant)
-                      selectParticipant(participant.participant_id);
-                  }}
-                >
-                  Next
-                </Button>
-              </div>
-            </>
-          )}
-          {modal === "settings" && (
-            <>
-              <p className="text-sm">
-                Preferences affect future generation. Existing manual work is
-                kept in the saved working draft. Regeneration is secondary to
-                manual maintenance.
-              </p>
-              <WeightControls
-                result={base}
-                hasDraft={dirty || !!workspace?.saved_at}
-                onGenerate={regenerate}
-              />
-            </>
-          )}
-          {modal === "history" && workspace && (
-            <LocalHistoryPanel
-              history={history}
-              workspace={workspace}
-              current={state}
-              disabled={busy || generationBlocked}
-              onRestore={(next) => {
-                history.commit(next, "RESTORE_VERSION");
-                setState(next);
-                setMode("edit");
-                setModal(null);
-              }}
-              onDelete={async () => {
-                setBusy(true);
-                try {
-                  setState(await history.deleteHistory(workspace));
-                } finally {
-                  setBusy(false);
-                }
-              }}
-            />
-          )}
-          {modal === "versions" && (
-            <div className="space-y-2">
-              {versions.map((v) => (
-                <div className="rounded border p-3 text-sm" key={v.id}>
-                  <strong>{v.state}</strong> ·{" "}
-                  {new Date(v.created).toLocaleString()}
-                  <p className="text-xs text-muted-foreground">{v.id}</p>
-                </div>
-              ))}
-            </div>
-          )}
-          {modal === "legend" && (
-            <div className="space-y-5">
-              <div className="grid gap-3 sm:grid-cols-2">
-                {(
-                  [
-                    ["EMPEROR", "Emperor · Pair registration"],
-                    ["MERIT", "Merit · Individual registration"],
-                    ["BODHI", "Bodhi · Individual registration"],
-                  ] as const
-                ).map(([tier, label]) => (
-                  <div
-                    key={tier}
-                    className="flex min-w-0 items-center gap-2.25 text-[13px] leading-[1.4]"
-                  >
-                    <span
-                      className={`inline-flex size-5.5 shrink-0 items-center justify-center rounded-md border border-border ${TIER_STYLES[tier].cell.split(" hover:")[0]}`}
-                    />
-                    <span>{label}</span>
-                  </div>
-                ))}
-                <div className="flex min-w-0 items-center gap-2.25 text-[13px] leading-[1.4]">
-                  <span className="inline-flex size-5.5 shrink-0 items-center justify-center rounded-md border border-dashed border-border bg-background" />{" "}
-                  Empty seat · available
-                </div>
-                <div className="flex min-w-0 items-center gap-2.25 text-[13px] leading-[1.4]">
-                  <span className="inline-flex size-5.5 shrink-0 items-center justify-center rounded-md border border-[color-mix(in_oklab,var(--destructive)_35%,var(--border))] bg-[repeating-linear-gradient(135deg,transparent,transparent_4px,var(--muted)_4px,var(--muted)_6px)] text-destructive">
-                    ×
-                  </span>{" "}
-                  Building structure · unavailable
-                </div>
-              </div>
-              <section>
-                <h3 className="mb-2.25 text-[13px] font-semibold">
-                  Participant indicators
-                </h3>
-                <div className="grid gap-2 sm:grid-cols-2">
-                  <div className="flex min-w-0 items-center gap-2.25 text-[13px] leading-[1.4]">
-                    <span className="inline-flex size-6.5 shrink-0 items-center justify-center rounded-[7px] border border-border bg-muted text-foreground [&>svg]:size-3.75 [&>svg]:stroke-[2.2]">
-                      <Accessibility />
-                    </span>{" "}
-                    Accessible seating required
-                  </div>
-                  <div className="flex min-w-0 items-center gap-2.25 text-[13px] leading-[1.4]">
-                    <span className="inline-flex size-6.5 shrink-0 items-center justify-center rounded-[7px] border border-border bg-muted text-foreground [&>svg]:size-3.75 [&>svg]:stroke-[2.2]">
-                      <Star />
-                    </span>{" "}
-                    Elderly participant
-                  </div>
-                  <div className="flex min-w-0 items-center gap-2.25 text-[13px] leading-[1.4]">
-                    <span className="inline-flex size-6.5 shrink-0 items-center justify-center rounded-[7px] border border-border bg-muted text-foreground [&>svg]:size-3.75 [&>svg]:stroke-[2.2]">
-                      <StickyNote />
-                    </span>{" "}
-                    Staff note recorded
-                  </div>
-                </div>
-              </section>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
+        }}
+      />
       <Dialog
         open={!!chainPreview}
         onOpenChange={(open) => {

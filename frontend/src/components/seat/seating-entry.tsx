@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import type { AllocationResult } from "@/lib/allocation-types";
+import type { AllocationResult } from "./types";
 import { GenerateDraft } from "./generate-draft";
 
 export function SeatingEntry({

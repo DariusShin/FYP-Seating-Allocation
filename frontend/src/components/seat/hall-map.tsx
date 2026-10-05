@@ -2,16 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import { Accessibility, StickyNote, Star } from "lucide-react";
-import type { AllocationResult, TierName } from "@/lib/allocation-types";
+import type { AllocationResult, TierName, SeatMarkers } from "./types";
 import { cn } from "@/lib/utils";
 import { isAisleGap, seatGroups } from "@/lib/seat-groups";
 import { TIER_STYLES } from "./seat-theme";
-
-export interface SeatMarkers {
-  hasNote?: boolean;
-  elderly?: boolean;
-  accessible?: boolean;
-}
 
 /** Reuses main's seat-card dimensions, surfaces and tier accents. */
 export function HallMap({

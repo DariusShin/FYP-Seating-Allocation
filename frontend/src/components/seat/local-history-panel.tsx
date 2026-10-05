@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { equal, type ManualHistory } from "@/lib/manual-history";
-import type { Workspace, WorkingState } from "@/lib/workspace";
+import type { Workspace, WorkingState } from "./types";
 export function LocalHistoryPanel({
   history,
   workspace,

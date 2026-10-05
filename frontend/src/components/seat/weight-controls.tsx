@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ArrowUp, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import type { AllocationResult, Preference } from "@/lib/allocation-types";
+import type { AllocationResult, Preference } from "./types";
 const LABELS = {
   contribution_seat: "Give higher contributors more desirable seats",
   activeness: "Favour participants who attend more PJKIT events",
