@@ -4,13 +4,14 @@ import type { AllocationResult } from "@/lib/allocation-types";
 import { HallMap } from "@/components/seat/hall-map";
 import { chineseVenueName } from "@/lib/venue-names";
 import { Button } from "@/components/ui/button";
+import { eventApi } from "@/components/seat/helpers";
 type Venue = {
   status: string;
   floor_plan?: AllocationResult["floor_plan"];
   published_at?: string;
   pair_display?: Record<string, { primary_name: string }>;
 };
-export function VenueDisplay() {
+export function VenueDisplay({ eventId }: { eventId: string }) {
   const [value, setValue] = useState<Venue | null>(null);
   const [error, setError] = useState("");
   const root = useRef<HTMLDivElement>(null);
@@ -21,7 +22,7 @@ export function VenueDisplay() {
       if (pending) return;
       pending = true;
       try {
-        const r = await fetch("/api/venue", {
+        const r = await fetch(eventApi("/api/venue", eventId), {
           cache: "no-store",
           signal: AbortSignal.timeout(10000),
         });
@@ -55,7 +56,7 @@ export function VenueDisplay() {
       clearInterval(id);
       window.removeEventListener("offline", offline);
     };
-  }, []);
+  }, [eventId]);
   const names: Record<string, string> = {};
   const owners: Record<string, string> = {};
   value?.floor_plan?.rows.forEach((r) =>

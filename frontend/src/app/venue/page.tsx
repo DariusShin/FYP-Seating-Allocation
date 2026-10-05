@@ -1,5 +1,6 @@
 import { identity } from "@/lib/production-service";
-import { VenueDisplay } from "@/components/public/venue-display";
+import { redirect } from "next/navigation";
+import { venuePath } from "@/components/seat/helpers";
 export const dynamic = "force-dynamic";
 export default async function VenuePage() {
   const user = await identity();
@@ -9,5 +10,5 @@ export default async function VenuePage() {
         Sign in as venue staff to open the published display.
       </main>
     );
-  return <VenueDisplay />;
+  redirect(venuePath(user.event_id));
 }
