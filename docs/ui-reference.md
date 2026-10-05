@@ -1,73 +1,31 @@
-# Buddy UI reference and implementation
+# Staff seating UI
 
-Reference inspected: `netizen-experience/buddy-prototype`, commit
-`1fe3bbe6cc36ab079661b99bc66053d90e21cce7`, especially
-[`app/seat/seat-allocation.tsx`](https://github.com/netizen-experience/buddy-prototype/blob/1fe3bbe6cc36ab079661b99bc66053d90e21cce7/app/seat/seat-allocation.tsx).
+The current interface uses Next.js App Router, Tailwind semantic tokens, Lucide icons and Radix-based shared UI primitives. `SeatDashboard` composes workspace sections; `HallMap` is shared with verification and the staff venue display. See the [component guide](../frontend/src/components/seat/README.md) for ownership boundaries.
 
-## Claude Code guidance found
+## Generate and open a draft
 
-The reference's `CLAUDE.md` describes Next.js 16 App Router, Tailwind v4 CSS
-tokens, Lucide icons, and shadcn **Base UI** (`base-rhea`). Its two repository
-skills live under `.agents/skills/`, not `.claude/skills/`:
+`/event` opens the seating entry flow. Events without a plan show an empty hall and Generate draft. Generation invokes the local Python service and opens the exact returned `plan_version_id` as a private working draft.
 
-- `frontend-design/SKILL.md`: deliberate visual direction, restrained decoration,
-  clear product language, responsive layout, keyboard focus, reduced motion,
-  and visual review.
-- `shadcn/SKILL.md`: inspect installed components, consult component docs,
-  compose existing primitives, use semantic tokens, and respect the different
-  APIs of Base UI and Radix.
+Settings enables Generate new draft only when preference ordering or enabled flags differ from the current plan. `WeightControls` supplies preferences to `SeatDashboard`; the dashboard owns solve/open requests, loading phases and retry state. A successful solve followed by failed workspace opening retries the opening without running a second solve. Generation blocks editing until the new workspace is ready.
 
-This application's shadcn configuration is **Radix** (`radix-nova`), so the
-rebuild retains Radix and uses its `asChild` composition. It does not copy
-Base UI's incompatible `render` APIs. No global Claude skill directory was
-found under `~/.claude`; another local Buddy checkout also contains broader
-React, Next.js and web design guidance.
+`INITIAL` and `REGENERATE_DRAFT` use the complete solver model. Manual history is not replayed into a regenerated map. Regeneration never changes the published pointer. Saved-plan selection explicitly uses `workspace_open`; ordinary plan/review links only load the active workspace.
 
-## Adapted UI
+## Edit the working draft
 
-- Compact workspace header, collapsible configuration sidebar, neutral seat
-  tiles, tier dots, stage and entrance markers, and a horizontally scrollable
-  map with readable seat widths.
-- Pointer-based drag and drop (mouse and touch) moves registrations to empty seats or swaps occupied
-  registrations. Both seats of an Emperor registration move together.
-- The seat dialog offers a searchable participant dropdown, a preview, Apply,
-  Cancel, and Remove assignment / Remove pair. Escape and closing the dialog
-  discard a pending selection. Removal retains the registration for reassignment.
-- Undo keeps the last 50 draft states; Discard changes restores the published
-  plan and can itself be undone.
-- Participant listing supports name/guest/ID search, tier filters and an
-  unassigned filter. Guest lookup shares the searchable picker and provides
-  Cancel selection and participant switching.
+Edit mode supports whole-registration moves, equal-size swaps and temporary docking. Emperor allocations retain both approved adjacent seats. Blocked, overlapping, inaccessible and incomplete pair destinations are rejected. Mixed-size rearrangements use a compound preview when possible; otherwise staff can use the holding dock. Every eligible paid registration must be seated before verification.
 
-## Draft and solver boundary
+The workspace provides search by name, guest/display name or registration ID, registration filters, participant navigation, map legend, local history and generated-plan versions. Details buffer display-name and note changes until Save draft succeeds; Cancel discards those buffered changes. Authoritative registration fields and payment status are not editable.
 
-Manual placements are held in the current browser tab. They do not overwrite
-solver output, persist across reloads, or automatically change the guest view.
-The editor rejects blocked seats, broken pairs, incompatible pair/single swaps,
-and inaccessible destinations, including the returning participant in a swap.
-It does **not** claim to validate contribution order, tier bands or hall packing.
+Accepted changes enter a persistent browser-local journal. Undo/redo and saved-version restoration are recoverable after refresh when the signed actor/event/plan, server revision and input fingerprint still match. A new edit abandons the active redo path while retaining journal records. Local versions and server plan versions are separate. See [manual-edit history](manual-edit-history.md).
 
-Regeneration uses the current assigned registrations as a movement preference,
-then publishes the solver's new result through the existing endpoint. Removed
-registrations are still in the solver input and may be reassigned. When a draft
-exists, the regeneration dialog explains this before proceeding. Statistics
-remain explicitly tied to the last published solver run.
+## Review and publish
 
-## Verification
+Submit for review saves outstanding edits and navigates to `/events/[eventId]/seating-plans/[planId]/verification`. The route checks staff access, event ownership and the active plan. It returns 404 for inactive or missing plans rather than replacing the active workspace.
 
-From `frontend/`:
+Review restores matching local history and saves recovered changes before the entry check. The map and issue cards support corrections, undo/redo, finding attribution, optional restoration previews and per-finding overrides/acknowledgements. Back to editing saves corrections, retains history and returns to the plan route with the selected seat in the query string. See [verification flow](verification-flow.md) for the authoritative gates.
 
-```sh
-npm test
-npm run typecheck
-npm run lint
-npm run build
-```
+After confirmed publication, navigation opens `/events/[eventId]/venue`. `/venue` redirects to the signed session's event. Venue polling reads only that event's published snapshot and renders disabled seat controls. Draft saves and regeneration do not alter this display. `/my-seat` remains the participant-scoped published lookup.
 
-The domain tests cover movement, swaps, pair integrity, accessibility on both
-sides of a swap, blocked seats, removal/reassignment, replacement, preview
-cancellation and aisle boundaries. Browser checks covered the rendered organizer
-screen, participant-ID search, cancellation, pair removal, Undo, mouse-driven
-pair swaps, guest selection and guest seat highlighting. Production
-build passes; Next.js reports a file-tracing warning from the existing dynamic
-allocation loader.
+## Validation
+
+From `frontend/`, run `npm test`, `npm run typecheck`, `npm run lint` and `npm run build`. Tests cover editing, pairs, details, generation retries, route access, exact-plan loading, history handoff and recovered edits saved before review. Test coverage is not a claim that every touch/browser configuration has been visually verified.

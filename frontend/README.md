@@ -88,7 +88,7 @@ The default database is `output/paid-seats-v4.sqlite3`. The old `output/plans.sq
 
 Paid registrations retain their name and allocation even when contributors do not attend. Emperor always retains two seats. Absence, replacement, attendance markers, name/seat checkboxes and location locks are removed from the production UI and stored workspace state.
 
-Use **Edit plan** for manual moves/swaps and the holding dock. All paid registrations must be seated before publication. Seat details use **Edit → Save draft / Cancel** for display name and note; canceling does not change the workspace. Settings offers regeneration only after changing preference order or an enabled flag, and opens the new private draft for review. No operation selector or repair mode remains.
+Use **Edit plan** for manual moves/swaps and the holding dock. All paid registrations must be seated before publication. Seat details use **Edit → Save draft / Cancel** for display name and note; canceling does not change the workspace. Settings offers regeneration only after changing preference order or an enabled flag, and opens the new private draft for review.
 
 To reset only the v4 demo store, stop the server and solver processes first, then run from the repository root:
 
