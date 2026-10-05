@@ -11,6 +11,10 @@ from seat_solver.prototype.cost_calculator import activity_target_rank, desired_
 from seat_solver.prototype.solver import solve_seat_allocation
 
 
+# These rules belong to the retained v1 prototype, not production v4.
+pytestmark = pytest.mark.prototype
+
+
 @pytest.fixture(scope="module")
 def solve(participants, floor_plan, previous_allocation):
     def _solve(config, with_previous=True):

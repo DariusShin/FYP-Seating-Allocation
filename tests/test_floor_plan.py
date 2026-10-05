@@ -2,9 +2,15 @@
 
 from __future__ import annotations
 
+import pytest
+
 from seat_solver.prototype.floor_plan_generator import DEFAULT_BLOCKED_PATTERN
 
 EXPECTED_PRIORITY_PATTERN = [16, 14, 12, 10, 8, 6, 4, 2, 1, 3, 5, 7, 9, 11, 13, 15]
+
+
+# These rules belong to the retained v1 prototype, not production v4.
+pytestmark = pytest.mark.prototype
 
 
 def test_floor_plan_dimensions(floor_plan):

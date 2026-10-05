@@ -4,7 +4,13 @@ from __future__ import annotations
 
 from dataclasses import replace
 
+import pytest
+
 from seat_solver.prototype.solver import solve_seat_allocation
+
+
+# These rules belong to the retained v1 prototype, not production v4.
+pytestmark = pytest.mark.prototype
 
 
 def _seat_map(result):
