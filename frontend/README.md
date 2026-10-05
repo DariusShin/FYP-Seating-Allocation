@@ -43,6 +43,23 @@ previous saved workspace in `workspace_versions`, preserves edits when reopening
 a version, and advances the revision so stale browser saves are rejected.
 Published seating changes only through the existing publish action.
 
+**Submit for review** saves outstanding edits and navigates to
+`/events/[eventId]/seating-plans/[planId]/verification`. The route reads the exact
+active workspace, checks staff access and event ownership, and returns 404 for
+an inactive or missing plan instead of switching the event's workspace. Server
+revision checks continue to reject stale saves, checks and publication requests.
+**Back to editing** saves verification edits and opens
+`/events/[eventId]/seating-plans/[planId]`, preserving the selected seat and local
+history. Recovered browser edits are saved before the entry check runs; docked
+paid registrations must be assigned before entering verification.
+
+Successful publication opens `/events/[eventId]/venue`. `/venue` redirects to
+the signed session's event display. Venue polling is scoped to that event and
+shows only its published snapshot; seat controls remain disabled.
+
+The seat component boundaries and removed legacy components are documented in
+[`src/components/seat/README.md`](src/components/seat/README.md).
+
 To rehearse with an isolated database, start the development server from this
 directory with `SEAT_PLAN_DB=/tmp/seating-demo.sqlite3 npm run dev`.
 Production requires the existing administrator host session; local development
