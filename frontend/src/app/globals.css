@@ -3,6 +3,8 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
+/* Keep venue viewport sizing out of paged print layouts. */
+@custom-variant screen (@media screen);
 
 @theme inline {
   --color-background: var(--background);

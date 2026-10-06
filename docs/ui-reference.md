@@ -28,6 +28,8 @@ Review restores matching local history and saves recovered changes before the en
 
 After confirmed publication, navigation opens `/events/[eventId]/venue`. `/venue` redirects to the signed session's event. Venue polling reads only that event's published snapshot and renders disabled seat controls. Draft saves and regeneration do not alter this display. `/my-seat` remains the participant-scoped published lookup.
 
+Print / Save PDF uses A3 landscape with 10 mm page margins. Printed rows match the width of the 三寶佛 bar, with separate 20 mm side-label gutters and a 10 mm central aisle. Rows use 8 mm seat cells and 6 mm vertical gaps. Longer names shrink to fit the narrowed physical tracks. Controls, side headings and the entrance banner are hidden in print. Keep the browser's print paper size/orientation aligned with A3 landscape and disable browser headers/footers.
+
 ## Validation
 
 From `frontend/`, run `npm test`, `npm run typecheck`, `npm run lint` and `npm run build`. Tests cover editing, pairs, details, generation retries, route access, exact-plan loading, history handoff and recovered edits saved before review. Test coverage is not a claim that every touch/browser configuration has been visually verified.
