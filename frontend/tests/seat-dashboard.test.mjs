@@ -149,6 +149,13 @@ function component(file, exportName, props) {
           (n) =>
             (n.type === type || n.type?.name === type) && predicate(n.props),
         )?.props,
+      findAll: (type, predicate = () => true) =>
+        nodes
+          .filter(
+            (n) =>
+              (n.type === type || n.type?.name === type) && predicate(n.props),
+          )
+          .map((n) => n.props),
     };
   };
 }
@@ -214,6 +221,128 @@ function dashboard(initialWorkspace) {
     { initialResult: initialWorkspace.base, initialWorkspace },
   );
 }
+
+function checklist() {
+  const state = fixture().state;
+  state.participants = Array.from({ length: 21 }, (_, index) => ({
+    ...state.participants[0],
+    participant_id: `P${index + 1}`,
+    full_name: `Participant ${index + 1}`,
+  }));
+  state.items = Object.fromEntries(
+    state.participants.map((person, index) => [
+      person.participant_id,
+      {
+        ...state.items.P1,
+        display_names: [person.full_name],
+        note: index % 2 ? "Staff note" : "",
+      },
+    ]),
+  );
+  const selected = [];
+  function updateVisible() {
+    props.visible = state.participants.filter(
+      (person) =>
+        person.full_name.includes(props.query) &&
+        (props.filter !== "note" || state.items[person.participant_id].note),
+    );
+  }
+  const props = {
+    state,
+    visible: state.participants,
+    selection: { participantId: null, seatId: null },
+    filter: "all",
+    query: "",
+    setFilter(value) {
+      props.filter = value;
+      updateVisible();
+    },
+    setQuery(value) {
+      props.query = value;
+      updateVisible();
+    },
+    location: (ids) => ids.join(", "),
+    selectParticipant: (id) => selected.push(id),
+  };
+  const render = component(
+    "../src/components/seat/participant-checklist.tsx",
+    "ParticipantChecklist",
+    props,
+  );
+  return { render, props, selected };
+}
+
+const participantRows = (view) =>
+  view.findAll("button", (p) => p["aria-label"]?.startsWith("Highlight seats"));
+const nextParticipantPage = (view) =>
+  view.find("Button", (p) => p["aria-label"] === "Next participant page");
+const previousParticipantPage = (view) =>
+  view.find("Button", (p) => p["aria-label"] === "Previous participant page");
+
+test("participant dialog pages contain ten registrations and navigation never selects a participant", () => {
+  const { render, selected } = checklist();
+  assert.equal(participantRows(render()).length, 10);
+  assert.equal(previousParticipantPage(render()).disabled, true);
+  assert.equal(nextParticipantPage(render()).disabled, false);
+  nextParticipantPage(render()).onClick();
+  assert.equal(participantRows(render()).length, 10);
+  assert.equal(participantRows(render())[0]["aria-label"], "Highlight seats for Participant 11");
+  nextParticipantPage(render()).onClick();
+  assert.equal(participantRows(render()).length, 1);
+  assert.equal(nextParticipantPage(render()).disabled, true);
+  previousParticipantPage(render()).onClick();
+  assert.equal(participantRows(render()).length, 10);
+  assert.deepEqual(selected, []);
+});
+
+test("participant search and filters reset pagination and empty or shrinking results stay in range", () => {
+  const { render, props } = checklist();
+  nextParticipantPage(render()).onClick();
+  nextParticipantPage(render()).onClick();
+  render().find("Input").onChange({ target: { value: "Participant 1" } });
+  assert.equal(participantRows(render()).length, 10);
+  assert.equal(previousParticipantPage(render()).disabled, true);
+  nextParticipantPage(render()).onClick();
+  assert.equal(participantRows(render()).length, 1);
+  render().find("Select").onValueChange("note");
+  assert.equal(previousParticipantPage(render()).disabled, true);
+  assert.equal(participantRows(render()).length, 5);
+  render().find("Input").onChange({ target: { value: "Missing" } });
+  assert.equal(participantRows(render()).length, 0);
+  assert.equal(previousParticipantPage(render()).disabled, true);
+  assert.equal(nextParticipantPage(render()).disabled, true);
+  assert.equal(render().find("p", (p) => p.children === "No matching participants.").children, "No matching participants.");
+  render().find("Select").onValueChange("all");
+  render().find("Input").onChange({ target: { value: "" } });
+  nextParticipantPage(render()).onClick();
+  nextParticipantPage(render()).onClick();
+  props.visible = props.visible.slice(0, 2);
+  assert.equal(participantRows(render()).length, 2);
+  assert.equal(previousParticipantPage(render()).disabled, true);
+  assert.equal(nextParticipantPage(render()).disabled, true);
+});
+
+test("participant dialog selection highlights singles and pairs without opening details; map clicks still open details", () => {
+  for (const pair of [false, true]) {
+    const value = fixture();
+    if (pair) {
+      value.state.participants[0].contribution_tier = "EMPEROR";
+      value.state.items.P1.seat_ids = ["S1", "S2"];
+      value.state.items.P1.display_names = ["Participant", "Participant"];
+    }
+    const render = dashboard(value);
+    render().find("Button", (p) => p.children?.some?.((c) => c?.type === "Users")).onClick();
+    assert.ok(render().find("ParticipantChecklist"));
+    participantRows(render())[0].onClick();
+    assert.equal(render().find("HallMap").selected, "P1");
+    assert.equal(render().find("HallMap").selectedSeat, "S1");
+    assert.equal(render().find("WorkspaceDialogs").modal, null);
+    assert.equal(render().find("AllocationDetails"), undefined);
+    render().find("HallMap").onSelect(pair ? "S2" : "S1");
+    assert.equal(render().find("WorkspaceDialogs").modal, "allocation");
+    assert.ok(render().find("AllocationDetails"));
+  }
+});
 
 test("new draft opens its exact version and updates the map", async (t) => {
   const render = dashboard(fixture());

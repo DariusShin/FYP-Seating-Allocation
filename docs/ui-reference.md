@@ -16,6 +16,8 @@ Edit mode supports whole-registration moves, equal-size swaps and temporary dock
 
 The workspace provides search by name, guest/display name or registration ID, registration filters, participant navigation, map legend, local history and generated-plan versions. Details buffer display-name and note changes until Save draft succeeds; Cancel discards those buffered changes. Authoritative registration fields and payment status are not editable.
 
+The header's Participants button opens a searchable, filtered dialog with 10 registrations per page. Changing the search or filter returns to the first page. Selecting a participant closes the list and highlights that registration's seats on the map; clicking an occupied map seat opens allocation details.
+
 Accepted changes enter a persistent browser-local journal. Undo/redo and saved-version restoration are recoverable after refresh when the signed actor/event/plan, server revision and input fingerprint still match. A new edit abandons the active redo path while retaining journal records. Local versions and server plan versions are separate. See [manual-edit history](manual-edit-history.md).
 
 ## Review and publish

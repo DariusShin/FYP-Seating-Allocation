@@ -10,7 +10,7 @@ generation lifecycle. Its view sections are separate components:
 | `WorkspaceFooter` | Occupancy totals and undo/redo controls |
 | `HoldingDock` | Temporary unseated registrations and dock drop target |
 | `WorkspaceDialogs` | Details, settings, local/server versions and help dialogs |
-| `ParticipantChecklist` | Filtered registration navigation |
+| `ParticipantChecklist` | Searchable, filtered registration list with 10 per page and map highlighting |
 | `MapLegend` | Tier colors and participant indicators |
 | `HallMap` | Shared seating geometry for editing, verification and venue display |
 | `VerificationEntry` | Route startup, history recovery, full-seating gate and navigation |

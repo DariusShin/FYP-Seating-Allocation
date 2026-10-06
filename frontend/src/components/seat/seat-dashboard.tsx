@@ -378,12 +378,12 @@ export function SeatDashboard({
       applyMove(selection.participantId, sid);
     }
   }
-  function selectParticipant(participantId: string) {
+  function selectParticipant(participantId: string, showDetails = true) {
     setSelection({
       participantId,
       seatId: state?.items[participantId]?.seat_ids[0] ?? null,
     });
-    setModal("allocation");
+    setModal(showDetails ? "allocation" : null);
   }
   const visible = people.filter((p) => {
     const m = state?.items[p.participant_id];
@@ -626,7 +626,7 @@ export function SeatDashboard({
         setFilter={setFilter}
         query={query}
         setQuery={setQuery}
-        selectParticipant={selectParticipant}
+        selectParticipant={(id) => selectParticipant(id, false)}
         dirty={dirty}
         regenerate={regenerate}
         versions={versions}
