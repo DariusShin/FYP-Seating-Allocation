@@ -6,9 +6,9 @@ This proposal adds seating allocation to the main application's event domain. It
 
 A confirmed paid registration retains its name and full seat entitlement regardless of attendance. Emperor remains a two-seat unit. No attendance, absence, replacement-link, allocation-lock or staff-checkbox fields are stored in the current production contract. Manual moves and a temporary dock remain; publication must contain every paid registration. Preference changes may generate a new private draft, never automatically publish it.
 
-Objective 2 now proposes explainable server-side safeguard verification. A future `VERIFICATION` facet would bind findings to an immutable workspace object/hash, exact workspace revision, input revision and policy version, with `PASSED`/`FAILED`, rule IDs, affected registrations/seats, verifier version and timestamp. Publication would condition-check that exact verification reference and revision. This facet and full manual business-rule gate are **planned**, not implemented by the current local store.
+The cloud architecture proposes a separately versioned verification record. A future `VERIFICATION` facet would bind findings to an immutable workspace object/hash, exact workspace revision, input revision and policy version, with `PASSED`/`FAILED`, rule IDs, affected registrations/seats, verifier version and timestamp. Publication would condition-check that exact verification reference and revision. This cloud facet is **planned**. The local SQLite application already checks C12/C13/C15/C16 and gates publication under the override/advisory policy in [verification flow](../verification-flow.md); it does not implement this cloud record contract.
 
-Local development uses the fresh `output/paid-seats-v4.sqlite3`; the previous database is preserved. Production policy is `pjkit-v4`. Existing archived records must not be silently imported into this contract. The local implementation has no DynamoDB table, event registration import, stream-triggered job, or full manual-plan safeguard verification yet.
+Local development uses the fresh `output/paid-seats-v4.sqlite3`; the previous database is preserved. Production policy is `pjkit-v4`. Existing archived records must not be silently imported into this contract. The local implementation has no DynamoDB table, event registration import or stream-triggered job. Local safeguard review is implemented; the independently versioned cloud verification facet remains proposed.
 
 ## 1. Use cases
 
@@ -497,7 +497,7 @@ Workspace objects hold the exact `WorkspaceStore` state. The configuration row h
 | Audit | revision | N, optional | — | Relevant workspace/input revision | `5` |
 | Audit | changes | M, optional | — | Bounded summary only | `{"publishedPlanVersionId":{"from":null,"to":"01JNEWPLAN"}}` |
 
-Workspace metadata contains only seat_ids, display_names, note, dock_reason, previous_seat_ids and changed_at. Server checks preserve the full paid allocation, valid pairs, accessibility, immutable registration records and unique valid seats. Docked registrations prevent publication. A complete manual contribution-order/packing safeguard gate remains planned under revised Objective 2.
+Workspace metadata contains only seat_ids, display_names, note, dock_reason, previous_seat_ids and changed_at. Server checks preserve the full paid allocation, valid pairs, accessibility, immutable registration records and unique valid seats. Docked registrations prevent publication. The local application implements contribution-order/packing findings and review-gated publication with recorded overrides; see [verification flow](../verification-flow.md). The cloud verification facet below remains proposed.
 
 ### 4.9 Planned verification facet — Objective 2
 
@@ -909,7 +909,7 @@ The repository retains older `submit/approve/publish` PlanStore commands, but th
 | 9 | Verification (planned) | Audit the saved object and persist immutable findings bound to hash and revisions | Publisher accepts only PASSED for the exact current hash/revisions and compatible policy/verifier |
 | 10 | Publication + audit | Stage manual result/projection and perform a small conditional pointer-switch transaction | `publishedPlanVersionId` is the sole public pointer; old plan content remains immutable |
 
-Recommended rollout: (a) freeze the API/key contract and verify deployed host table keys; (b) provision `Seating`, configuration, policy and layout; (c) implement imports/revisioning; (d) build and stress-test canonical object serialization; (e) introduce a persistence interface while retaining the SQLite adapter; (f) implement asynchronous jobs, idempotency, leases and redrive; (g) implement workspace, assignments and explicit publication; (h) add and evaluate the planned safeguard verification; (i) pass concurrency, privacy, failure-recovery and cloud acceptance tests. DynamoDB is not a prerequisite for the present local app, so keep the SQLite flow working throughout migration.
+Recommended rollout: (a) freeze the API/key contract and verify deployed host table keys; (b) provision `Seating`, configuration, policy and layout; (c) implement imports/revisioning; (d) build and stress-test canonical object serialization; (e) introduce a persistence interface while retaining the SQLite adapter; (f) implement asynchronous jobs, idempotency, leases and redrive; (g) implement workspace, assignments and explicit publication; (h) port the local safeguards to the proposed versioned cloud verification facet and evaluate that deployment; (i) pass concurrency, privacy, failure-recovery and cloud acceptance tests. DynamoDB is not a prerequisite for the present local app, so keep the SQLite flow working throughout migration.
 
 ## 8. Implementation checklist and acceptance criteria
 
@@ -930,5 +930,5 @@ The schema is a design deliverable. It does not provision AWS resources or chang
 - [Production request JSON schema](../../schemas/production_request.schema.json), [layout schema](../../schemas/production_layout.schema.json), and [policy schema](../../schemas/production_policy.schema.json).
 - [Production solve and result construction](../../src/seat_solver/production/production.py), [domain validation](../../src/seat_solver/production/policy.py), and [deployed policy](../../config/production_policy.json).
 - [Current workspace state and publication behavior](../../src/seat_solver/production/workspace.py), [local PlanStore](../../src/seat_solver/production/plan_store.py), and [service adapter](../../src/seat_solver/production/service.py).
-- [Current README](../../README.md) and [integration notes](../archived/integration.md). Where older approval-flow prose differs from the workspace implementation, the current workspace code is the basis of this proposal.
+- [Current README](../../README.md) and [integration notes](../integration.md). The current workspace code is the basis of this proposal.
 - AWS documentation links alongside relevant design decisions were checked on 29 September 2026.

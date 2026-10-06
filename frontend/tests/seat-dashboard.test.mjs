@@ -26,11 +26,14 @@ function compile(file, load) {
 }
 const historyFunctions = compile("../src/lib/manual-history.ts", require);
 const workspaceFunctions = compile("../src/lib/workspace.ts", require);
+const verificationFunctions = compile("../src/lib/verification.ts", require);
 // Exercise dashboard handlers and rendered props without a browser or new dependencies.
-// Child components are boundaries; state/ref slots persist across explicit rerenders.
+// Pure view sections render together; stateful children remain boundaries.
+// State/ref slots persist across explicit rerenders.
 function component(file, exportName, props) {
   const slots = [];
   const notifications = [];
+  const navigations = [];
   let cursor = 0;
   const hooks = {
     useState(initial) {
@@ -54,10 +57,38 @@ function component(file, exportName, props) {
       return get();
     },
   };
-  const Component = compile(file, (name) => {
+  const extracted = new Set([
+    "workspace-header",
+    "workspace-toolbar",
+    "workspace-footer",
+    "workspace-dialogs",
+    "holding-dock",
+    "participant-checklist",
+    "map-legend",
+  ]);
+  const dependencies = new Map();
+  function load(name) {
+    if (name === "next/navigation")
+      return { useRouter: () => ({ push: (path) => navigations.push(path) }) };
+    if (
+      name === "./helpers" ||
+      name === "./history-controller" ||
+      extracted.has(name.slice(2))
+    ) {
+      if (!dependencies.has(name))
+        dependencies.set(
+          name,
+          compile(
+            `../src/components/seat/${name.slice(2)}.${extracted.has(name.slice(2)) ? "tsx" : "ts"}`,
+            load,
+          ),
+        );
+      return dependencies.get(name);
+    }
     if (name === "react") return hooks;
     if (name === "react/jsx-runtime") return require(name);
     if (name === "@/lib/workspace") return workspaceFunctions;
+    if (name === "@/lib/verification") return verificationFunctions;
     if (name === "@/lib/manual-history")
       return {
         ...historyFunctions,
@@ -96,7 +127,8 @@ function component(file, exportName, props) {
       {},
       { get: (_, key) => (key === "__esModule" ? true : String(key)) },
     );
-  })[exportName];
+  }
+  const Component = compile(file, load)[exportName];
   return () => {
     cursor = 0;
     const tree = Component(props);
@@ -105,13 +137,25 @@ function component(file, exportName, props) {
       if (Array.isArray(node)) return node.forEach(visit);
       if (!node || typeof node !== "object") return;
       nodes.push(node);
+      if (typeof node.type === "function") return visit(node.type(node.props));
       visit(node.props?.children);
     }
     visit(tree);
     return {
       notifications,
+      navigations,
       find: (type, predicate = () => true) =>
-        nodes.find((n) => n.type === type && predicate(n.props))?.props,
+        nodes.find(
+          (n) =>
+            (n.type === type || n.type?.name === type) && predicate(n.props),
+        )?.props,
+      findAll: (type, predicate = () => true) =>
+        nodes
+          .filter(
+            (n) =>
+              (n.type === type || n.type?.name === type) && predicate(n.props),
+          )
+          .map((n) => n.props),
     };
   };
 }
@@ -178,15 +222,137 @@ function dashboard(initialWorkspace) {
   );
 }
 
+function checklist() {
+  const state = fixture().state;
+  state.participants = Array.from({ length: 21 }, (_, index) => ({
+    ...state.participants[0],
+    participant_id: `P${index + 1}`,
+    full_name: `Participant ${index + 1}`,
+  }));
+  state.items = Object.fromEntries(
+    state.participants.map((person, index) => [
+      person.participant_id,
+      {
+        ...state.items.P1,
+        display_names: [person.full_name],
+        note: index % 2 ? "Staff note" : "",
+      },
+    ]),
+  );
+  const selected = [];
+  function updateVisible() {
+    props.visible = state.participants.filter(
+      (person) =>
+        person.full_name.includes(props.query) &&
+        (props.filter !== "note" || state.items[person.participant_id].note),
+    );
+  }
+  const props = {
+    state,
+    visible: state.participants,
+    selection: { participantId: null, seatId: null },
+    filter: "all",
+    query: "",
+    setFilter(value) {
+      props.filter = value;
+      updateVisible();
+    },
+    setQuery(value) {
+      props.query = value;
+      updateVisible();
+    },
+    location: (ids) => ids.join(", "),
+    selectParticipant: (id) => selected.push(id),
+  };
+  const render = component(
+    "../src/components/seat/participant-checklist.tsx",
+    "ParticipantChecklist",
+    props,
+  );
+  return { render, props, selected };
+}
+
+const participantRows = (view) =>
+  view.findAll("button", (p) => p["aria-label"]?.startsWith("Highlight seats"));
+const nextParticipantPage = (view) =>
+  view.find("Button", (p) => p["aria-label"] === "Next participant page");
+const previousParticipantPage = (view) =>
+  view.find("Button", (p) => p["aria-label"] === "Previous participant page");
+
+test("participant dialog pages contain ten registrations and navigation never selects a participant", () => {
+  const { render, selected } = checklist();
+  assert.equal(participantRows(render()).length, 10);
+  assert.equal(previousParticipantPage(render()).disabled, true);
+  assert.equal(nextParticipantPage(render()).disabled, false);
+  nextParticipantPage(render()).onClick();
+  assert.equal(participantRows(render()).length, 10);
+  assert.equal(participantRows(render())[0]["aria-label"], "Highlight seats for Participant 11");
+  nextParticipantPage(render()).onClick();
+  assert.equal(participantRows(render()).length, 1);
+  assert.equal(nextParticipantPage(render()).disabled, true);
+  previousParticipantPage(render()).onClick();
+  assert.equal(participantRows(render()).length, 10);
+  assert.deepEqual(selected, []);
+});
+
+test("participant search and filters reset pagination and empty or shrinking results stay in range", () => {
+  const { render, props } = checklist();
+  nextParticipantPage(render()).onClick();
+  nextParticipantPage(render()).onClick();
+  render().find("Input").onChange({ target: { value: "Participant 1" } });
+  assert.equal(participantRows(render()).length, 10);
+  assert.equal(previousParticipantPage(render()).disabled, true);
+  nextParticipantPage(render()).onClick();
+  assert.equal(participantRows(render()).length, 1);
+  render().find("Select").onValueChange("note");
+  assert.equal(previousParticipantPage(render()).disabled, true);
+  assert.equal(participantRows(render()).length, 5);
+  render().find("Input").onChange({ target: { value: "Missing" } });
+  assert.equal(participantRows(render()).length, 0);
+  assert.equal(previousParticipantPage(render()).disabled, true);
+  assert.equal(nextParticipantPage(render()).disabled, true);
+  assert.equal(render().find("p", (p) => p.children === "No matching participants.").children, "No matching participants.");
+  render().find("Select").onValueChange("all");
+  render().find("Input").onChange({ target: { value: "" } });
+  nextParticipantPage(render()).onClick();
+  nextParticipantPage(render()).onClick();
+  props.visible = props.visible.slice(0, 2);
+  assert.equal(participantRows(render()).length, 2);
+  assert.equal(previousParticipantPage(render()).disabled, true);
+  assert.equal(nextParticipantPage(render()).disabled, true);
+});
+
+test("participant dialog selection highlights singles and pairs without opening details; map clicks still open details", () => {
+  for (const pair of [false, true]) {
+    const value = fixture();
+    if (pair) {
+      value.state.participants[0].contribution_tier = "EMPEROR";
+      value.state.items.P1.seat_ids = ["S1", "S2"];
+      value.state.items.P1.display_names = ["Participant", "Participant"];
+    }
+    const render = dashboard(value);
+    render().find("Button", (p) => p.children?.some?.((c) => c?.type === "Users")).onClick();
+    assert.ok(render().find("ParticipantChecklist"));
+    participantRows(render())[0].onClick();
+    assert.equal(render().find("HallMap").selected, "P1");
+    assert.equal(render().find("HallMap").selectedSeat, "S1");
+    assert.equal(render().find("WorkspaceDialogs").modal, null);
+    assert.equal(render().find("AllocationDetails"), undefined);
+    render().find("HallMap").onSelect(pair ? "S2" : "S1");
+    assert.equal(render().find("WorkspaceDialogs").modal, "allocation");
+    assert.ok(render().find("AllocationDetails"));
+  }
+});
+
 test("new draft opens its exact version and updates the map", async (t) => {
   const render = dashboard(fixture());
   const next = fixture();
   next.base.plan_version_id = "new";
   next.state.items.P1.seat_ids = ["S2"];
   t.mock.method(globalThis, "fetch", async (url, options) => {
-    if (url === "/api/solve")
+    if (url === "/api/solve?event_id=demo")
       return response({ status: "success", plan_version_id: "new" });
-    assert.equal(url, "/api/workspace");
+    assert.equal(url, "/api/workspace?event_id=demo");
     assert.deepEqual(JSON.parse(options.body), {
       command: "workspace_open",
       plan_version_id: "new",
@@ -219,7 +385,7 @@ test("saving a draft emits the success toast", async (t) => {
   });
 });
 
-test("submit for review opens the dedicated verification screen", async () => {
+test("submit for review navigates to the event and plan verification route", async () => {
   const value = fixture();
   const render = dashboard(value);
   render()
@@ -228,7 +394,10 @@ test("submit for review opens the dedicated verification screen", async () => {
   await render()
     .find("Button", (p) => p.children === "Submit for review")
     .onClick();
-  assert.equal(render().find("VerificationScreen").initial, value);
+  await settle();
+  assert.deepEqual(render().navigations, [
+    "/events/demo/seating-plans/old/verification",
+  ]);
 });
 
 test("unseated paid registrations block review entry", () => {
@@ -306,7 +475,7 @@ test("regeneration closes settings and blocks editing until the exact draft open
   t.mock.method(globalThis, "fetch", (url, options) => {
     requests.push({ url, body: JSON.parse(options.body) });
     return new Promise((resolve) => {
-      if (url === "/api/solve") finishSolve = resolve;
+      if (url === "/api/solve?event_id=demo") finishSolve = resolve;
       else finishOpen = resolve;
     });
   });
@@ -353,7 +522,7 @@ test("failed draft opening retries from the overlay without another solve", asyn
   let solves = 0,
     opens = 0;
   t.mock.method(globalThis, "fetch", async (url) => {
-    if (url === "/api/solve") {
+    if (url === "/api/solve?event_id=demo") {
       solves++;
       return response({ status: "success", plan_version_id: "new" });
     }
@@ -376,7 +545,7 @@ test("failed generation keeps preferences for an overlay retry", async (t) => {
   const render = dashboard(fixture());
   const attempts = [];
   t.mock.method(globalThis, "fetch", async (url, options) => {
-    if (url === "/api/workspace") return response(fixture());
+    if (url === "/api/workspace?event_id=demo") return response(fixture());
     attempts.push(JSON.parse(options.body));
     return attempts.length === 1
       ? response({ error: { message: "Try again" } }, false)

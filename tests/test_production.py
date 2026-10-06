@@ -1,4 +1,4 @@
-"""v2 requirement tests, independent tiny oracle, lifecycle and adversarial audits."""
+"""Production v4 requirements, independent tiny oracle, lifecycle and adversarial audits."""
 
 import copy
 import itertools

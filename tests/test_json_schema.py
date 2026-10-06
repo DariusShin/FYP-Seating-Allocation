@@ -2,7 +2,13 @@
 
 from __future__ import annotations
 
+import pytest
+
 from seat_solver.prototype.validator import validate_against_schema
+
+
+# These rules belong to the retained v1 prototype, not production v4.
+pytestmark = pytest.mark.prototype
 
 
 def test_participants_file_matches_schema(participants_payload):

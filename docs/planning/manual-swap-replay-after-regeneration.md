@@ -9,15 +9,16 @@ Preserve staff decisions as an ordered, durable series of swaps between registra
 
 The solver function, Lambda solver payload, constraints and optimization objective remain unchanged. The application owns the manual-decision store, asynchronous-result correlation, replay, conflict handling and derived draft. Replay must not write modified assignments back into the immutable raw solver response or claim its optimality/metrics describe the edited map. Publishing remains a separate explicit action.
 
-This extends the [local history proposal](manual-edit-history-proposal.md). That proposal records actual before/after edits for undo and recovery; this enhancement additionally records portable swap intent. A placement diff alone cannot reconstruct the intended sequence reliably.
+This extends the implemented [local history](../manual-edit-history.md). That proposal records actual before/after edits for undo and recovery; this enhancement additionally records portable swap intent. A placement diff alone cannot reconstruct the intended sequence reliably.
 
 ## Current integration points
 
-Observed in this repository when planning:
+Current integration boundaries:
 
 - `frontend/src/lib/workspace.ts`: `move` exchanges whole equal-size registrations, moves to empty seats, and rejects incompatible destinations. `dock` temporarily removes an allocation. Neither persists a replayable sequence.
-- `frontend/src/components/seat/seat-dashboard.tsx`: keeps an in-memory undo timeline and saves working state through `/api/workspace`. The regeneration `onResult` callback opens the returned `plan_version_id` and resets the timeline.
-- `frontend/src/components/seat/weight-controls.tsx`: submits preference-based `REGENERATE_DRAFT`, remembers a successful result if opening fails, and retries opening without solving again.
+- `frontend/src/lib/manual-history.ts`: persists actual before/after edits and local snapshots in Dexie. This supports recovery and attribution, but does not store a shared portable swap-intent stream.
+- `frontend/src/components/seat/seat-dashboard.tsx`: owns solve/open requests, generation phases, retry state and adoption of the returned exact plan. Opening a new plan starts its scoped history; previous history is not automatically replayed.
+- `frontend/src/components/seat/weight-controls.tsx`: edits preference ordering/enabled flags and calls `onGenerate`. The dashboard retains a successful result and retries failed workspace opening without solving again.
 - `frontend/src/app/api/solve/route.ts` and `frontend/src/lib/production-service.ts`: await a local Python process, not a deployed asynchronous Lambda job pipeline. Registration import/update and cloud job orchestration remain integration work.
 - `src/seat_solver/production/workspace.py`: revision-checked working state and per-base saved workspaces; these are not a complete immutable manual-edit ledger.
 

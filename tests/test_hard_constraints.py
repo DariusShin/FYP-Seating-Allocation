@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import copy
 
+import pytest
+
 from seat_solver.prototype.validator import count_middle_fill_violations
 
 VALID_PAIR_POSITIONS = {
@@ -16,6 +18,10 @@ VALID_PAIR_POSITIONS = {
     (13, 14),
     (15, 16),
 }
+
+
+# These rules belong to the retained v1 prototype, not production v4.
+pytestmark = pytest.mark.prototype
 
 
 def _seat_lookup(result):

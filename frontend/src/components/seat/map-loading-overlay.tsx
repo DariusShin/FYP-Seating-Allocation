@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CircleAlert, LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import type { GenerationPhase } from "./types";
 
 export function MapLoadingOverlay({
   phase,
@@ -10,7 +11,7 @@ export function MapLoadingOverlay({
   title,
 }: {
   title?: string;
-  phase: "generating" | "loading-workspace" | "error";
+  phase: GenerationPhase;
   error: string;
   onRetry: () => void;
   draftCreated: boolean;

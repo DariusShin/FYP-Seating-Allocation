@@ -2,9 +2,15 @@
 
 from __future__ import annotations
 
+import pytest
+
 from conftest import make_participant
 
 from seat_solver.prototype.solver import solve_seat_allocation
+
+
+# These rules belong to the retained v1 prototype, not production v4.
+pytestmark = pytest.mark.prototype
 
 
 def test_default_scenario_is_optimal(default_result):

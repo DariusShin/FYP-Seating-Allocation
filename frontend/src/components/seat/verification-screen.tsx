@@ -23,18 +23,25 @@ import {
 } from "@/components/ui/dialog";
 import { HallMap } from "./hall-map";
 import { MapLoadingOverlay } from "./map-loading-overlay";
-import { reviewMove, type WorkingState, type Workspace } from "@/lib/workspace";
+import type {
+  WorkingState,
+  Workspace,
+  AttributedEdit,
+  Finding,
+  Review,
+} from "./types";
 import {
+  reviewMove,
+  workspaceMapData,
+  floorCells,
+  eventApi,
   focusedGroups,
   restorationResolves,
   participantSeats,
   findingSeats,
   reviewSeatHighlights,
   followSelectedSeat,
-  type AttributedEdit,
-  type Finding,
-  type Review,
-} from "@/lib/verification";
+} from "./helpers";
 
 import {
   ManualHistory,
@@ -44,16 +51,18 @@ import {
 
 export function VerificationScreen({
   initial,
+  initialState = initial.state,
   history,
   onExit,
   onPublished,
 }: {
   initial: Workspace;
+  initialState?: WorkingState;
   history: ManualHistory;
-  onExit: (workspace: Workspace, seat: string | null) => void;
-  onPublished: (workspace: Workspace) => void;
+  onExit: (workspace: Workspace, seat: string | null) => void | Promise<void>;
+  onPublished: (workspace: Workspace) => void | Promise<void>;
 }) {
-  const [state, setState] = useState(initial.state);
+  const [state, setState] = useState(initialState);
   const [review, setReview] = useState<Review | null>(null);
   const [checkedState, setCheckedState] = useState<WorkingState | null>(null);
   const [phase, setPhase] = useState<"entry" | "publish" | null>("entry");
@@ -93,7 +102,7 @@ export function VerificationScreen({
     restoration: HistoryRestoration;
   } | null>(null);
   const saved = useRef(initial);
-  const latest = useRef(initial.state);
+  const latest = useRef(initialState);
   const queue = useRef<Promise<unknown>>(Promise.resolve());
   const sequence = useRef(0);
   const mounted = useRef(true);
@@ -134,7 +143,7 @@ export function VerificationScreen({
         ? participantSeats(focusedEdit.participant_ids, state)
         : [],
   );
-  const cells = base.floor_plan.rows.flatMap((r) => r.seats);
+  const cells = floorCells(base.floor_plan);
   const validTargets = useMemo(() => {
     if (!dragging) return undefined;
     return new Set(
@@ -151,15 +160,10 @@ export function VerificationScreen({
         .map((s) => s.seat_id),
     );
   }, [dragging, state, base]);
-  const owners: Record<string, string> = {},
-    names: Record<string, string> = {};
-  for (const [pid, item] of Object.entries(state.items))
-    for (const sid of item.seat_ids) {
-      owners[sid] = pid;
-      names[sid] = item.display_names[0];
-    }
+  const mapData = workspaceMapData(state);
+  const { owners } = mapData;
   async function request(command: string, extra: Record<string, unknown> = {}) {
-    const response = await fetch("/api/workspace", {
+    const response = await fetch(eventApi("/api/workspace", base.event_id!), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -214,11 +218,12 @@ export function VerificationScreen({
     mounted.current = true;
     let active = true;
     void enqueue(async () => {
+      await persist(initialState);
       const result: Review = await request("workspace_check");
       saved.current = { ...saved.current, review: result };
       if (active) {
         setReview(result);
-        setCheckedState(initial.state);
+        setCheckedState(initialState);
         setPhase(null);
       }
     }).catch((e) => {
@@ -386,7 +391,7 @@ export function VerificationScreen({
     try {
       await enqueue(async () => {
         await persist(latest.current);
-        onExit(saved.current, selectedSeat);
+        await onExit(saved.current, selectedSeat);
       });
     } catch (e) {
       setError(String(e));
@@ -401,7 +406,7 @@ export function VerificationScreen({
       await enqueue(async () => {
         await persist(latest.current);
         const value: Workspace = await request("workspace_publish");
-        onPublished(value);
+        await onPublished(value);
       });
     } catch (e) {
       setError(String(e));
@@ -555,20 +560,7 @@ export function VerificationScreen({
           </div>
           <HallMap
             floor={base.floor_plan}
-            names={names}
-            owners={owners}
-            tiers={Object.fromEntries(
-              state.participants.map((p) => [
-                p.participant_id,
-                p.contribution_tier,
-              ]),
-            )}
-            primaryNames={Object.fromEntries(
-              Object.entries(state.items).map(([pid, item]) => [
-                pid,
-                item.display_names[0],
-              ]),
-            )}
+            {...mapData}
             reviewSeats={reviewSeats}
             spotlight={spotlight}
             pulse={pulse}

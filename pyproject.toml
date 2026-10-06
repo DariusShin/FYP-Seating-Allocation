@@ -21,3 +21,6 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+    "prototype: retained historical v1 solver regressions, not production v4 acceptance",
+]

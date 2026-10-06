@@ -155,7 +155,7 @@
     "strict_mode": "require_optimal=true rejects unproven business objectives; production default accepts independently valid FEASIBLE."
   },
   "independent_validation": "Reconstruct assignments, physical rules, metrics and stage values from source_request, independently of CP-SAT internals.",
-  "lifecycle": "Current workspace: generate draft -> save manual draft -> staff review -> explicit atomic publication. Immutable snapshots, revisions and public-data filtering retained. Older submit/approve API remains separate.",
+  "lifecycle": "Generate private draft -> edit/save revision -> safeguard check -> resolve or acknowledge findings -> explicit atomic publication. Publication rechecks persisted placements and expected public pointer; structural validity and complete paid allocations are mandatory; OPEN C12/C13 findings block, while C15/C16 are advisory.",
   "code_map": {
     "policy": "policy.py",
     "scoring": "production_scoring.py",
@@ -163,23 +163,31 @@
     "independent_audit": "production_validator.py",
     "version_store": "plan_store.py",
     "host_adapter": "service.py",
-    "evaluation": "evaluation.py"
+    "evaluation": "evaluation.py",
+    "workspace": "workspace.py",
+    "verification": "verification.py"
   },
-  "legacy": "v1 modules/config fixtures are reproduction-only and not used by the production API.",
   "paid_seat_retention": {
     "attendance": "Not a solver or workspace field; cannot release seats or replace names.",
     "manual_work": "Whole-registration moves/swaps and temporary docking; all paid units must be seated before publication.",
     "regeneration": "Changed preference priority/enabled flags produce a private draft with the same paid registrations."
   },
   "objective_2": {
-    "status": "Proposed extension; not a complete workspace business-rule gate yet",
-    "aim": "Explainable server-side verification bound to exact content hash, revision, input and policy.",
-    "evaluation": [
-      "invalid-plan detection",
-      "false rejection rate",
-      "rule/seat localization",
-      "latency",
-      "stale-verification rejection"
-    ]
+    "status": "Local safeguard verification implemented; formal research evaluation and cloud verification facet remain future work",
+    "implemented": [
+      "Structural validation and complete paid allocations",
+      "C12/C13 RED ordering findings; explicit staff override permitted",
+      "C15/C16 YELLOW non-blocking packing advisories",
+      "Plan/revision checks and publish-time persisted-state recomputation",
+      "Acknowledgement actor/time/notes in publication review audit",
+      "Optional response-only local-history attribution with 500-active-edit limit"
+    ],
+    "publication_policy": "Prior review, structurally valid complete placements, zero OPEN red findings, matching active plan/revision and expected public pointer. ACKED ordering exceptions and packing advisories may remain.",
+    "future": [
+      "Formal detection/false-rejection/localization evaluation",
+      "Target-environment latency and concurrency acceptance",
+      "Independent cloud verification record bound to content hash, input/policy/verifier versions and revisions"
+    ],
+    "documentation": "verification-flow.md"
   }
 }

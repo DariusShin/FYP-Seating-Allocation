@@ -1,4 +1,4 @@
-"""Shared fixtures: loaded default dataset plus a cached default solve."""
+"""Historical v1 prototype fixtures; production tests build their own v4 requests."""
 
 from __future__ import annotations
 
@@ -62,7 +62,7 @@ def previous_allocation():
 
 @pytest.fixture(scope="session")
 def default_result(participants, floor_plan, config, previous_allocation):
-    """One shared default-scenario solve (the acceptance scenario)."""
+    """One cached historical prototype solve, not production v4 acceptance."""
     result = solve_seat_allocation(
         participants, floor_plan, config, previous_allocation
     )

@@ -4,13 +4,14 @@ import type { AllocationResult } from "@/lib/allocation-types";
 import { HallMap } from "@/components/seat/hall-map";
 import { chineseVenueName } from "@/lib/venue-names";
 import { Button } from "@/components/ui/button";
+import { eventApi } from "@/components/seat/helpers";
 type Venue = {
   status: string;
   floor_plan?: AllocationResult["floor_plan"];
   published_at?: string;
   pair_display?: Record<string, { primary_name: string }>;
 };
-export function VenueDisplay() {
+export function VenueDisplay({ eventId }: { eventId: string }) {
   const [value, setValue] = useState<Venue | null>(null);
   const [error, setError] = useState("");
   const root = useRef<HTMLDivElement>(null);
@@ -21,7 +22,7 @@ export function VenueDisplay() {
       if (pending) return;
       pending = true;
       try {
-        const r = await fetch("/api/venue", {
+        const r = await fetch(eventApi("/api/venue", eventId), {
           cache: "no-store",
           signal: AbortSignal.timeout(10000),
         });
@@ -55,7 +56,7 @@ export function VenueDisplay() {
       clearInterval(id);
       window.removeEventListener("offline", offline);
     };
-  }, []);
+  }, [eventId]);
   const names: Record<string, string> = {};
   const owners: Record<string, string> = {};
   value?.floor_plan?.rows.forEach((r) =>
@@ -66,7 +67,7 @@ export function VenueDisplay() {
   );
   return (
     <div
-      className="flex h-dvh flex-col bg-background max-[1280px]:[&_.hall-scroll]:overflow-x-auto max-[1280px]:[&_.paper-hall]:min-w-7xl print:block print:h-auto print:bg-white print:text-black"
+      className="venue-page flex h-dvh flex-col bg-background screen:max-[1280px]:[&_.hall-scroll]:overflow-x-auto screen:max-[1280px]:[&_.paper-hall]:min-w-7xl print:block print:h-auto print:bg-white print:text-black"
       ref={root}
     >
       <div className="flex justify-between px-5 py-2 text-sm print:hidden">
@@ -109,7 +110,8 @@ export function VenueDisplay() {
       )}
       {value?.floor_plan ? (
         <>
-          <h1 className="my-2 text-center text-[26px] font-semibold print:mb-[5mm] print:mt-0 print:font-[Songti_SC,PMingLiU,serif] print:text-[22pt]">
+          <h1 className="my-2 text-center text-[26px] font-semibold print:mb-[5mm] print:mt-0 print:font-[Songti_SC,PMingLiU,serif] print:text-[18pt] print:leading-[1.2]">
+            <span className="hidden print:inline">2026年 </span>
             梁皇寶懺大法會功德主排位
           </h1>
           <HallMap

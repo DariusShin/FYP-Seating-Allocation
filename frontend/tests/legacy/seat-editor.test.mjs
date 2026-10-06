@@ -1,9 +1,10 @@
+// Retained editor module regression tests. The current UI uses lib/workspace.ts.
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import ts from "typescript";
 const source = fs.readFileSync(
-  new URL("../src/lib/seat-editor.ts", import.meta.url),
+  new URL("../../src/lib/seat-editor.ts", import.meta.url),
   "utf8",
 );
 const compiled = ts.transpileModule(source, {
@@ -19,7 +20,7 @@ const {
 } = mod.exports;
 const result = JSON.parse(
   fs.readFileSync(
-    new URL("../src/data/seat_allocation_result.json", import.meta.url),
+    new URL("../../src/data/seat_allocation_result.json", import.meta.url),
     "utf8",
   ),
 );
