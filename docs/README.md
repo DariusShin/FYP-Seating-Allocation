@@ -17,6 +17,6 @@ These guides describe the implemented local application as of 2026-10-05. Produc
 | [Evaluation](evaluation.md) | Existing test coverage, experiment commands and remaining research measurements |
 | [Planning](planning/README.md) | Repository restructuring and commit scopes, plus unimplemented swap replay and cloud architecture proposals |
 
-Start with the [project README](../README.md) for setup and the [frontend README](../frontend/README.md) for a local walkthrough. Component boundaries are described in the [seat component guide](../frontend/src/components/seat/README.md).
+Start with the [project README](../README.md) for setup and the [frontend README](../apps/web/README.md) for a local walkthrough. Component boundaries are described in the [seat component guide](../apps/web/src/components/seat/README.md).
 
 Superseded implementation guides, completed plans and redundant replacement pages have been deleted. Prior revisions remain in Git history. Academic reports and feedback under `FYP1/` are research records, not current implementation instructions. The planning index retains only explicitly unimplemented proposals.

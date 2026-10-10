@@ -1,6 +1,6 @@
 # Staff seating UI
 
-The current interface uses Next.js App Router, Tailwind semantic tokens, Lucide icons and Radix-based shared UI primitives. `SeatDashboard` composes workspace sections; `HallMap` is shared with verification and the staff venue display. See the [component guide](../frontend/src/components/seat/README.md) for ownership boundaries.
+The current interface uses Next.js App Router, Tailwind semantic tokens, Lucide icons and Radix-based shared UI primitives. `SeatDashboard` composes workspace sections; `HallMap` is shared with verification and the staff venue display. See the [component guide](../../apps/web/src/components/seat/README.md) for ownership boundaries.
 
 ## Generate and open a draft
 
@@ -32,4 +32,4 @@ Print / Save PDF uses A3 landscape with 10 mm page margins. Printed rows match t
 
 ## Validation
 
-From `frontend/`, run `npm test`, `npm run typecheck`, `npm run lint` and `npm run build`. Tests cover editing, pairs, details, generation retries, route access, exact-plan loading, history handoff and recovered edits saved before review. Test coverage is not a claim that every touch/browser configuration has been visually verified.
+From `apps/web/`, run `npm test`, `npm run typecheck`, `npm run lint` and `npm run build`. Tests cover editing, pairs, details, generation retries, route access, exact-plan loading, history handoff and recovered edits saved before review. Test coverage is not a claim that every touch/browser configuration has been visually verified.

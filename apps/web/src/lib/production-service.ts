@@ -57,7 +57,7 @@ export async function identity(): Promise<Identity | null> {
 
 export function runProduction<T>(body: Record<string, unknown>): Promise<T> {
   const root =
-    process.env.SEAT_SOLVER_ROOT ?? path.resolve(process.cwd(), "..");
+    process.env.SEAT_SOLVER_ROOT ?? path.resolve(process.cwd(), "..", "..");
   const python =
     process.env.SEAT_SOLVER_PYTHON ?? path.join(root, ".venv", "bin", "python");
   return new Promise((resolve, reject) => {

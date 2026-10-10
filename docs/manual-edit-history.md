@@ -1,6 +1,6 @@
 # Browser-local manual-edit history
 
-Status: implemented. `frontend/src/lib/manual-history.ts` owns Dexie persistence and restoration; `components/seat/history-controller.ts` coordinates editing/verification route handoff. Browser history is scoped to the signed actor, event and base plan, and is separate from shared SQLite workspaces and immutable published plans.
+Status: implemented. `apps/web/src/lib/manual-history.ts` owns Dexie persistence and restoration; `components/seat/history-controller.ts` coordinates editing/verification route handoff. Browser history is scoped to the signed actor, event and base plan, and is separate from shared SQLite workspaces and immutable published plans.
 
 ## Records and accepted edits
 

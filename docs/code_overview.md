@@ -43,4 +43,4 @@ Generation follows request validation → legal options → CP-SAT → independe
 | `components/seat/helpers.ts`, `types.ts` | Map projections, labels, search, encoded paths and shared domain types |
 | `VenueDisplay`, `PublicSeatMap` | Staff venue display and separate participant published-seat presentation |
 
-Staff routes are `/events/[eventId]/seating-plans/[planId]`, its `/verification` child, and `/events/[eventId]/venue`. Plan links require the current active workspace; an inactive plan returns 404. `/venue` redirects authenticated staff to their event venue. See [verification flow](verification-flow.md), [history](manual-edit-history.md) and the [component guide](../frontend/src/components/seat/README.md).
+Staff routes are `/events/[eventId]/seating-plans/[planId]`, its `/verification` child, and `/events/[eventId]/venue`. Plan links require the current active workspace; an inactive plan returns 404. `/venue` redirects authenticated staff to their event venue. See [verification flow](verification-flow.md), [history](manual-edit-history.md) and the [component guide](../../apps/web/src/components/seat/README.md).

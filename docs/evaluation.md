@@ -49,7 +49,7 @@ The separate versioned-plan submit/approve/publish tests remain valid: `service.
 
 The seven prototype files are marked `prototype`: `test_data_generation.py`, `test_floor_plan.py`, `test_hard_constraints.py`, `test_json_schema.py`, `test_regeneration.py`, `test_soft_constraints.py` and `test_solver_status.py`. Their historical registration counts, tier-exclusive rows, interleaved seat ranks, tier contribution ranges, movement objective and v1 result schema must not be used as current production requirements. They are retained because the historical solver and `legacy-solve` command still exist.
 
-The old frontend editor tests now live in `frontend/tests/legacy/seat-editor.test.mjs`. Current editing is covered by `workspace.test.mjs`, `seat-dashboard.test.mjs`, `manual-history.test.mjs` and the review/route tests. The legacy tests remain module regressions and are included in the complete suite.
+The old frontend editor tests now live in `apps/web/tests/legacy/seat-editor.test.mjs`. Current editing is covered by `workspace.test.mjs`, `seat-dashboard.test.mjs`, `manual-history.test.mjs` and the review/route tests. The legacy tests remain module regressions and are included in the complete suite.
 
 ```bash
 # Current application

@@ -13,7 +13,7 @@ python3 -m venv .venv
 .venv/bin/python -m pip install -e '.[dev]'
 PYTHONPATH=src .venv/bin/python -m seat_solver.cli solve --request data/production_request.json --output /tmp/pjkit-draft.json
 PYTHONPATH=src .venv/bin/python -m seat_solver.cli validate --result /tmp/pjkit-draft.json --output /tmp/pjkit-audit.json
-cd frontend
+cd apps/web
 npm install
 npm run dev
 ```
@@ -40,13 +40,13 @@ The default example is synthetic: **56 Emperor + 24 Merit + 16 Bodhi registratio
 
 ```bash
 PYTHONPATH=src .venv/bin/python -m pytest -q
-npm --prefix frontend test
+npm --prefix apps/web test
 # Current application only (exclude retained prototype/legacy editor regressions):
 PYTHONPATH=src .venv/bin/python -m pytest -q -m 'not prototype'
-npm --prefix frontend run test:current
-npm --prefix frontend run typecheck
-npm --prefix frontend run lint
-npm --prefix frontend run build
+npm --prefix apps/web run test:current
+npm --prefix apps/web run typecheck
+npm --prefix apps/web run lint
+npm --prefix apps/web run build
 PYTHONPATH=src .venv/bin/python -m seat_solver.production.evaluation --suite core --budget 3 --output output/evaluation/core-v4.json
 PYTHONPATH=src .venv/bin/python -m seat_solver.production.evaluation --suite profiles --budget 3 --output output/evaluation/profiles-v4.json
 PYTHONPATH=src .venv/bin/python -m seat_solver.production.evaluation --suite random --runs 100 --budget 3 --output output/evaluation/random-v4.json
@@ -66,7 +66,7 @@ Every present confirmed paid registration must have its full allocation before p
 
 Working drafts retain monotonic revisions and immutable published snapshots. The default store is `output/paid-seats-v4.sqlite3` (override with `SEAT_PLAN_DB`). Browser-local history stores immutable manual-save snapshots separately in IndexedDB.
 
-See [verification flow](docs/verification-flow.md) for review routes and publication policy, and [manual-edit history](docs/manual-edit-history.md) for recovery and undo/redo. See [the frontend demo flow](frontend/README.md#staff-demo-flow) for current generation and version-opening behavior.
+See [verification flow](docs/verification-flow.md) for review routes and publication policy, and [manual-edit history](docs/manual-edit-history.md) for recovery and undo/redo. See [the frontend demo flow](apps/web/README.md#staff-demo-flow) for current generation and version-opening behavior.
 
 ## Objective 2
 
