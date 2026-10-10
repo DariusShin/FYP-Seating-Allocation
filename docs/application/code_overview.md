@@ -2,7 +2,7 @@
 
 ## Python application
 
-Modules below are under `src/seat_solver/production/`, except `cli.py`.
+Modules below are under `services/seating/src/seat_solver/production/`, except `cli.py`.
 
 | Module | Responsibility |
 | --- | --- |
@@ -15,9 +15,8 @@ Modules below are under `src/seat_solver/production/`, except `cli.py`.
 | `absence_repair.py` | Separate reduced absence-repair model, neighbourhood expansion and lexicographic movement objectives |
 | `verification.py` | C12/C13/C15/C16 findings, resolution hints, acknowledgements and optional history attribution |
 | `service.py` | Event-scoped JSON command adapter and local event data loading |
-| `production_data.py` | Parameterized seeded synthetic requests |
-| `evaluation.py` | Core, preference-profile, random and saturation experiments |
-| `../cli.py` | Production solve and independent validation commands |
+| `production_data.py` | Deterministic display-name primitives and workspace synthetic-name restoration |
+| `../cli.py` | Production solve and independent validation commands; the historical CLI lives with the relocated prototype at `research/baselines/legacy_cp_sat/cli.py` |
 
 Generation follows request validation → legal options → CP-SAT → independent audit → immutable private draft. The staff workspace follows edit → save → safeguard review → explicit atomic publication. Attendance does not release paid seats. The versioned-plan approval API is a separate lifecycle from workspace review.
 

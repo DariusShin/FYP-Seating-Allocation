@@ -1,8 +1,8 @@
 # Production v4 evaluation
 
-Run `PYTHONPATH=src .venv/bin/python -m pytest -q` for the repository test suite, including production requirement tests. Production tests cover the full 16 effective ordered/enabled preference profiles, strict types, paid-entitlement validation, shared rows, exact ID multiset, accessibility/packing conflict, objective/representation tampering, canonical input order, independent tiny optimum enumeration, FEASIBLE handling, manual rescoring, paid-seat retention and transactional lifecycle/privacy.
+Run `.venv/bin/python -m pytest services/seating -q` from the repository root for the service test suite, including production requirement tests. Production tests cover the full 16 effective ordered/enabled preference profiles, strict types, paid-entitlement validation, shared rows, exact ID multiset, accessibility/packing conflict, objective/representation tampering, canonical input order, independent tiny optimum enumeration, FEASIBLE handling, manual rescoring, paid-seat retention and transactional lifecycle/privacy.
 
-Use `seat_solver.production.evaluation --suite core|profiles|random|saturation --budget SECONDS --output FILE`. Random uses `--runs 100` by default. Every record includes seed, input hash, layout version, registration count, physical demand, status, independent validity, component penalties, stage proof and timing where applicable. Stats include median, IQR, p95, extremes and status counts/rates over all runs, including intended failures. Recorded RSS is measured process peak, not mislabelled current RSS. Suite runs use canonicalize=false to measure optimization separately; canonical repeatability is tested with completion enabled.
+Use `research.experiments.evaluation --suite core|profiles|random|saturation --budget SECONDS --output FILE`. Random uses `--runs 100` by default. Every record includes seed, input hash, layout version, registration count, physical demand, status, independent validity, component penalties, stage proof and timing where applicable. Stats include median, IQR, p95, extremes and status counts/rates over all runs, including intended failures. Recorded RSS is measured process peak, not mislabelled current RSS. Suite runs use canonicalize=false to measure optimization separately; canonical repeatability is tested with completion enabled.
 
 The core suite has 20 deterministic scenarios: tiny assignments, realistic synthetic loads, saturation, pair/mixed-boundary/accessibility cases, additional seeded mixed-tier cases, empty event, over-capacity, structural infeasibility and malformed input. The default synthetic example is 96 units/152 seats, explicitly distinct from the report benchmark. Historical and current venue capacities must never be pooled without version labels.
 
@@ -29,7 +29,7 @@ Reviewed the test targets, fixtures and assertions against the retained modules 
 | Scope | Cases | Result and applicability |
 | --- | ---: | --- |
 | Production Python | 155 | Pass; current v4 solver, service, persistence, workspace and verification contracts |
-| Historical prototype Python | 58 | Pass; retained `seat_solver.prototype` and v1 fixtures, not v4 acceptance |
+| Historical prototype Python | 58 | Pass; retained under `research/baselines/legacy_cp_sat` with v1 fixtures, not v4 acceptance |
 | Current frontend | 64 | Pass; current workspace, dashboard, history, routes, grouping, verification and Python bridge |
 | Legacy frontend editor | 10 | Pass; retained `src/lib/seat-editor.ts` and static result fixture; no current application module imports this editor |
 
@@ -53,16 +53,15 @@ The old frontend editor tests now live in `apps/web/tests/legacy/seat-editor.tes
 
 ```bash
 # Current application
-PYTHONPATH=src .venv/bin/python -m pytest -q -m 'not prototype'
-npm --prefix frontend run test:current
+.venv/bin/python -m pytest services/seating -q
+npm --prefix apps/web run test:current
 
 # Historical modules
-PYTHONPATH=src .venv/bin/python -m pytest -q -m prototype
-npm --prefix frontend run test:legacy
+.venv/bin/python -m pytest research/baselines/legacy_cp_sat -q
+npm --prefix apps/web run test:legacy
 
-# Everything
-PYTHONPATH=src .venv/bin/python -m pytest -q
-npm --prefix frontend test
+# Web module regression suites
+npm --prefix apps/web test
 ```
 
 The prior baseline TypeScript and ESLint checks passed. Updated absence-feature checks are recorded below. These results validate the asserted local contracts; the frontend harnesses transpile modules and mock React/router/server dependencies, with a real Python invocation in the bridge test. They do not establish a full browser walkthrough, production build or deployed host/cloud acceptance. These counts describe the pre-absence baseline; the attendance contract and corresponding tests have since changed.

@@ -24,10 +24,10 @@ CP-SAT may return OPTIMAL or FEASIBLE. OPTIMAL proves the business objective; FE
 
 The independent validator reconstructs rules, occupancy, costs and serialized results from original inputs and output, rather than trusting solver variables. It validates placement correctness, not the solver's optimality certificate.
 
-Initial generation and preference regeneration use the same complete model over present registrations and produce private drafts. Objective 2 uses a separate incremental absence repair, with fixed outside placements and lexicographic movement objectives; see [absence reallocation](absence-reallocation.md). The objective contains contribution, activeness and category-zone costs; publication is a separate staff action.
+Initial generation and preference regeneration use the same complete model over present registrations and produce private drafts. Objective 2 uses a separate incremental absence repair, with fixed outside placements and lexicographic movement objectives; see [absence reallocation](../application/absence-reallocation.md). The objective contains contribution, activeness and category-zone costs; publication is a separate staff action.
 
 ## Manual edits and review
 
 The staff workspace permits complete-registration moves and temporary docking while enforcing immutable registration records, valid pairs, accessibility and unique valid seats. Every paid allocation must be seated before review/publication.
 
-Review recomputes C12/C13 ordering and C15/C16 packing findings. OPEN red ordering findings block publication unless explicitly overridden; yellow packing findings are advisories. This staff policy differs from the solver's compulsory generation constraints. Publication rechecks the persisted revision and records exceptions. See [verification flow](verification-flow.md).
+Review recomputes C12/C13 ordering and C15/C16 packing findings. OPEN red ordering findings block publication unless explicitly overridden; yellow packing findings are advisories. This staff policy differs from the solver's compulsory generation constraints. Publication rechecks the persisted revision and records exceptions. See [verification flow](../application/verification-flow.md).

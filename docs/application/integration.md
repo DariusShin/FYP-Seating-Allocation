@@ -2,7 +2,7 @@
 
 ## Local service and solver contract
 
-`PYTHONPATH=src .venv/bin/python -m seat_solver.production.service` accepts one JSON command on stdin and returns JSON on stdout. Next.js invokes this local process through `production-service.ts`. SQLite persistence defaults to `output/paid-seats-v4.sqlite3`; override with `SEAT_PLAN_DB` for isolated environments. `SEAT_SOLVER_ROOT`, `SEAT_SOLVER_PYTHON` and `SEAT_EVENT_REQUEST` configure the process and source request.
+`.venv/bin/python -m seat_solver.production.service` accepts one JSON command on stdin and returns JSON on stdout. Next.js invokes this local process through `production-service.ts`. SQLite persistence defaults to `output/paid-seats-v4.sqlite3`; override with `SEAT_PLAN_DB` for isolated environments. `SEAT_SOLVER_ROOT`, `SEAT_SOLVER_PYTHON` and `SEAT_EVENT_REQUEST` configure the process and source request.
 
 Generation accepts `INITIAL` or `REGENERATE_DRAFT`, policy/layout versions, confirmed paid registration inputs and the full ordered/enabled list of `contribution_seat`, `activeness`, `category_zone`. Enabled ranks map to 40/30/20. Full-generation preference summaries cover these three components. `REPAIR_ABSENCE` requires the current saved plan ID/revision, uses a separate reduced model and returns a movement summary and objective proofs. All modes save a private draft.
 
@@ -47,4 +47,4 @@ Generation and draft saves do not switch the public pointer. Workspace publicati
 
 ## Deployment acceptance
 
-Provision the solver/config/layout files and Python environment explicitly. Platform authentication, authoritative registration imports, managed persistence and AWS execution remain host integration work. SQLite in this repository is a local reference, not a durable Lambda temporary-filesystem contract. See the [Seating table design](planning/table.md) for the target cloud architecture and [evaluation](evaluation.md) for deployment measurements.
+Provision the solver/config/layout files and Python environment explicitly. Platform authentication, authoritative registration imports, managed persistence and AWS execution remain host integration work. SQLite in this repository is a local reference, not a durable Lambda temporary-filesystem contract. See the [Seating table design](../planning/table.md) for the target cloud architecture and [evaluation](../methodologies/evaluation.md) for deployment measurements.

@@ -2,7 +2,7 @@
 
 Date: 11 October 2026 (Asia/Kuala_Lumpur).
 
-Status: **proposed migration plan; restructuring has not been implemented**. The user confirmed `docs/results/` as the destination for experiment evidence, alongside the requested `docs/methodologies/`. This document records the proposed wider structure and commit convention; it does not authorize cloud deployment or change solver behavior.
+Status: **stages 0–3 implemented on `restructure-project-folders`; stage 4 documentation regrouping implemented; cloud deployment remains out of scope**. The user confirmed `docs/results/` as the destination for experiment evidence, alongside the requested `docs/methodologies/`. §2's dependency inventory and the move inventory below are retained as the pre-migration record; current paths reflect the implemented layout.
 
 ## 1. Purpose and decisions
 
@@ -282,18 +282,18 @@ Prefer a focused branch such as `codex/repository-methodology-organization` for 
 
 ## 8. Remaining implementation decisions
 
-- Exact extraction boundaries for currently mixed production modules and shared fixture utilities.
-- Whether legacy CLI paths receive temporary compatibility wrappers, and their documented support period.
-- Packaging/build mechanism for consuming canonical contracts without relying on a repository checkout.
-- Whether and when the broader application relocation is worthwhile relative to the FYP submission schedule.
+- ~~Exact extraction boundaries for currently mixed production modules and shared fixture utilities.~~ **Resolved:** `seat_solver.jsonio` carries the shared JSON utilities; `research/fixtures/synthetic_participants.py` carries `generate()`, while the application keeps only the deterministic name primitives and workspace restoration.
+- ~~Whether legacy CLI paths receive temporary compatibility wrappers, and their documented support period.~~ **Resolved:** no shim; the full historical CLI (including `legacy-solve` and v1 validation) lives at `research/baselines/legacy_cp_sat/cli.py`, and the maintained `seat_solver.cli` serves production `solve`/`validate` only.
+- Packaging/build mechanism for consuming canonical contracts without relying on a repository checkout. **Still open;** runtime policy/request schemas currently sit beside the service under `services/seating/`, and the standalone layout contract moved to `contracts/`.
+- Whether and when the broader application relocation is worthwhile relative to the FYP submission schedule. **Partially resolved:** the web move and service move are implemented; deeper core/application/adapter splitting inside `seat_solver` remains follow-up work.
 - Cloud handler, infrastructure and persistence implementation details, to be decided as deployment work.
 
-These do not block documenting the plan or the agreed documentation/results destinations. Resolve them before their corresponding implementation stage and record the outcome here.
+Implementation notes: the `FYP1/` archive relocation was **deferred by user decision** — it stays at the repository root. Recorded evidence bundles keep their pre-relocation `manifest.json` paths and hashes, with relocation notes and a `source_snapshot/` preserved beside them.
 
 ## 9. Supporting references
 
 - [Current documentation index](../README.md) and [current project setup](../../README.md).
-- [Current integration guide](../integration.md) and [proposed DynamoDB design](table.md).
+- [Current integration guide](../application/integration.md) and [proposed DynamoDB design](table.md).
 - [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/): message syntax and compatibility signals.
 - [Python package resources](https://docs.python.org/3/library/importlib.resources.html): accessing packaged resources without repository-depth assumptions.
 - [AWS Python Lambda packaging](https://docs.aws.amazon.com/lambda/latest/dg/python-package.html): handler and dependency packaging for future deployment.

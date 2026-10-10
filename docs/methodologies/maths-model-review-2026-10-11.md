@@ -341,10 +341,10 @@ The current model treats absence at registration level, requires both seats of a
 
 - Original draft: `docs/methodologies/maths-model-draft.md`.
 - Current mathematical description: `docs/mathematical_model.md`.
-- Initial model and boundary encodings: `src/seat_solver/production/production.py`, especially `initial_rows()` and `build()`.
-- Eligibility, domains and numerical costs: `src/seat_solver/production/production_scoring.py`.
-- Policy/validation: `src/seat_solver/production/policy.py` and `config/production_policy.json`.
-- Repair scope, movement and staged solving: `src/seat_solver/production/absence_repair.py` and `docs/absence-reallocation.md`.
+- Initial model and boundary encodings: `services/seating/services/seating/src/seat_solver/production/production.py`, especially `initial_rows()` and `build()`.
+- Eligibility, domains and numerical costs: `services/seating/services/seating/src/seat_solver/production/production_scoring.py`.
+- Policy/validation: `services/seating/services/seating/src/seat_solver/production/policy.py` and `services/seating/config/production_policy.json`.
+- Repair scope, movement and staged solving: `services/seating/services/seating/src/seat_solver/production/absence_repair.py` and `docs/absence-reallocation.md`.
 - Layout counts: `data/layouts/production_2026.json`.
 - [Google CP-SAT documentation](https://developers.google.com/optimization/cp/cp_solver), checked for integer modeling and status semantics.
 - [Perron, Didier and Gay (2023), The CP-SAT-LP Solver](https://doi.org/10.4230/LIPIcs.CP.2023.3), checked for solver architecture. This describes solving technology, not validation of PJKIT's rules or weights.

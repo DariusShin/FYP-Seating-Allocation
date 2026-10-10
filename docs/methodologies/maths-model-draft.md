@@ -12,13 +12,13 @@ The short answer is:
 |---|---|---|
 | `docs/mathematical_model.md` | **Mostly synchronized with production solver** | Use as the main mathematical reference |
 | `docs/mathematical_model.json` | **Very closely synchronized** | Useful as a traceability specification |
-| `src/seat_solver/production/production.py` | **Current implementation source of truth** | Main code reference |
+| `services/seating/services/seating/src/seat_solver/production/production.py` | **Current implementation source of truth** | Main code reference |
 | `production_scoring.py` | **Current soft-objective source of truth** | Main cost-function reference |
 | `policy.py` + `production_policy.json` | **Current policy/parameter source of truth** | Main input/policy reference |
 | `production_validator.py` | **Current independent solver-output audit** | Explain separately from optimization |
 | `verification.py` + `workspace.py` | **Newer than the documentation** | Documentation requires updating |
 | `docs/solver_mathematical_model.md` | **Historical prototype only** | Do not use as current dissertation model |
-| `src/seat_solver/prototype/*` | **Historical v1 reproduction** | Mention only as development history |
+| `research/baselines/legacy_cp_sat/*` | **Historical v1 reproduction** | Mention only as development history |
 | `README.md` safeguard description | **Currently stale** | Do not rely on its “safeguard removed” statement |
 | `docs/solver-mathematical-background.md` | **Mixed** | Production sections useful; prototype/movement sections historical |
 

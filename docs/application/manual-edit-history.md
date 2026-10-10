@@ -42,4 +42,4 @@ Findings are associated with their latest introducing edit; baseline findings re
 
 Frontend history tests cover refresh recovery, atomic compound edits, redo branches, immutable snapshots, edits during save, failed-save reconciliation, storage failure, stale tabs, incompatible inputs and connected restoration. Route tests cover scoped controller handoff and recovered edits saved before checking.
 
-[Replay after regeneration](planning/manual-swap-replay-after-regeneration.md) remains proposed. Current history records actual before/after edits; it does not persist a shared portable swap-intent stream or automatically replay edits into new solver output.
+[Replay after regeneration](../planning/manual-swap-replay-after-regeneration.md) remains proposed. Current history records actual before/after edits; it does not persist a shared portable swap-intent stream or automatically replay edits into new solver output.

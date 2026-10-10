@@ -88,13 +88,13 @@ The default database is `output/paid-seats-v4.sqlite3`. The old `output/plans.sq
 
 Staff can mark a registration absent, docking the entire allocation; both Emperor occupants share that status. Absent cards use a distinct style, and returning them to the map asks to restore attendance. Registration records and names are retained; substitutions and separate companion absence remain outside scope. Saved attendance is persisted in SQLite and applied when opening another event plan.
 
-Use **Edit plan** for manual moves/swaps and the holding dock. All present paid registrations must be seated before publication; absent registrations may remain docked. Seat details use **Edit → Save draft / Cancel** for display name and note; canceling does not change the workspace. Settings offers full regeneration after preference or attendance changes and separate minimum-movement **Repair gaps after absence**. Both save outstanding edits first and open a private draft for review. Repair preserves outside placements and expands its local row neighbourhood only on infeasibility. See [Objective 2](../docs/absence-reallocation.md).
+Use **Edit plan** for manual moves/swaps and the holding dock. All present paid registrations must be seated before publication; absent registrations may remain docked. Seat details use **Edit → Save draft / Cancel** for display name and note; canceling does not change the workspace. Settings offers full regeneration after preference or attendance changes and separate minimum-movement **Repair gaps after absence**. Both save outstanding edits first and open a private draft for review. Repair preserves outside placements and expands its local row neighbourhood only on infeasibility. See [Objective 2](../../docs/application/absence-reallocation.md).
 
 To reset only the v4 demo store, stop the server and solver processes first, then run from the repository root:
 
 ```bash
-PYTHONPATH=src .venv/bin/python -m seat_solver.production.reset_local
-PYTHONPATH=src .venv/bin/python -m seat_solver.production.reset_local --apply
+.venv/bin/python -m seat_solver.production.reset_local
+.venv/bin/python -m seat_solver.production.reset_local --apply
 ```
 
 The first command reports counts; `--apply` creates an integrity-checked backup and clears the selected local state transactionally. Layout and registration fixtures are preserved. Do not point this command at the old history unless you explicitly intend to reset it.

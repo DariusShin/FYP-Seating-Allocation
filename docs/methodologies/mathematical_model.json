@@ -2,7 +2,7 @@
   "schema_version": "2.0.0",
   "policy_version_id": "pjkit-v4",
   "normalization_version": "desirability-v2",
-  "implementation": "src/seat_solver/production/production.py",
+  "implementation": "services/seating/src/seat_solver/production/production.py",
   "status": "Implemented local production workflow; AWS/host deployment measurements are external acceptance gates.",
   "sets": {
     "P": "present confirmed registration units; ABSENT units retain records but have no assigned seats",

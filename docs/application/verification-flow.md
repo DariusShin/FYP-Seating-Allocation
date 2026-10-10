@@ -1,6 +1,6 @@
 # Safeguard verification flow
 
-Status: implemented in the local application as a supporting feature. Objective 2 is [absence-driven dynamic allocation](absence-reallocation.md). Review runs in `src/seat_solver/production/verification.py` and `workspace.py`, exposed through `/api/workspace`. It does not invoke CP-SAT. `VerificationEntry` owns route startup and navigation; `VerificationScreen` owns corrections and serialized review requests.
+Status: implemented in the local application as a supporting feature. Objective 2 is [absence-driven dynamic allocation](absence-reallocation.md). Review runs in `services/seating/src/seat_solver/production/verification.py` and `workspace.py`, exposed through `/api/workspace`. It does not invoke CP-SAT. `VerificationEntry` owns route startup and navigation; `VerificationScreen` owns corrections and serialized review requests.
 
 ## Routes and entry
 
@@ -60,4 +60,4 @@ Publication trusts neither a browser-supplied placement payload nor UI readiness
 
 ## Coverage and limits
 
-`tests/test_verification.py` and `tests/test_workspace.py` cover entry/publication gates, overrides/revocation, stale revisions, fresh checks, privacy, hints, history attribution and local latency assertions. Frontend tests cover route guards, compound moves, history handoff and recovered-state save-before-check ordering. Formal detection/localization experiments and target-environment performance remain work described in [evaluation](evaluation.md).
+`tests/test_verification.py` and `tests/test_workspace.py` cover entry/publication gates, overrides/revocation, stale revisions, fresh checks, privacy, hints, history attribution and local latency assertions. Frontend tests cover route guards, compound moves, history handoff and recovered-state save-before-check ordering. Formal detection/localization experiments and target-environment performance remain work described in [evaluation](../methodologies/evaluation.md).
