@@ -1,3 +1,5 @@
+> Scope update — 7 October 2026: Objective 2 now targets participant absence only. Both Emperor occupants share attendance and dock together. Repair uses the latest saved working map, expands adjacent rows only on infeasibility and minimizes moved registrations, then centroid distance, then preferences. Attendance is saved in the database and shared across event plans; verification is a supporting feature. Substitution, late registration and group-change examples, embedded extracted figures and original interview answers below describe earlier research context rather than current requirements. See [implemented contract](../docs/absence-reallocation.md).
+
 ---
 source_pdf: Draft_Interim_Report_To_GPT.pdf
 extracted_on: 2026-07-28 14:52:30
@@ -269,9 +271,9 @@ that converts participant profiles, seating layouts and configurable event-speci
 programmable constraints for automating the seating plan generation.
 
 #### Objective 2: To develop a controlled incremental dynamic seating reallocation mechanism
-that accommodates ad hoc participant data changes due to absence, substitutions of participant and
-late registration, including on the event day by treating the latest published plan as the baseline
-state and modifying only the affected seats.
+that accommodates participant absence, including on the event day, using the latest saved working
+map as baseline, preserving outside-neighbourhood placements, and minimizing moved registrations
+then movement distance then seating preferences. Verification is a supporting feature.
 
 #### Objective 3: To develop a participant-facing seat lookup channel that allows participants to
 retrieve and view their assigned seat number and event seating map from the latest event
@@ -312,12 +314,12 @@ problem statements and separating hard goals from soft goals in this project.
              Every run shall report a verifiable solver status and reproducible quality
    G1.3                                                                                   Hard
              indicators.
-             Published plans shall be reallocated under administrator control when
+             Saved plans shall be repaired under administrator control when
     G2                                                                                    Hard
-             participant or event data changes.
+             staff mark registrations absent.
              Reallocation shall repair incrementally, minimizing first the number of
-   G2.1      unaffected participants moved and then total movement distance for the       Hard
-             latest published seating map.
+   G2.1      present registrations moved and then total movement distance for the       Hard
+             latest saved working map.
              Every generated or repaired result shall be a version requiring explicit
    G2.2                                                                                   Hard
              administrator approval before publication.
@@ -381,9 +383,9 @@ problem statements and separating hard goals from soft goals in this project.
             runtime.
 
             The system shall perform dynamic reallocation as incremental repair of the
-            published plan, modifying only the assignments affected by a change
+            saved working map after absence, initially freezing assignments outside the affected rows
                                                                                          G2.1,
- FR9        minimizing first the number of unaffected participants moved and shall
+ FR9        minimizing first the number of present registrations moved and shall
                                                                                          G2.2
             store the repaired result as a new plan version requiring organizer approval
             under FR14.
@@ -741,7 +743,7 @@ methods without guarantees (Muñoz et al., 2005); the proposed system addresses 
 configurable hard and weighted soft constraints solved by a general-purpose exact solver, making
 allocation consistent, repeatable, and explainable. Regarding Problem Statement 2, manual edits,
 last-minute changes, and synchronization features do not constitute controlled dynamic
-reallocation; in this project, reallocation means incrementally repairing the published plan after a
+reallocation; in this project, reallocation means incrementally repairing the latest saved working map after a
 data change - modifying only the affected assignments and a bounded surrounding area, with
 particular emphasis on ad-hoc participants and on-event-day changes - storing the repaired result
 as a new version, penalizing movement with formal precedent in switching-cost constraint
@@ -1242,7 +1244,7 @@ Optimization Problem that solved by Google OR-Tools CP-SAT solver and deployed a
 script on AWS Lambda function that invoked with JSON payloads directed from the Netizen
 eXperience event management platform. The system provides organizer-controlled generation,
 versioned review and publishing, configurable rules over PJKIT's domain attributes, controlled
-dynamic reallocation that incrementally repairs the published plan for ad-hoc participants while
+dynamic reallocation that incrementally repairs the saved working map after participant absence while
 leaving unaffected participants in their initial assigned seat. This project also aimed to develop
 participant-facing lookup interface for PJKIT participants to enable them to perform self-checking
 on the latest published seat from event administrator before or during the event day.
