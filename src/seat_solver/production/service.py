@@ -5,7 +5,7 @@ import json
 import os
 import sys
 
-from seat_solver.prototype.models import read_json
+from seat_solver.jsonio import read_json
 from seat_solver.production.plan_store import PlanStore, participant_view
 from seat_solver.production.policy import ROOT, DomainError, policy
 from seat_solver.production.production import error, solve

@@ -7,7 +7,7 @@ from pathlib import Path
 
 import jsonschema
 
-from seat_solver.prototype.models import read_json
+from seat_solver.jsonio import read_json
 
 ROOT = Path(__file__).resolve().parents[3]
 TIERS = ("EMPEROR", "MERIT", "BODHI")

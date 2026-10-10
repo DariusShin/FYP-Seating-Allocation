@@ -5,7 +5,7 @@ import copy
 import random
 from functools import lru_cache
 
-from seat_solver.prototype.models import read_json, write_json
+from seat_solver.jsonio import read_json, write_json
 from seat_solver.production.policy import MINIMUMS, ROOT
 
 
