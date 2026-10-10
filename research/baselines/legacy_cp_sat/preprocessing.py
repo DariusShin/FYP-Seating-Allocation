@@ -20,7 +20,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from seat_solver.prototype.models import (
+from legacy_cp_sat.models import (
     CATEGORY_NAMES,
     TIER_NAMES,
     FloorPlan,

@@ -17,7 +17,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from seat_solver.prototype.models import (
+from legacy_cp_sat.models import (
     SCHEMA_VERSION,
     load_floor_plan,
     load_participants,
@@ -25,7 +25,7 @@ from seat_solver.prototype.models import (
     load_solver_config,
     write_json,
 )
-from seat_solver.prototype.solver import solve_seat_allocation
+from legacy_cp_sat.solver import solve_seat_allocation
 
 
 def _rss_bytes() -> int | None:

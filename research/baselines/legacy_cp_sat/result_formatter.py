@@ -10,12 +10,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from seat_solver.prototype.cost_calculator import (
+from legacy_cp_sat.cost_calculator import (
     COMPONENT_NAMES,
     CostBreakdown,
     PenaltyScaler,
 )
-from seat_solver.prototype.models import (
+from legacy_cp_sat.models import (
     CASE_STUDY_NAME,
     SCHEMA_VERSION,
     FloorPlan,
@@ -23,7 +23,7 @@ from seat_solver.prototype.models import (
     Seat,
     SolverConfig,
 )
-from seat_solver.prototype.preprocessing import SeatPair, TierBands
+from legacy_cp_sat.preprocessing import SeatPair, TierBands
 
 
 @dataclass(frozen=True)

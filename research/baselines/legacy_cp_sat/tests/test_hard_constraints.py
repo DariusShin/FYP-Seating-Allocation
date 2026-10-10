@@ -6,7 +6,7 @@ import copy
 
 import pytest
 
-from seat_solver.prototype.validator import count_middle_fill_violations
+from legacy_cp_sat.validator import count_middle_fill_violations
 
 VALID_PAIR_POSITIONS = {
     (1, 2),

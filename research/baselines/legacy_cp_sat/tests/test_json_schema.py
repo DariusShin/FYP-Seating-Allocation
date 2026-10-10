@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from seat_solver.prototype.validator import validate_against_schema
+from legacy_cp_sat.validator import validate_against_schema
 
 
 # These rules belong to the retained v1 prototype, not production v4.
@@ -32,7 +32,7 @@ def test_result_matches_schema(default_result):
 def test_error_result_matches_schema(floor_plan, config):
     from conftest import make_participant
 
-    from seat_solver.prototype.solver import solve_seat_allocation
+    from legacy_cp_sat.solver import solve_seat_allocation
 
     participants = [
         make_participant(f"P{i:03d}", "EMPEROR", 2000 + i) for i in range(1, 118)

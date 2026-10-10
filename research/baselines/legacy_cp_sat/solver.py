@@ -15,15 +15,15 @@ from typing import Any
 
 from ortools.sat.python import cp_model
 
-from seat_solver.prototype.cost_calculator import CostCalculator
-from seat_solver.prototype.cp_sat_model import ModelBundle, build_model
-from seat_solver.prototype.models import (
+from legacy_cp_sat.cost_calculator import CostCalculator
+from legacy_cp_sat.cp_sat_model import ModelBundle, build_model
+from legacy_cp_sat.models import (
     FloorPlan,
     Participant,
     PreviousAllocation,
     SolverConfig,
 )
-from seat_solver.prototype.preprocessing import (
+from legacy_cp_sat.preprocessing import (
     EmperorUnit,
     SingleUnit,
     StructuredError,
@@ -36,12 +36,12 @@ from seat_solver.prototype.preprocessing import (
     compute_tier_bands,
     validate_inputs,
 )
-from seat_solver.prototype.result_formatter import (
+from legacy_cp_sat.result_formatter import (
     ExtractedAssignment,
     build_error_result,
     build_success_result,
 )
-from seat_solver.prototype.validator import (
+from legacy_cp_sat.validator import (
     compute_hard_constraint_validation,
     validate_against_schema,
 )

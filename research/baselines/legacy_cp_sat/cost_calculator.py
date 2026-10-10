@@ -17,14 +17,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from seat_solver.prototype.models import (
+from legacy_cp_sat.models import (
     FloorPlan,
     Participant,
     PreviousAllocation,
     Seat,
     SolverConfig,
 )
-from seat_solver.prototype.preprocessing import EmperorUnit, SeatPair, SingleUnit
+from legacy_cp_sat.preprocessing import EmperorUnit, SeatPair, SingleUnit
 
 NORMALIZATION_SCALE = 100
 

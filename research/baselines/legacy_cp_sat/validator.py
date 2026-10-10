@@ -14,7 +14,7 @@ from typing import Any
 
 import jsonschema
 
-from seat_solver.prototype.models import SCHEMA_VERSION, read_json
+from legacy_cp_sat.models import SCHEMA_VERSION, read_json
 
 SCHEMA_DIR_ENV = "SEAT_SOLVER_SCHEMA_DIR"
 
@@ -23,7 +23,7 @@ def schema_dir() -> Path:
     override = os.environ.get(SCHEMA_DIR_ENV)
     if override:
         return Path(override)
-    packaged = Path(__file__).resolve().parents[3] / "schemas"
+    packaged = Path(__file__).resolve().parents[0] / "schemas"
     if packaged.is_dir():
         return packaged
     return Path("schemas")

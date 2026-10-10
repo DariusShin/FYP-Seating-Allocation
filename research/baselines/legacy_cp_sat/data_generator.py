@@ -19,15 +19,15 @@ import random
 from dataclasses import replace
 from pathlib import Path
 
-from seat_solver.prototype.floor_plan_generator import generate_floor_plan
-from seat_solver.prototype.models import (
+from legacy_cp_sat.floor_plan_generator import generate_floor_plan
+from legacy_cp_sat.models import (
     CATEGORY_IMPORTANCE,
     SCHEMA_VERSION,
     FloorPlan,
     Participant,
     write_json,
 )
-from seat_solver.prototype.preprocessing import SeatPair, compute_tier_bands
+from legacy_cp_sat.preprocessing import SeatPair, compute_tier_bands
 
 DEFAULT_SEED = 20260707
 DEFAULT_COUNT = 122

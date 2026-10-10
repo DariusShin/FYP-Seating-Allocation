@@ -6,7 +6,7 @@ import pytest
 
 from conftest import make_participant
 
-from seat_solver.prototype.solver import solve_seat_allocation
+from legacy_cp_sat.solver import solve_seat_allocation
 
 
 # These rules belong to the retained v1 prototype, not production v4.

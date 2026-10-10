@@ -7,8 +7,8 @@ from dataclasses import replace
 import pytest
 from conftest import make_participant
 
-from seat_solver.prototype.cost_calculator import activity_target_rank, desired_priority_rank
-from seat_solver.prototype.solver import solve_seat_allocation
+from legacy_cp_sat.cost_calculator import activity_target_rank, desired_priority_rank
+from legacy_cp_sat.solver import solve_seat_allocation
 
 
 # These rules belong to the retained v1 prototype, not production v4.
@@ -127,7 +127,7 @@ def test_per_assignment_weighted_breakdown_consistent(default_result):
 
 
 def test_penalty_scaler_normalizes_to_0_100_round_half_up():
-    from seat_solver.prototype.cost_calculator import PenaltyScaler
+    from legacy_cp_sat.cost_calculator import PenaltyScaler
 
     scaler = PenaltyScaler(normalize=True, maxima={"movement": 139})
     assert scaler.normalized("movement", 0) == 0
@@ -139,7 +139,7 @@ def test_penalty_scaler_normalizes_to_0_100_round_half_up():
 
 
 def test_component_maxima_for_default_scenario(floor_plan, config):
-    from seat_solver.prototype.cost_calculator import compute_component_maxima
+    from legacy_cp_sat.cost_calculator import compute_component_maxima
 
     assert compute_component_maxima(floor_plan, config) == {
         "priority_seat": 15,  # worst rank 16 vs best desired rank 1

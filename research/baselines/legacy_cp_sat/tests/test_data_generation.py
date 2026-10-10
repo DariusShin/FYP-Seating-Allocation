@@ -6,12 +6,12 @@ import random
 
 import pytest
 
-from seat_solver.prototype.data_generator import (
+from legacy_cp_sat.data_generator import (
     DEFAULT_SEED,
     build_previous_allocation,
     generate_participants,
 )
-from seat_solver.prototype.floor_plan_generator import generate_floor_plan
+from legacy_cp_sat.floor_plan_generator import generate_floor_plan
 
 
 # These rules belong to the retained v1 prototype, not production v4.

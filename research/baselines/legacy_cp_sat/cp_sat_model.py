@@ -22,9 +22,9 @@ from dataclasses import dataclass, field
 
 from ortools.sat.python import cp_model
 
-from seat_solver.prototype.cost_calculator import CostBreakdown, CostCalculator, PenaltyScaler
-from seat_solver.prototype.models import TIER_NAMES, FloorPlan, SolverConfig
-from seat_solver.prototype.preprocessing import (
+from legacy_cp_sat.cost_calculator import CostBreakdown, CostCalculator, PenaltyScaler
+from legacy_cp_sat.models import TIER_NAMES, FloorPlan, SolverConfig
+from legacy_cp_sat.preprocessing import (
     EmperorUnit,
     SeatPair,
     SingleUnit,
