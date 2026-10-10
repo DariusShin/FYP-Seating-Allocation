@@ -23,7 +23,6 @@ from ortools.sat.python import cp_model
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
-sys.path.insert(0, str(ROOT / "src"))
 from seat_solver.production.policy import MINIMUMS, policy, validate_request
 from seat_solver.production.production import build
 from research.fixtures.synthetic_participants import generate
@@ -198,8 +197,10 @@ def main():
     if args.out.exists():
         parser.error("Output directory already exists; choose a new --out to preserve previous evidence")
     start = time.perf_counter()
-    source_paths = [Path(__file__).relative_to(ROOT), Path("config/production_policy.json")]
-    source_paths += list(Path("src/seat_solver/production").glob("*.py"))
+    source_paths = [Path(__file__).relative_to(ROOT),
+                    Path("services/seating/config/production_policy.json"),
+                    Path("services/seating/src/seat_solver/jsonio.py")]
+    source_paths += list(Path("services/seating/src/seat_solver/production").glob("*.py"))
     hashes = {str(p): hashlib.sha256((ROOT / p).read_bytes()).hexdigest() for p in source_paths}
     manifest = {"created_utc": datetime.now(timezone.utc).isoformat(), "python": sys.version,
         "ortools": ortools.__version__, "platform": platform.platform(), "machine": platform.machine(),
