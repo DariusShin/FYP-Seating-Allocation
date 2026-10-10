@@ -112,6 +112,8 @@ export function restoration(
   // publish or save this intermediate dock state, or swap one single into a pair.
   for (const change of moved) {
     const item = state.items[change.participant_id];
+    if (item?.attendance_status === "ABSENT")
+      throw Error("Restore attendance using the dock assignment controls before restoring these seats.");
     if (!item || !sameSeats(item.seat_ids, change.after.seat_ids))
       throw Error("A registration has moved again. Preview restoration again.");
     if (!change.before.seat_ids.length)

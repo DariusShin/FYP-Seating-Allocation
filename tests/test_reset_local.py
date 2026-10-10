@@ -17,6 +17,7 @@ def populated(path):
         db.execute("INSERT INTO audit(event,plan,action,actor,at) VALUES('e','p','save','staff','now')")
         db.execute("INSERT INTO workspaces VALUES('e','p',1,'{}','now','staff')")
         db.execute("INSERT INTO workspace_reviews VALUES('e','p','{}')")
+        db.execute("INSERT INTO event_attendance VALUES('e','person','ABSENT','now','staff')")
         db.execute("INSERT INTO workspace_versions VALUES('e','p','{}','now','staff')")
     return store
 

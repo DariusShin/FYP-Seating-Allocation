@@ -5,7 +5,8 @@ from seat_solver.production.policy import ELIGIBLE, mapped_weights
 
 def eligible(request):
     return sorted(
-        (p for p in request["participants"] if p["registration_status"] in ELIGIBLE),
+        (p for p in request["participants"] if p["registration_status"] in ELIGIBLE
+         and request.get("attendance", {}).get(p["participant_id"], "PRESENT") != "ABSENT"),
         key=lambda p: p["participant_id"],
     )
 

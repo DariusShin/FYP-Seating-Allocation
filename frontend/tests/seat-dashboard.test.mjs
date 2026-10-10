@@ -201,7 +201,7 @@ function fixture(docked = false) {
       },
     },
     revision: 0,
-    saved_at: null,
+    saved_at: "2026-10-07T00:00:00Z",
   };
 }
 
@@ -722,4 +722,81 @@ test("the selected registration border follows swap, undo, redo and docking", ()
     .find("Button", (p) => p.children === "Send to holding dock")
     .onClick();
   assert.equal(render().find("HallMap").selectedSeat, null);
+});
+
+test("absent dock styling, restore cancel and confirmed assignment preserve atomic history", () => {
+  const render = dashboard(fixture());
+  render().find("Button", (p) => p.children === "Edit plan").onClick();
+  render().find("HallMap").onSelect("S1");
+  render().find("WorkspaceDialogs").onMarkAbsent("P1");
+  assert.deepEqual(render().find("HallMap").owners, {});
+  const card = render().find("button", (p) => p.draggable && p.className.includes("bg-destructive/10"));
+  assert.ok(card);
+  assert.equal(render().find("WorkspaceToolbar").dockCount, 1);
+  assert.equal(render().find("WorkspaceToolbar").presentDockCount, 0);
+  render().find("HallMap").onDrop("P1", "S2");
+  assert.ok(render().find("DialogTitle", (p) => p.children === "Restore attendance and assign?"));
+  render().find("Button", (p) => p.children === "Cancel").onClick();
+  assert.deepEqual(render().find("HallMap").owners, {});
+  assert.equal(render().find("WorkspaceDialogs").state.items.P1.attendance_status, "ABSENT");
+  render().find("HallMap").onDrop("P1", "S2");
+  render().find("Button", (p) => p.children === "Restore to present and assign").onClick();
+  assert.deepEqual(render().find("HallMap").owners, { S2: "P1" });
+  assert.equal(render().find("WorkspaceDialogs").state.items.P1.attendance_status, "PRESENT");
+  render().find("Button", (p) => p["aria-label"] === "Undo").onClick();
+  assert.deepEqual(render().find("HallMap").owners, {});
+  assert.equal(render().find("WorkspaceDialogs").state.items.P1.attendance_status, "ABSENT");
+});
+
+test("repair saves the edited absence baseline before solving and opens its exact candidate", async (t) => {
+  const render = dashboard(fixture());
+  render().find("Button", (p) => p.children === "Edit plan").onClick();
+  render().find("WorkspaceDialogs").onMarkAbsent("P1");
+  const requests = [];
+  const saved = fixture(true);
+  saved.revision = 1;
+  saved.state.items.P1.attendance_status = "ABSENT";
+  t.mock.method(globalThis, "fetch", async (url, options) => {
+    const body = JSON.parse(options.body);
+    requests.push(body);
+    if (body.command === "workspace_save") return response(saved);
+    if (url.includes("/api/solve")) return response({ status: "success", plan_version_id: "repair" });
+    return response({ ...saved, base: { ...saved.base, plan_version_id: "repair" } });
+  });
+  const settings = openSettings(render);
+  assert.equal(settings.hasAbsences, true);
+  assert.equal(settings.attendanceChanged, true);
+  await settings.onRepair(preferences);
+  assert.equal(requests[0].command, "workspace_save");
+  assert.equal(requests[0].state.items.P1.attendance_status, "ABSENT");
+  assert.equal(requests[1].generation_mode, "REPAIR_ABSENCE");
+  assert.equal(requests[1].revision, 1);
+  assert.equal(requests[1].plan_version_id, "old");
+  assert.deepEqual(requests[2], { command: "workspace_open", plan_version_id: "repair" });
+});
+
+test("attendance changes enable full generation without altering preferences", () => {
+  const render = component("../src/components/seat/weight-controls.tsx", "WeightControls", {
+    result: { preferences }, onGenerate: async () => {}, attendanceChanged: true,
+  });
+  assert.equal(render().find("Button", (p) => p.children === "Generate new draft").disabled, false);
+});
+
+test("a feasible absence repair renders its movement summary without a generation error", () => {
+  const value = fixture();
+  value.base.solver_status_at_generation = "FEASIBLE";
+  value.base.repair_summary = {
+    moved_registrations: 13,
+    moved_physical_seats: 26,
+    distance_doubled: 160,
+    scope_rows: [1, 2, 3],
+    optimality_proven: false,
+    changes: [],
+  };
+  const render = dashboard(value);
+  const summary = render().find("p", (p) => p.role === "status" && JSON.stringify(p.children).includes("Absence repair"));
+  assert.match(JSON.stringify(summary.children), /Valid repair found; optimality is not proven/);
+  assert.match(JSON.stringify(summary.children), /13/);
+  assert.ok(render().find("HallMap"));
+  assert.equal(render().find("MapLoadingOverlay"), undefined);
 });

@@ -51,7 +51,7 @@ revision checks continue to reject stale saves, checks and publication requests.
 **Back to editing** saves verification edits and opens
 `/events/[eventId]/seating-plans/[planId]`, preserving the selected seat and local
 history. Recovered browser edits are saved before the entry check runs; docked
-paid registrations must be assigned before entering verification.
+present paid registrations must be assigned before entering verification.
 
 Successful publication opens `/events/[eventId]/venue`. `/venue` redirects to
 the signed session's event display. Venue polling is scoped to that event and
@@ -86,9 +86,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 The default database is `output/paid-seats-v4.sqlite3`. The old `output/plans.sqlite3` and backups are preserved; no migration or reset is applied to them. Unset a previous `SEAT_PLAN_DB` override or point it explicitly at the v4 file. Starting this branch for the first time gives an empty event history and the normal initial-generation flow.
 
-Paid registrations retain their name and allocation even when contributors do not attend. Emperor always retains two seats. Absence, replacement, attendance markers, name/seat checkboxes and location locks are removed from the production UI and stored workspace state.
+Staff can mark a registration absent, docking the entire allocation; both Emperor occupants share that status. Absent cards use a distinct style, and returning them to the map asks to restore attendance. Registration records and names are retained; substitutions and separate companion absence remain outside scope. Saved attendance is persisted in SQLite and applied when opening another event plan.
 
-Use **Edit plan** for manual moves/swaps and the holding dock. All paid registrations must be seated before publication. Seat details use **Edit → Save draft / Cancel** for display name and note; canceling does not change the workspace. Settings offers regeneration only after changing preference order or an enabled flag, and opens the new private draft for review.
+Use **Edit plan** for manual moves/swaps and the holding dock. All present paid registrations must be seated before publication; absent registrations may remain docked. Seat details use **Edit → Save draft / Cancel** for display name and note; canceling does not change the workspace. Settings offers full regeneration after preference or attendance changes and separate minimum-movement **Repair gaps after absence**. Both save outstanding edits first and open a private draft for review. Repair preserves outside placements and expands its local row neighbourhood only on infeasibility. See [Objective 2](../docs/absence-reallocation.md).
 
 To reset only the v4 demo store, stop the server and solver processes first, then run from the repository root:
 

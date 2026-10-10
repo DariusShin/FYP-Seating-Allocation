@@ -24,7 +24,7 @@ CP-SAT may return OPTIMAL or FEASIBLE. OPTIMAL proves the business objective; FE
 
 The independent validator reconstructs rules, occupancy, costs and serialized results from original inputs and output, rather than trusting solver variables. It validates placement correctness, not the solver's optimality certificate.
 
-Initial generation and preference regeneration use the same complete model and produce private drafts. The objective contains contribution, activeness and category-zone costs; publication is a separate staff action.
+Initial generation and preference regeneration use the same complete model over present registrations and produce private drafts. Objective 2 uses a separate incremental absence repair, with fixed outside placements and lexicographic movement objectives; see [absence reallocation](absence-reallocation.md). The objective contains contribution, activeness and category-zone costs; publication is a separate staff action.
 
 ## Manual edits and review
 

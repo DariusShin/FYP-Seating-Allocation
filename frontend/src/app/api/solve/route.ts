@@ -20,6 +20,8 @@ export async function POST(request: Request) {
       "generation_mode",
       "preferences",
       "preference_profile_version",
+      "plan_version_id",
+      "revision",
     ]);
     if (
       !body ||
@@ -29,7 +31,9 @@ export async function POST(request: Request) {
       !Array.isArray(body.preferences) ||
       body.preferences.length !== 3 ||
       body.preference_profile_version !== "ranked-v1" ||
-      !["INITIAL", "REGENERATE_DRAFT"].includes(body.generation_mode)
+      !["INITIAL", "REGENERATE_DRAFT", "REPAIR_ABSENCE"].includes(body.generation_mode) ||
+      (body.generation_mode === "REPAIR_ABSENCE" && (typeof body.plan_version_id !== "string" || !Number.isInteger(body.revision))) ||
+      (body.revision !== undefined && (!Number.isInteger(body.revision) || typeof body.plan_version_id !== "string"))
     ) {
       return NextResponse.json(
         {

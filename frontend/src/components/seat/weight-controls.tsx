@@ -18,10 +18,16 @@ export function WeightControls({
   result,
   onGenerate,
   hasDraft = false,
+  onRepair,
+  hasAbsences = false,
+  attendanceChanged = false,
 }: {
   result: AllocationResult;
   onGenerate: (preferences: Preference[]) => Promise<void>;
   hasDraft?: boolean;
+  onRepair?: (preferences: Preference[]) => Promise<void>;
+  hasAbsences?: boolean;
+  attendanceChanged?: boolean;
 }) {
   const [preferences, setPreferences] = useState<Preference[]>(
     () => result.preferences ?? DEFAULTS,
@@ -100,12 +106,14 @@ export function WeightControls({
         )}
       </fieldset>
       <Button
-        disabled={!changed}
+        disabled={!changed && !attendanceChanged}
         onClick={() => void onGenerate(preferences)}
         className="w-full"
       >
         Generate new draft
       </Button>
+      {onRepair && <Button variant="outline" disabled={!hasAbsences} onClick={() => void onRepair(preferences)} className="w-full">Repair gaps after absence</Button>}
+      {hasAbsences && <p className="text-xs text-muted-foreground">Absent registrations stay in the dock. Repair preserves seats outside the affected area and expands only when required. Fewest moved registrations takes priority over preferences.</p>}
       <p className="text-xs text-muted-foreground">
         Generating does not publish. Review and publish the resulting version
         separately.

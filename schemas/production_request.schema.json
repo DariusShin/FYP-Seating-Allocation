@@ -11,7 +11,8 @@
     "generation_mode": {
       "enum": [
         "INITIAL",
-        "REGENERATE_DRAFT"
+        "REGENERATE_DRAFT",
+        "REPAIR_ABSENCE"
       ]
     },
     "layout_version_id": {
@@ -308,6 +309,15 @@
         "venue"
       ],
       "additionalProperties": false
+    },
+    "attendance": {
+      "type": "object",
+      "additionalProperties": {
+        "enum": [
+          "PRESENT",
+          "ABSENT"
+        ]
+      }
     }
   },
   "required": [

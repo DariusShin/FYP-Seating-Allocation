@@ -12,6 +12,7 @@ export function WorkspaceToolbar({
   workspace,
   registrationCount,
   dockCount,
+  presentDockCount = dockCount,
   canUndo,
   historyReady,
   onUndo,
@@ -28,6 +29,7 @@ export function WorkspaceToolbar({
   workspace: Workspace | null;
   registrationCount: number;
   dockCount: number;
+  presentDockCount?: number;
   canUndo: boolean;
   historyReady: boolean;
   onUndo: () => void;
@@ -91,7 +93,7 @@ export function WorkspaceToolbar({
             </Button>
             <Button
               size="sm"
-              disabled={busy || !historyReady || dockCount > 0}
+              disabled={busy || !historyReady || presentDockCount > 0}
               onClick={onReview}
             >
               Submit for review

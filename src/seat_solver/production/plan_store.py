@@ -30,6 +30,7 @@ class PlanStore:
             db.executescript(
                 """CREATE TABLE IF NOT EXISTS plans (id TEXT PRIMARY KEY,event TEXT NOT NULL,body TEXT NOT NULL,hash TEXT NOT NULL,state TEXT NOT NULL,actor TEXT NOT NULL,created TEXT NOT NULL,approved_by TEXT,approved_at TEXT,published_by TEXT,published_at TEXT); CREATE TABLE IF NOT EXISTS events (id TEXT PRIMARY KEY,published TEXT); CREATE TABLE IF NOT EXISTS audit (id INTEGER PRIMARY KEY,event TEXT,plan TEXT,action TEXT,actor TEXT,at TEXT);"""
             )
+            db.execute("CREATE TABLE IF NOT EXISTS event_attendance (event TEXT NOT NULL, participant TEXT NOT NULL, status TEXT NOT NULL CHECK(status IN ('PRESENT','ABSENT')), changed_at TEXT NOT NULL, actor TEXT NOT NULL, PRIMARY KEY(event,participant))")
 
     @contextmanager
     def connection(self):
@@ -82,7 +83,7 @@ class PlanStore:
             ).fetchone()
             return self._load(db, row["id"]) if row else None
 
-    def save(self, result, actor, predecessor=None, predecessor_revision=None):
+    def save(self, result, actor, predecessor=None, predecessor_revision=None, workspace_guard=None):
         report = audit_result(result)
         if not report["passed"]:
             raise DomainError(
@@ -95,6 +96,11 @@ class PlanStore:
         body["publication_status"] = "DRAFT"
         event = body["event_id"]
         with self.connection() as db:
+            if workspace_guard is not None:
+                current = db.execute("SELECT base,revision FROM workspaces WHERE event=?", (event,)).fetchone()
+                if not current or current["base"] != workspace_guard["plan_version_id"] or current["revision"] != workspace_guard["revision"]:
+                    raise DomainError("STALE_BASELINE", "Saved working map changed during generation; candidate discarded")
+                body["working_baseline"] = workspace_guard
             if predecessor_revision is not None:
                 prior = self._load(db, predecessor)
                 if (
@@ -204,6 +210,11 @@ class PlanStore:
             event = plan["event_id"]
             stamp = now()
             if action == "publish":
+                captured = plan["source_request"].get("attendance", {})
+                people = {p["participant_id"] for p in plan["source_request"]["participants"]}
+                for attendance in db.execute("SELECT participant,status FROM event_attendance WHERE event=?", (event,)):
+                    if attendance["participant"] in people and captured.get(attendance["participant"], "PRESENT") != attendance["status"]:
+                        raise DomainError("STALE_BASELINE", "Event attendance changed; open this plan in the workspace and review before publication")
                 pointer = db.execute(
                     "SELECT published FROM events WHERE id=?", (event,)
                 ).fetchone()

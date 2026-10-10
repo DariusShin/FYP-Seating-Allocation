@@ -1,3 +1,5 @@
+> Scope update — 7 October 2026: the implemented Objective 2 targets absence only, uses the latest saved working map, and expands a reduced repair neighbourhood when necessary. Substitutions, group changes, late registrations and independently absent companions below are earlier proposals, not current requirements. See [absence reallocation](../../docs/absence-reallocation.md).
+
 The examiner’s feedback changes Objective 2 from **“generate another whole seating plan with movement minimization”** into a more specific **incremental repair problem**.
 
 Your current report already identifies absence, substitution, group changes, ad-hoc registration, and preservation of the published plan as the intended reallocation context.  The examiner is asking you to make the distinction much clearer:

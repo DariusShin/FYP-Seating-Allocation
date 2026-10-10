@@ -6,13 +6,13 @@ The current interface uses Next.js App Router, Tailwind semantic tokens, Lucide 
 
 `/event` opens the seating entry flow. Events without a plan show an empty hall and Generate draft. Generation invokes the local Python service and opens the exact returned `plan_version_id` as a private working draft.
 
-Settings enables Generate new draft only when preference ordering or enabled flags differ from the current plan. `WeightControls` supplies preferences to `SeatDashboard`; the dashboard owns solve/open requests, loading phases and retry state. A successful solve followed by failed workspace opening retries the opening without running a second solve. Generation blocks editing until the new workspace is ready.
+Settings enables Generate new draft when preference ordering, enabled flags or attendance differ from the current plan. `WeightControls` supplies preferences to `SeatDashboard`; the dashboard owns solve/open requests, loading phases and retry state. A successful solve followed by failed workspace opening retries the opening without running a second solve. Generation blocks editing until the new workspace is ready.
 
-`INITIAL` and `REGENERATE_DRAFT` use the complete solver model. Manual history is not replayed into a regenerated map. Regeneration never changes the published pointer. Saved-plan selection explicitly uses `workspace_open`; ordinary plan/review links only load the active workspace.
+`INITIAL` and `REGENERATE_DRAFT` use the complete solver model with absent registrations excluded. Settings also offers a separate absence repair using the saved map, local expansion and movement-first objectives; see [absence reallocation](absence-reallocation.md). Manual history is not replayed into a regenerated map. Regeneration never changes the published pointer. Saved-plan selection explicitly uses `workspace_open`; ordinary plan/review links only load the active workspace.
 
 ## Edit the working draft
 
-Edit mode supports whole-registration moves, equal-size swaps and temporary docking. Emperor allocations retain both approved adjacent seats. Blocked, overlapping, inaccessible and incomplete pair destinations are rejected. Mixed-size rearrangements use a compound preview when possible; otherwise staff can use the holding dock. Every eligible paid registration must be seated before verification.
+Edit mode supports whole-registration moves, equal-size swaps and temporary docking. Emperor allocations retain both approved adjacent seats. Blocked, overlapping, inaccessible and incomplete pair destinations are rejected. Mixed-size rearrangements use a compound preview when possible; otherwise staff can use the holding dock. Every present eligible paid registration must be seated before verification. Mark absent docks the whole registration (both Emperor occupants), with a distinct absent card. Assignment requires confirmation to restore attendance; cancellation changes nothing.
 
 The workspace provides search by name, guest/display name or registration ID, registration filters, participant navigation, map legend, local history and generated-plan versions. Details buffer display-name and note changes until Save draft succeeds; Cancel discards those buffered changes. Authoritative registration fields and payment status are not editable.
 

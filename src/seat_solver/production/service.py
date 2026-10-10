@@ -93,6 +93,20 @@ def dispatch(body, store=None):
         return plan
     if command == "solve":
         latest = store.latest(event)
+        if latest and latest["policy_version_id"] != policy()["policy_version_id"]:
+            raise DomainError("POLICY_VERSION_MISMATCH", "Use the fresh paid-seats-v4 demo store; old histories are read-only archives.")
+        from seat_solver.production.workspace import WorkspaceStore, apply_display, validate_state
+        workspaces = WorkspaceStore(store) if hasattr(store, "connection") else None
+        saved = workspaces.load(event) if workspaces else None
+        if body.get("generation_mode") == "REPAIR_ABSENCE":
+            from seat_solver.production.absence_repair import repair
+            if not saved or saved["saved_at"] is None:
+                raise DomainError("INVALID_INPUT", "Save the working map before absence repair")
+            if body.get("plan_version_id") != saved["base"]["plan_version_id"] or body.get("revision") != saved["revision"]:
+                raise DomainError("STALE_BASELINE", "Reload the saved map before absence repair")
+            result = repair(saved["base"], saved["state"], body.get("preferences"))
+            guard = {"plan_version_id": saved["base"]["plan_version_id"], "revision": saved["revision"]}
+            return store.save(result, actor, workspace_guard=guard) if result["status"] == "success" else result
         event_source = (
             latest["source_request"]
             if latest
@@ -103,6 +117,13 @@ def dispatch(body, store=None):
             )
         )
         req = copy.deepcopy(body.get("request") or event_source)
+        guard = None
+        if saved and not body.get("request"):
+            req = validate_state(saved["base"], saved["state"])
+            if saved["saved_at"] is not None:
+                guard = {"plan_version_id": saved["base"]["plan_version_id"], "revision": saved["revision"]}
+            if "revision" in body and (body["revision"] != saved["revision"] or body.get("plan_version_id") != saved["base"]["plan_version_id"]):
+                raise DomainError("STALE_BASELINE", "Reload before regenerating the saved map")
         # Reuse registrations and preferences, but take current venue obstacles and ranks
         # when regenerating the same configured hall. Explicit requests own their layout.
         if latest and not body.get("request"):
@@ -115,8 +136,6 @@ def dispatch(body, store=None):
             if configured["event_id"] == event and geometry(configured["layout"]) == geometry(req["layout"]):
                 req["layout"] = copy.deepcopy(configured["layout"])
                 req["layout_version_id"] = configured["layout_version_id"]
-        if latest and latest["policy_version_id"] != policy()["policy_version_id"]:
-            raise DomainError("POLICY_VERSION_MISMATCH", "Use the fresh paid-seats-v4 demo store; old histories are read-only archives.")
         req["event_id"] = event
         for key in (
             "generation_mode",
@@ -127,7 +146,15 @@ def dispatch(body, store=None):
         if "baseline_plan_version_id" in body or "participants" in body:
             raise DomainError("INVALID_INPUT", "Regeneration accepts preferences, not attendance or registration changes")
         result = solve(req)
-        return store.save(result, actor) if result["status"] == "success" else result
+        if result["status"] == "success" and saved and not body.get("request"):
+            result["operations"] = copy.deepcopy(saved["state"]["items"])
+            assigned = {a["participant_id"]: a["seat_ids"] for a in result["assignments"]}
+            for pid, item in result["operations"].items():
+                item["seat_ids"] = assigned.get(pid, [])
+                if item["seat_ids"]:
+                    item["dock_reason"] = ""
+            apply_display(result, result["operations"])
+        return store.save(result, actor, workspace_guard=guard) if result["status"] == "success" else result
     if command in ("manual", "submit", "approve", "publish", "reject"):
         existing = store.get(body["plan_version_id"])
         if existing["event_id"] != event:

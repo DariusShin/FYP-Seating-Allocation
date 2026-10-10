@@ -59,7 +59,7 @@ def test_pair_cannot_be_reduced_to_single_or_published_from_dock(setup):
         action(ws, plan, "workspace_save", state=state)
     state["items"]["P0001"]["seat_ids"] = []
     saved = action(ws, plan, "workspace_save", state=state)
-    with pytest.raises(DomainError, match="every paid"):
+    with pytest.raises(DomainError, match="every present paid"):
         action(ws, plan, "workspace_publish", saved["revision"])
     assert store.published(plan["event_id"]) is None
 

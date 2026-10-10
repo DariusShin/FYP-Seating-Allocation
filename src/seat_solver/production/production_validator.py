@@ -143,6 +143,11 @@ def audit_result(result):
         if not report["passed"]:
             return report
         placements = {a["participant_id"]: a["seat_ids"] for a in result["assignments"]}
+        for pid, item in metadata.items():
+            if item.get("attendance_status", "PRESENT") != request.get("attendance", {}).get(pid, "PRESENT"):
+                raise DomainError("INVALID_INPUT", "Attendance metadata differs from the saved request")
+            if set(item["seat_ids"]) != set(placements.get(pid, [])):
+                raise DomainError("INVALID_INPUT", "Operation placements differ from assignments")
         scored = quality(request, policy(), placements)
         if result["quality"] != scored:
             report["issues"].append(
@@ -151,6 +156,18 @@ def audit_result(result):
         expected_stages = {
             "weighted_preferences": scored["weighted"]["total"],
         }
+        if result.get("generation_mode") == "REPAIR_ABSENCE" and not result.get("manually_modified"):
+            from seat_solver.production.absence_repair import movement
+            baseline = result["repair_baseline"]
+            seats = {s["seat_id"]: s for s in request["layout"]["seats"]}
+            if set(baseline) != set(placements):
+                raise DomainError("INVALID_INPUT", "Repair baseline registration IDs differ")
+            metrics = [movement(ids, baseline[pid], seats) for pid, ids in placements.items()]
+            expected_stages.update(moved_registrations=sum(m for m, _ in metrics),
+                                   movement_distance_doubled=sum(d for _, d in metrics))
+            summary = result["repair_summary"]
+            if summary["moved_registrations"] != expected_stages["moved_registrations"] or summary["distance_doubled"] != expected_stages["movement_distance_doubled"]:
+                raise DomainError("INVALID_INPUT", "Repair movement summary differs from reconstruction")
         if (
             result["solver"].get("main_penalty") != scored["weighted"]["total"]
             or result["solver"].get("objective_value") != scored["weighted"]["total"]

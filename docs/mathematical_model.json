@@ -5,7 +5,7 @@
   "implementation": "src/seat_solver/production/production.py",
   "status": "Implemented local production workflow; AWS/host deployment measurements are external acceptance gates.",
   "sets": {
-    "P": "confirmed paid registration units, independent of attendance",
+    "P": "present confirmed registration units; ABSENT units retain records but have no assigned seats",
     "S": "physical layout seats",
     "O_p": "legal one-seat or approved two-seat options for p",
     "T": [
@@ -15,7 +15,8 @@
     ],
     "M": [
       "INITIAL",
-      "REGENERATE_DRAFT"
+      "REGENERATE_DRAFT",
+      "REPAIR_ABSENCE"
     ]
   },
   "parameters": {
@@ -115,13 +116,13 @@
     "C2": "For each physical s: occ[s] <= 1, including both seats of Emperor options.",
     "C3": "Blocked seats are absent from all O_p.",
     "C4": "Input schema and semantics validate unique coordinates/IDs, bounds, sides and row indices; candidates reference supplied physical seats only.",
-    "C5": "Only CONFIRMED paid registrations are allocated. Attendance never changes eligibility or paid demand.",
-    "C10": "Every Emperor registration always occupies one approved adjacent same-row two-seat pair. Both seats retain its display name.",
+    "C5": "Only CONFIRMED and non-ABSENT registrations are allocated; independent attendance never changes payment status.",
+    "C10": "Every present Emperor registration occupies an approved two-seat pair; absence docks both seats and applies to both occupants.",
     "C11": "Approved pairs do not straddle the centre aisle; physical positions define adjacency.",
     "C12": "For higher-tier p and lower-tier q: worst[p] < best[q]. Consecutive nonempty tier boundaries enforce this transitively, including BOTH Emperor seats. Shared rows permitted; accessibility has no exemption.",
     "C13": "Same tier and contribution[p] > contribution[q] imply row[p] <= row[q]. Consecutive within-tier contribution-group row boundaries implement this.",
-    "C15": "Both modes: row occupancy equals min(remaining physical demand, available row capacity), front to back.",
-    "C16": "Both modes: occ[later] <= occ[earlier] over available seats ordered right/east outward, then left/west outward. Every assignable east seat must be occupied before any west seat in the same row.",
+    "C15": "Generation and repair: row occupancy equals min(remaining physical demand, available row capacity), front to back.",
+    "C16": "Generation and repair: occ[later] <= occ[earlier] over available seats ordered right/east outward, then left/west outward. Every assignable east seat must be occupied before any west seat in the same row.",
     "C17": "Accessible single must occupy an approved side position; accessible pair must have both seats accessible. This never becomes a configurable preference."
   },
   "soft_constraints": {
@@ -155,7 +156,7 @@
     "strict_mode": "require_optimal=true rejects unproven business objectives; production default accepts independently valid FEASIBLE."
   },
   "independent_validation": "Reconstruct assignments, physical rules, metrics and stage values from source_request, independently of CP-SAT internals.",
-  "lifecycle": "Generate private draft -> edit/save revision -> safeguard check -> resolve or acknowledge findings -> explicit atomic publication. Publication rechecks persisted placements and expected public pointer; structural validity and complete paid allocations are mandatory; OPEN C12/C13 findings block, while C15/C16 are advisory.",
+  "lifecycle": "Generate private draft -> edit/save revision -> safeguard check -> resolve or acknowledge findings -> explicit atomic publication. Publication rechecks persisted placements and expected public pointer; structural validity and complete present paid allocations are mandatory; OPEN C12/C13 findings block, while C15/C16 are advisory.",
   "code_map": {
     "policy": "policy.py",
     "scoring": "production_scoring.py",
@@ -165,24 +166,40 @@
     "host_adapter": "service.py",
     "evaluation": "evaluation.py",
     "workspace": "workspace.py",
-    "verification": "verification.py"
+    "verification": "verification.py",
+    "absence_repair": "absence_repair.py"
   },
   "paid_seat_retention": {
-    "attendance": "Not a solver or workspace field; cannot release seats or replace names.",
-    "manual_work": "Whole-registration moves/swaps and temporary docking; all paid units must be seated before publication.",
-    "regeneration": "Changed preference priority/enabled flags produce a private draft with the same paid registrations."
+    "attendance": "Independent PRESENT/ABSENT status per registration; saved atomically in event_attendance and applied across event plans when opened.",
+    "manual_work": "Temporary dock retains PRESENT; absent dock releases seats; publication requires full present allocations.",
+    "regeneration": "Complete private generation excludes absent units; attendance or preference changes enable generation."
   },
   "objective_2": {
+    "status": "Incremental absence repair implemented locally; broader research/deployment evaluation remains future work",
+    "scope": "Absence only; Emperor pair is one attendance/movement unit",
+    "baseline": "Latest saved working map",
+    "algorithm": "Freeze outside registrations as constants; start at absence rows; expand by adjacent rows only on proven infeasibility; no automatic full-generation fallback",
+    "stages": [
+      "moved_registrations",
+      "movement_distance_doubled",
+      "weighted_preferences"
+    ],
+    "distance": "Doubled Manhattan distance of row/physical-position centroids",
+    "optimality_scope": "First feasible repair neighbourhood; no global hall optimum or canonicalization claim",
+    "documentation": "absence-reallocation.md",
+    "acceptance": "Accept independently valid FEASIBLE incumbents without requiring proven minimum movement, including when generation require_optimal is true. Only fix proven stages; stop on an unproven stage and retain the last valid incumbent after later timeouts or UNKNOWN. Fail only if no valid incumbent exists, the model is invalid or validation fails."
+  },
+  "supporting_verification": {
     "status": "Local safeguard verification implemented; formal research evaluation and cloud verification facet remain future work",
     "implemented": [
-      "Structural validation and complete paid allocations",
+      "Structural validation and complete present paid allocations",
       "C12/C13 RED ordering findings; explicit staff override permitted",
       "C15/C16 YELLOW non-blocking packing advisories",
       "Plan/revision checks and publish-time persisted-state recomputation",
       "Acknowledgement actor/time/notes in publication review audit",
       "Optional response-only local-history attribution with 500-active-edit limit"
     ],
-    "publication_policy": "Prior review, structurally valid complete placements, zero OPEN red findings, matching active plan/revision and expected public pointer. ACKED ordering exceptions and packing advisories may remain.",
+    "publication_policy": "Prior review, structurally valid complete present placements, zero OPEN red findings, matching active plan/revision and expected public pointer. ACKED ordering exceptions and packing advisories may remain.",
     "future": [
       "Formal detection/false-rejection/localization evaluation",
       "Target-environment latency and concurrency acceptance",

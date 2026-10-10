@@ -167,7 +167,7 @@ def test_dock_save_refresh_and_stale_write(setup):
     assert ws.load(plan["event_id"])["state"] == state
     with pytest.raises(DomainError, match="newer draft"):
         action(ws, plan, "workspace_save", state=state)
-    with pytest.raises(DomainError, match="Assign every paid"):
+    with pytest.raises(DomainError, match="Assign every present paid"):
         action(ws, plan, "workspace_publish", saved["revision"])
     assert store.published(plan["event_id"]) is None
 

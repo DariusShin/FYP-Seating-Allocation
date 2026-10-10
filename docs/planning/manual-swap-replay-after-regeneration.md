@@ -44,7 +44,7 @@ This preserves the **swap relationship**, not “A must remain in row 1”, “A
 
 ## Store design
 
-Use an application-owned manual-decision repository with a storage adapter. For a local, single-browser first release, extend the proposed IndexedDB/Dexie history store. For decisions shared by multiple staff, the application backend must be authoritative, with browser storage serving as an unsaved recovery cache. The existing SQLite service can host that repository locally; the [DynamoDB proposal](dynamodb-seating-schema.md) is a future deployment mapping, not an implemented dependency.
+Use an application-owned manual-decision repository with a storage adapter. For a local, single-browser first release, extend the proposed IndexedDB/Dexie history store. For decisions shared by multiple staff, the application backend must be authoritative, with browser storage serving as an unsaved recovery cache. The existing SQLite service can host that repository locally; the [Seating table design](table.md) is a future deployment mapping, not an implemented dependency.
 
 Do not make browser-local data the sole shared store: another staff device or a completion processed after the browser closes must be able to load the same saved decisions. Actor identity is audit metadata; saved shared intent is scoped to event and draft lineage, while private unsaved sessions are also scoped to the user.
 

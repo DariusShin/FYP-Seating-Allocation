@@ -55,10 +55,11 @@ def check(plan, state, previous=None):
     request = validate_state(plan, state)
     previous = previous or {}
     seats = {s['seat_id']: s for s in request['layout']['seats']}
-    people = {p['participant_id']: p for p in state['participants'] if p['registration_status'] in ELIGIBLE}
+    people = {p['participant_id']: p for p in state['participants'] if p['registration_status'] in ELIGIBLE
+              and state['items'][p['participant_id']].get('attendance_status', 'PRESENT') != 'ABSENT'}
     placed = {pid: state['items'][pid]['seat_ids'] for pid in people}
     if any(not ids for ids in placed.values()):
-        raise DomainError('INVALID_INPUT', 'Assign every paid registration before review or publication; attendance does not remove paid seats.')
+        raise DomainError('INVALID_INPUT', 'Assign every present paid registration before review or publication.')
     rows = {pid: seats[ids[0]]['row_number'] for pid, ids in placed.items()}
     raw, violations = detect(request, state)
     occupied = {sid for ss in placed.values() for sid in ss}

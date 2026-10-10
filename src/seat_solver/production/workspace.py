@@ -41,6 +41,7 @@ def initial_state(plan):
             "dock_reason": "",
             "previous_seat_ids": [],
             "changed_at": None,
+            "attendance_status": plan["source_request"].get("attendance", {}).get(pid, "PRESENT"),
         }
         if pid in plan.get("operations", {}):
             items[pid].update(copy.deepcopy(plan["operations"][pid]))
@@ -61,8 +62,12 @@ def validate_metadata(request, metadata):
         for key in ("note", "dock_reason"):
             if not isinstance(m.get(key), str) or len(m[key]) > 2000:
                 raise DomainError("INVALID_INPUT", "Invalid note")
-        if set(m) != {"seat_ids", "display_names", "note", "dock_reason", "previous_seat_ids", "changed_at"}:
+        if set(m) - {"attendance_status"} != {"seat_ids", "display_names", "note", "dock_reason", "previous_seat_ids", "changed_at"}:
             raise DomainError("INVALID_INPUT", "Unsupported working-draft fields")
+        if m.get("attendance_status", "PRESENT") not in ("PRESENT", "ABSENT"):
+            raise DomainError("INVALID_INPUT", "Invalid attendance status")
+        if m.get("attendance_status") == "ABSENT" and m["seat_ids"]:
+            raise DomainError("INVALID_INPUT", "Restore attendance before assigning an absent registration")
         if m["changed_at"] is not None and not isinstance(m["changed_at"], str):
             raise DomainError("INVALID_INPUT", "Invalid change timestamp")
         names = m.get("display_names")
@@ -112,6 +117,7 @@ def validate_state(plan, state):
             "INVALID_INPUT", "Every registration must remain accounted for"
         )
     validate_items(request, items)
+    request["attendance"] = {pid: m.get("attendance_status", "PRESENT") for pid, m in items.items()}
     return request
 
 
@@ -154,10 +160,11 @@ def snapshot(plan, state):
         p["participant_id"]: state["items"][p["participant_id"]]["seat_ids"]
         for p in request["participants"]
         if p["registration_status"] in ELIGIBLE
+        and state["items"][p["participant_id"]].get("attendance_status", "PRESENT") != "ABSENT"
     }
     if any(not seats for seats in placements.values()):
         raise DomainError(
-            "INVALID_INPUT", "Assign every paid registration before publishing"
+            "INVALID_INPUT", "Assign every present paid registration before publishing"
         )
     result = format_result(request, placements, stats)
     result["operations"] = copy.deepcopy(state["items"])
@@ -183,6 +190,20 @@ class WorkspaceStore:
             db.execute(
                 "CREATE TABLE IF NOT EXISTS workspace_versions (event TEXT NOT NULL, base TEXT NOT NULL, body TEXT NOT NULL, saved_at TEXT NOT NULL, actor TEXT NOT NULL, PRIMARY KEY(event,base))"
             )
+
+    def attendance(self, db, event, state):
+        """Apply current event attendance when explicitly opening a saved version."""
+        for row in db.execute("SELECT participant,status FROM event_attendance WHERE event=?", (event,)):
+            item = state["items"].get(row["participant"])
+            if item is None:
+                continue
+            item["attendance_status"] = row["status"]
+            if row["status"] == "ABSENT":
+                if item["seat_ids"]:
+                    item["previous_seat_ids"] = item["seat_ids"]
+                item["seat_ids"] = []
+                item["dock_reason"] = "Marked absent"
+        return state
 
     def review(self, db, event, base):
         row = db.execute("SELECT body FROM workspace_reviews WHERE event=? AND base=?", (event, base)).fetchone()
@@ -213,6 +234,10 @@ class WorkspaceStore:
                     "revision": current["revision"], "saved_at": current["saved_at"],
                     "actor": current["actor"], "has_newer_plan": False,
                 }
+            guard = plan.get("working_baseline")
+            previously_opened = db.execute("SELECT 1 FROM workspace_versions WHERE event=? AND base=?", (event, plan_id)).fetchone()
+            if guard and not previously_opened and (not current or current["base"] != guard["plan_version_id"] or current["revision"] != guard["revision"]):
+                raise DomainError("STALE_BASELINE", "The saved map changed while generating; reload before adopting this draft")
             if current:
                 db.execute(
                     "INSERT INTO workspace_versions(event,base,body,saved_at,actor) VALUES(?,?,?,?,?) ON CONFLICT(event,base) DO UPDATE SET body=excluded.body,saved_at=excluded.saved_at,actor=excluded.actor",
@@ -222,6 +247,10 @@ class WorkspaceStore:
                 "SELECT * FROM workspace_versions WHERE event=? AND base=?", (event, plan_id)
             ).fetchone()
             state = normalize_display_names(json.loads(archived["body"])) if archived else initial_state(plan)
+            before_attendance = copy.deepcopy(state)
+            self.attendance(db, event, state)
+            if state != before_attendance:
+                self.save_review(db, event, plan_id, {"review_status": "NOT_CHECKED"})
             revision = current["revision"] + 1 if current else 0
             stamp = archived["saved_at"] if archived else plan.get("published_at") or now()
             owner = archived["actor"] if archived else actor
@@ -330,6 +359,13 @@ class WorkspaceStore:
                 self.save_review(db, event, plan["plan_version_id"], review)
                 revision += 1
                 stamp = now()
+                for pid, item in new["items"].items():
+                    status = item.get("attendance_status", "PRESENT")
+                    if status != state["items"][pid].get("attendance_status", "PRESENT"):
+                        db.execute("INSERT INTO event_attendance(event,participant,status,changed_at,actor) VALUES(?,?,?,?,?) ON CONFLICT(event,participant) DO UPDATE SET status=excluded.status,changed_at=excluded.changed_at,actor=excluded.actor",
+                                   (event, pid, status, stamp, actor))
+                        db.execute("INSERT INTO audit(event,plan,action,actor,at) VALUES(?,?,?,?,?)",
+                                   (event, plan["plan_version_id"], f"ATTENDANCE:{pid}:{status}", actor, stamp))
                 db.execute(
                     "INSERT INTO workspaces(event,base,revision,body,saved_at,actor) VALUES(?,?,?,?,?,?) ON CONFLICT(event) DO UPDATE SET base=excluded.base,revision=excluded.revision,body=excluded.body,saved_at=excluded.saved_at,actor=excluded.actor",
                     (

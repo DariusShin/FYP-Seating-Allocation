@@ -16,7 +16,7 @@ STATUSES = ("CONFIRMED", "PENDING", "WAITLISTED", "CANCELLED")
 # Confirmation represents paid seat entitlement, never attendance.
 ELIGIBLE = ("CONFIRMED",)
 PREFERENCES = ("contribution_seat", "activeness", "category_zone")
-MODES = ("INITIAL", "REGENERATE_DRAFT")
+MODES = ("INITIAL", "REGENERATE_DRAFT", "REPAIR_ABSENCE")
 DEFAULT_PREFERENCES = [{"key": k, "enabled": True} for k in PREFERENCES]
 
 
@@ -157,6 +157,8 @@ def validate_request(request):
     ids = [p["participant_id"] for p in request["participants"]]
     if len(set(ids)) != len(ids):
         raise DomainError("INVALID_INPUT", "Duplicate participant ID")
+    if set(request.get("attendance", {})) - set(ids):
+        raise DomainError("INVALID_INPUT", "Attendance references an unknown registration")
     for p in request["participants"]:
         if p["contribution_amount_rm"] < cfg["tier_minimums"][p["contribution_tier"]]:
             raise DomainError(
