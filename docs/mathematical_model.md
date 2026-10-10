@@ -56,7 +56,7 @@ Structural rules cannot be overridden. C12/C13 produce RED findings: every OPEN 
 
 Review requires prior submission and checks persisted state at publication; browser payloads cannot replace saved placements. A changed published pointer or stale workspace revision is rejected. The published snapshot includes review audit data, which public projections omit. Optional local-history attribution changes presentation only and never suppresses authoritative findings.
 
-This is explainable domain-rule reasoning, not a learned model or a new optimality claim. [Verification flow](verification-flow.md) defines the implemented commands and UX. Formal detection/localization measurements and the proposed cloud content-hash/verifier-version contract remain separate work; see [evaluation](evaluation.md) and [cloud schema](planning/dynamodb-seating-schema.md).
+This is explainable domain-rule reasoning, not a learned model or a new optimality claim. [Verification flow](verification-flow.md) defines the implemented commands and UX. Formal detection/localization measurements and the proposed cloud content-hash/verifier-version contract remain separate work; see [evaluation](evaluation.md) and [cloud schema](planning/table.md).
 
 ## Canonicalization and validity
 

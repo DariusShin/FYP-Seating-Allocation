@@ -47,4 +47,4 @@ Generation and draft saves do not switch the public pointer. Workspace publicati
 
 ## Deployment acceptance
 
-Provision the solver/config/layout files and Python environment explicitly. Platform authentication, authoritative registration imports, managed persistence and AWS execution remain host integration work. SQLite in this repository is a local reference, not a durable Lambda temporary-filesystem contract. See the [DynamoDB proposal](planning/dynamodb-seating-schema.md) for the target cloud architecture and [evaluation](evaluation.md) for deployment measurements.
+Provision the solver/config/layout files and Python environment explicitly. Platform authentication, authoritative registration imports, managed persistence and AWS execution remain host integration work. SQLite in this repository is a local reference, not a durable Lambda temporary-filesystem contract. See the [Seating table design](planning/table.md) for the target cloud architecture and [evaluation](evaluation.md) for deployment measurements.

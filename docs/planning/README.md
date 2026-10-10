@@ -7,7 +7,7 @@ Plans describe unimplemented enhancements, not current runtime behavior. See the
 | Document | Status and scope |
 | --- | --- |
 | [Manual swap replay after regeneration](manual-swap-replay-after-regeneration.md) | Proposed. Portable ordered registration-ID decisions, shared storage, replay conflicts and atomic candidate adoption outside the solver |
-| [DynamoDB seating schema](dynamodb-seating-schema.md) | Proposed target cloud architecture. Local persistence is SQLite; async jobs, imports and the independently versioned cloud verification facet are not implemented |
+| [Seating table design](table.md) | Proposed. Canonical single-table `seating` design for the production DynamoDB integration, written in the Offerings `table.md` format: access patterns with table/key conditions/filter expressions and frequency, bare-event partition keys, flattened entities without SQL-style foreign keys, a versioned policy registry for the Settings dialog, and changeset-based history. Supersedes the deleted DynamoDB seating schema and the lean CSV workbook (earlier revisions remain in Git history) |
 
 ## Implemented features
 
