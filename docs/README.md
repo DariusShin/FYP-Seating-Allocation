@@ -15,7 +15,7 @@ These guides describe the implemented local application as of 2026-10-05. Produc
 | [Integration](integration.md) | Service inputs, workspace commands, host identity and public projections |
 | [Requirement traceability](requirements-traceability.md) | Applicable current rules and their implementation/test evidence |
 | [Evaluation](evaluation.md) | Existing test coverage, experiment commands and remaining research measurements |
-| [Planning](planning/README.md) | Unimplemented swap replay and cloud architecture proposals |
+| [Planning](planning/README.md) | Repository restructuring and commit scopes, plus unimplemented swap replay and cloud architecture proposals |
 
 Start with the [project README](../README.md) for setup and the [frontend README](../frontend/README.md) for a local walkthrough. Component boundaries are described in the [seat component guide](../frontend/src/components/seat/README.md).
 

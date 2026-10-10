@@ -1,4 +1,4 @@
-# Application planning
+# Repository and application planning
 
 Plans describe unimplemented enhancements, not current runtime behavior. See the [documentation index](../README.md) for implemented features.
 
@@ -6,6 +6,7 @@ Plans describe unimplemented enhancements, not current runtime behavior. See the
 
 | Document | Status and scope |
 | --- | --- |
+| [Repository restructuring and scoped change management](repository-restructuring.md) | Proposed staged separation of research, application code and evidence; confirmed `docs/results/` destination, migration inventory, provenance preservation, validation gates and conventional commit scopes |
 | [Manual swap replay after regeneration](manual-swap-replay-after-regeneration.md) | Proposed. Portable ordered registration-ID decisions, shared storage, replay conflicts and atomic candidate adoption outside the solver |
 | [Seating table design](table.md) | Proposed. Canonical single-table `seating` design for the production DynamoDB integration, written in the Offerings `table.md` format: access patterns with table/key conditions/filter expressions and frequency, bare-event partition keys, flattened entities without SQL-style foreign keys, a versioned policy registry for the Settings dialog, and changeset-based history. Supersedes the deleted DynamoDB seating schema and the lean CSV workbook (earlier revisions remain in Git history) |
 

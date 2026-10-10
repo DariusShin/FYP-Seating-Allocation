@@ -25,9 +25,16 @@ Offerings `table.md`. The existing Events, Offerings and Auth tables remain unch
   item does not store the plan it belongs to (it is in the `sk`), and a registration does not
   embed `participant_id` (it is the `sk`). Identifiers are re-derived in the facet layer.
 - **Immutable versions vs mutable pointers.** Layout versions, plan versions and policy versions
-  are written once and never updated. Mutable state is concentrated in three singletons per
-  event (`CONFIG`, `WORKSPACE#CURRENT`, `REVIEW#…`) that hold pointers and revisions, so all
-  concurrency control happens through conditional writes on few, well-known items.
+  are written once and never updated. Mutable state is concentrated in few, well-known items —
+  `CONFIG` (settings plus the publication pointer), `WORKSPACE#CURRENT` (with its own
+  optimistic-lock revision) and `REVIEW#…` — so all concurrency control happens through
+  conditional writes on those items only.
+- **Staleness by content, not counters.** There are no revision counters on `CONFIG` guarding
+  registrations or attendance. Every plan embeds its frozen `sourceRequest`, and opening a draft
+  already reads all live registrations, attendance and layout — so staleness ("registrations
+  changed since this draft was generated") is detected at the moment it matters by comparing the
+  plan snapshot against the live items already in hand. Counters would add a cross-item write to
+  every registration save while answering only "something changed", never "what changed".
 
 ## Type Enums
 
@@ -52,7 +59,7 @@ written/read at setup, at explicit workflow steps, or for audit.
 
 | Access Pattern | Table/GSI/LSI | Key Condition | Filter Expression | Frequency |
 | -------------- | ------------- | ------------- | ----------------- | --------- |
-| Get seating configuration for an event (and conditionally update its pointers/revisions) | Table | PK = eventId<br>SK = `"CONFIG"` | — | high |
+| Get seating configuration for an event (and conditionally update its pointers: active layout, active policy, published plan) | Table | PK = eventId<br>SK = `"CONFIG"` | — | high |
 | List all registrations for an event (import, solver request build, workspace open) | Table | PK = eventId<br>SK begins_with(`"REG#"`) | — | high |
 | Get or update one registration | Table | PK = eventId<br>SK = `"REG#<participantId>"` | — | low |
 | Find an existing registration by its contribution source during import | Table | PK = eventId<br>SK begins_with(`"REG#"`) | `source.pk = :pk AND source.sk = :sk AND source.bundleId = :bundle AND source.unitId = :unit` | low |
@@ -61,9 +68,9 @@ written/read at setup, at explicit workflow steps, or for audit.
 | Get a layout version (via `CONFIG.activeLayoutVersionId`) | Table | PK = eventId<br>SK = `"LAYOUT#<layoutId>"` | — | low |
 | List all layout versions | Table | PK = eventId<br>SK begins_with(`"LAYOUT#"`) | — | low |
 | Get one plan (open workspace, print, detail) | Table | PK = eventId<br>SK = `"PLAN#<planId>"` | — | high |
-| List plan versions, newest first | Table | PK = eventId<br>SK begins_with(`"PLAN#"`) | — (plan IDs are ULIDs, so descending `sk` order is creation order) | low |
+| List plan versions, newest first (also draft discovery after a solve completes — the client lists the newest plan rather than reading a stored "latest" pointer) | Table | PK = eventId<br>SK begins_with(`"PLAN#"`) | — (plan IDs are ULIDs, so descending `sk` order is creation order) | low |
 | Publish a plan — swap `CONFIG` pointers and plan status in one transaction with CAS on the published pointer | Table | PK = eventId<br>SK = `"CONFIG"` *and* SK = `"PLAN#<planId>"` | — (CAS is a condition expression on `publishedPlanVersionId`, not a filter) | low |
-| Load and save the current workspace (save is conditional on `revision`) | Table | PK = eventId<br>SK = `"WORKSPACE#CURRENT"` | — | high |
+| Load and save the current workspace (save is conditional on the workspace item's own `revision`; no `CONFIG` write involved) | Table | PK = eventId<br>SK = `"WORKSPACE#CURRENT"` | — | high |
 | Get the workspace snapshot bound to an older plan | Table | PK = eventId<br>SK = `"WORKSPACE#<planId>"` | — | low |
 | Get or patch the safeguard review for a plan | Table | PK = eventId<br>SK = `"REVIEW#<planId>"` | — | low |
 | List all assignments of one plan (hall display, print) | Table | PK = eventId<br>SK begins_with(`"ASSIGN#<planId>#"`) | — | high |
@@ -98,9 +105,12 @@ add write cost.
 
 #### Description
 
-Per-event singleton holding the active pointers and the three revision counters. Everything
-here is mutable; the item is the concurrency root of the event — pointer swaps and workspace
-saves are conditional writes against it.
+Per-event singleton holding the solver context — the settings a Lambda loads before running the
+allocation — plus the single publication pointer. Everything here is mutable, but nothing else
+is stored here: revision counters and workspace state live on the items they belong to
+(`WORKSPACE#CURRENT.revision`, each `ATTENDANCE#` item's `revision`, each `REG#` item's
+`revision`), because duplicating them in `CONFIG` would recreate SQL-style foreign-key
+redundancy and force every registration save through a config transaction.
 
 | Attribute                   | Type                        | Notes                                                                                                   |
 | --------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------- |
@@ -109,14 +119,30 @@ saves are conditional writes against it.
 | `activeLayoutVersionId`     | `string`                    | Layout version used by new solves                                                                        |
 | `policyVersionId`           | `string`                    | Policy version loaded by the solver; changed only through the Settings dialog                            |
 | `preferences`               | `{key: PREFERENCE_KEY, enabled: boolean}[]` | Ordered preference list; order defines priority, exactly the three solver keys           |
-| `inputRevision`             | `number`                    | Increments when registrations or solver-input configuration change                                       |
-| `attendanceRevision`        | `number`                    | Increments when shared attendance changes                                                                |
-| `workspaceRevision`         | `number`                    | Monotonic optimistic-concurrency revision for the current workspace                                      |
-| `workspaceBasePlanVersionId`| `string \| null`            | Plan the current workspace is based on                                                                   |
-| `latestPlanVersionId`       | `string \| null`            | Latest generated or published plan                                                                       |
-| `publishedPlanVersionId`    | `string \| null`            | The only public-plan pointer; `null` until first publication                                             |
+| `publishedPlanVersionId`    | `string \| null`            | The only public-plan pointer; `null` until first publication; CAS anchor for publication  |
 | `updatedAt`                 | `number`                    | Epoch milliseconds                                                                                       |
 | `updatedBy`                 | `string`                    | Authenticated staff actor                                                                                |
+
+#### Concurrency and staleness
+
+- **Publication** is the only flow that writes `CONFIG` concurrently: one transaction marks the
+  new plan `PUBLISHED`, marks the previous one `SUPERSEDED`, and swaps `publishedPlanVersionId`
+  under a condition expression (compare-and-swap on the pointer). The pointer must live in one
+  place precisely because it needs atomic swap semantics; `publicationStatus` on the plan items
+  alone would give no single CAS anchor.
+- **Workspace saves** never touch `CONFIG`: they are conditional writes on
+  `WORKSPACE#CURRENT.revision`, which is the authoritative workspace counter. The workspace's
+  `basePlanVersionId` likewise lives on the workspace item only.
+- **Draft discovery** needs no `latestPlanVersionId`: plans are immutable and time-sortable, so
+  the newest draft is `Query SK begins_with("PLAN#")`, `ScanIndexForward = false`, `Limit 1` —
+  or simply the `planId` returned by the solve call. Keeping a "latest" pointer in `CONFIG`
+  would force every plan write to transactionally update the config item for zero information
+  gain.
+- **Stale input** needs no `inputRevision`/`attendanceRevision`: every plan embeds its frozen
+  `sourceRequest`, and opening a draft already lists all registrations, attendance and layout.
+  The client/server compares the snapshot against those live items and surfaces "registrations
+  changed since this draft — regenerate?" with the actual difference, which a counter could
+  never express.
 
 #### Example
 
@@ -131,11 +157,6 @@ saves are conditional writes against it.
         { "key": "activeness", "enabled": true },
         { "key": "category_zone", "enabled": true }
     ],
-    "inputRevision": 12,
-    "attendanceRevision": 4,
-    "workspaceRevision": 7,
-    "workspaceBasePlanVersionId": "01JPLANEXAMPLE",
-    "latestPlanVersionId": "01JPLANEXAMPLE",
     "publishedPlanVersionId": null,
     "updatedAt": 1790640000000,
     "updatedBy": "usr_staff_01"
@@ -581,8 +602,8 @@ Snapshots include audit fields and both table keys; the history facet strips the
         {
             "sk": "CONFIG",
             "action": "update",
-            "before": { "pk": "evt_2026_01", "sk": "CONFIG", "attendanceRevision": 3, "…": "…" },
-            "after":  { "pk": "evt_2026_01", "sk": "CONFIG", "attendanceRevision": 4, "…": "…" }
+            "before": { "pk": "evt_2026_01", "sk": "CONFIG", "publishedPlanVersionId": null, "…": "…" },
+            "after":  { "pk": "evt_2026_01", "sk": "CONFIG", "publishedPlanVersionId": "01JPLANEXAMPLE", "…": "…" }
         }
     ]
 }
@@ -601,11 +622,6 @@ clean domain IDs extracted from their values; no facet exposes table keys.
 | `activeLayoutVersionId`     | `activeLayoutVersionId`                   | `string`                      |
 | `policyVersionId`           | `policyVersionId`                         | `string`                      |
 | `preferences`               | `preferences`                             | `{key, enabled}[]`            |
-| `inputRevision`             | `inputRevision`                           | `number`                      |
-| `attendanceRevision`        | `attendanceRevision`                      | `number`                      |
-| `workspaceRevision`         | `workspaceRevision`                       | `number`                      |
-| `workspaceBasePlanVersionId`| `workspaceBasePlanVersionId`              | `string \| null`              |
-| `latestPlanVersionId`       | `latestPlanVersionId`                     | `string \| null`              |
 | `publishedPlanVersionId`    | `publishedPlanVersionId`                  | `string \| null`              |
 | `updatedAt` / `updatedBy`   | `updatedAt` / `updatedBy`                 | `number` / `string`           |
 
