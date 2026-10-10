@@ -1,12 +1,12 @@
 # Safeguard verification flow
 
-Status: implemented in the local application. Review runs in `src/seat_solver/production/verification.py` and `workspace.py`, exposed through `/api/workspace`. It does not invoke CP-SAT. `VerificationEntry` owns route startup and navigation; `VerificationScreen` owns corrections and serialized review requests.
+Status: implemented in the local application as a supporting feature. Objective 2 is [absence-driven dynamic allocation](absence-reallocation.md). Review runs in `src/seat_solver/production/verification.py` and `workspace.py`, exposed through `/api/workspace`. It does not invoke CP-SAT. `VerificationEntry` owns route startup and navigation; `VerificationScreen` owns corrections and serialized review requests.
 
 ## Routes and entry
 
-1. In the editor, Submit for review saves outstanding changes with the current plan ID and revision. Eligible paid registrations in the holding dock disable submission.
+1. In the editor, Submit for review saves outstanding changes with the current plan ID and revision. Present eligible paid registrations in the temporary holding dock disable submission; absent registrations may remain docked.
 2. Navigate to `/events/[eventId]/seating-plans/[planId]/verification`. The server admits signed admin/staff users for their own event. `seatRouteWorkspace` loads the active workspace and returns 404 for missing, cross-event or inactive plans; it never calls `workspace_open`.
-3. `VerificationEntry` opens matching browser history. A recovered state with docked paid registrations requires returning to editing.
+3. `VerificationEntry` opens matching browser history. A recovered state with temporarily docked present paid registrations requires returning to editing.
 4. `VerificationScreen` receives the server snapshot separately from recovered state. It saves recovered edits first, then checks the resulting saved revision. A fresh persisted check records `IN_PROGRESS` even when there are no findings.
 
 Entry checks run again on route entry/resume. A stale save/check fails instead of silently adopting another staff member's state. A dashboard opened with an in-progress review offers resume; the plan editing route starts directly in edit mode.
@@ -16,13 +16,13 @@ Entry checks run again on route entry/resume. A stale save/check fails instead o
 | Check | Review behavior | Publication behavior |
 | --- | --- | --- |
 | Registration immutability, valid unique/unblocked seats, accessibility, complete approved pair/seat allocation | Invalid state is rejected by server validation | Cannot be overridden |
-| Every eligible paid registration seated | Required for review entry | Required for publication |
+| Every present eligible paid registration seated | Required for review entry | Required for publication |
 | C12: all higher-tier physical seats precede lower-tier seats | RED finding, including same-row priority inversions | Each OPEN finding blocks; staff may explicitly override it |
 | C13: higher contribution within a tier must not occupy a later row | RED finding | Each OPEN finding blocks; staff may explicitly override it |
 | C15: available empty seat before an occupied later row | YELLOW advisory | Does not block |
 | C16: occupied later seat with an earlier available packing seat empty, east/right outward then west/left outward | YELLOW advisory | Does not block |
 
-Solver generation enforces ordering and packing as hard constraints. Staff publication uses the review policy above: an acknowledged exception is not a proof that every solver constraint is satisfied. Attendance does not bypass paid-seat requirements.
+Solver generation enforces ordering and packing as hard constraints. Staff publication uses the review policy above: an acknowledged exception is not a proof that every solver constraint is satisfied. Absence excludes a registration from seating demand; present registrations still require their complete legal allocation.
 
 ## Checks, saves and acknowledgements
 

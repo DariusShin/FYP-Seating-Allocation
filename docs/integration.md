@@ -4,9 +4,9 @@
 
 `PYTHONPATH=src .venv/bin/python -m seat_solver.production.service` accepts one JSON command on stdin and returns JSON on stdout. Next.js invokes this local process through `production-service.ts`. SQLite persistence defaults to `output/paid-seats-v4.sqlite3`; override with `SEAT_PLAN_DB` for isolated environments. `SEAT_SOLVER_ROOT`, `SEAT_SOLVER_PYTHON` and `SEAT_EVENT_REQUEST` configure the process and source request.
 
-Generation accepts `INITIAL` or `REGENERATE_DRAFT`, policy/layout versions, confirmed paid registration inputs and the full ordered/enabled list of `contribution_seat`, `activeness`, `category_zone`. Enabled ranks map to 40/30/20. Cost calculation and result penalty summaries cover these three components only. Each solve uses the complete constrained model and saves a private draft.
+Generation accepts `INITIAL` or `REGENERATE_DRAFT`, policy/layout versions, confirmed paid registration inputs and the full ordered/enabled list of `contribution_seat`, `activeness`, `category_zone`. Enabled ranks map to 40/30/20. Full-generation preference summaries cover these three components. `REPAIR_ABSENCE` requires the current saved plan ID/revision, uses a separate reduced model and returns a movement summary and objective proofs. All modes save a private draft.
 
-The service uses saved event registrations for later drafts and can refresh configured geometry-compatible layout obstacles/ranks. The browser generation endpoint accepts preference changes, not attendance or registration edits. A host integration must supply authoritative registration data; local draft generation does not implement an import pipeline.
+The service uses saved event registrations for later drafts and can refresh configured geometry-compatible layout obstacles/ranks. The browser generation endpoint accepts preferences and saved baseline identifiers. Attendance is changed through revision-checked workspace saves, not arbitrary solver payloads. Regeneration and repair read authoritative saved attendance and exclude absent registrations. A host integration must supply authoritative registration data; local draft generation does not implement an import pipeline.
 
 ## Workspace commands
 
@@ -19,7 +19,7 @@ The service uses saved event registrations for later drafts and can refresh conf
 | `workspace_ack` | Override/acknowledge or reopen a current finding with optional note |
 | `workspace_publish` | Recheck saved placements and review policy; atomically publish if revision and public pointer still match |
 
-Identity/event are assigned by the authenticated API adapter, not browser role/actor fields. Staff routes read the active plan without opening a different workspace. Complete paid allocations and valid pairs/accessibility cannot be overridden. See [verification flow](verification-flow.md) for statuses, finding severities and publication audit fields.
+Identity/event are assigned by the authenticated API adapter, not browser role/actor fields. Staff routes read the active plan without opening a different workspace. Complete present paid allocations and valid pairs/accessibility cannot be overridden. Absent registrations remain accounted for in the dock. SQLite event_attendance commits with workspace saves and applies current attendance when another plan is opened; see [absence reallocation](absence-reallocation.md). See [verification flow](verification-flow.md) for statuses, finding severities and publication audit fields.
 
 The versioned-plan `manual`/`submit`/`approve`/`publish` API remains separate from staff workspace review. Its validation revision and approval hash must not be confused with the workspace's monotonic `revision`.
 

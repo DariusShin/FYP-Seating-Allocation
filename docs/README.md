@@ -6,6 +6,7 @@ These guides describe the implemented local application as of 2026-10-05. Produc
 | --- | --- |
 | [Code overview](code_overview.md) | Solver, persistence, API and frontend module responsibilities |
 | [Staff UI](ui-reference.md) | Generation, editing, route navigation and published displays |
+| [Absence reallocation](absence-reallocation.md) | Objective 2, incremental repair, movement priorities and shared attendance |
 | [Verification flow](verification-flow.md) | Entry, findings, corrections, overrides and publication gates |
 | [Manual-edit history](manual-edit-history.md) | Local journals, saved versions, recovery and route handoff |
 | [Mathematical model](mathematical_model.md) | Current production constraints and objective |

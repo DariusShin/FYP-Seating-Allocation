@@ -4,7 +4,7 @@ A Python OR-Tools CP-SAT solver and Next.js review application for versioned sea
 
 Each row fills 东单 (right) completely before 西单 (left), skipping blocked seats. Physical positions 1–16 have priority ranks `16 15 14 13 12 11 10 9 | 1 2 3 4 5 6 7 8`. This is a hard solver rule for initial generation and regeneration.
 
-Production preferences are contribution-to-seat matching, activeness and category suitability. Staff order and enable them; the backend maps enabled ranks to 40/30/20. These are relative coefficients, not percentages. Paid registrations retain their name and complete seat entitlement regardless of attendance.
+Production preferences are contribution-to-seat matching, activeness and category suitability. Staff order and enable them; the backend maps enabled ranks to 40/30/20. These are relative coefficients, not percentages. Registration records and names are preserved. Staff may mark an entire registration absent, releasing its seats into a distinct holding-dock state; Emperor pairs remain one unit.
 
 ## Run locally
 
@@ -22,7 +22,7 @@ Open `/event` and enter the seating workspace. With no saved plan, a private dra
 
 A production solve may return OPTIMAL or FEASIBLE after independent validation. The latter is valid but has an incomplete optimality proof. Canonicalization completion is reported separately. A manual edit is labelled MANUALLY_MODIFIED while retaining generation provenance.
 
-Settings offers only preference-based regeneration. Generate new draft is enabled when a priority or enabled flag differs from the current plan. Regeneration uses the complete model and never publishes automatically. There is no absence/replacement workflow or attendance-driven seat release.
+Settings offers preference-based full regeneration and a separate **Repair gaps after absence** action. Outstanding edits are saved first. Absent registrations are excluded from seating demand. Repair starts locally, freezes outside placements and expands only on infeasibility, prioritizing fewest moved registrations, then distance, then preferences. Neither action publishes automatically. See [absence reallocation](docs/absence-reallocation.md).
 
 ## Configuration and integration
 
@@ -60,17 +60,17 @@ AWS/host deployment is a separate environment-dependent acceptance gate; local t
 
 `/event` opens the event-scoped seating flow. Edit mode enables whole-registration moves/swaps and temporary docking. Seat details offer Edit → Save draft / Cancel for display-name corrections and staff notes; Cancel discards only those local detail edits. `/venue` redirects staff to `/events/[eventId]/venue`, which shows the published hall and `/my-seat` provides participant-scoped lookup.
 
-The [verification flow](docs/verification-flow.md) checks C12/C13 ordering and C15/C16 packing. OPEN red findings block publication unless explicitly overridden with a recorded staff decision; yellow findings are advisory. Structural validity and complete paid allocations cannot be overridden. Publication rechecks saved placements, the active plan/revision and the expected public pointer transactionally.
+The [verification flow](docs/verification-flow.md) checks C12/C13 ordering and C15/C16 packing. OPEN red findings block publication unless explicitly overridden with a recorded staff decision; yellow findings are advisory. Structural validity and complete allocations for present paid registrations cannot be overridden. Publication rechecks saved placements, the active plan/revision and the expected public pointer transactionally.
 
-Every confirmed paid registration must have its full allocation before publication: two adjacent seats for Emperor, one for Merit/Bodhi. Attendance does not change names or demand. Registration IDs, payment status and authoritative names cannot be changed in the seating workspace.
+Every present confirmed paid registration must have its full allocation before publication: two adjacent seats for Emperor, one for Merit/Bodhi. Marked-absent units remain docked and excluded from demand; attendance never changes registration records or names. Registration IDs, payment status and authoritative names cannot be changed in the seating workspace.
 
 Working drafts retain monotonic revisions and immutable published snapshots. The default store is `output/paid-seats-v4.sqlite3` (override with `SEAT_PLAN_DB`). Browser-local history stores immutable manual-save snapshots separately in IndexedDB.
 
 See [verification flow](docs/verification-flow.md) for review routes and publication policy, and [manual-edit history](docs/manual-edit-history.md) for recovery and undo/redo. See [the frontend demo flow](frontend/README.md#staff-demo-flow) for current generation and version-opening behavior.
 
-## Revised Objective 2
+## Objective 2
 
-Explainable local safeguard verification, finding attribution and revision-bound publication checks are implemented. Formal research evaluation and the proposed independently versioned cloud verification contract remain separate work. See [the active mathematical model](docs/mathematical_model.md).
+Controlled absence-driven dynamic allocation minimizes registration movement from the latest saved working map through incremental repair. Attendance is saved in SQLite and shared when opening event plans. Safeguard verification supports this workflow. See [absence reallocation](docs/absence-reallocation.md) and [the active mathematical model](docs/mathematical_model.md).
 
 ## Planning
 

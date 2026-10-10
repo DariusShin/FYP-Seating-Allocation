@@ -12,6 +12,7 @@ Modules below are under `src/seat_solver/production/`, except `cli.py`.
 | `production_validator.py` | Independent audit of placements, metrics, objective and serialized result against original inputs |
 | `plan_store.py` | Immutable plan snapshots, versioned-plan lifecycle, publication pointer, approval hash and participant projections |
 | `workspace.py` | Active draft and per-plan saved workspaces, structural validation, monotonic revisions, review persistence and atomic publication |
+| `absence_repair.py` | Separate reduced absence-repair model, neighbourhood expansion and lexicographic movement objectives |
 | `verification.py` | C12/C13/C15/C16 findings, resolution hints, acknowledgements and optional history attribution |
 | `service.py` | Event-scoped JSON command adapter and local event data loading |
 | `production_data.py` | Parameterized seeded synthetic requests |

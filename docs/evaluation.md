@@ -16,7 +16,7 @@ Generated JSON reports in `output/evaluation/` document local runs. Timings are 
 
 ## Implemented verification and history coverage
 
-`tests/test_verification.py` covers review entry, overrides and revocation, persistence, atomic publication, read-only feedback, stale/publication rechecks, hint integrity, privacy and local history attribution. `tests/test_workspace.py` covers complete paid allocations, draft/save/open behavior, immutable snapshots, revision/public-pointer rejection and review-gated publication.
+`tests/test_verification.py` covers review entry, overrides and revocation, persistence, atomic publication, read-only feedback, stale/publication rechecks, hint integrity, privacy and local history attribution. `tests/test_workspace.py` covers complete present paid allocations, draft/save/open behavior, immutable snapshots, revision/public-pointer rejection and review-gated publication.
 
 Local latency tests assert that a production-sized check and bounded history attribution complete within their test budgets. These are machine-specific regression assertions, not measured HTTP/Lambda service guarantees or a formal detection benchmark.
 
@@ -40,7 +40,7 @@ Production Python coverage was checked by file:
 | `test_production.py` | 40 | Production layout, 16 preference profiles, request validation, shared tier rows, audits, tiny optimum oracle, canonicalization, FEASIBLE handling, plan lifecycle and privacy |
 | `test_east_island_priority.py` | 24 | Current physical priorities, east-first packing, blocked seats, pair packing and accessibility conflicts |
 | `test_tier_precedence.py` | 34 | Emperor → Merit → Bodhi ordering across preferences and generation modes, independent ordering checks and validator failures |
-| `test_paid_seat_retention.py` | 23 | Paid names and entitlements, rejection of retired attendance/replacement fields, complete pairs, regeneration and publication isolation |
+| `test_paid_seat_retention.py` | 23 | Paid names and entitlements, rejection of retired attendance/replacement fields; independent attendance_status is supported, complete pairs, regeneration and publication isolation |
 | `test_workspace.py` | 20 | Names, docking, saved revisions, version switching, immutable publication, review gates and synthetic fixture name restoration |
 | `test_verification.py` | 11 | Findings, overrides/revocation, publication rechecks, resolution hints, untrusted history attribution and local latency budgets |
 | `test_reset_local.py` | 3 | Dry-run reset, restorable backups, unknown-table rejection and missing-database behavior |
@@ -65,10 +65,24 @@ PYTHONPATH=src .venv/bin/python -m pytest -q
 npm --prefix frontend test
 ```
 
-TypeScript and ESLint also pass. These results validate the asserted local contracts; the frontend harnesses transpile modules and mock React/router/server dependencies, with a real Python invocation in the bridge test. They do not establish a full browser walkthrough, production build or deployed host/cloud acceptance. No failing expectations were weakened and no tests were skipped to obtain these results.
+The prior baseline TypeScript and ESLint checks passed. Updated absence-feature checks are recorded below. These results validate the asserted local contracts; the frontend harnesses transpile modules and mock React/router/server dependencies, with a real Python invocation in the bridge test. They do not establish a full browser walkthrough, production build or deployed host/cloud acceptance. These counts describe the pre-absence baseline; the attendance contract and corresponding tests have since changed.
 
-## Remaining Objective 2 evaluation
+## Objective 2 evaluation and supporting verification
 
-Formal research evaluation should inject duplicate seats, missing paid seats, broken pairs, inaccessible placements, tier/contribution inversions and packing gaps. Measure detection and false rejection rates, rule/seat localization, latency, stale-revision rejection and public-pointer preservation. Evaluate mandatory structural rejection separately from staff-overridable RED ordering findings and non-blocking YELLOW packing advisories; an accepted recorded override is not a detector false negative.
+Objective 2 research evaluation should compare absence repair with full regeneration with/without movement penalties using identical saved baselines. Measure moved registrations and physical seats, centroid distance, preserved placements, preference cost, runtime, scope expansion and independent hard-rule satisfaction. Tiny exhaustive optimality and lifecycle tests are implemented; broader performance experiments remain work. Safeguard verification separately needs fault-injection detection/localization and deployment evaluation.
 
 The local gate is implemented. A separately versioned content-hash-bound cloud verification facet, deployment latency and integration/concurrency acceptance remain proposed. Older version-specific measurements in `output/evaluation/` are historical artifacts and must not be presented as current-policy acceptance evidence.
+
+## Absence feature verification — 2026-10-07
+
+Before the feasible-repair acceptance correction, the production suite passed **166 tests** (`pytest -q -m 'not prototype'`), including 11 absence-repair cases. That frontend suite passed **72 tests** (`npm run test:current`). TypeScript and ESLint checks pass. Coverage includes the exhaustive tiny lexicographic movement oracle, progressive expansion/frozen placements, paired absence, shared attendance, absence-aware publication, legacy publication attendance guards, stale candidates, no-solution repair isolation, restore cancellation, distinct dock styling and save-before-repair. Historical prototype/editor suites were not rerun for this change.
+
+A live browser walkthrough was attempted with an isolated temporary database, but a second Next.js development server could not start while the project already had a development server running. Browser interaction and deployment performance are not claimed by these results.
+
+## Feasible repair acceptance correction — 2026-10-07
+
+Interactive absence repair accepts independently validated FEASIBLE incumbents without requiring proof of minimum movement or distance. A later timeout or UNKNOWN status retains the earlier valid incumbent; only proven stages are fixed before further optimization. Regression tests cover FEASIBLE returns at each objective, later UNKNOWN, deadline exhaustion after a solution, no-solution rejection and rendering an unproven repair.
+
+A read-only replay of the local 96-registration saved map with one absence returned a valid FEASIBLE repair moving 13 registrations, with doubled centroid distance 160. The distance stage used the remaining time budget; optimality was not claimed. No application draft or public pointer was changed by this replay. These are observations for that local snapshot, not a broader performance benchmark.
+
+After this correction: **172 production Python tests**, **73 current frontend tests**, TypeScript and ESLint pass. The historical suites were not rerun.
