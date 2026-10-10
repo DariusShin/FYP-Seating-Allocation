@@ -46,7 +46,7 @@ def profiles():
             ]
 
 
-def test_layout_current_and_historical():
+def test_layout_current_and_historical(repo_root):
     r = generate()
     l = r["layout"]
     blocked = {
@@ -56,7 +56,7 @@ def test_layout_current_and_historical():
         {(row, pos) for row in (6, 8) for pos in range(5, 13)}
         | {(row, pos) for row in (7, 9) for pos in (5, 6, 11, 12)}
     )
-    old = json.loads(Path("data/historical/report-232.json").read_text())
+    old = json.loads((repo_root / "data/historical/report-232.json").read_text())
     assert sum(not s["is_blocked"] for s in old["seats"]) == 232
     assert sum(not s["is_blocked"] for s in l["seats"]) == 232
 
@@ -411,12 +411,12 @@ def test_regeneration_uses_current_obstacles_and_priorities_for_existing_hall(mo
     assert captured["participants"] == old["participants"]
 
 
-def test_current_layout_files_agree_and_new_blocks_have_no_pair_options():
+def test_current_layout_files_agree_and_new_blocks_have_no_pair_options(repo_root):
     from seat_solver.production.production_scoring import options
 
     request = generate()
     for name in ("data/floor_plan.json", "data/layouts/production_2026.json"):
-        assert json.loads(Path(name).read_text()) == request["layout"]
+        assert json.loads((repo_root / name).read_text()) == request["layout"]
     blocked = {s["seat_id"] for s in request["layout"]["seats"] if s["is_blocked"]}
     # Both pair and single-seat solver options must exclude every obstacle.
     for tier in ("EMPEROR", "MERIT", "BODHI"):

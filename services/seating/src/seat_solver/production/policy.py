@@ -3,13 +3,24 @@
 from __future__ import annotations
 
 import copy
+import os
 from pathlib import Path
 
 import jsonschema
 
 from seat_solver.jsonio import read_json
 
-ROOT = Path(__file__).resolve().parents[3]
+# Runtime resources (config, schemas, request template) live beside the service
+# package. SEAT_SOLVER_RESOURCES overrides the location for deployments.
+RESOURCES = Path(
+    os.environ.get("SEAT_SOLVER_RESOURCES") or Path(__file__).resolve().parents[3]
+)
+# Repository root keeps the local runtime database under output/. The web host
+# sets SEAT_SOLVER_ROOT explicitly; the fallback is the relocated depth.
+REPO_ROOT = Path(
+    os.environ.get("SEAT_SOLVER_ROOT") or Path(__file__).resolve().parents[5]
+)
+ROOT = RESOURCES
 TIERS = ("EMPEROR", "MERIT", "BODHI")
 MINIMUMS = {"EMPEROR": 5000, "MERIT": 3000, "BODHI": 2000}
 STATUSES = ("CONFIRMED", "PENDING", "WAITLISTED", "CANCELLED")
@@ -27,9 +38,9 @@ class DomainError(ValueError):
 
 
 def policy():
-    cfg = read_json(ROOT / "config/production_policy.json")
+    cfg = read_json(RESOURCES / "config/production_policy.json")
     jsonschema.Draft202012Validator(
-        read_json(ROOT / "schemas/production_policy.schema.json")
+        read_json(RESOURCES / "schemas/production_policy.schema.json")
     ).validate(cfg)
     return cfg
 
@@ -68,7 +79,7 @@ def map_host_status(value, mapping):
 def validate_request(request):
     errors = sorted(
         jsonschema.Draft202012Validator(
-            read_json(ROOT / "schemas/production_request.schema.json")
+            read_json(RESOURCES / "schemas/production_request.schema.json")
         ).iter_errors(request),
         key=lambda e: str(e.path),
     )

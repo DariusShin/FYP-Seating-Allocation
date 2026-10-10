@@ -7,7 +7,7 @@ import sys
 
 from seat_solver.jsonio import read_json
 from seat_solver.production.plan_store import PlanStore, participant_view
-from seat_solver.production.policy import ROOT, DomainError, policy
+from seat_solver.production.policy import REPO_ROOT, RESOURCES, DomainError, policy
 from seat_solver.production.production import error, solve
 
 
@@ -15,7 +15,7 @@ def dispatch(body, store=None):
     if not isinstance(body, dict):
         raise DomainError("INVALID_INPUT", "Command must be an object")
     store = store or PlanStore(
-        os.environ.get("SEAT_PLAN_DB", str(ROOT / "output/paid-seats-v4.sqlite3"))
+        os.environ.get("SEAT_PLAN_DB", str(REPO_ROOT / "output/paid-seats-v4.sqlite3"))
     )
     command = body.get("command")
     event = body.get("event_id", "PJKIT-2026")
@@ -32,7 +32,7 @@ def dispatch(body, store=None):
     if command == "setup":
         req = read_json(
             os.environ.get(
-                "SEAT_EVENT_REQUEST", str(ROOT / "data/production_request.json")
+                "SEAT_EVENT_REQUEST", str(RESOURCES / "data/production_request.json")
             )
         )
         layout = req["layout"]
@@ -112,7 +112,7 @@ def dispatch(body, store=None):
             if latest
             else read_json(
                 os.environ.get(
-                    "SEAT_EVENT_REQUEST", str(ROOT / "data/production_request.json")
+                    "SEAT_EVENT_REQUEST", str(RESOURCES / "data/production_request.json")
                 )
             )
         )
@@ -128,7 +128,7 @@ def dispatch(body, store=None):
         # when regenerating the same configured hall. Explicit requests own their layout.
         if latest and not body.get("request"):
             configured = read_json(os.environ.get(
-                "SEAT_EVENT_REQUEST", str(ROOT / "data/production_request.json")
+                "SEAT_EVENT_REQUEST", str(RESOURCES / "data/production_request.json")
             ))
             def geometry(layout):
                 return {(s["seat_id"], s["row_number"], s["physical_position"])

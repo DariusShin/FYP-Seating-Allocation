@@ -11,7 +11,7 @@ import copy
 import random
 
 from seat_solver.jsonio import read_json, write_json
-from seat_solver.production.policy import MINIMUMS, ROOT
+from seat_solver.production.policy import MINIMUMS, RESOURCES
 from seat_solver.production.production_data import synthetic_chinese_name
 
 
@@ -23,7 +23,7 @@ def generate(emperor=56, merit=24, bodhi=16, seed=20260918, accessible=0):
         raise ValueError(
             "Counts must be nonnegative; accessibility count cannot exceed registrations"
         )
-    req = read_json(ROOT / "data/production_request.json")
+    req = read_json(RESOURCES / "data/production_request.json")
     rng = random.Random(seed)
     req["participants"] = []
     tiers = ["EMPEROR"] * emperor + ["MERIT"] * merit + ["BODHI"] * bodhi

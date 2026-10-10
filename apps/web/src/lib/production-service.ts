@@ -63,7 +63,11 @@ export function runProduction<T>(body: Record<string, unknown>): Promise<T> {
   return new Promise((resolve, reject) => {
     const child = spawn(python, ["-m", "seat_solver.production.service"], {
       cwd: root,
-      env: { ...process.env, PYTHONPATH: path.join(root, "src") },
+      env: {
+        ...process.env,
+        SEAT_SOLVER_ROOT: root,
+        PYTHONPATH: path.join(root, "services", "seating", "src"),
+      },
     });
     let stdout = "";
     let stderr = "";
