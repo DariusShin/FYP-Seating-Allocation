@@ -39,7 +39,7 @@ def test_entry_gate_and_unreviewed_publication(session):
     with pytest.raises(DomainError, match='Submit the saved'):
         act('workspace_publish')
     state['items']['P0001']['seat_ids'] = []
-    with pytest.raises(DomainError, match='Assign every paid'):
+    with pytest.raises(DomainError, match='Assign every present paid'):
         check(plan, state)
     with pytest.raises(DomainError, match='Submit the saved'):
         act('workspace_check', state=state)

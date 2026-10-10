@@ -69,7 +69,7 @@ def initial_rows(request):
     return result
 
 
-def build(request, cfg):
+def build(request, cfg, domains=None):
     model = cp_model.CpModel()
     ps = eligible(request)
     layout = request["layout"]
@@ -81,17 +81,20 @@ def build(request, cfg):
     costexpr = []
     occupants = {s["seat_id"]: [] for s in layout["seats"]}
     canon = {}
-    allowed = initial_rows(request)
+    allowed = initial_rows(request) if domains is None else None
     for p in ps:
         pid = p["participant_id"]
         opts = options(request, p)
+        if domains is not None:
+            opts = [o for o in opts if tuple(sorted(s["seat_id"] for s in o)) in domains[pid]]
         if allowed is not None:
             opts = [o for o in opts if o[0]["row_number"] in allowed[pid]]
         opts = sorted(opts, key=lambda o: tuple(s["seat_id"] for s in o))
         vs = []
         option_by[pid] = opts
         for j, o in enumerate(opts):
-            v = model.NewBoolVar(f"assign[{pid},{j}]")
+            # Frozen registrations are constants, not decision variables.
+            v = 1 if domains is not None and len(opts) == 1 else model.NewBoolVar(f"assign[{pid},{j}]")
             vs.append(v)
             for s in o:
                 occupants[s["seat_id"]].append(v)
@@ -157,6 +160,8 @@ def solve(request):
     timing = {}
     try:
         request = validate_request(request)
+        if request["generation_mode"] == "REPAIR_ABSENCE":
+            raise DomainError("INVALID_INPUT", "Absence repair requires the separate saved-workspace repair operation")
         cfg = policy()
         timing["input_validation"] = time.perf_counter() - started
         ps = eligible(request)
@@ -504,7 +509,7 @@ def format_result(request, placements, stats):
             s for s in lookup if s not in seat_owner and not lookup[s]["is_blocked"]
         ],
         "excluded_participants": [
-            {"participant_id": p["participant_id"], "reason": p["registration_status"]}
+            {"participant_id": p["participant_id"], "reason": "ABSENT" if request.get("attendance", {}).get(p["participant_id"]) == "ABSENT" else p["registration_status"]}
             for p in request["participants"]
             if p not in ps
         ],

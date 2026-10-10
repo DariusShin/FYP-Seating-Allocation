@@ -93,11 +93,20 @@ export interface ConstraintConfig {
 }
 
 export interface AllocationResult {
+  repair_summary?: {
+    optimality_proven?: boolean;
+    moved_registrations: number;
+    moved_physical_seats: number;
+    distance_doubled: number;
+    scope_rows: number[];
+    changes: { participant_id: string; from_seat_ids: string[]; to_seat_ids: string[]; distance_doubled: number }[];
+  };
   published_at?: string;
   quality?: {
     local_packing: number;
   };
   source_request?: {
+    attendance?: Record<string, "PRESENT" | "ABSENT">;
     participants: Registration[];
     layout?: { approved_pairs: number[][] };
   };

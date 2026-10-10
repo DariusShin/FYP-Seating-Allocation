@@ -7,7 +7,7 @@ import type {
 
 // Keep domain semantics in their canonical modules while giving seat components
 // one shared entry point for editing and review helpers.
-export { dock, eligible, move, reviewMove } from "@/lib/workspace";
+export { dock, eligible, move, reviewMove, markAbsent, restoreAndMove } from "@/lib/workspace";
 export {
   focusedGroups,
   restorationResolves,

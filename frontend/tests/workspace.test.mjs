@@ -165,3 +165,28 @@ test("pair-to-two-Merit exchange moves all three registrations in one preview", 
   );
   assert.equal(reviewMove(s, reviewBase, "pair", "s8").state, s);
 });
+
+test("absence docks the whole Emperor unit while temporary docking retains attendance", () => {
+  const s = state();
+  s.items.pair.previous_seat_ids = [];
+  const absent = mod.exports.markAbsent(s, "pair");
+  assert.equal(absent.items.pair.attendance_status, "ABSENT");
+  assert.deepEqual(absent.items.pair.seat_ids, []);
+  assert.deepEqual(absent.items.pair.previous_seat_ids, ["s7", "s8"]);
+  assert.equal(absent.items.pair.display_names.length, 2);
+  assert.notEqual(dock(s, "pair").items.pair.attendance_status, "ABSENT");
+  assert.throws(() => move(absent, base, "pair", "s9"), /Restore attendance/);
+  const restored = mod.exports.restoreAndMove(absent, base, "pair", "s9");
+  assert.equal(restored.items.pair.attendance_status, "PRESENT");
+  assert.deepEqual(restored.items.pair.seat_ids, ["s9", "s10"]);
+  assert.equal(absent.items.pair.attendance_status, "ABSENT");
+});
+
+test("failed restore placement leaves absent attendance and dock unchanged", () => {
+  const s = state();
+  s.items.pair.previous_seat_ids = [];
+  const absent = mod.exports.markAbsent(s, "pair");
+  assert.throws(() => mod.exports.restoreAndMove(absent, base, "pair", "s5"), /Swap/);
+  assert.equal(absent.items.pair.attendance_status, "ABSENT");
+  assert.deepEqual(absent.items.pair.seat_ids, []);
+});

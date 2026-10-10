@@ -43,3 +43,7 @@ link therefore cannot replace another staff member's active plan. Use the event
 entry flow to explicitly open a different saved plan. Publishing still runs the
 existing server validation and acknowledgement gates before navigating to the
 event venue.
+
+## Absence and incremental repair
+
+The dashboard distinguishes temporary dock entries from absent registrations. `workspace.ts` owns atomic mark-absent and restore-and-place operations; the restore dialog changes nothing on Cancel. Emperor attendance applies to the entire pair. `WeightControls` exposes separate full generation and absence repair actions. The dashboard saves outstanding changes before requesting repair with the current plan ID/revision. `absence_repair.py` performs the reduced movement-first repair; `VerificationEntry` admits absent dock entries while blocking present dock entries. See [Objective 2](../../../../docs/absence-reallocation.md).

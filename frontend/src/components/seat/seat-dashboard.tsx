@@ -40,6 +40,8 @@ import {
   eligible,
   move,
   reviewMove,
+  markAbsent,
+  restoreAndMove,
   floorCells,
   seatLocation,
   workspaceMapData,
@@ -96,6 +98,7 @@ export function SeatDashboard({
   const [chainPreview, setChainPreview] = useState<ReturnType<
     typeof reviewMove
   > | null>(null);
+  const [restorePlacement, setRestorePlacement] = useState<{ pid: string; sid: string } | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [generationPhase, setGenerationPhase] =
@@ -103,13 +106,15 @@ export function SeatDashboard({
   const [generationError, setGenerationError] = useState("");
   const generationInFlight = useRef(false);
   const generationPreferences = useRef<Preference[]>([]);
+  const generationMode = useRef<"REGENERATE_DRAFT" | "REPAIR_ABSENCE">("REGENERATE_DRAFT");
   const generatedPlanId = useRef<string | null>(null);
   const [draftCreated, setDraftCreated] = useState(false);
   const generationBlocked = generationPhase !== null;
-  async function regenerate(preferences?: Preference[]) {
+  async function regenerate(preferences?: Preference[], requestedMode: "REGENERATE_DRAFT" | "REPAIR_ABSENCE" = "REGENERATE_DRAFT") {
     if (generationInFlight.current) return;
     generationInFlight.current = true;
     if (preferences) {
+      generationMode.current = requestedMode;
       generationPreferences.current = preferences;
       generatedPlanId.current = null;
       setDraftCreated(false);
@@ -126,13 +131,29 @@ export function SeatDashboard({
     );
     try {
       if (!generatedPlanId.current) {
+        if (!workspace || !state || !history.ready) throw Error("Load the saved working draft first.");
+        let saved = workspace;
+        if (dirty || !workspace.saved_at) {
+          const capture = await history.prepareSave(state, workspace.revision);
+          const saveResponse = await fetch(eventApi("/api/workspace", initialResult.event_id!), {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ command: "workspace_save", plan_version_id: workspace.base.plan_version_id, revision: workspace.revision, state }),
+          });
+          saved = await saveResponse.json();
+          if (!saveResponse.ok) throw Error((saved as unknown as {error?: {message: string}}).error?.message ?? "Unable to save the repair baseline");
+          await history.saved(saved, capture);
+          setWorkspace(saved);
+          setState(saved.state);
+        }
         const response = await fetch(
           eventApi("/api/solve", initialResult.event_id!),
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              generation_mode: "REGENERATE_DRAFT",
+              generation_mode: generationMode.current,
+              plan_version_id: saved.base.plan_version_id,
+              revision: saved.revision,
               preference_profile_version: "ranked-v1",
               preferences: generationPreferences.current,
             }),
@@ -230,6 +251,7 @@ export function SeatDashboard({
   const docked = active.filter(
     (p) => !state?.items[p.participant_id].seat_ids.length,
   );
+  const temporaryDocked = docked.filter((p) => state?.items[p.participant_id].attendance_status !== "ABSENT");
   const matches = state ? participantMatches(state, query) : new Set<string>();
   const canEdit =
     mode === "edit" && !busy && !generationBlocked && history.ready;
@@ -258,6 +280,11 @@ export function SeatDashboard({
   }
   function applyMove(pid: string, sid: string) {
     if (!canEdit || !state) return;
+    if (state.items[pid].attendance_status === "ABSENT") {
+      setModal(null);
+      setRestorePlacement({ pid, sid });
+      return;
+    }
     try {
       const result = state.items[pid].seat_ids.length
         ? reviewMove(state, base, pid, sid)
@@ -287,7 +314,7 @@ export function SeatDashboard({
     }
   }
   async function submitReview() {
-    if (!workspace || !state || docked.length || !history.ready) return;
+    if (!workspace || !state || temporaryDocked.length || !history.ready) return;
     setBusy(true);
     setError("");
     try {
@@ -391,6 +418,8 @@ export function SeatDashboard({
     switch (filter) {
       case "dock":
         return eligible(p) && !m.seat_ids.length;
+      case "absent":
+        return m.attendance_status === "ABSENT";
       case "note":
         return !!m.note;
       case "changed":
@@ -467,6 +496,7 @@ export function SeatDashboard({
         workspace={workspace}
         registrationCount={active.length}
         dockCount={docked.length}
+        presentDockCount={temporaryDocked.length}
         canUndo={canEdit && !!history.session?.active.length}
         historyReady={history.ready}
         onUndo={() => setState(history.undo())}
@@ -475,9 +505,10 @@ export function SeatDashboard({
         onReview={submitReview}
         onDock={() => setDockOpen((v) => !v)}
       />
-      {mode === "edit" && docked.length > 0 && (
+      {base.repair_summary && <p role="status" className="border-b px-5 py-2 text-sm">Absence repair: {base.repair_summary.moved_registrations} registrations moved · movement distance {base.repair_summary.distance_doubled / 2} · rows {base.repair_summary.scope_rows.join(", ") || "unchanged"}. {base.repair_summary.optimality_proven === false && "Valid repair found; optimality is not proven. "}Review before publishing.</p>}
+      {mode === "edit" && temporaryDocked.length > 0 && (
         <p role="status" className="border-b px-5 py-2 text-sm">
-          {docked.length} participants unseated — assign every paid registration
+          {temporaryDocked.length} participants unseated — assign every present paid registration
           before review.
         </p>
       )}
@@ -498,7 +529,7 @@ export function SeatDashboard({
             </DialogDescription>
           </DialogHeader>
           <Button
-            disabled={busy || !history.ready || docked.length > 0}
+            disabled={busy || !history.ready || temporaryDocked.length > 0}
             onClick={submitReview}
           >
             Resume review
@@ -608,6 +639,11 @@ export function SeatDashboard({
         setDestination={setDestination}
         applyMove={applyMove}
         sendToDock={sendToDock}
+        onMarkAbsent={(pid) => {
+          commit(markAbsent(state, pid));
+          setDockOpen(true);
+          setModal(null);
+        }}
         onSaveDetails={(details) =>
           operation("workspace_save", {
             ...state,
@@ -629,6 +665,7 @@ export function SeatDashboard({
         selectParticipant={(id) => selectParticipant(id, false)}
         dirty={dirty}
         regenerate={regenerate}
+        repair={(preferences) => regenerate(preferences, "REPAIR_ABSENCE")}
         versions={versions}
         onRestore={(next) => {
           history.commit(next, "RESTORE_VERSION");
@@ -646,6 +683,23 @@ export function SeatDashboard({
           }
         }}
       />
+      <Dialog open={!!restorePlacement} onOpenChange={(open) => { if (!open) setRestorePlacement(null); }}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Restore attendance and assign?</DialogTitle>
+            <DialogDescription>{restorePlacement && state.items[restorePlacement.pid].display_names[0]} is marked absent. Assigning this registration restores {restorePlacement && state.participants.find((p) => p.participant_id === restorePlacement.pid)?.contribution_tier === "EMPEROR" ? "both occupants" : "attendance"} to present.</DialogDescription>
+          </DialogHeader>
+          <Button disabled={!canEdit} onClick={() => {
+            if (!restorePlacement) return;
+            try {
+              commit(restoreAndMove(state, base, restorePlacement.pid, restorePlacement.sid));
+              setRestorePlacement(null);
+              setDestination("");
+            } catch (e) { setError(String(e)); setRestorePlacement(null); }
+          }}>Restore to present and assign</Button>
+          <Button variant="outline" onClick={() => setRestorePlacement(null)}>Cancel</Button>
+        </DialogContent>
+      </Dialog>
       <Dialog
         open={!!chainPreview}
         onOpenChange={(open) => {

@@ -46,6 +46,8 @@ export function WorkspaceDialogs({
   setDestination,
   applyMove,
   sendToDock,
+  onMarkAbsent,
+  repair,
   onSaveDetails,
   visible,
   filter,
@@ -77,6 +79,8 @@ export function WorkspaceDialogs({
   setDestination: (value: string) => void;
   applyMove: (pid: string, sid: string) => void;
   sendToDock: (pid: string) => void;
+  onMarkAbsent: (pid: string) => void;
+  repair: (preferences: Preference[]) => Promise<void>;
   onSaveDetails: (details: DetailChanges) => Promise<boolean>;
   visible: WorkingState["participants"];
   filter: string;
@@ -181,6 +185,11 @@ export function WorkspaceDialogs({
                     >
                       Send to holding dock
                     </Button>
+                    <Button variant="destructive" size="sm" disabled={item.attendance_status === "ABSENT"}
+                      onClick={() => onMarkAbsent(person.participant_id)}>
+                      Mark {person.contribution_tier === "EMPEROR" ? "pair" : "participant"} absent
+                    </Button>
+                    {item.attendance_status === "ABSENT" && <p className="text-sm text-destructive">Absent — excluded from repair and regeneration. Assigning a seat will ask to restore attendance.</p>}
                   </div>
                 )}
               </>
@@ -214,6 +223,9 @@ export function WorkspaceDialogs({
               result={base}
               hasDraft={dirty || !!workspace?.saved_at}
               onGenerate={regenerate}
+              onRepair={repair}
+              hasAbsences={Object.values(state.items).some((item) => item.attendance_status === "ABSENT")}
+              attendanceChanged={Object.entries(state.items).some(([pid, item]) => (item.attendance_status ?? "PRESENT") !== (base.source_request?.attendance?.[pid] ?? "PRESENT"))}
             />
           </>
         )}

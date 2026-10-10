@@ -61,7 +61,7 @@ export function HoldingDock({
         ) : (
           docked.map((p) => (
             <button
-              className={`mb-2 flex w-full flex-col gap-0.75 rounded-lg border bg-secondary p-2.5 text-left ${selection.participantId === p.participant_id ? "outline-2 outline-ring" : ""} [&>strong]:text-[15px] [&>strong]:font-medium [&>span]:text-xs [&>span]:text-muted-foreground [&>small]:text-xs [&>small]:text-muted-foreground`}
+              className={`mb-2 flex w-full flex-col gap-0.75 rounded-lg border p-2.5 text-left ${state.items[p.participant_id].attendance_status === "ABSENT" ? "border-destructive/50 bg-destructive/10" : "bg-secondary"} ${selection.participantId === p.participant_id ? "outline-2 outline-ring" : ""} [&>strong]:text-[15px] [&>strong]:font-medium [&>span]:text-xs [&>span]:text-muted-foreground [&>small]:text-xs [&>small]:text-muted-foreground`}
               key={p.participant_id}
               draggable={canEdit}
               onDragStart={(e) =>
@@ -70,6 +70,7 @@ export function HoldingDock({
               onClick={() => selectParticipant(p.participant_id)}
             >
               <strong>{state.items[p.participant_id].display_names[0]}</strong>
+              {state.items[p.participant_id].attendance_status === "ABSENT" && <span className="font-semibold">Absent{p.contribution_tier === "EMPEROR" ? " · both occupants" : ""}</span>}
               <span>
                 {p.contribution_tier === "EMPEROR"
                   ? "Pair · 2 seats"

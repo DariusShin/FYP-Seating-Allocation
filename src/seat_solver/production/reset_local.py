@@ -11,7 +11,7 @@ from pathlib import Path
 
 from seat_solver.production.policy import ROOT
 
-TABLES = ("workspace_reviews", "workspace_versions", "workspaces", "audit", "events", "plans")
+TABLES = ("workspace_reviews", "workspace_versions", "workspaces", "event_attendance", "audit", "events", "plans")
 
 
 def reset_local(database, apply=False):

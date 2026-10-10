@@ -58,6 +58,7 @@ export function ParticipantChecklist({
             {Object.entries({
               all: "All registrations",
               dock: "Unseated / in dock",
+              absent: "Absent",
               note: "Has note",
               changed: "Changed today",
             }).map(([value, label]) => (
@@ -98,7 +99,7 @@ export function ParticipantChecklist({
                 </strong>
                 <small className="block text-muted-foreground">
                   {p.full_name} · {location(m.seat_ids)} ·{" "}
-                  {p.registration_status}
+                  {p.registration_status} · {m.attendance_status === "ABSENT" ? "Absent" : "Present"}
                 </small>
               </button>
             </div>

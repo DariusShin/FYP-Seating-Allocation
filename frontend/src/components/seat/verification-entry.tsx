@@ -56,13 +56,14 @@ export function VerificationEntry({ initial }: { initial: Workspace }) {
     workspace.state.participants.some(
       (p) =>
         eligible(p) &&
+        workspace.state.items[p.participant_id]?.attendance_status !== "ABSENT" &&
         !workspace.state.items[p.participant_id]?.seat_ids.length,
     )
   )
     return (
       <main className="p-8">
         <p role="alert">
-          Assign every paid registration before entering verification.
+          Assign every present paid registration before entering verification.
         </p>
         <Link href={editPath}>Back to editing</Link>
       </main>

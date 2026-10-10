@@ -1,5 +1,6 @@
 import type { AllocationResult, Registration } from "./allocation-types";
 export interface WorkingItem {
+  attendance_status?: "PRESENT" | "ABSENT";
   seat_ids: string[];
   display_names: string[];
   note: string;
@@ -35,6 +36,8 @@ export function move(
   const m = state.items[pid];
   if (!p || !eligible(p))
     throw Error("Only paid registrations can occupy a seat.");
+  if (m.attendance_status === "ABSENT")
+    throw Error("Restore attendance before assigning this registration.");
   const cells = base.floor_plan.rows.flatMap((r) =>
     r.seats.map((s) => ({ ...s, row: r.row_number })),
   );
@@ -122,6 +125,25 @@ export function dock(state: WorkingState, pid: string): WorkingState {
   return next;
 }
 
+/** Attendance belongs to the entire registration, including both Emperor seats. */
+export function markAbsent(state: WorkingState, pid: string): WorkingState {
+  const person = state.participants.find((p) => p.participant_id === pid);
+  if (!person || !eligible(person)) throw Error("Choose a paid registration.");
+  const next = dock(state, pid);
+  next.items[pid].previous_seat_ids = state.items[pid].seat_ids.length
+    ? [...state.items[pid].seat_ids] : [...state.items[pid].previous_seat_ids];
+  next.items[pid].attendance_status = "ABSENT";
+  next.items[pid].dock_reason = "Marked absent";
+  return next;
+}
+
+/** Build a single undoable restore-and-place edit; failed placement changes nothing. */
+export function restoreAndMove(state: WorkingState, base: AllocationResult, pid: string, sid: string): WorkingState {
+  const next = structuredClone(state);
+  next.items[pid].attendance_status = "PRESENT";
+  return move(next, base, pid, sid);
+}
+
 /** Review rearrangements preserve every paid entitlement, including mixed sizes. */
 export function reviewMove(
   state: WorkingState,
@@ -137,6 +159,8 @@ export function reviewMove(
   );
   const person = people[pid];
   if (!person || !eligible(person)) throw Error("Choose a paid registration.");
+  if (state.items[pid].attendance_status === "ABSENT")
+    throw Error("Restore attendance before assigning this registration.");
   const pairs = base.source_request?.layout?.approved_pairs;
   if (!pairs)
     throw Error("Reload the draft to retrieve its approved seat pairs.");
