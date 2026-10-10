@@ -2,9 +2,14 @@
 
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 
 import pytest
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from seat_solver.prototype.models import (
     CATEGORY_IMPORTANCE,
@@ -16,8 +21,6 @@ from seat_solver.prototype.models import (
     read_json,
 )
 from seat_solver.prototype.solver import solve_seat_allocation
-
-ROOT = Path(__file__).resolve().parents[1]
 
 
 @pytest.fixture(scope="session")

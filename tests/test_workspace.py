@@ -210,7 +210,7 @@ def test_publication_blocks_contribution_but_allows_acknowledged_findings(tmp_pa
 
     store = PlanStore(tmp_path / "plans.db")
     ws = WorkspaceStore(store)
-    from seat_solver.production.production_data import generate
+    from research.fixtures.synthetic_participants import generate
 
     request = generate(emperor=0, merit=2, bodhi=0)
     request["layout"]["row_count"] = 2

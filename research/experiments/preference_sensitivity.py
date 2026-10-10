@@ -22,10 +22,11 @@ import ortools
 from ortools.sat.python import cp_model
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
 from seat_solver.production.policy import MINIMUMS, policy, validate_request
 from seat_solver.production.production import build
-from seat_solver.production.production_data import generate
+from research.fixtures.synthetic_participants import generate
 from seat_solver.production.production_scoring import candidate_cost, eligible
 from seat_solver.production.production_validator import validate_placements
 

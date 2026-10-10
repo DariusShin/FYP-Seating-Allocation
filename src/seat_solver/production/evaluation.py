@@ -16,7 +16,7 @@ import ortools
 
 from seat_solver.jsonio import write_json
 from seat_solver.production.production import solve
-from seat_solver.production.production_data import generate
+from research.fixtures.synthetic_participants import generate
 from seat_solver.production.production_validator import audit_result
 
 

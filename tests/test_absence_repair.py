@@ -9,7 +9,7 @@ from seat_solver.production.absence_repair import movement, repair
 from seat_solver.production.plan_store import PlanStore, participant_view
 from seat_solver.production.policy import DomainError, policy
 from seat_solver.production.production import solve
-from seat_solver.production.production_data import generate
+from research.fixtures.synthetic_participants import generate
 from seat_solver.production.production_scoring import candidate_cost, eligible
 from seat_solver.production.production_validator import audit_result, validate_placements
 from seat_solver.production.service import dispatch

@@ -7,7 +7,7 @@ import pytest
 from seat_solver.production.plan_store import PlanStore
 from seat_solver.production.policy import DomainError
 from seat_solver.production.production import solve
-from seat_solver.production.production_data import generate
+from research.fixtures.synthetic_participants import generate
 from seat_solver.production.service import dispatch
 from seat_solver.production.verification import check
 from seat_solver.production.workspace import WorkspaceStore, initial_state
