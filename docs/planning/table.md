@@ -40,7 +40,6 @@ Offerings `table.md`. The existing Events, Offerings and Auth tables remain unch
 
 | Group                 | Values                                                         | Notes                                              |
 | --------------------- | -------------------------------------------------------------- | -------------------------------------------------- |
-| `REGISTRATION_STATUS` | `"CONFIRMED" \| "PENDING" \| "WAITLISTED" \| "CANCELLED"`      | Only `CONFIRMED` carries paid-seat entitlement     |
 | `CONTRIBUTION_TIER`   | `"EMPEROR" \| "MERIT" \| "BODHI"`                              | Registered bundle tier; Emperor occupies two seats |
 | `PARTICIPANT_CATEGORY`| `"MONASTIC" \| "COMMITTEE" \| "VOLUNTEER" \| "GENERAL_DEVOTEE"`| Solver category driving zone costs                 |
 | `ATTENDANCE_STATUS`   | `"PRESENT" \| "ABSENT"`                                        | Applies to the whole registration incl. both Emperor seats |
@@ -62,7 +61,7 @@ written/read at setup, at explicit workflow steps, or for audit.
 | Get seating configuration for an event (and conditionally update its pointers: active layout, active policy, published plan) | Table | PK = eventId<br>SK = `"CONFIG"` | — | high |
 | List all registrations for an event (import, solver request build, workspace open) | Table | PK = eventId<br>SK begins_with(`"REG#"`) | — | high |
 | Get or update one registration | Table | PK = eventId<br>SK = `"REG#<participantId>"` | — | low |
-| Find an existing registration by its contribution source during import | Table | PK = eventId<br>SK begins_with(`"REG#"`) | `source.pk = :pk AND source.sk = :sk AND source.bundleId = :bundle AND source.unitId = :unit` | low |
+| Find an existing registration by its contribution source during import or re-import reconciliation (create, update or delete) | Table | PK = eventId<br>SK begins_with(`"REG#"`) | `source.pk = :pk AND source.sk = :sk AND source.bundleId = :bundle AND source.unitId = :unit` | low |
 | Get attendance for one registration (and conditionally toggle it) | Table | PK = eventId<br>SK = `"ATTENDANCE#<participantId>"` | — | high (event day) |
 | List the full attendance map for an event | Table | PK = eventId<br>SK begins_with(`"ATTENDANCE#"`) | — | high (event day) |
 | Get a layout version (via `CONFIG.activeLayoutVersionId`) | Table | PK = eventId<br>SK = `"LAYOUT#<layoutId>"` | — | low |
@@ -94,10 +93,9 @@ written/read at setup, at explicit workflow steps, or for audit.
 | `<planId>`, `<layoutId>`, `<policyId>` | ULID | — | Immutable versions; lexicographically time-sortable, so version lists are chronological without timestamp attributes or extra sort keys. |
 | `<participantId>` | Stable allocation-unit ID | — | Scoped to the event, stable across plan versions; Emperor is one registration occupying two seats, never two registrations. |
 
-Deliberately **not** keys: `publicationStatus`, `registrationStatus`, attendance `status`,
-per-plan assignment pointers, etc. No listed access pattern needs to find items by those
-attributes alone — they are always read inside a known partition — so indexing them would only
-add write cost.
+Deliberately **not** keys: `publicationStatus`, attendance `status`, per-plan assignment
+pointers, etc. No listed access pattern needs to find items by those attributes alone — they are
+always read inside a known partition — so indexing them would only add write cost.
 
 ## Key-shape decisions
 
@@ -152,6 +150,58 @@ they are attributes carried on each version, not a reason to collapse the family
 The general shape rule stays: collapse to a constant SK only when the item is mutable, never
 referenced by identity, and needs no history — which is why `preferences` lives as attributes
 on `CONFIG` rather than as versioned items.
+
+## Cross-table provenance and derivation
+
+The three upstream tables (events, offerings, invoice) contain **no participant or
+allocation-unit entity**. Offerings partitions by invoice reference number; the only customer
+identity anywhere upstream is `invoice.meta.phone`, and no reference table carries a
+customer/phone index (invoice GSIs are `eventGSI`/`statusGSI` only). Two consequences:
+
+- The seating flow must mint and persist the stable `participantId` itself — the Registration
+  entity is the only place participant identity exists, so it cannot be replaced by live
+  cross-table queries.
+- Solver-required inputs that *do* exist upstream (`fullName`, `contributionTier`,
+  `contributionAmountRm`) are **materialized at import**, not re-derived per read.
+
+### Cost comparison: materialize at import vs derive at read
+
+| Strategy | Reads at open/solve (high frequency) | Extra writes | Assessment |
+| --- | --- | --- | --- |
+| Materialize at import (chosen) | 1 Query (`REG#`) — attributes ride along rows already needed | None beyond the import's own PutItems | The cross-table join is paid once per event cycle at import (low frequency) |
+| Derive at read (rejected) | `eventGSI` invoice query + ~1 offerings query per paid invoice (N ≈ 50–150) + invoice meta reads | None | ~30–150× more RCUs on every workspace open and solve; mixes live upstream data with the frozen draft state mid-edit |
+
+Materializing also keeps the staleness model coherent: every plan embeds its frozen
+`sourceRequest`, and "registrations changed since this draft" is answered by comparing that
+snapshot against the live `REG#` items — including deletions from refund reconciliation —
+without touching another table. Derived values that must not drift under an existing plan
+(`eventsJoinedLast2Years`) are therefore *derived but frozen*: computed once at import,
+refreshed only by an explicit re-import.
+
+### Eligibility without `registrationStatus`
+
+The four-state registration workflow (confirmed/pending/waitlisted/cancelled) belongs to the
+upstream registration and invoicing flows. Seating stores only seatable allocation units:
+eligibility is membership in the `REG#` family, and import admits rows sourced from invoices
+with status `"paid"` only. A post-import refund or cancellation is applied by re-running the
+import, which reconciles by `source` and deletes the row (a `history#` `"delete"` changeset);
+an open draft detects the removal through the existing content-staleness comparison. The
+current local solver contract keeps `registration_status`; the production adapter either maps
+every imported row to the eligible constant or drops the field from the request schema — an
+integration decision, not a table-shape one.
+
+### Import dependencies and open mapping decisions
+
+- **Activeness derivation has no supporting index upstream.** Computing
+  `eventsJoinedLast2Years` (distinct completed events the customer joined in the rolling
+  two-year window) requires listing invoices by customer `phone` — a GSI the invoice table
+  does not have — plus event-status lookups. Either the invoice table adds a `phoneGSI`, or
+  the count is supplied by the customer-identity flow. Resolve before implementing import.
+- Emperor bundle → occupants mapping (payer + companion vs entry `names`).
+- Whether one bundle always equals exactly one allocation unit — the `source.unitId` field
+  anticipates multi-unit bundles.
+- Invoice-level `tax`/`discount` are not attributed per bundle; the scoring input remains
+  `bundle.amount` unless the business defines a split rule.
 
 ## Entities
 
@@ -221,28 +271,32 @@ redundancy and force every registration save through a config transaction.
 
 #### Description
 
-One seating allocation unit per confirmed or prospective attendee. Flattened attributes replace
-the old nested `participant` map — the map duplicated `participant_id` (already the `sk`) and
-forced deep updates. Values are a frozen solver-input snapshot at solve time; upstream Offerings
-changes arrive only through an explicit import/update operation. There is no `sourceHash`
-attribute: import deduplication is a bounded partition query with a Filter Expression (see
-access patterns), so a hash attribute and its GSI would be storage spent on a low-frequency
-pattern.
+The seating flow's own materialization of one allocation unit, created by an explicit import
+from the invoicing and offering flows — see
+[Cross-table provenance and derivation](#cross-table-provenance-and-derivation). The upstream
+tables carry no participant entity, so the import is where the stable `participantId` is minted
+and where solver inputs that exist upstream (name, tier, amount) are resolved and frozen.
+Seating-only attributes no upstream table carries (accessibility, solver category, age,
+companion display name) are captured in the same import. There is no `registrationStatus`:
+every row in this family is seatable by construction, imported from an invoice with status
+`"paid"`; a post-import refund is applied by re-running the import, which reconciles by
+`source` and deletes the row. There is also no `sourceHash` attribute: import deduplication is
+a bounded partition query with a Filter Expression (see access patterns), so a hash attribute
+and its GSI would be storage spent on a low-frequency pattern.
 
 | Attribute                  | Type                                          | Notes                                                                                        |
 | -------------------------- | --------------------------------------------- | -------------------------------------------------------------------------------------------- |
 | `pk`                       | `string`                                      | Canonical event ID                                                                           |
-| `sk`                       | `"REG#<participantId>"`                       | `<participantId>` - stable allocation-unit key                                               |
-| `fullName`                 | `string`                                      | Authoritative registered name                                                                |
-| `registrationStatus`       | `REGISTRATION_STATUS`                         | Never derived from attendance                                                                |
-| `contributionTier`         | `CONTRIBUTION_TIER`                           | Registered bundle tier                                                                       |
-| `contributionAmountRm`     | `number`                                      | Whole-ringgit contribution amount                                                            |
-| `requiresAccessibleSeat`   | `boolean`                                     | Explicit accessibility requirement                                                           |
-| `participantCategory`      | `PARTICIPANT_CATEGORY`                        | Solver category                                                                              |
-| `eventsJoinedLast2Years`   | `number`                                      | Snapshot used by activeness scoring                                                          |
-| `age`                      | `number`                                      | Age snapshot used by the current request contract                                            |
-| `adjacentPersonName`       | `string \| null`                              | Companion display field; not a separate registration                                         |
-| `source`                   | `{table, pk, sk, bundleId, unitId}`           | **OPTIONAL** - authoritative Offerings reference for import reconciliation and deduplication |
+| `sk`                       | `"REG#<participantId>"`                       | `<participantId>` - stable allocation-unit key, minted at import                             |
+| `fullName`                 | `string`                                      | Primary occupant's display name, materialized at import from the invoice customer            |
+| `contributionTier`         | `CONTRIBUTION_TIER`                           | Materialized at import from the matching bundle's `type` (`emperor` → `EMPEROR`, …)          |
+| `contributionAmountRm`     | `number`                                      | Materialized at import from `bundle.amount`; importance-normalization input                  |
+| `requiresAccessibleSeat`   | `boolean`                                     | Seating-captured; no upstream source                                                         |
+| `participantCategory`      | `PARTICIPANT_CATEGORY`                        | Seating-captured solver category                                                             |
+| `eventsJoinedLast2Years`   | `number`                                      | Derived at import from the customer's prior completed events (rolling two-year window); frozen, refreshed only by re-import |
+| `age`                      | `number`                                      | Seating-captured age snapshot used by the request contract                                   |
+| `adjacentPersonName`       | `string \| null`                              | Companion display field for Emperor; not a separate registration                             |
+| `source`                   | `{table, pk, sk, bundleId, unitId}`           | **OPTIONAL** - authoritative Offerings/Invoice reference; reconciliation key for re-import   |
 | `revision`                 | `number`                                      | Conditional registration update revision                                                     |
 | `createdAt` / `createdBy`  | `number` / `string`                           | Creation metadata                                                                            |
 | `updatedAt` / `updatedBy`  | `number` / `string`                           | Last edit metadata                                                                           |
@@ -254,7 +308,6 @@ pattern.
     "pk": "evt_2026_01",
     "sk": "REG#P001",
     "fullName": "Example Participant",
-    "registrationStatus": "CONFIRMED",
     "contributionTier": "MERIT",
     "contributionAmountRm": 3000,
     "requiresAccessibleSeat": false,
@@ -262,7 +315,7 @@ pattern.
     "eventsJoinedLast2Years": 0,
     "age": 30,
     "adjacentPersonName": null,
-    "source": { "table": "Offerings", "pk": "0123456789", "sk": "A00001", "bundleId": "bundle_01", "unitId": "1" },
+    "source": { "table": "Offerings", "pk": "INV00001", "sk": "bundle#z88p4tow4navrttm", "bundleId": "z88p4tow4navrttm", "unitId": "1" },
     "revision": 3,
     "createdAt": 1790640000000,
     "createdBy": "usr_staff_01",
@@ -683,13 +736,13 @@ clean domain IDs extracted from their values; no facet exposes table keys.
 
 `participantId` is extracted from the `sk`; the flattened attributes map one-to-one, so the
 solver-request builder re-injects `participant_id` into the request payload without it ever
-being stored.
+being stored. There is no `registrationStatus` in the facet: every exported row is an eligible
+allocation unit by construction of the import.
 
 | Attribute                 | Derived from                                        | Type                       |
 | ------------------------- | --------------------------------------------------- | -------------------------- |
 | `participantId`           | `sk` - extract id from `"REG#<id>"`                 | `string`                   |
 | `fullName`                | `fullName`                                          | `string`                   |
-| `registrationStatus`      | `registrationStatus`                                | `REGISTRATION_STATUS`      |
 | `contributionTier`        | `contributionTier`                                  | `CONTRIBUTION_TIER`        |
 | `contributionAmountRm`    | `contributionAmountRm`                              | `number`                   |
 | `requiresAccessibleSeat`  | `requiresAccessibleSeat`                            | `boolean`                  |
