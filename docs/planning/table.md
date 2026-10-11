@@ -607,6 +607,7 @@ dialog may change.
 | `pk`                   | `"POLICY"`               | Reserved literal; single shared registry partition                          |
 | `sk`                   | `"policy#<policyId>"`    | `<policyId>` - immutable ULID version ID                                   |
 | `tierOrder`            | `CONTRIBUTION_TIER[]`    | Tier precedence used by the solver                                         |
+| `tierBoundaries`       | `map`                    | Tier → inclusive row range, e.g. `{"EMPEROR": [1, 3], "MERIT": [4, 10], "BODHI": [11, 16]}`. The hard seat-eligibility source: a registration may occupy seats only within its own tier's rows. Validated against the active layout's `row_count` when solving, since row ranges are layout-specific. |
 | `tierMinimums`         | `map`                    | Tier → whole-ringgit minimum (contribution tier boundary)                  |
 | `categoryZoneCosts`    | `map`                    | `PARTICIPANT_CATEGORY → zone → cost`; defines category/zone behaviour      |
 | `rankWeights`          | `number[]`               | Relative preference weights matched to preference rank order               |
@@ -624,6 +625,7 @@ dialog may change.
     "pk": "POLICY",
     "sk": "policy#01JPOLICYEXAMPLE",
     "tierOrder": ["EMPEROR", "MERIT", "BODHI"],
+    "tierBoundaries": { "EMPEROR": [1, 3], "MERIT": [4, 10], "BODHI": [11, 16] },
     "tierMinimums": { "EMPEROR": 5000, "MERIT": 3000, "BODHI": 2000 },
     "categoryZoneCosts": {
         "MONASTIC":        { "RIGHT_CENTER": 0, "LEFT_CENTER": 2, "RIGHT_OUTER": 4, "LEFT_OUTER": 8 },
@@ -641,6 +643,25 @@ dialog may change.
     "createdBy": "usr_staff_01"
 }
 ```
+
+#### Strict tier boundary
+
+The Merit/Bodhi boundary is **strict**: tier eligibility is derived from `tierBoundaries`, and a
+Bodhi registration may never occupy a Merit row — including the first row of the Merit block —
+regardless of available seats or preference penalties. The boundary is a hard constraint
+enforced identically in three places, never a soft penalty:
+
+1. **Solver** — seat domains are pruned per tier before optimization, so an infeasible
+   assignment cannot be produced at all.
+2. **Workspace / manual edits** — a move that crosses the tier boundary is rejected outright
+   (validation error, not a review finding to acknowledge), because the review override flow
+   must never be the thing that permits tier mixing.
+3. **Absence repair** — the minimum-movement repair never relocates a registration across its
+   tier boundary; if an absent unit's release makes a Bodhi seat unreachable within Bodhi rows,
+   the affected registration is docked for manual placement inside its own tier's rows instead.
+
+Review still reports any boundary violation it encounters (e.g. from legacy data) as a **RED**
+finding that blocks publication.
 
 ### History entity
 
@@ -824,6 +845,7 @@ Inference on each policy field — will staff legitimately want to change it, an
 | Field                  | Changes? | Rationale                                                                 | Settings dialog                          |
 | ---------------------- | -------- | -------------------------------------------------------------------------- | ---------------------------------------- |
 | `tierMinimums`         | **Yes**  | Contribution tier boundaries (RM5,000 / RM3,000 / RM2,000) are business decisions that shift per event cycle | **Editable** — tier boundary inputs |
+| `tierBoundaries`       | **Yes**  | Which rows belong to each tier defines the strict Merit/Bodhi boundary; organisers may shift the block edges per event (e.g. a smaller hall) | **Editable** — per-tier row-range inputs; validated to partition all rows disjointly in tier order and to fit the active layout's `row_count` |
 | `categoryZoneCosts`    | **Yes**  | Which categories sit in which zones, and how strongly, is organisers' judgement | **Editable** — category list + per-zone costs |
 | `tierOrder`            | Rarely   | Fixed by the temple's contribution hierarchy                               | **Editable** (advanced section) with validation against `tierMinimums` keys |
 | `rankWeights`          | **Yes**  | Relative preference strength may be retuned between generations            | **Editable** — weight sliders/inputs; validated to match enabled preference count |
