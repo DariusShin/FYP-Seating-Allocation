@@ -1,4 +1,5 @@
 import type { AllocationResult, Registration } from "./allocation-types";
+import { movementBoundary } from "./movement-boundary";
 export interface WorkingItem {
   attendance_status?: "PRESENT" | "ABSENT";
   seat_ids: string[];
@@ -7,6 +8,7 @@ export interface WorkingItem {
   dock_reason: string;
   previous_seat_ids: string[];
   changed_at: string | null;
+  seat_prepared?: boolean;
 }
 export interface WorkingState {
   participants: Registration[];
@@ -26,6 +28,14 @@ export interface Workspace {
 }
 export const eligible = (p: Registration) =>
   p.registration_status === "CONFIRMED";
+
+/** Only present paid registrations take up space in the tier boundaries. */
+const presentParticipants = (state: WorkingState) =>
+  state.participants.filter(
+    (p) =>
+      eligible(p) &&
+      state.items[p.participant_id]?.attendance_status !== "ABSENT",
+  );
 export function move(
   state: WorkingState,
   base: AllocationResult,
@@ -75,6 +85,8 @@ export function move(
     m.seat_ids.every((id) => ids.includes(id))
   )
     return state;
+  const boundary = movementBoundary(base.floor_plan, presentParticipants(state));
+  boundary?.assertAllowed(p.contribution_tier, ids, m.seat_ids);
   const others = Object.entries(state.items).filter(
     ([id, v]) => id !== pid && v.seat_ids.some((s) => ids.includes(s)),
   );
@@ -91,12 +103,21 @@ export function move(
       throw Error(
         "Swap individuals with individuals or pairs with pairs; use the dock to rearrange different sizes.",
       );
-    next.items[otherId].seat_ids = m.seat_ids.length
+    const otherPerson = state.participants.find(
+      (p) => p.participant_id === otherId,
+    )!;
+    const otherIds = m.seat_ids.length
       ? destination(
-          state.participants.find((p) => p.participant_id === otherId)!,
+          otherPerson,
           cells.find((s) => s.seat_id === m.seat_ids[0]),
         )
       : [];
+    boundary?.assertAllowed(
+      otherPerson.contribution_tier,
+      otherIds,
+      other.seat_ids,
+    );
+    next.items[otherId].seat_ids = otherIds;
     next.items[otherId].previous_seat_ids = other.seat_ids;
     next.items[otherId].dock_reason = m.seat_ids.length
       ? ""
@@ -134,6 +155,20 @@ export function markAbsent(state: WorkingState, pid: string): WorkingState {
     ? [...state.items[pid].seat_ids] : [...state.items[pid].previous_seat_ids];
   next.items[pid].attendance_status = "ABSENT";
   next.items[pid].dock_reason = "Marked absent";
+  return next;
+}
+
+/** Recovering attendance docks the registration back as a normal placement candidate. */
+export function restore(state: WorkingState, pid: string): WorkingState {
+  const m = state.items[pid];
+  if (m.attendance_status !== "ABSENT") return state;
+  const next = structuredClone(state);
+  next.items[pid] = {
+    ...m,
+    attendance_status: "PRESENT",
+    dock_reason: "",
+    changed_at: new Date().toISOString(),
+  };
   return next;
 }
 
@@ -224,6 +259,14 @@ export function reviewMove(
     throw Error(
       "This rearrangement needs the holding dock — go back to editing.",
     );
+  const boundary = movementBoundary(base.floor_plan, presentParticipants(state));
+  for (const [id, ids] of Object.entries(assignments))
+    if (ids.length)
+      boundary?.assertAllowed(
+        people[id].contribution_tier,
+        ids,
+        state.items[id].seat_ids,
+      );
   const next = structuredClone(state);
   for (const [id, ids] of Object.entries(assignments))
     next.items[id] = {
