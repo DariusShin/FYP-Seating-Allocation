@@ -1,0 +1,3388 @@
+{
+  "runs": [
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "current",
+      "weights": [
+        4,
+        3,
+        2
+      ],
+      "registrations": 24,
+      "status": "OPTIMAL",
+      "solve_seconds": 0.21733300000000003,
+      "model_build_seconds_shared": 0.05419845797587186,
+      "best_bound": 3535.0,
+      "branches": 27480,
+      "conflicts": 171,
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "placements": [
+        {
+          "participant_id": "P0001",
+          "seat_ids": [
+            "R01-S15",
+            "R01-S16"
+          ]
+        },
+        {
+          "participant_id": "P0002",
+          "seat_ids": [
+            "R01-S05",
+            "R01-S06"
+          ]
+        },
+        {
+          "participant_id": "P0003",
+          "seat_ids": [
+            "R01-S01",
+            "R01-S02"
+          ]
+        },
+        {
+          "participant_id": "P0004",
+          "seat_ids": [
+            "R01-S09",
+            "R01-S10"
+          ]
+        },
+        {
+          "participant_id": "P0005",
+          "seat_ids": [
+            "R01-S03",
+            "R01-S04"
+          ]
+        },
+        {
+          "participant_id": "P0006",
+          "seat_ids": [
+            "R01-S11",
+            "R01-S12"
+          ]
+        },
+        {
+          "participant_id": "P0007",
+          "seat_ids": [
+            "R01-S13",
+            "R01-S14"
+          ]
+        },
+        {
+          "participant_id": "P0008",
+          "seat_ids": [
+            "R01-S07",
+            "R01-S08"
+          ]
+        },
+        {
+          "participant_id": "P0009",
+          "seat_ids": [
+            "R02-S15"
+          ]
+        },
+        {
+          "participant_id": "P0010",
+          "seat_ids": [
+            "R02-S10"
+          ]
+        },
+        {
+          "participant_id": "P0011",
+          "seat_ids": [
+            "R02-S14"
+          ]
+        },
+        {
+          "participant_id": "P0012",
+          "seat_ids": [
+            "R02-S13"
+          ]
+        },
+        {
+          "participant_id": "P0013",
+          "seat_ids": [
+            "R02-S11"
+          ]
+        },
+        {
+          "participant_id": "P0014",
+          "seat_ids": [
+            "R02-S12"
+          ]
+        },
+        {
+          "participant_id": "P0015",
+          "seat_ids": [
+            "R02-S16"
+          ]
+        },
+        {
+          "participant_id": "P0016",
+          "seat_ids": [
+            "R02-S09"
+          ]
+        },
+        {
+          "participant_id": "P0017",
+          "seat_ids": [
+            "R02-S03"
+          ]
+        },
+        {
+          "participant_id": "P0018",
+          "seat_ids": [
+            "R02-S08"
+          ]
+        },
+        {
+          "participant_id": "P0019",
+          "seat_ids": [
+            "R02-S06"
+          ]
+        },
+        {
+          "participant_id": "P0020",
+          "seat_ids": [
+            "R02-S05"
+          ]
+        },
+        {
+          "participant_id": "P0021",
+          "seat_ids": [
+            "R02-S02"
+          ]
+        },
+        {
+          "participant_id": "P0022",
+          "seat_ids": [
+            "R02-S04"
+          ]
+        },
+        {
+          "participant_id": "P0023",
+          "seat_ids": [
+            "R02-S01"
+          ]
+        },
+        {
+          "participant_id": "P0024",
+          "seat_ids": [
+            "R02-S07"
+          ]
+        }
+      ],
+      "components_by_matrix": {
+        "base": [
+          320,
+          425,
+          490
+        ],
+        "squared": [
+          320,
+          425,
+          220
+        ],
+        "ordinal": [
+          320,
+          425,
+          698
+        ],
+        "zero": [
+          320,
+          425,
+          0
+        ]
+      },
+      "objective": 3535,
+      "relative_gap": 0.0
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "equal",
+      "weights": [
+        1,
+        1,
+        1
+      ],
+      "registrations": 24,
+      "status": "OPTIMAL",
+      "solve_seconds": 0.17731100000000002,
+      "model_build_seconds_shared": 0.05419845797587186,
+      "best_bound": 1234.0,
+      "branches": 19481,
+      "conflicts": 150,
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "placements": [
+        {
+          "participant_id": "P0001",
+          "seat_ids": [
+            "R01-S15",
+            "R01-S16"
+          ]
+        },
+        {
+          "participant_id": "P0002",
+          "seat_ids": [
+            "R01-S05",
+            "R01-S06"
+          ]
+        },
+        {
+          "participant_id": "P0003",
+          "seat_ids": [
+            "R01-S03",
+            "R01-S04"
+          ]
+        },
+        {
+          "participant_id": "P0004",
+          "seat_ids": [
+            "R01-S09",
+            "R01-S10"
+          ]
+        },
+        {
+          "participant_id": "P0005",
+          "seat_ids": [
+            "R01-S01",
+            "R01-S02"
+          ]
+        },
+        {
+          "participant_id": "P0006",
+          "seat_ids": [
+            "R01-S11",
+            "R01-S12"
+          ]
+        },
+        {
+          "participant_id": "P0007",
+          "seat_ids": [
+            "R01-S13",
+            "R01-S14"
+          ]
+        },
+        {
+          "participant_id": "P0008",
+          "seat_ids": [
+            "R01-S07",
+            "R01-S08"
+          ]
+        },
+        {
+          "participant_id": "P0009",
+          "seat_ids": [
+            "R02-S15"
+          ]
+        },
+        {
+          "participant_id": "P0010",
+          "seat_ids": [
+            "R02-S11"
+          ]
+        },
+        {
+          "participant_id": "P0011",
+          "seat_ids": [
+            "R02-S14"
+          ]
+        },
+        {
+          "participant_id": "P0012",
+          "seat_ids": [
+            "R02-S13"
+          ]
+        },
+        {
+          "participant_id": "P0013",
+          "seat_ids": [
+            "R02-S10"
+          ]
+        },
+        {
+          "participant_id": "P0014",
+          "seat_ids": [
+            "R02-S12"
+          ]
+        },
+        {
+          "participant_id": "P0015",
+          "seat_ids": [
+            "R02-S16"
+          ]
+        },
+        {
+          "participant_id": "P0016",
+          "seat_ids": [
+            "R02-S09"
+          ]
+        },
+        {
+          "participant_id": "P0017",
+          "seat_ids": [
+            "R02-S03"
+          ]
+        },
+        {
+          "participant_id": "P0018",
+          "seat_ids": [
+            "R02-S08"
+          ]
+        },
+        {
+          "participant_id": "P0019",
+          "seat_ids": [
+            "R02-S06"
+          ]
+        },
+        {
+          "participant_id": "P0020",
+          "seat_ids": [
+            "R02-S05"
+          ]
+        },
+        {
+          "participant_id": "P0021",
+          "seat_ids": [
+            "R02-S02"
+          ]
+        },
+        {
+          "participant_id": "P0022",
+          "seat_ids": [
+            "R02-S04"
+          ]
+        },
+        {
+          "participant_id": "P0023",
+          "seat_ids": [
+            "R02-S01"
+          ]
+        },
+        {
+          "participant_id": "P0024",
+          "seat_ids": [
+            "R02-S07"
+          ]
+        }
+      ],
+      "components_by_matrix": {
+        "base": [
+          327,
+          417,
+          490
+        ],
+        "squared": [
+          327,
+          417,
+          220
+        ],
+        "ordinal": [
+          327,
+          417,
+          698
+        ],
+        "zero": [
+          327,
+          417,
+          0
+        ]
+      },
+      "objective": 1234,
+      "relative_gap": 0.0
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "rank_sum",
+      "weights": [
+        3,
+        2,
+        1
+      ],
+      "registrations": 24,
+      "status": "OPTIMAL",
+      "solve_seconds": 0.281193,
+      "model_build_seconds_shared": 0.05419845797587186,
+      "best_bound": 2297.0,
+      "branches": 42700,
+      "conflicts": 189,
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "placements": [
+        {
+          "participant_id": "P0001",
+          "seat_ids": [
+            "R01-S11",
+            "R01-S12"
+          ]
+        },
+        {
+          "participant_id": "P0002",
+          "seat_ids": [
+            "R01-S05",
+            "R01-S06"
+          ]
+        },
+        {
+          "participant_id": "P0003",
+          "seat_ids": [
+            "R01-S01",
+            "R01-S02"
+          ]
+        },
+        {
+          "participant_id": "P0004",
+          "seat_ids": [
+            "R01-S09",
+            "R01-S10"
+          ]
+        },
+        {
+          "participant_id": "P0005",
+          "seat_ids": [
+            "R01-S03",
+            "R01-S04"
+          ]
+        },
+        {
+          "participant_id": "P0006",
+          "seat_ids": [
+            "R01-S15",
+            "R01-S16"
+          ]
+        },
+        {
+          "participant_id": "P0007",
+          "seat_ids": [
+            "R01-S13",
+            "R01-S14"
+          ]
+        },
+        {
+          "participant_id": "P0008",
+          "seat_ids": [
+            "R01-S07",
+            "R01-S08"
+          ]
+        },
+        {
+          "participant_id": "P0009",
+          "seat_ids": [
+            "R02-S14"
+          ]
+        },
+        {
+          "participant_id": "P0010",
+          "seat_ids": [
+            "R02-S10"
+          ]
+        },
+        {
+          "participant_id": "P0011",
+          "seat_ids": [
+            "R02-S15"
+          ]
+        },
+        {
+          "participant_id": "P0012",
+          "seat_ids": [
+            "R02-S13"
+          ]
+        },
+        {
+          "participant_id": "P0013",
+          "seat_ids": [
+            "R02-S11"
+          ]
+        },
+        {
+          "participant_id": "P0014",
+          "seat_ids": [
+            "R02-S12"
+          ]
+        },
+        {
+          "participant_id": "P0015",
+          "seat_ids": [
+            "R02-S16"
+          ]
+        },
+        {
+          "participant_id": "P0016",
+          "seat_ids": [
+            "R02-S09"
+          ]
+        },
+        {
+          "participant_id": "P0017",
+          "seat_ids": [
+            "R02-S03"
+          ]
+        },
+        {
+          "participant_id": "P0018",
+          "seat_ids": [
+            "R02-S08"
+          ]
+        },
+        {
+          "participant_id": "P0019",
+          "seat_ids": [
+            "R02-S06"
+          ]
+        },
+        {
+          "participant_id": "P0020",
+          "seat_ids": [
+            "R02-S05"
+          ]
+        },
+        {
+          "participant_id": "P0021",
+          "seat_ids": [
+            "R02-S02"
+          ]
+        },
+        {
+          "participant_id": "P0022",
+          "seat_ids": [
+            "R02-S04"
+          ]
+        },
+        {
+          "participant_id": "P0023",
+          "seat_ids": [
+            "R02-S01"
+          ]
+        },
+        {
+          "participant_id": "P0024",
+          "seat_ids": [
+            "R02-S07"
+          ]
+        }
+      ],
+      "components_by_matrix": {
+        "base": [
+          307,
+          443,
+          490
+        ],
+        "squared": [
+          307,
+          443,
+          220
+        ],
+        "ordinal": [
+          307,
+          443,
+          698
+        ],
+        "zero": [
+          307,
+          443,
+          0
+        ]
+      },
+      "objective": 2297,
+      "relative_gap": 0.0
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "rank_reciprocal",
+      "weights": [
+        6,
+        3,
+        2
+      ],
+      "registrations": 24,
+      "status": "OPTIMAL",
+      "solve_seconds": 0.323733,
+      "model_build_seconds_shared": 0.05419845797587186,
+      "best_bound": 4142.0,
+      "branches": 41158,
+      "conflicts": 239,
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "placements": [
+        {
+          "participant_id": "P0001",
+          "seat_ids": [
+            "R01-S11",
+            "R01-S12"
+          ]
+        },
+        {
+          "participant_id": "P0002",
+          "seat_ids": [
+            "R01-S05",
+            "R01-S06"
+          ]
+        },
+        {
+          "participant_id": "P0003",
+          "seat_ids": [
+            "R01-S01",
+            "R01-S02"
+          ]
+        },
+        {
+          "participant_id": "P0004",
+          "seat_ids": [
+            "R01-S09",
+            "R01-S10"
+          ]
+        },
+        {
+          "participant_id": "P0005",
+          "seat_ids": [
+            "R01-S03",
+            "R01-S04"
+          ]
+        },
+        {
+          "participant_id": "P0006",
+          "seat_ids": [
+            "R01-S15",
+            "R01-S16"
+          ]
+        },
+        {
+          "participant_id": "P0007",
+          "seat_ids": [
+            "R01-S13",
+            "R01-S14"
+          ]
+        },
+        {
+          "participant_id": "P0008",
+          "seat_ids": [
+            "R01-S07",
+            "R01-S08"
+          ]
+        },
+        {
+          "participant_id": "P0009",
+          "seat_ids": [
+            "R02-S13"
+          ]
+        },
+        {
+          "participant_id": "P0010",
+          "seat_ids": [
+            "R02-S09"
+          ]
+        },
+        {
+          "participant_id": "P0011",
+          "seat_ids": [
+            "R02-S15"
+          ]
+        },
+        {
+          "participant_id": "P0012",
+          "seat_ids": [
+            "R02-S14"
+          ]
+        },
+        {
+          "participant_id": "P0013",
+          "seat_ids": [
+            "R02-S11"
+          ]
+        },
+        {
+          "participant_id": "P0014",
+          "seat_ids": [
+            "R02-S12"
+          ]
+        },
+        {
+          "participant_id": "P0015",
+          "seat_ids": [
+            "R02-S16"
+          ]
+        },
+        {
+          "participant_id": "P0016",
+          "seat_ids": [
+            "R02-S10"
+          ]
+        },
+        {
+          "participant_id": "P0017",
+          "seat_ids": [
+            "R02-S03"
+          ]
+        },
+        {
+          "participant_id": "P0018",
+          "seat_ids": [
+            "R02-S07"
+          ]
+        },
+        {
+          "participant_id": "P0019",
+          "seat_ids": [
+            "R02-S06"
+          ]
+        },
+        {
+          "participant_id": "P0020",
+          "seat_ids": [
+            "R02-S05"
+          ]
+        },
+        {
+          "participant_id": "P0021",
+          "seat_ids": [
+            "R02-S02"
+          ]
+        },
+        {
+          "participant_id": "P0022",
+          "seat_ids": [
+            "R02-S04"
+          ]
+        },
+        {
+          "participant_id": "P0023",
+          "seat_ids": [
+            "R02-S01"
+          ]
+        },
+        {
+          "participant_id": "P0024",
+          "seat_ids": [
+            "R02-S08"
+          ]
+        }
+      ],
+      "components_by_matrix": {
+        "base": [
+          297,
+          460,
+          490
+        ],
+        "squared": [
+          297,
+          460,
+          220
+        ],
+        "ordinal": [
+          297,
+          460,
+          698
+        ],
+        "zero": [
+          297,
+          460,
+          0
+        ]
+      },
+      "objective": 4142,
+      "relative_gap": 0.0
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "roc",
+      "weights": [
+        11,
+        5,
+        2
+      ],
+      "registrations": 24,
+      "status": "OPTIMAL",
+      "solve_seconds": 0.41879200000000005,
+      "model_build_seconds_shared": 0.05419845797587186,
+      "best_bound": 6490.0,
+      "branches": 61665,
+      "conflicts": 127,
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "placements": [
+        {
+          "participant_id": "P0001",
+          "seat_ids": [
+            "R01-S13",
+            "R01-S14"
+          ]
+        },
+        {
+          "participant_id": "P0002",
+          "seat_ids": [
+            "R01-S05",
+            "R01-S06"
+          ]
+        },
+        {
+          "participant_id": "P0003",
+          "seat_ids": [
+            "R01-S01",
+            "R01-S02"
+          ]
+        },
+        {
+          "participant_id": "P0004",
+          "seat_ids": [
+            "R01-S11",
+            "R01-S12"
+          ]
+        },
+        {
+          "participant_id": "P0005",
+          "seat_ids": [
+            "R01-S03",
+            "R01-S04"
+          ]
+        },
+        {
+          "participant_id": "P0006",
+          "seat_ids": [
+            "R01-S15",
+            "R01-S16"
+          ]
+        },
+        {
+          "participant_id": "P0007",
+          "seat_ids": [
+            "R01-S09",
+            "R01-S10"
+          ]
+        },
+        {
+          "participant_id": "P0008",
+          "seat_ids": [
+            "R01-S07",
+            "R01-S08"
+          ]
+        },
+        {
+          "participant_id": "P0009",
+          "seat_ids": [
+            "R02-S13"
+          ]
+        },
+        {
+          "participant_id": "P0010",
+          "seat_ids": [
+            "R02-S09"
+          ]
+        },
+        {
+          "participant_id": "P0011",
+          "seat_ids": [
+            "R02-S15"
+          ]
+        },
+        {
+          "participant_id": "P0012",
+          "seat_ids": [
+            "R02-S14"
+          ]
+        },
+        {
+          "participant_id": "P0013",
+          "seat_ids": [
+            "R02-S11"
+          ]
+        },
+        {
+          "participant_id": "P0014",
+          "seat_ids": [
+            "R02-S12"
+          ]
+        },
+        {
+          "participant_id": "P0015",
+          "seat_ids": [
+            "R02-S16"
+          ]
+        },
+        {
+          "participant_id": "P0016",
+          "seat_ids": [
+            "R02-S10"
+          ]
+        },
+        {
+          "participant_id": "P0017",
+          "seat_ids": [
+            "R02-S03"
+          ]
+        },
+        {
+          "participant_id": "P0018",
+          "seat_ids": [
+            "R02-S07"
+          ]
+        },
+        {
+          "participant_id": "P0019",
+          "seat_ids": [
+            "R02-S06"
+          ]
+        },
+        {
+          "participant_id": "P0020",
+          "seat_ids": [
+            "R02-S05"
+          ]
+        },
+        {
+          "participant_id": "P0021",
+          "seat_ids": [
+            "R02-S02"
+          ]
+        },
+        {
+          "participant_id": "P0022",
+          "seat_ids": [
+            "R02-S04"
+          ]
+        },
+        {
+          "participant_id": "P0023",
+          "seat_ids": [
+            "R02-S01"
+          ]
+        },
+        {
+          "participant_id": "P0024",
+          "seat_ids": [
+            "R02-S08"
+          ]
+        }
+      ],
+      "components_by_matrix": {
+        "base": [
+          290,
+          434,
+          565
+        ],
+        "squared": [
+          290,
+          434,
+          251
+        ],
+        "ordinal": [
+          290,
+          434,
+          832
+        ],
+        "zero": [
+          290,
+          434,
+          0
+        ]
+      },
+      "objective": 6490,
+      "relative_gap": 0.0
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "flatter",
+      "weights": [
+        36,
+        30,
+        24
+      ],
+      "registrations": 24,
+      "status": "OPTIMAL",
+      "solve_seconds": 0.193025,
+      "model_build_seconds_shared": 0.05419845797587186,
+      "best_bound": 36030.0,
+      "branches": 22180,
+      "conflicts": 98,
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "placements": [
+        {
+          "participant_id": "P0001",
+          "seat_ids": [
+            "R01-S15",
+            "R01-S16"
+          ]
+        },
+        {
+          "participant_id": "P0002",
+          "seat_ids": [
+            "R01-S05",
+            "R01-S06"
+          ]
+        },
+        {
+          "participant_id": "P0003",
+          "seat_ids": [
+            "R01-S01",
+            "R01-S02"
+          ]
+        },
+        {
+          "participant_id": "P0004",
+          "seat_ids": [
+            "R01-S09",
+            "R01-S10"
+          ]
+        },
+        {
+          "participant_id": "P0005",
+          "seat_ids": [
+            "R01-S03",
+            "R01-S04"
+          ]
+        },
+        {
+          "participant_id": "P0006",
+          "seat_ids": [
+            "R01-S11",
+            "R01-S12"
+          ]
+        },
+        {
+          "participant_id": "P0007",
+          "seat_ids": [
+            "R01-S13",
+            "R01-S14"
+          ]
+        },
+        {
+          "participant_id": "P0008",
+          "seat_ids": [
+            "R01-S07",
+            "R01-S08"
+          ]
+        },
+        {
+          "participant_id": "P0009",
+          "seat_ids": [
+            "R02-S15"
+          ]
+        },
+        {
+          "participant_id": "P0010",
+          "seat_ids": [
+            "R02-S10"
+          ]
+        },
+        {
+          "participant_id": "P0011",
+          "seat_ids": [
+            "R02-S14"
+          ]
+        },
+        {
+          "participant_id": "P0012",
+          "seat_ids": [
+            "R02-S13"
+          ]
+        },
+        {
+          "participant_id": "P0013",
+          "seat_ids": [
+            "R02-S11"
+          ]
+        },
+        {
+          "participant_id": "P0014",
+          "seat_ids": [
+            "R02-S12"
+          ]
+        },
+        {
+          "participant_id": "P0015",
+          "seat_ids": [
+            "R02-S16"
+          ]
+        },
+        {
+          "participant_id": "P0016",
+          "seat_ids": [
+            "R02-S09"
+          ]
+        },
+        {
+          "participant_id": "P0017",
+          "seat_ids": [
+            "R02-S03"
+          ]
+        },
+        {
+          "participant_id": "P0018",
+          "seat_ids": [
+            "R02-S08"
+          ]
+        },
+        {
+          "participant_id": "P0019",
+          "seat_ids": [
+            "R02-S06"
+          ]
+        },
+        {
+          "participant_id": "P0020",
+          "seat_ids": [
+            "R02-S05"
+          ]
+        },
+        {
+          "participant_id": "P0021",
+          "seat_ids": [
+            "R02-S02"
+          ]
+        },
+        {
+          "participant_id": "P0022",
+          "seat_ids": [
+            "R02-S04"
+          ]
+        },
+        {
+          "participant_id": "P0023",
+          "seat_ids": [
+            "R02-S01"
+          ]
+        },
+        {
+          "participant_id": "P0024",
+          "seat_ids": [
+            "R02-S07"
+          ]
+        }
+      ],
+      "components_by_matrix": {
+        "base": [
+          320,
+          425,
+          490
+        ],
+        "squared": [
+          320,
+          425,
+          220
+        ],
+        "ordinal": [
+          320,
+          425,
+          698
+        ],
+        "zero": [
+          320,
+          425,
+          0
+        ]
+      },
+      "objective": 36030,
+      "relative_gap": 0.0
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "steeper",
+      "weights": [
+        44,
+        30,
+        16
+      ],
+      "registrations": 24,
+      "status": "OPTIMAL",
+      "solve_seconds": 0.389313,
+      "model_build_seconds_shared": 0.05419845797587186,
+      "best_bound": 34638.0,
+      "branches": 49132,
+      "conflicts": 267,
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "placements": [
+        {
+          "participant_id": "P0001",
+          "seat_ids": [
+            "R01-S11",
+            "R01-S12"
+          ]
+        },
+        {
+          "participant_id": "P0002",
+          "seat_ids": [
+            "R01-S05",
+            "R01-S06"
+          ]
+        },
+        {
+          "participant_id": "P0003",
+          "seat_ids": [
+            "R01-S01",
+            "R01-S02"
+          ]
+        },
+        {
+          "participant_id": "P0004",
+          "seat_ids": [
+            "R01-S09",
+            "R01-S10"
+          ]
+        },
+        {
+          "participant_id": "P0005",
+          "seat_ids": [
+            "R01-S03",
+            "R01-S04"
+          ]
+        },
+        {
+          "participant_id": "P0006",
+          "seat_ids": [
+            "R01-S15",
+            "R01-S16"
+          ]
+        },
+        {
+          "participant_id": "P0007",
+          "seat_ids": [
+            "R01-S13",
+            "R01-S14"
+          ]
+        },
+        {
+          "participant_id": "P0008",
+          "seat_ids": [
+            "R01-S07",
+            "R01-S08"
+          ]
+        },
+        {
+          "participant_id": "P0009",
+          "seat_ids": [
+            "R02-S14"
+          ]
+        },
+        {
+          "participant_id": "P0010",
+          "seat_ids": [
+            "R02-S10"
+          ]
+        },
+        {
+          "participant_id": "P0011",
+          "seat_ids": [
+            "R02-S15"
+          ]
+        },
+        {
+          "participant_id": "P0012",
+          "seat_ids": [
+            "R02-S13"
+          ]
+        },
+        {
+          "participant_id": "P0013",
+          "seat_ids": [
+            "R02-S11"
+          ]
+        },
+        {
+          "participant_id": "P0014",
+          "seat_ids": [
+            "R02-S12"
+          ]
+        },
+        {
+          "participant_id": "P0015",
+          "seat_ids": [
+            "R02-S16"
+          ]
+        },
+        {
+          "participant_id": "P0016",
+          "seat_ids": [
+            "R02-S09"
+          ]
+        },
+        {
+          "participant_id": "P0017",
+          "seat_ids": [
+            "R02-S03"
+          ]
+        },
+        {
+          "participant_id": "P0018",
+          "seat_ids": [
+            "R02-S08"
+          ]
+        },
+        {
+          "participant_id": "P0019",
+          "seat_ids": [
+            "R02-S06"
+          ]
+        },
+        {
+          "participant_id": "P0020",
+          "seat_ids": [
+            "R02-S05"
+          ]
+        },
+        {
+          "participant_id": "P0021",
+          "seat_ids": [
+            "R02-S02"
+          ]
+        },
+        {
+          "participant_id": "P0022",
+          "seat_ids": [
+            "R02-S04"
+          ]
+        },
+        {
+          "participant_id": "P0023",
+          "seat_ids": [
+            "R02-S01"
+          ]
+        },
+        {
+          "participant_id": "P0024",
+          "seat_ids": [
+            "R02-S07"
+          ]
+        }
+      ],
+      "components_by_matrix": {
+        "base": [
+          307,
+          443,
+          490
+        ],
+        "squared": [
+          307,
+          443,
+          220
+        ],
+        "ordinal": [
+          307,
+          443,
+          698
+        ],
+        "zero": [
+          307,
+          443,
+          0
+        ]
+      },
+      "objective": 34638,
+      "relative_gap": 0.0
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "contribution_only",
+      "weights": [
+        1,
+        0,
+        0
+      ],
+      "registrations": 24,
+      "status": "OPTIMAL",
+      "solve_seconds": 0.224028,
+      "model_build_seconds_shared": 0.05419845797587186,
+      "best_bound": 273.0,
+      "branches": 32772,
+      "conflicts": 209,
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "placements": [
+        {
+          "participant_id": "P0001",
+          "seat_ids": [
+            "R01-S13",
+            "R01-S14"
+          ]
+        },
+        {
+          "participant_id": "P0002",
+          "seat_ids": [
+            "R01-S01",
+            "R01-S02"
+          ]
+        },
+        {
+          "participant_id": "P0003",
+          "seat_ids": [
+            "R01-S03",
+            "R01-S04"
+          ]
+        },
+        {
+          "participant_id": "P0004",
+          "seat_ids": [
+            "R01-S09",
+            "R01-S10"
+          ]
+        },
+        {
+          "participant_id": "P0005",
+          "seat_ids": [
+            "R01-S07",
+            "R01-S08"
+          ]
+        },
+        {
+          "participant_id": "P0006",
+          "seat_ids": [
+            "R01-S05",
+            "R01-S06"
+          ]
+        },
+        {
+          "participant_id": "P0007",
+          "seat_ids": [
+            "R01-S11",
+            "R01-S12"
+          ]
+        },
+        {
+          "participant_id": "P0008",
+          "seat_ids": [
+            "R01-S15",
+            "R01-S16"
+          ]
+        },
+        {
+          "participant_id": "P0009",
+          "seat_ids": [
+            "R02-S11"
+          ]
+        },
+        {
+          "participant_id": "P0010",
+          "seat_ids": [
+            "R02-S09"
+          ]
+        },
+        {
+          "participant_id": "P0011",
+          "seat_ids": [
+            "R02-S15"
+          ]
+        },
+        {
+          "participant_id": "P0012",
+          "seat_ids": [
+            "R02-S16"
+          ]
+        },
+        {
+          "participant_id": "P0013",
+          "seat_ids": [
+            "R02-S12"
+          ]
+        },
+        {
+          "participant_id": "P0014",
+          "seat_ids": [
+            "R02-S13"
+          ]
+        },
+        {
+          "participant_id": "P0015",
+          "seat_ids": [
+            "R02-S14"
+          ]
+        },
+        {
+          "participant_id": "P0016",
+          "seat_ids": [
+            "R02-S10"
+          ]
+        },
+        {
+          "participant_id": "P0017",
+          "seat_ids": [
+            "R02-S04"
+          ]
+        },
+        {
+          "participant_id": "P0018",
+          "seat_ids": [
+            "R02-S06"
+          ]
+        },
+        {
+          "participant_id": "P0019",
+          "seat_ids": [
+            "R02-S05"
+          ]
+        },
+        {
+          "participant_id": "P0020",
+          "seat_ids": [
+            "R02-S01"
+          ]
+        },
+        {
+          "participant_id": "P0021",
+          "seat_ids": [
+            "R02-S02"
+          ]
+        },
+        {
+          "participant_id": "P0022",
+          "seat_ids": [
+            "R02-S07"
+          ]
+        },
+        {
+          "participant_id": "P0023",
+          "seat_ids": [
+            "R02-S03"
+          ]
+        },
+        {
+          "participant_id": "P0024",
+          "seat_ids": [
+            "R02-S08"
+          ]
+        }
+      ],
+      "components_by_matrix": {
+        "base": [
+          273,
+          506,
+          764
+        ],
+        "squared": [
+          273,
+          506,
+          460
+        ],
+        "ordinal": [
+          273,
+          506,
+          1033
+        ],
+        "zero": [
+          273,
+          506,
+          0
+        ]
+      },
+      "objective": 273,
+      "relative_gap": 0.0
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "activity_only",
+      "weights": [
+        0,
+        1,
+        0
+      ],
+      "registrations": 24,
+      "status": "OPTIMAL",
+      "solve_seconds": 0.19581700000000002,
+      "model_build_seconds_shared": 0.05419845797587186,
+      "best_bound": 334.0,
+      "branches": 28838,
+      "conflicts": 118,
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "placements": [
+        {
+          "participant_id": "P0001",
+          "seat_ids": [
+            "R01-S01",
+            "R01-S02"
+          ]
+        },
+        {
+          "participant_id": "P0002",
+          "seat_ids": [
+            "R01-S13",
+            "R01-S14"
+          ]
+        },
+        {
+          "participant_id": "P0003",
+          "seat_ids": [
+            "R01-S15",
+            "R01-S16"
+          ]
+        },
+        {
+          "participant_id": "P0004",
+          "seat_ids": [
+            "R01-S05",
+            "R01-S06"
+          ]
+        },
+        {
+          "participant_id": "P0005",
+          "seat_ids": [
+            "R01-S07",
+            "R01-S08"
+          ]
+        },
+        {
+          "participant_id": "P0006",
+          "seat_ids": [
+            "R01-S11",
+            "R01-S12"
+          ]
+        },
+        {
+          "participant_id": "P0007",
+          "seat_ids": [
+            "R01-S09",
+            "R01-S10"
+          ]
+        },
+        {
+          "participant_id": "P0008",
+          "seat_ids": [
+            "R01-S03",
+            "R01-S04"
+          ]
+        },
+        {
+          "participant_id": "P0009",
+          "seat_ids": [
+            "R02-S14"
+          ]
+        },
+        {
+          "participant_id": "P0010",
+          "seat_ids": [
+            "R02-S16"
+          ]
+        },
+        {
+          "participant_id": "P0011",
+          "seat_ids": [
+            "R02-S12"
+          ]
+        },
+        {
+          "participant_id": "P0012",
+          "seat_ids": [
+            "R02-S11"
+          ]
+        },
+        {
+          "participant_id": "P0013",
+          "seat_ids": [
+            "R02-S10"
+          ]
+        },
+        {
+          "participant_id": "P0014",
+          "seat_ids": [
+            "R02-S13"
+          ]
+        },
+        {
+          "participant_id": "P0015",
+          "seat_ids": [
+            "R02-S15"
+          ]
+        },
+        {
+          "participant_id": "P0016",
+          "seat_ids": [
+            "R02-S09"
+          ]
+        },
+        {
+          "participant_id": "P0017",
+          "seat_ids": [
+            "R02-S04"
+          ]
+        },
+        {
+          "participant_id": "P0018",
+          "seat_ids": [
+            "R02-S08"
+          ]
+        },
+        {
+          "participant_id": "P0019",
+          "seat_ids": [
+            "R02-S07"
+          ]
+        },
+        {
+          "participant_id": "P0020",
+          "seat_ids": [
+            "R02-S06"
+          ]
+        },
+        {
+          "participant_id": "P0021",
+          "seat_ids": [
+            "R02-S03"
+          ]
+        },
+        {
+          "participant_id": "P0022",
+          "seat_ids": [
+            "R02-S01"
+          ]
+        },
+        {
+          "participant_id": "P0023",
+          "seat_ids": [
+            "R02-S02"
+          ]
+        },
+        {
+          "participant_id": "P0024",
+          "seat_ids": [
+            "R02-S05"
+          ]
+        }
+      ],
+      "components_by_matrix": {
+        "base": [
+          440,
+          334,
+          815
+        ],
+        "squared": [
+          440,
+          334,
+          444
+        ],
+        "ordinal": [
+          440,
+          334,
+          1201
+        ],
+        "zero": [
+          440,
+          334,
+          0
+        ]
+      },
+      "objective": 334,
+      "relative_gap": 0.0
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "category_only",
+      "weights": [
+        0,
+        0,
+        1
+      ],
+      "registrations": 24,
+      "status": "OPTIMAL",
+      "solve_seconds": 0.20467700000000003,
+      "model_build_seconds_shared": 0.05419845797587186,
+      "best_bound": 454.0,
+      "branches": 26375,
+      "conflicts": 1825,
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "placements": [
+        {
+          "participant_id": "P0001",
+          "seat_ids": [
+            "R01-S09",
+            "R01-S10"
+          ]
+        },
+        {
+          "participant_id": "P0002",
+          "seat_ids": [
+            "R01-S07",
+            "R01-S08"
+          ]
+        },
+        {
+          "participant_id": "P0003",
+          "seat_ids": [
+            "R01-S13",
+            "R01-S14"
+          ]
+        },
+        {
+          "participant_id": "P0004",
+          "seat_ids": [
+            "R01-S15",
+            "R01-S16"
+          ]
+        },
+        {
+          "participant_id": "P0005",
+          "seat_ids": [
+            "R01-S03",
+            "R01-S04"
+          ]
+        },
+        {
+          "participant_id": "P0006",
+          "seat_ids": [
+            "R01-S11",
+            "R01-S12"
+          ]
+        },
+        {
+          "participant_id": "P0007",
+          "seat_ids": [
+            "R01-S01",
+            "R01-S02"
+          ]
+        },
+        {
+          "participant_id": "P0008",
+          "seat_ids": [
+            "R01-S05",
+            "R01-S06"
+          ]
+        },
+        {
+          "participant_id": "P0009",
+          "seat_ids": [
+            "R02-S15"
+          ]
+        },
+        {
+          "participant_id": "P0010",
+          "seat_ids": [
+            "R02-S11"
+          ]
+        },
+        {
+          "participant_id": "P0011",
+          "seat_ids": [
+            "R02-S14"
+          ]
+        },
+        {
+          "participant_id": "P0012",
+          "seat_ids": [
+            "R02-S13"
+          ]
+        },
+        {
+          "participant_id": "P0013",
+          "seat_ids": [
+            "R02-S09"
+          ]
+        },
+        {
+          "participant_id": "P0014",
+          "seat_ids": [
+            "R02-S16"
+          ]
+        },
+        {
+          "participant_id": "P0015",
+          "seat_ids": [
+            "R02-S10"
+          ]
+        },
+        {
+          "participant_id": "P0016",
+          "seat_ids": [
+            "R02-S12"
+          ]
+        },
+        {
+          "participant_id": "P0017",
+          "seat_ids": [
+            "R02-S04"
+          ]
+        },
+        {
+          "participant_id": "P0018",
+          "seat_ids": [
+            "R02-S08"
+          ]
+        },
+        {
+          "participant_id": "P0019",
+          "seat_ids": [
+            "R02-S05"
+          ]
+        },
+        {
+          "participant_id": "P0020",
+          "seat_ids": [
+            "R02-S07"
+          ]
+        },
+        {
+          "participant_id": "P0021",
+          "seat_ids": [
+            "R02-S01"
+          ]
+        },
+        {
+          "participant_id": "P0022",
+          "seat_ids": [
+            "R02-S03"
+          ]
+        },
+        {
+          "participant_id": "P0023",
+          "seat_ids": [
+            "R02-S02"
+          ]
+        },
+        {
+          "participant_id": "P0024",
+          "seat_ids": [
+            "R02-S06"
+          ]
+        }
+      ],
+      "components_by_matrix": {
+        "base": [
+          438,
+          488,
+          454
+        ],
+        "squared": [
+          438,
+          488,
+          169
+        ],
+        "ordinal": [
+          438,
+          488,
+          698
+        ],
+        "zero": [
+          438,
+          488,
+          0
+        ]
+      },
+      "objective": 454,
+      "relative_gap": 0.0
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "squared",
+      "weight": "current",
+      "weights": [
+        4,
+        3,
+        2
+      ],
+      "registrations": 24,
+      "status": "OPTIMAL",
+      "solve_seconds": 0.207653,
+      "model_build_seconds_shared": 0.05419845797587186,
+      "best_bound": 2952.0,
+      "branches": 27115,
+      "conflicts": 135,
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "placements": [
+        {
+          "participant_id": "P0001",
+          "seat_ids": [
+            "R01-S15",
+            "R01-S16"
+          ]
+        },
+        {
+          "participant_id": "P0002",
+          "seat_ids": [
+            "R01-S05",
+            "R01-S06"
+          ]
+        },
+        {
+          "participant_id": "P0003",
+          "seat_ids": [
+            "R01-S01",
+            "R01-S02"
+          ]
+        },
+        {
+          "participant_id": "P0004",
+          "seat_ids": [
+            "R01-S11",
+            "R01-S12"
+          ]
+        },
+        {
+          "participant_id": "P0005",
+          "seat_ids": [
+            "R01-S03",
+            "R01-S04"
+          ]
+        },
+        {
+          "participant_id": "P0006",
+          "seat_ids": [
+            "R01-S13",
+            "R01-S14"
+          ]
+        },
+        {
+          "participant_id": "P0007",
+          "seat_ids": [
+            "R01-S09",
+            "R01-S10"
+          ]
+        },
+        {
+          "participant_id": "P0008",
+          "seat_ids": [
+            "R01-S07",
+            "R01-S08"
+          ]
+        },
+        {
+          "participant_id": "P0009",
+          "seat_ids": [
+            "R02-S14"
+          ]
+        },
+        {
+          "participant_id": "P0010",
+          "seat_ids": [
+            "R02-S10"
+          ]
+        },
+        {
+          "participant_id": "P0011",
+          "seat_ids": [
+            "R02-S15"
+          ]
+        },
+        {
+          "participant_id": "P0012",
+          "seat_ids": [
+            "R02-S13"
+          ]
+        },
+        {
+          "participant_id": "P0013",
+          "seat_ids": [
+            "R02-S11"
+          ]
+        },
+        {
+          "participant_id": "P0014",
+          "seat_ids": [
+            "R02-S12"
+          ]
+        },
+        {
+          "participant_id": "P0015",
+          "seat_ids": [
+            "R02-S16"
+          ]
+        },
+        {
+          "participant_id": "P0016",
+          "seat_ids": [
+            "R02-S09"
+          ]
+        },
+        {
+          "participant_id": "P0017",
+          "seat_ids": [
+            "R02-S03"
+          ]
+        },
+        {
+          "participant_id": "P0018",
+          "seat_ids": [
+            "R02-S08"
+          ]
+        },
+        {
+          "participant_id": "P0019",
+          "seat_ids": [
+            "R02-S06"
+          ]
+        },
+        {
+          "participant_id": "P0020",
+          "seat_ids": [
+            "R02-S05"
+          ]
+        },
+        {
+          "participant_id": "P0021",
+          "seat_ids": [
+            "R02-S02"
+          ]
+        },
+        {
+          "participant_id": "P0022",
+          "seat_ids": [
+            "R02-S04"
+          ]
+        },
+        {
+          "participant_id": "P0023",
+          "seat_ids": [
+            "R02-S01"
+          ]
+        },
+        {
+          "participant_id": "P0024",
+          "seat_ids": [
+            "R02-S07"
+          ]
+        }
+      ],
+      "components_by_matrix": {
+        "base": [
+          305,
+          410,
+          565
+        ],
+        "squared": [
+          305,
+          410,
+          251
+        ],
+        "ordinal": [
+          305,
+          410,
+          832
+        ],
+        "zero": [
+          305,
+          410,
+          0
+        ]
+      },
+      "objective": 2952,
+      "relative_gap": 0.0
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "squared",
+      "weight": "equal",
+      "weights": [
+        1,
+        1,
+        1
+      ],
+      "registrations": 24,
+      "status": "OPTIMAL",
+      "solve_seconds": 0.19353700000000001,
+      "model_build_seconds_shared": 0.05419845797587186,
+      "best_bound": 959.0,
+      "branches": 26007,
+      "conflicts": 122,
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "placements": [
+        {
+          "participant_id": "P0001",
+          "seat_ids": [
+            "R01-S15",
+            "R01-S16"
+          ]
+        },
+        {
+          "participant_id": "P0002",
+          "seat_ids": [
+            "R01-S07",
+            "R01-S08"
+          ]
+        },
+        {
+          "participant_id": "P0003",
+          "seat_ids": [
+            "R01-S03",
+            "R01-S04"
+          ]
+        },
+        {
+          "participant_id": "P0004",
+          "seat_ids": [
+            "R01-S13",
+            "R01-S14"
+          ]
+        },
+        {
+          "participant_id": "P0005",
+          "seat_ids": [
+            "R01-S01",
+            "R01-S02"
+          ]
+        },
+        {
+          "participant_id": "P0006",
+          "seat_ids": [
+            "R01-S11",
+            "R01-S12"
+          ]
+        },
+        {
+          "participant_id": "P0007",
+          "seat_ids": [
+            "R01-S09",
+            "R01-S10"
+          ]
+        },
+        {
+          "participant_id": "P0008",
+          "seat_ids": [
+            "R01-S05",
+            "R01-S06"
+          ]
+        },
+        {
+          "participant_id": "P0009",
+          "seat_ids": [
+            "R02-S15"
+          ]
+        },
+        {
+          "participant_id": "P0010",
+          "seat_ids": [
+            "R02-S11"
+          ]
+        },
+        {
+          "participant_id": "P0011",
+          "seat_ids": [
+            "R02-S14"
+          ]
+        },
+        {
+          "participant_id": "P0012",
+          "seat_ids": [
+            "R02-S13"
+          ]
+        },
+        {
+          "participant_id": "P0013",
+          "seat_ids": [
+            "R02-S10"
+          ]
+        },
+        {
+          "participant_id": "P0014",
+          "seat_ids": [
+            "R02-S12"
+          ]
+        },
+        {
+          "participant_id": "P0015",
+          "seat_ids": [
+            "R02-S16"
+          ]
+        },
+        {
+          "participant_id": "P0016",
+          "seat_ids": [
+            "R02-S09"
+          ]
+        },
+        {
+          "participant_id": "P0017",
+          "seat_ids": [
+            "R02-S02"
+          ]
+        },
+        {
+          "participant_id": "P0018",
+          "seat_ids": [
+            "R02-S08"
+          ]
+        },
+        {
+          "participant_id": "P0019",
+          "seat_ids": [
+            "R02-S06"
+          ]
+        },
+        {
+          "participant_id": "P0020",
+          "seat_ids": [
+            "R02-S05"
+          ]
+        },
+        {
+          "participant_id": "P0021",
+          "seat_ids": [
+            "R02-S03"
+          ]
+        },
+        {
+          "participant_id": "P0022",
+          "seat_ids": [
+            "R02-S04"
+          ]
+        },
+        {
+          "participant_id": "P0023",
+          "seat_ids": [
+            "R02-S01"
+          ]
+        },
+        {
+          "participant_id": "P0024",
+          "seat_ids": [
+            "R02-S07"
+          ]
+        }
+      ],
+      "components_by_matrix": {
+        "base": [
+          332,
+          387,
+          553
+        ],
+        "squared": [
+          332,
+          387,
+          240
+        ],
+        "ordinal": [
+          332,
+          387,
+          832
+        ],
+        "zero": [
+          332,
+          387,
+          0
+        ]
+      },
+      "objective": 959,
+      "relative_gap": 0.0
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "squared",
+      "weight": "roc",
+      "weights": [
+        11,
+        5,
+        2
+      ],
+      "registrations": 24,
+      "status": "OPTIMAL",
+      "solve_seconds": 0.32197200000000004,
+      "model_build_seconds_shared": 0.05419845797587186,
+      "best_bound": 5862.0,
+      "branches": 45699,
+      "conflicts": 124,
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "placements": [
+        {
+          "participant_id": "P0001",
+          "seat_ids": [
+            "R01-S13",
+            "R01-S14"
+          ]
+        },
+        {
+          "participant_id": "P0002",
+          "seat_ids": [
+            "R01-S05",
+            "R01-S06"
+          ]
+        },
+        {
+          "participant_id": "P0003",
+          "seat_ids": [
+            "R01-S01",
+            "R01-S02"
+          ]
+        },
+        {
+          "participant_id": "P0004",
+          "seat_ids": [
+            "R01-S11",
+            "R01-S12"
+          ]
+        },
+        {
+          "participant_id": "P0005",
+          "seat_ids": [
+            "R01-S03",
+            "R01-S04"
+          ]
+        },
+        {
+          "participant_id": "P0006",
+          "seat_ids": [
+            "R01-S15",
+            "R01-S16"
+          ]
+        },
+        {
+          "participant_id": "P0007",
+          "seat_ids": [
+            "R01-S09",
+            "R01-S10"
+          ]
+        },
+        {
+          "participant_id": "P0008",
+          "seat_ids": [
+            "R01-S07",
+            "R01-S08"
+          ]
+        },
+        {
+          "participant_id": "P0009",
+          "seat_ids": [
+            "R02-S13"
+          ]
+        },
+        {
+          "participant_id": "P0010",
+          "seat_ids": [
+            "R02-S09"
+          ]
+        },
+        {
+          "participant_id": "P0011",
+          "seat_ids": [
+            "R02-S15"
+          ]
+        },
+        {
+          "participant_id": "P0012",
+          "seat_ids": [
+            "R02-S14"
+          ]
+        },
+        {
+          "participant_id": "P0013",
+          "seat_ids": [
+            "R02-S11"
+          ]
+        },
+        {
+          "participant_id": "P0014",
+          "seat_ids": [
+            "R02-S12"
+          ]
+        },
+        {
+          "participant_id": "P0015",
+          "seat_ids": [
+            "R02-S16"
+          ]
+        },
+        {
+          "participant_id": "P0016",
+          "seat_ids": [
+            "R02-S10"
+          ]
+        },
+        {
+          "participant_id": "P0017",
+          "seat_ids": [
+            "R02-S03"
+          ]
+        },
+        {
+          "participant_id": "P0018",
+          "seat_ids": [
+            "R02-S07"
+          ]
+        },
+        {
+          "participant_id": "P0019",
+          "seat_ids": [
+            "R02-S06"
+          ]
+        },
+        {
+          "participant_id": "P0020",
+          "seat_ids": [
+            "R02-S05"
+          ]
+        },
+        {
+          "participant_id": "P0021",
+          "seat_ids": [
+            "R02-S02"
+          ]
+        },
+        {
+          "participant_id": "P0022",
+          "seat_ids": [
+            "R02-S04"
+          ]
+        },
+        {
+          "participant_id": "P0023",
+          "seat_ids": [
+            "R02-S01"
+          ]
+        },
+        {
+          "participant_id": "P0024",
+          "seat_ids": [
+            "R02-S08"
+          ]
+        }
+      ],
+      "components_by_matrix": {
+        "base": [
+          290,
+          434,
+          565
+        ],
+        "squared": [
+          290,
+          434,
+          251
+        ],
+        "ordinal": [
+          290,
+          434,
+          832
+        ],
+        "zero": [
+          290,
+          434,
+          0
+        ]
+      },
+      "objective": 5862,
+      "relative_gap": 0.0
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "ordinal",
+      "weight": "current",
+      "weights": [
+        4,
+        3,
+        2
+      ],
+      "registrations": 24,
+      "status": "OPTIMAL",
+      "solve_seconds": 0.29936,
+      "model_build_seconds_shared": 0.05419845797587186,
+      "best_bound": 3949.0,
+      "branches": 42065,
+      "conflicts": 68,
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "placements": [
+        {
+          "participant_id": "P0001",
+          "seat_ids": [
+            "R01-S15",
+            "R01-S16"
+          ]
+        },
+        {
+          "participant_id": "P0002",
+          "seat_ids": [
+            "R01-S01",
+            "R01-S02"
+          ]
+        },
+        {
+          "participant_id": "P0003",
+          "seat_ids": [
+            "R01-S05",
+            "R01-S06"
+          ]
+        },
+        {
+          "participant_id": "P0004",
+          "seat_ids": [
+            "R01-S09",
+            "R01-S10"
+          ]
+        },
+        {
+          "participant_id": "P0005",
+          "seat_ids": [
+            "R01-S03",
+            "R01-S04"
+          ]
+        },
+        {
+          "participant_id": "P0006",
+          "seat_ids": [
+            "R01-S11",
+            "R01-S12"
+          ]
+        },
+        {
+          "participant_id": "P0007",
+          "seat_ids": [
+            "R01-S13",
+            "R01-S14"
+          ]
+        },
+        {
+          "participant_id": "P0008",
+          "seat_ids": [
+            "R01-S07",
+            "R01-S08"
+          ]
+        },
+        {
+          "participant_id": "P0009",
+          "seat_ids": [
+            "R02-S14"
+          ]
+        },
+        {
+          "participant_id": "P0010",
+          "seat_ids": [
+            "R02-S10"
+          ]
+        },
+        {
+          "participant_id": "P0011",
+          "seat_ids": [
+            "R02-S15"
+          ]
+        },
+        {
+          "participant_id": "P0012",
+          "seat_ids": [
+            "R02-S13"
+          ]
+        },
+        {
+          "participant_id": "P0013",
+          "seat_ids": [
+            "R02-S11"
+          ]
+        },
+        {
+          "participant_id": "P0014",
+          "seat_ids": [
+            "R02-S12"
+          ]
+        },
+        {
+          "participant_id": "P0015",
+          "seat_ids": [
+            "R02-S16"
+          ]
+        },
+        {
+          "participant_id": "P0016",
+          "seat_ids": [
+            "R02-S09"
+          ]
+        },
+        {
+          "participant_id": "P0017",
+          "seat_ids": [
+            "R02-S03"
+          ]
+        },
+        {
+          "participant_id": "P0018",
+          "seat_ids": [
+            "R02-S08"
+          ]
+        },
+        {
+          "participant_id": "P0019",
+          "seat_ids": [
+            "R02-S06"
+          ]
+        },
+        {
+          "participant_id": "P0020",
+          "seat_ids": [
+            "R02-S02"
+          ]
+        },
+        {
+          "participant_id": "P0021",
+          "seat_ids": [
+            "R02-S05"
+          ]
+        },
+        {
+          "participant_id": "P0022",
+          "seat_ids": [
+            "R02-S04"
+          ]
+        },
+        {
+          "participant_id": "P0023",
+          "seat_ids": [
+            "R02-S01"
+          ]
+        },
+        {
+          "participant_id": "P0024",
+          "seat_ids": [
+            "R02-S07"
+          ]
+        }
+      ],
+      "components_by_matrix": {
+        "base": [
+          315,
+          431,
+          540
+        ],
+        "squared": [
+          315,
+          431,
+          308
+        ],
+        "ordinal": [
+          315,
+          431,
+          698
+        ],
+        "zero": [
+          315,
+          431,
+          0
+        ]
+      },
+      "objective": 3949,
+      "relative_gap": 0.0
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "ordinal",
+      "weight": "equal",
+      "weights": [
+        1,
+        1,
+        1
+      ],
+      "registrations": 24,
+      "status": "OPTIMAL",
+      "solve_seconds": 0.22945600000000002,
+      "model_build_seconds_shared": 0.05419845797587186,
+      "best_bound": 1439.0,
+      "branches": 31949,
+      "conflicts": 111,
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "placements": [
+        {
+          "participant_id": "P0001",
+          "seat_ids": [
+            "R01-S15",
+            "R01-S16"
+          ]
+        },
+        {
+          "participant_id": "P0002",
+          "seat_ids": [
+            "R01-S05",
+            "R01-S06"
+          ]
+        },
+        {
+          "participant_id": "P0003",
+          "seat_ids": [
+            "R01-S07",
+            "R01-S08"
+          ]
+        },
+        {
+          "participant_id": "P0004",
+          "seat_ids": [
+            "R01-S09",
+            "R01-S10"
+          ]
+        },
+        {
+          "participant_id": "P0005",
+          "seat_ids": [
+            "R01-S03",
+            "R01-S04"
+          ]
+        },
+        {
+          "participant_id": "P0006",
+          "seat_ids": [
+            "R01-S11",
+            "R01-S12"
+          ]
+        },
+        {
+          "participant_id": "P0007",
+          "seat_ids": [
+            "R01-S13",
+            "R01-S14"
+          ]
+        },
+        {
+          "participant_id": "P0008",
+          "seat_ids": [
+            "R01-S01",
+            "R01-S02"
+          ]
+        },
+        {
+          "participant_id": "P0009",
+          "seat_ids": [
+            "R02-S15"
+          ]
+        },
+        {
+          "participant_id": "P0010",
+          "seat_ids": [
+            "R02-S11"
+          ]
+        },
+        {
+          "participant_id": "P0011",
+          "seat_ids": [
+            "R02-S14"
+          ]
+        },
+        {
+          "participant_id": "P0012",
+          "seat_ids": [
+            "R02-S13"
+          ]
+        },
+        {
+          "participant_id": "P0013",
+          "seat_ids": [
+            "R02-S10"
+          ]
+        },
+        {
+          "participant_id": "P0014",
+          "seat_ids": [
+            "R02-S12"
+          ]
+        },
+        {
+          "participant_id": "P0015",
+          "seat_ids": [
+            "R02-S16"
+          ]
+        },
+        {
+          "participant_id": "P0016",
+          "seat_ids": [
+            "R02-S09"
+          ]
+        },
+        {
+          "participant_id": "P0017",
+          "seat_ids": [
+            "R02-S02"
+          ]
+        },
+        {
+          "participant_id": "P0018",
+          "seat_ids": [
+            "R02-S08"
+          ]
+        },
+        {
+          "participant_id": "P0019",
+          "seat_ids": [
+            "R02-S06"
+          ]
+        },
+        {
+          "participant_id": "P0020",
+          "seat_ids": [
+            "R02-S04"
+          ]
+        },
+        {
+          "participant_id": "P0021",
+          "seat_ids": [
+            "R02-S05"
+          ]
+        },
+        {
+          "participant_id": "P0022",
+          "seat_ids": [
+            "R02-S03"
+          ]
+        },
+        {
+          "participant_id": "P0023",
+          "seat_ids": [
+            "R02-S01"
+          ]
+        },
+        {
+          "participant_id": "P0024",
+          "seat_ids": [
+            "R02-S07"
+          ]
+        }
+      ],
+      "components_by_matrix": {
+        "base": [
+          336,
+          405,
+          540
+        ],
+        "squared": [
+          336,
+          405,
+          308
+        ],
+        "ordinal": [
+          336,
+          405,
+          698
+        ],
+        "zero": [
+          336,
+          405,
+          0
+        ]
+      },
+      "objective": 1439,
+      "relative_gap": 0.0
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "ordinal",
+      "weight": "roc",
+      "weights": [
+        11,
+        5,
+        2
+      ],
+      "registrations": 24,
+      "status": "OPTIMAL",
+      "solve_seconds": 0.34948700000000005,
+      "model_build_seconds_shared": 0.05419845797587186,
+      "best_bound": 6936.0,
+      "branches": 40528,
+      "conflicts": 121,
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "placements": [
+        {
+          "participant_id": "P0001",
+          "seat_ids": [
+            "R01-S11",
+            "R01-S12"
+          ]
+        },
+        {
+          "participant_id": "P0002",
+          "seat_ids": [
+            "R01-S01",
+            "R01-S02"
+          ]
+        },
+        {
+          "participant_id": "P0003",
+          "seat_ids": [
+            "R01-S03",
+            "R01-S04"
+          ]
+        },
+        {
+          "participant_id": "P0004",
+          "seat_ids": [
+            "R01-S09",
+            "R01-S10"
+          ]
+        },
+        {
+          "participant_id": "P0005",
+          "seat_ids": [
+            "R01-S15",
+            "R01-S16"
+          ]
+        },
+        {
+          "participant_id": "P0006",
+          "seat_ids": [
+            "R01-S07",
+            "R01-S08"
+          ]
+        },
+        {
+          "participant_id": "P0007",
+          "seat_ids": [
+            "R01-S13",
+            "R01-S14"
+          ]
+        },
+        {
+          "participant_id": "P0008",
+          "seat_ids": [
+            "R01-S05",
+            "R01-S06"
+          ]
+        },
+        {
+          "participant_id": "P0009",
+          "seat_ids": [
+            "R02-S13"
+          ]
+        },
+        {
+          "participant_id": "P0010",
+          "seat_ids": [
+            "R02-S09"
+          ]
+        },
+        {
+          "participant_id": "P0011",
+          "seat_ids": [
+            "R02-S15"
+          ]
+        },
+        {
+          "participant_id": "P0012",
+          "seat_ids": [
+            "R02-S14"
+          ]
+        },
+        {
+          "participant_id": "P0013",
+          "seat_ids": [
+            "R02-S11"
+          ]
+        },
+        {
+          "participant_id": "P0014",
+          "seat_ids": [
+            "R02-S12"
+          ]
+        },
+        {
+          "participant_id": "P0015",
+          "seat_ids": [
+            "R02-S16"
+          ]
+        },
+        {
+          "participant_id": "P0016",
+          "seat_ids": [
+            "R02-S10"
+          ]
+        },
+        {
+          "participant_id": "P0017",
+          "seat_ids": [
+            "R02-S03"
+          ]
+        },
+        {
+          "participant_id": "P0018",
+          "seat_ids": [
+            "R02-S07"
+          ]
+        },
+        {
+          "participant_id": "P0019",
+          "seat_ids": [
+            "R02-S06"
+          ]
+        },
+        {
+          "participant_id": "P0020",
+          "seat_ids": [
+            "R02-S02"
+          ]
+        },
+        {
+          "participant_id": "P0021",
+          "seat_ids": [
+            "R02-S05"
+          ]
+        },
+        {
+          "participant_id": "P0022",
+          "seat_ids": [
+            "R02-S04"
+          ]
+        },
+        {
+          "participant_id": "P0023",
+          "seat_ids": [
+            "R02-S01"
+          ]
+        },
+        {
+          "participant_id": "P0024",
+          "seat_ids": [
+            "R02-S08"
+          ]
+        }
+      ],
+      "components_by_matrix": {
+        "base": [
+          290,
+          470,
+          552
+        ],
+        "squared": [
+          290,
+          470,
+          337
+        ],
+        "ordinal": [
+          290,
+          470,
+          698
+        ],
+        "zero": [
+          290,
+          470,
+          0
+        ]
+      },
+      "objective": 6936,
+      "relative_gap": 0.0
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "zero",
+      "weight": "current",
+      "weights": [
+        4,
+        3,
+        2
+      ],
+      "registrations": 24,
+      "status": "OPTIMAL",
+      "solve_seconds": 0.28619900000000004,
+      "model_build_seconds_shared": 0.05419845797587186,
+      "best_bound": 2427.0,
+      "branches": 38139,
+      "conflicts": 114,
+      "validation": {
+        "passed": true,
+        "issues": []
+      },
+      "placements": [
+        {
+          "participant_id": "P0001",
+          "seat_ids": [
+            "R01-S15",
+            "R01-S16"
+          ]
+        },
+        {
+          "participant_id": "P0002",
+          "seat_ids": [
+            "R01-S03",
+            "R01-S04"
+          ]
+        },
+        {
+          "participant_id": "P0003",
+          "seat_ids": [
+            "R01-S05",
+            "R01-S06"
+          ]
+        },
+        {
+          "participant_id": "P0004",
+          "seat_ids": [
+            "R01-S11",
+            "R01-S12"
+          ]
+        },
+        {
+          "participant_id": "P0005",
+          "seat_ids": [
+            "R01-S07",
+            "R01-S08"
+          ]
+        },
+        {
+          "participant_id": "P0006",
+          "seat_ids": [
+            "R01-S13",
+            "R01-S14"
+          ]
+        },
+        {
+          "participant_id": "P0007",
+          "seat_ids": [
+            "R01-S09",
+            "R01-S10"
+          ]
+        },
+        {
+          "participant_id": "P0008",
+          "seat_ids": [
+            "R01-S01",
+            "R01-S02"
+          ]
+        },
+        {
+          "participant_id": "P0009",
+          "seat_ids": [
+            "R02-S13"
+          ]
+        },
+        {
+          "participant_id": "P0010",
+          "seat_ids": [
+            "R02-S10"
+          ]
+        },
+        {
+          "participant_id": "P0011",
+          "seat_ids": [
+            "R02-S14"
+          ]
+        },
+        {
+          "participant_id": "P0012",
+          "seat_ids": [
+            "R02-S11"
+          ]
+        },
+        {
+          "participant_id": "P0013",
+          "seat_ids": [
+            "R02-S12"
+          ]
+        },
+        {
+          "participant_id": "P0014",
+          "seat_ids": [
+            "R02-S15"
+          ]
+        },
+        {
+          "participant_id": "P0015",
+          "seat_ids": [
+            "R02-S16"
+          ]
+        },
+        {
+          "participant_id": "P0016",
+          "seat_ids": [
+            "R02-S09"
+          ]
+        },
+        {
+          "participant_id": "P0017",
+          "seat_ids": [
+            "R02-S03"
+          ]
+        },
+        {
+          "participant_id": "P0018",
+          "seat_ids": [
+            "R02-S08"
+          ]
+        },
+        {
+          "participant_id": "P0019",
+          "seat_ids": [
+            "R02-S06"
+          ]
+        },
+        {
+          "participant_id": "P0020",
+          "seat_ids": [
+            "R02-S04"
+          ]
+        },
+        {
+          "participant_id": "P0021",
+          "seat_ids": [
+            "R02-S02"
+          ]
+        },
+        {
+          "participant_id": "P0022",
+          "seat_ids": [
+            "R02-S05"
+          ]
+        },
+        {
+          "participant_id": "P0023",
+          "seat_ids": [
+            "R02-S01"
+          ]
+        },
+        {
+          "participant_id": "P0024",
+          "seat_ids": [
+            "R02-S07"
+          ]
+        }
+      ],
+      "components_by_matrix": {
+        "base": [
+          303,
+          405,
+          814
+        ],
+        "squared": [
+          303,
+          405,
+          510
+        ],
+        "ordinal": [
+          303,
+          405,
+          1100
+        ],
+        "zero": [
+          303,
+          405,
+          0
+        ]
+      },
+      "objective": 2427,
+      "relative_gap": 0.0
+    }
+  ],
+  "checked_option_vectors": 1600
+}

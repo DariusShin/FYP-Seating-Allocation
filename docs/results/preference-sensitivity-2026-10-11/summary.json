@@ -1,0 +1,4244 @@
+{
+  "statuses": {
+    "OPTIMAL": 178,
+    "FEASIBLE": 119,
+    "UNKNOWN": 9
+  },
+  "valid_returned_solutions": 297,
+  "comparisons": [
+    {
+      "instance": "full-conflict-20261012",
+      "matrix": "base",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 32938,
+      "alternative_objective": 32938,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        3011,
+        4884,
+        3121
+      ]
+    },
+    {
+      "instance": "full-conflict-20261012",
+      "matrix": "base",
+      "weight": "equal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 11016,
+      "alternative_objective": 11206,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        3122,
+        4775,
+        3309
+      ]
+    },
+    {
+      "instance": "full-conflict-20261012",
+      "matrix": "base",
+      "weight": "rank_sum",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 21922,
+      "alternative_objective": 21958,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2991,
+        4907,
+        3171
+      ]
+    },
+    {
+      "instance": "full-conflict-20261012",
+      "matrix": "base",
+      "weight": "rank_reciprocal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 38960,
+      "alternative_objective": 39278,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2977,
+        4926,
+        3319
+      ]
+    },
+    {
+      "instance": "full-conflict-20261012",
+      "matrix": "base",
+      "weight": "roc",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 63783,
+      "alternative_objective": 64182,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2997,
+        4905,
+        3345
+      ]
+    },
+    {
+      "instance": "full-conflict-20261012",
+      "matrix": "base",
+      "weight": "flatter",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 329820,
+      "alternative_objective": 333606,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        3041,
+        4855,
+        3270
+      ]
+    },
+    {
+      "instance": "full-conflict-20261012",
+      "matrix": "base",
+      "weight": "steeper",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 328940,
+      "alternative_objective": 333436,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2999,
+        4900,
+        3405
+      ]
+    },
+    {
+      "instance": "full-conflict-20261012",
+      "matrix": "base",
+      "weight": "contribution_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 3011,
+      "alternative_objective": 2952,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2952,
+        4950,
+        5060
+      ]
+    },
+    {
+      "instance": "full-conflict-20261012",
+      "matrix": "base",
+      "weight": "activity_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 4884,
+      "alternative_objective": 4483,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        3414,
+        4483,
+        5072
+      ]
+    },
+    {
+      "instance": "full-conflict-20261012",
+      "matrix": "base",
+      "weight": "category_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 3121,
+      "alternative_objective": 3579,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        3133,
+        4767,
+        3579
+      ]
+    },
+    {
+      "instance": "full-conflict-20261012",
+      "matrix": "squared",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 29044,
+      "alternative_objective": 29322,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        3011,
+        4888,
+        3259
+      ]
+    },
+    {
+      "instance": "full-conflict-20261012",
+      "matrix": "squared",
+      "weight": "equal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 9069,
+      "alternative_objective": 9303,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        3150,
+        4745,
+        3295
+      ]
+    },
+    {
+      "instance": "full-conflict-20261012",
+      "matrix": "squared",
+      "weight": "roc",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 59889,
+      "alternative_objective": 60214,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2985,
+        4919,
+        3396
+      ]
+    },
+    {
+      "instance": "full-conflict-20261012",
+      "matrix": "ordinal",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 36072,
+      "alternative_objective": 35797,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2994,
+        4905,
+        3661
+      ]
+    },
+    {
+      "instance": "full-conflict-20261012",
+      "matrix": "ordinal",
+      "weight": "equal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 12583,
+      "alternative_objective": 12414,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        3191,
+        4704,
+        3635
+      ]
+    },
+    {
+      "instance": "full-conflict-20261012",
+      "matrix": "ordinal",
+      "weight": "roc",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 66917,
+      "alternative_objective": 66616,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2968,
+        4932,
+        3576
+      ]
+    },
+    {
+      "instance": "full-conflict-20261012",
+      "matrix": "zero",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 26696,
+      "alternative_objective": 26765,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        3074,
+        4823,
+        4844
+      ]
+    },
+    {
+      "instance": "full-mixed-20261011",
+      "matrix": "base",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 28030,
+      "alternative_objective": 28030,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2692,
+        3420,
+        3501
+      ]
+    },
+    {
+      "instance": "full-mixed-20261011",
+      "matrix": "base",
+      "weight": "equal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 9613,
+      "alternative_objective": 9674,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2784,
+        3500,
+        3390
+      ]
+    },
+    {
+      "instance": "full-mixed-20261011",
+      "matrix": "base",
+      "weight": "rank_sum",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 18417,
+      "alternative_objective": 18642,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2722,
+        3506,
+        3464
+      ]
+    },
+    {
+      "instance": "full-mixed-20261011",
+      "matrix": "base",
+      "weight": "rank_reciprocal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 33414,
+      "alternative_objective": 33523,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2759,
+        3453,
+        3305
+      ]
+    },
+    {
+      "instance": "full-mixed-20261011",
+      "matrix": "base",
+      "weight": "contribution_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 2692,
+      "alternative_objective": 2581,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2581,
+        4113,
+        4412
+      ]
+    },
+    {
+      "instance": "full-mixed-20261011",
+      "matrix": "base",
+      "weight": "activity_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 3420,
+      "alternative_objective": 2927,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2830,
+        2927,
+        4674
+      ]
+    },
+    {
+      "instance": "full-mixed-20261011",
+      "matrix": "base",
+      "weight": "category_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 3501,
+      "alternative_objective": 2959,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2927,
+        4227,
+        2959
+      ]
+    },
+    {
+      "instance": "full-mixed-20261011",
+      "matrix": "squared",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 24484,
+      "alternative_objective": 23304,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2664,
+        3278,
+        3320
+      ]
+    },
+    {
+      "instance": "full-mixed-20261011",
+      "matrix": "squared",
+      "weight": "equal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 7840,
+      "alternative_objective": 7457,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2713,
+        3428,
+        3145
+      ]
+    },
+    {
+      "instance": "full-mixed-20261011",
+      "matrix": "squared",
+      "weight": "roc",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 50168,
+      "alternative_objective": 48168,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2595,
+        3399,
+        3355
+      ]
+    },
+    {
+      "instance": "full-mixed-20261011",
+      "matrix": "ordinal",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 30674,
+      "alternative_objective": 28278,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2694,
+        3134,
+        3252
+      ]
+    },
+    {
+      "instance": "full-mixed-20261011",
+      "matrix": "ordinal",
+      "weight": "equal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 10935,
+      "alternative_objective": 10363,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2805,
+        3374,
+        3190
+      ]
+    },
+    {
+      "instance": "full-mixed-20261011",
+      "matrix": "ordinal",
+      "weight": "roc",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 56358,
+      "alternative_objective": 56091,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2703,
+        3382,
+        3612
+      ]
+    },
+    {
+      "instance": "full-mixed-20261011",
+      "matrix": "zero",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 21028,
+      "alternative_objective": 20300,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2636,
+        3252,
+        4739
+      ]
+    },
+    {
+      "instance": "full-mixed-20261012",
+      "matrix": "base",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 28158,
+      "alternative_objective": 28158,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        3040,
+        3014,
+        3478
+      ]
+    },
+    {
+      "instance": "full-mixed-20261012",
+      "matrix": "base",
+      "weight": "equal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 9532,
+      "alternative_objective": 9695,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        3022,
+        3134,
+        3539
+      ]
+    },
+    {
+      "instance": "full-mixed-20261012",
+      "matrix": "base",
+      "weight": "rank_sum",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 18626,
+      "alternative_objective": 18813,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        3009,
+        2894,
+        3998
+      ]
+    },
+    {
+      "instance": "full-mixed-20261012",
+      "matrix": "base",
+      "weight": "rank_reciprocal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 34238,
+      "alternative_objective": 34545,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2988,
+        3147,
+        3588
+      ]
+    },
+    {
+      "instance": "full-mixed-20261012",
+      "matrix": "base",
+      "weight": "roc",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 55466,
+      "alternative_objective": 54180,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2964,
+        2820,
+        3738
+      ]
+    },
+    {
+      "instance": "full-mixed-20261012",
+      "matrix": "base",
+      "weight": "flatter",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 283332,
+      "alternative_objective": 281184,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        3001,
+        2950,
+        3527
+      ]
+    },
+    {
+      "instance": "full-mixed-20261012",
+      "matrix": "base",
+      "weight": "steeper",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 279828,
+      "alternative_objective": 278468,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2986,
+        2890,
+        3774
+      ]
+    },
+    {
+      "instance": "full-mixed-20261012",
+      "matrix": "base",
+      "weight": "contribution_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 3040,
+      "alternative_objective": 2952,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2952,
+        3647,
+        5060
+      ]
+    },
+    {
+      "instance": "full-mixed-20261012",
+      "matrix": "base",
+      "weight": "activity_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 3014,
+      "alternative_objective": 2679,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        3112,
+        2679,
+        4946
+      ]
+    },
+    {
+      "instance": "full-mixed-20261012",
+      "matrix": "base",
+      "weight": "category_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 3478,
+      "alternative_objective": 3579,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        3133,
+        3847,
+        3579
+      ]
+    },
+    {
+      "instance": "full-mixed-20261012",
+      "matrix": "squared",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 24516,
+      "alternative_objective": 25357,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        3027,
+        3103,
+        3966
+      ]
+    },
+    {
+      "instance": "full-mixed-20261012",
+      "matrix": "squared",
+      "weight": "equal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 7711,
+      "alternative_objective": 7523,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2992,
+        3112,
+        3433
+      ]
+    },
+    {
+      "instance": "full-mixed-20261012",
+      "matrix": "squared",
+      "weight": "roc",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 51824,
+      "alternative_objective": 50311,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2993,
+        2876,
+        3528
+      ]
+    },
+    {
+      "instance": "full-mixed-20261012",
+      "matrix": "ordinal",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 31052,
+      "alternative_objective": 30746,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        3001,
+        3010,
+        3934
+      ]
+    },
+    {
+      "instance": "full-mixed-20261012",
+      "matrix": "ordinal",
+      "weight": "equal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 10979,
+      "alternative_objective": 10571,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        3044,
+        2940,
+        3673
+      ]
+    },
+    {
+      "instance": "full-mixed-20261012",
+      "matrix": "ordinal",
+      "weight": "roc",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 58360,
+      "alternative_objective": 58187,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2995,
+        3012,
+        3935
+      ]
+    },
+    {
+      "instance": "full-mixed-20261012",
+      "matrix": "zero",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 21202,
+      "alternative_objective": 19964,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2978,
+        2684,
+        5057
+      ]
+    },
+    {
+      "instance": "full-tied-20261011",
+      "matrix": "base",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 13796,
+      "alternative_objective": 13796,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2964,
+        2296
+      ]
+    },
+    {
+      "instance": "full-tied-20261011",
+      "matrix": "base",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 5338,
+      "alternative_objective": 5326,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2964,
+        2284
+      ]
+    },
+    {
+      "instance": "full-tied-20261011",
+      "matrix": "base",
+      "weight": "rank_sum",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 8458,
+      "alternative_objective": 8418,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2876,
+        2432
+      ]
+    },
+    {
+      "instance": "full-tied-20261011",
+      "matrix": "base",
+      "weight": "rank_reciprocal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 13952,
+      "alternative_objective": 13925,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2955,
+        2296
+      ]
+    },
+    {
+      "instance": "full-tied-20261011",
+      "matrix": "base",
+      "weight": "roc",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 20270,
+      "alternative_objective": 20171,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2845,
+        2544
+      ]
+    },
+    {
+      "instance": "full-tied-20261011",
+      "matrix": "base",
+      "weight": "flatter",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 146832,
+      "alternative_objective": 146544,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2964,
+        2284
+      ]
+    },
+    {
+      "instance": "full-tied-20261011",
+      "matrix": "base",
+      "weight": "steeper",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 129088,
+      "alternative_objective": 128624,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2876,
+        2432
+      ]
+    },
+    {
+      "instance": "full-tied-20261011",
+      "matrix": "base",
+      "weight": "activity_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 2964,
+      "alternative_objective": 2669,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2669,
+        4363
+      ]
+    },
+    {
+      "instance": "full-tied-20261011",
+      "matrix": "base",
+      "weight": "category_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 2296,
+      "alternative_objective": 2127,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        4030,
+        2127
+      ]
+    },
+    {
+      "instance": "full-tied-20261011",
+      "matrix": "squared",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 10488,
+      "alternative_objective": 10412,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2912,
+        2474
+      ]
+    },
+    {
+      "instance": "full-tied-20261011",
+      "matrix": "squared",
+      "weight": "equal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 3684,
+      "alternative_objective": 3643,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2975,
+        2324
+      ]
+    },
+    {
+      "instance": "full-tied-20261011",
+      "matrix": "squared",
+      "weight": "roc",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 16962,
+      "alternative_objective": 17061,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2905,
+        2723
+      ]
+    },
+    {
+      "instance": "full-tied-20261011",
+      "matrix": "ordinal",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 15838,
+      "alternative_objective": 15461,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2997,
+        2359
+      ]
+    },
+    {
+      "instance": "full-tied-20261011",
+      "matrix": "ordinal",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 6359,
+      "alternative_objective": 6141,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        3052,
+        2335
+      ]
+    },
+    {
+      "instance": "full-tied-20261011",
+      "matrix": "ordinal",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 22312,
+      "alternative_objective": 21740,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2824,
+        2644
+      ]
+    },
+    {
+      "instance": "full-tied-20261011",
+      "matrix": "zero",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 9204,
+      "alternative_objective": 8409,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2699,
+        4500
+      ]
+    },
+    {
+      "instance": "full-tied-20261012",
+      "matrix": "base",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 14097,
+      "alternative_objective": 14097,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        78,
+        2525,
+        3105
+      ]
+    },
+    {
+      "instance": "full-tied-20261012",
+      "matrix": "base",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 5708,
+      "alternative_objective": 5686,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2612,
+        2996
+      ]
+    },
+    {
+      "instance": "full-tied-20261012",
+      "matrix": "base",
+      "weight": "rank_sum",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 8389,
+      "alternative_objective": 8376,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2488,
+        3166
+      ]
+    },
+    {
+      "instance": "full-tied-20261012",
+      "matrix": "base",
+      "weight": "rank_reciprocal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 14253,
+      "alternative_objective": 14262,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2520,
+        3117
+      ]
+    },
+    {
+      "instance": "full-tied-20261012",
+      "matrix": "base",
+      "weight": "flatter",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 153078,
+      "alternative_objective": 153084,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2554,
+        3069
+      ]
+    },
+    {
+      "instance": "full-tied-20261012",
+      "matrix": "base",
+      "weight": "steeper",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 128862,
+      "alternative_objective": 128728,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2488,
+        3166
+      ]
+    },
+    {
+      "instance": "full-tied-20261012",
+      "matrix": "base",
+      "weight": "activity_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 2525,
+      "alternative_objective": 2313,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2313,
+        5245
+      ]
+    },
+    {
+      "instance": "full-tied-20261012",
+      "matrix": "base",
+      "weight": "category_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 3105,
+      "alternative_objective": 2816,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        3851,
+        2816
+      ]
+    },
+    {
+      "instance": "full-tied-20261012",
+      "matrix": "squared",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 10287,
+      "alternative_objective": 10157,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2587,
+        3046
+      ]
+    },
+    {
+      "instance": "full-tied-20261012",
+      "matrix": "squared",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 3803,
+      "alternative_objective": 3680,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2720,
+        2950
+      ]
+    },
+    {
+      "instance": "full-tied-20261012",
+      "matrix": "squared",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 15883,
+      "alternative_objective": 15804,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2512,
+        3130
+      ]
+    },
+    {
+      "instance": "full-tied-20261012",
+      "matrix": "ordinal",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 17271,
+      "alternative_objective": 16564,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2516,
+        3585
+      ]
+    },
+    {
+      "instance": "full-tied-20261012",
+      "matrix": "ordinal",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 7295,
+      "alternative_objective": 6942,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2546,
+        3573
+      ]
+    },
+    {
+      "instance": "full-tied-20261012",
+      "matrix": "ordinal",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 22867,
+      "alternative_objective": 22103,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2481,
+        3560
+      ]
+    },
+    {
+      "instance": "full-tied-20261012",
+      "matrix": "zero",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 7887,
+      "alternative_objective": 7251,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        78,
+        2313,
+        5120
+      ]
+    },
+    {
+      "instance": "small-conflict-20261011",
+      "matrix": "base",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 4900,
+      "alternative_objective": 4900,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        401,
+        804,
+        442
+      ]
+    },
+    {
+      "instance": "small-conflict-20261011",
+      "matrix": "base",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1647,
+      "alternative_objective": 1632,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        561,
+        641,
+        430
+      ]
+    },
+    {
+      "instance": "small-conflict-20261011",
+      "matrix": "base",
+      "weight": "rank_sum",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 3253,
+      "alternative_objective": 3252,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        396,
+        811,
+        442
+      ]
+    },
+    {
+      "instance": "small-conflict-20261011",
+      "matrix": "base",
+      "weight": "rank_reciprocal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 5702,
+      "alternative_objective": 5690,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        394,
+        814,
+        442
+      ]
+    },
+    {
+      "instance": "small-conflict-20261011",
+      "matrix": "base",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 9315,
+      "alternative_objective": 9286,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        392,
+        818,
+        442
+      ]
+    },
+    {
+      "instance": "small-conflict-20261011",
+      "matrix": "base",
+      "weight": "flatter",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 49164,
+      "alternative_objective": 49092,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        447,
+        756,
+        430
+      ]
+    },
+    {
+      "instance": "small-conflict-20261011",
+      "matrix": "base",
+      "weight": "steeper",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 48836,
+      "alternative_objective": 48824,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        398,
+        808,
+        442
+      ]
+    },
+    {
+      "instance": "small-conflict-20261011",
+      "matrix": "base",
+      "weight": "contribution_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 401,
+      "alternative_objective": 380,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        380,
+        830,
+        592
+      ]
+    },
+    {
+      "instance": "small-conflict-20261011",
+      "matrix": "base",
+      "weight": "activity_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 804,
+      "alternative_objective": 513,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        694,
+        513,
+        730
+      ]
+    },
+    {
+      "instance": "small-conflict-20261011",
+      "matrix": "base",
+      "weight": "category_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 442,
+      "alternative_objective": 430,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        578,
+        628,
+        430
+      ]
+    },
+    {
+      "instance": "small-conflict-20261011",
+      "matrix": "squared",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 4332,
+      "alternative_objective": 4312,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        444,
+        760,
+        430
+      ]
+    },
+    {
+      "instance": "small-conflict-20261011",
+      "matrix": "squared",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1363,
+      "alternative_objective": 1330,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        555,
+        647,
+        430
+      ]
+    },
+    {
+      "instance": "small-conflict-20261011",
+      "matrix": "squared",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 8747,
+      "alternative_objective": 8710,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        386,
+        824,
+        480
+      ]
+    },
+    {
+      "instance": "small-conflict-20261011",
+      "matrix": "ordinal",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 5280,
+      "alternative_objective": 5212,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        398,
+        808,
+        454
+      ]
+    },
+    {
+      "instance": "small-conflict-20261011",
+      "matrix": "ordinal",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1837,
+      "alternative_objective": 1801,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        563,
+        640,
+        479
+      ]
+    },
+    {
+      "instance": "small-conflict-20261011",
+      "matrix": "ordinal",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 9695,
+      "alternative_objective": 9587,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        391,
+        818,
+        454
+      ]
+    },
+    {
+      "instance": "small-conflict-20261011",
+      "matrix": "zero",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 4016,
+      "alternative_objective": 4006,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        388,
+        818,
+        655
+      ]
+    },
+    {
+      "instance": "small-conflict-20261012",
+      "matrix": "base",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 4895,
+      "alternative_objective": 4895,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        366,
+        841,
+        454
+      ]
+    },
+    {
+      "instance": "small-conflict-20261012",
+      "matrix": "base",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1661,
+      "alternative_objective": 1660,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        400,
+        806,
+        454
+      ]
+    },
+    {
+      "instance": "small-conflict-20261012",
+      "matrix": "base",
+      "weight": "rank_sum",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 3234,
+      "alternative_objective": 3205,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        299,
+        909,
+        490
+      ]
+    },
+    {
+      "instance": "small-conflict-20261012",
+      "matrix": "base",
+      "weight": "rank_reciprocal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 5627,
+      "alternative_objective": 5498,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        297,
+        912,
+        490
+      ]
+    },
+    {
+      "instance": "small-conflict-20261012",
+      "matrix": "base",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 9139,
+      "alternative_objective": 8805,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        295,
+        916,
+        490
+      ]
+    },
+    {
+      "instance": "small-conflict-20261012",
+      "matrix": "base",
+      "weight": "flatter",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 49302,
+      "alternative_objective": 49302,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        366,
+        841,
+        454
+      ]
+    },
+    {
+      "instance": "small-conflict-20261012",
+      "matrix": "base",
+      "weight": "steeper",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 48598,
+      "alternative_objective": 48266,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        299,
+        909,
+        490
+      ]
+    },
+    {
+      "instance": "small-conflict-20261012",
+      "matrix": "base",
+      "weight": "contribution_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 366,
+      "alternative_objective": 273,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        273,
+        937,
+        764
+      ]
+    },
+    {
+      "instance": "small-conflict-20261012",
+      "matrix": "base",
+      "weight": "activity_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 841,
+      "alternative_objective": 621,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        588,
+        621,
+        814
+      ]
+    },
+    {
+      "instance": "small-conflict-20261012",
+      "matrix": "base",
+      "weight": "category_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 454,
+      "alternative_objective": 454,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        438,
+        774,
+        454
+      ]
+    },
+    {
+      "instance": "small-conflict-20261012",
+      "matrix": "squared",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 4325,
+      "alternative_objective": 4325,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        366,
+        841,
+        454
+      ]
+    },
+    {
+      "instance": "small-conflict-20261012",
+      "matrix": "squared",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1376,
+      "alternative_objective": 1375,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        447,
+        759,
+        454
+      ]
+    },
+    {
+      "instance": "small-conflict-20261012",
+      "matrix": "squared",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 8569,
+      "alternative_objective": 8265,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        295,
+        916,
+        490
+      ]
+    },
+    {
+      "instance": "small-conflict-20261012",
+      "matrix": "ordinal",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 5383,
+      "alternative_objective": 5313,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        290,
+        919,
+        552
+      ]
+    },
+    {
+      "instance": "small-conflict-20261012",
+      "matrix": "ordinal",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1905,
+      "alternative_objective": 1903,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        500,
+        705,
+        528
+      ]
+    },
+    {
+      "instance": "small-conflict-20261012",
+      "matrix": "ordinal",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 9627,
+      "alternative_objective": 9174,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        288,
+        922,
+        552
+      ]
+    },
+    {
+      "instance": "small-conflict-20261012",
+      "matrix": "zero",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 3987,
+      "alternative_objective": 3900,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        273,
+        936,
+        714
+      ]
+    },
+    {
+      "instance": "small-mixed-20261011",
+      "matrix": "base",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 4463,
+      "alternative_objective": 4463,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        407,
+        617,
+        492
+      ]
+    },
+    {
+      "instance": "small-mixed-20261011",
+      "matrix": "base",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1516,
+      "alternative_objective": 1499,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        435,
+        610,
+        454
+      ]
+    },
+    {
+      "instance": "small-mixed-20261011",
+      "matrix": "base",
+      "weight": "rank_sum",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 2947,
+      "alternative_objective": 2943,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        407,
+        596,
+        530
+      ]
+    },
+    {
+      "instance": "small-mixed-20261011",
+      "matrix": "base",
+      "weight": "rank_reciprocal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 5277,
+      "alternative_objective": 5277,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        407,
+        617,
+        492
+      ]
+    },
+    {
+      "instance": "small-mixed-20261011",
+      "matrix": "base",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 8546,
+      "alternative_objective": 8503,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        388,
+        635,
+        530
+      ]
+    },
+    {
+      "instance": "small-mixed-20261011",
+      "matrix": "base",
+      "weight": "flatter",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 44970,
+      "alternative_objective": 44850,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        429,
+        617,
+        454
+      ]
+    },
+    {
+      "instance": "small-mixed-20261011",
+      "matrix": "base",
+      "weight": "steeper",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 44290,
+      "alternative_objective": 44268,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        407,
+        596,
+        530
+      ]
+    },
+    {
+      "instance": "small-mixed-20261011",
+      "matrix": "base",
+      "weight": "contribution_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 407,
+      "alternative_objective": 380,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        380,
+        694,
+        592
+      ]
+    },
+    {
+      "instance": "small-mixed-20261011",
+      "matrix": "base",
+      "weight": "activity_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 617,
+      "alternative_objective": 482,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        577,
+        482,
+        718
+      ]
+    },
+    {
+      "instance": "small-mixed-20261011",
+      "matrix": "base",
+      "weight": "category_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 492,
+      "alternative_objective": 430,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        578,
+        669,
+        430
+      ]
+    },
+    {
+      "instance": "small-mixed-20261011",
+      "matrix": "squared",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 3883,
+      "alternative_objective": 3846,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        405,
+        618,
+        518
+      ]
+    },
+    {
+      "instance": "small-mixed-20261011",
+      "matrix": "squared",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1226,
+      "alternative_objective": 1207,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        415,
+        606,
+        518
+      ]
+    },
+    {
+      "instance": "small-mixed-20261011",
+      "matrix": "squared",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 7966,
+      "alternative_objective": 7875,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        393,
+        624,
+        530
+      ]
+    },
+    {
+      "instance": "small-mixed-20261011",
+      "matrix": "ordinal",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 4809,
+      "alternative_objective": 4761,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        418,
+        631,
+        454
+      ]
+    },
+    {
+      "instance": "small-mixed-20261011",
+      "matrix": "ordinal",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1689,
+      "alternative_objective": 1642,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        468,
+        576,
+        479
+      ]
+    },
+    {
+      "instance": "small-mixed-20261011",
+      "matrix": "ordinal",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 8892,
+      "alternative_objective": 8879,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        389,
+        654,
+        492
+      ]
+    },
+    {
+      "instance": "small-mixed-20261011",
+      "matrix": "zero",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 3479,
+      "alternative_objective": 3407,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        407,
+        593,
+        580
+      ]
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 3535,
+      "alternative_objective": 3535,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        320,
+        425,
+        490
+      ]
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1235,
+      "alternative_objective": 1234,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        327,
+        417,
+        490
+      ]
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "rank_sum",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 2300,
+      "alternative_objective": 2297,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        307,
+        443,
+        490
+      ]
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "rank_reciprocal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 4175,
+      "alternative_objective": 4142,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        297,
+        460,
+        490
+      ]
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 6625,
+      "alternative_objective": 6490,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        290,
+        434,
+        565
+      ]
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "flatter",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 36030,
+      "alternative_objective": 36030,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        320,
+        425,
+        490
+      ]
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "steeper",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 34670,
+      "alternative_objective": 34638,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        307,
+        443,
+        490
+      ]
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "contribution_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 320,
+      "alternative_objective": 273,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        273,
+        506,
+        764
+      ]
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "activity_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 425,
+      "alternative_objective": 334,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        440,
+        334,
+        815
+      ]
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "base",
+      "weight": "category_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 490,
+      "alternative_objective": 454,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        438,
+        488,
+        454
+      ]
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "squared",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 2995,
+      "alternative_objective": 2952,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        305,
+        410,
+        565
+      ]
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "squared",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 965,
+      "alternative_objective": 959,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        332,
+        387,
+        553
+      ]
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "squared",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 6085,
+      "alternative_objective": 5862,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        290,
+        434,
+        565
+      ]
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "ordinal",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 3951,
+      "alternative_objective": 3949,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        315,
+        431,
+        540
+      ]
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "ordinal",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1443,
+      "alternative_objective": 1439,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        336,
+        405,
+        540
+      ]
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "ordinal",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 7041,
+      "alternative_objective": 6936,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        290,
+        470,
+        552
+      ]
+    },
+    {
+      "instance": "small-mixed-20261012",
+      "matrix": "zero",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 2555,
+      "alternative_objective": 2427,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        303,
+        405,
+        814
+      ]
+    },
+    {
+      "instance": "small-tied-20261011",
+      "matrix": "base",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 2642,
+      "alternative_objective": 2642,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        12,
+        520,
+        517
+      ]
+    },
+    {
+      "instance": "small-tied-20261011",
+      "matrix": "base",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1049,
+      "alternative_objective": 1031,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        12,
+        565,
+        454
+      ]
+    },
+    {
+      "instance": "small-tied-20261011",
+      "matrix": "base",
+      "weight": "rank_sum",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1593,
+      "alternative_objective": 1593,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        12,
+        520,
+        517
+      ]
+    },
+    {
+      "instance": "small-tied-20261011",
+      "matrix": "base",
+      "weight": "rank_reciprocal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 2666,
+      "alternative_objective": 2666,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        12,
+        520,
+        517
+      ]
+    },
+    {
+      "instance": "small-tied-20261011",
+      "matrix": "base",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 3766,
+      "alternative_objective": 3766,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        12,
+        520,
+        517
+      ]
+    },
+    {
+      "instance": "small-tied-20261011",
+      "matrix": "base",
+      "weight": "flatter",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 28440,
+      "alternative_objective": 28278,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        12,
+        565,
+        454
+      ]
+    },
+    {
+      "instance": "small-tied-20261011",
+      "matrix": "base",
+      "weight": "steeper",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 24400,
+      "alternative_objective": 24400,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        12,
+        520,
+        517
+      ]
+    },
+    {
+      "instance": "small-tied-20261011",
+      "matrix": "base",
+      "weight": "contribution_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 12,
+      "alternative_objective": 12,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        12,
+        605,
+        692
+      ]
+    },
+    {
+      "instance": "small-tied-20261011",
+      "matrix": "base",
+      "weight": "activity_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 520,
+      "alternative_objective": 482,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        12,
+        482,
+        718
+      ]
+    },
+    {
+      "instance": "small-tied-20261011",
+      "matrix": "base",
+      "weight": "category_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 517,
+      "alternative_objective": 430,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        12,
+        685,
+        430
+      ]
+    },
+    {
+      "instance": "small-tied-20261011",
+      "matrix": "squared",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 2100,
+      "alternative_objective": 2049,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        12,
+        543,
+        518
+      ]
+    },
+    {
+      "instance": "small-tied-20261011",
+      "matrix": "squared",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 778,
+      "alternative_objective": 740,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        12,
+        556,
+        480
+      ]
+    },
+    {
+      "instance": "small-tied-20261011",
+      "matrix": "squared",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 3224,
+      "alternative_objective": 3159,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        12,
+        491,
+        618
+      ]
+    },
+    {
+      "instance": "small-tied-20261011",
+      "matrix": "ordinal",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 2938,
+      "alternative_objective": 2867,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        12,
+        541,
+        504
+      ]
+    },
+    {
+      "instance": "small-tied-20261011",
+      "matrix": "ordinal",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1197,
+      "alternative_objective": 1151,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        12,
+        541,
+        504
+      ]
+    },
+    {
+      "instance": "small-tied-20261011",
+      "matrix": "ordinal",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 4062,
+      "alternative_objective": 4033,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        12,
+        541,
+        504
+      ]
+    },
+    {
+      "instance": "small-tied-20261011",
+      "matrix": "zero",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1608,
+      "alternative_objective": 1494,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        12,
+        482,
+        718
+      ]
+    },
+    {
+      "instance": "small-tied-20261012",
+      "matrix": "base",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 2102,
+      "alternative_objective": 2102,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        12,
+        366,
+        478
+      ]
+    },
+    {
+      "instance": "small-tied-20261012",
+      "matrix": "base",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 856,
+      "alternative_objective": 856,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        12,
+        366,
+        478
+      ]
+    },
+    {
+      "instance": "small-tied-20261012",
+      "matrix": "base",
+      "weight": "rank_sum",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1246,
+      "alternative_objective": 1246,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        12,
+        366,
+        478
+      ]
+    },
+    {
+      "instance": "small-tied-20261012",
+      "matrix": "base",
+      "weight": "rank_reciprocal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 2126,
+      "alternative_objective": 2126,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        12,
+        366,
+        478
+      ]
+    },
+    {
+      "instance": "small-tied-20261012",
+      "matrix": "base",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 2918,
+      "alternative_objective": 2918,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        12,
+        366,
+        478
+      ]
+    },
+    {
+      "instance": "small-tied-20261012",
+      "matrix": "base",
+      "weight": "flatter",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 22884,
+      "alternative_objective": 22884,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        12,
+        366,
+        478
+      ]
+    },
+    {
+      "instance": "small-tied-20261012",
+      "matrix": "base",
+      "weight": "steeper",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 19156,
+      "alternative_objective": 19156,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        12,
+        366,
+        478
+      ]
+    },
+    {
+      "instance": "small-tied-20261012",
+      "matrix": "base",
+      "weight": "contribution_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 12,
+      "alternative_objective": 12,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        12,
+        489,
+        727
+      ]
+    },
+    {
+      "instance": "small-tied-20261012",
+      "matrix": "base",
+      "weight": "activity_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 366,
+      "alternative_objective": 334,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        12,
+        334,
+        815
+      ]
+    },
+    {
+      "instance": "small-tied-20261012",
+      "matrix": "base",
+      "weight": "category_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 478,
+      "alternative_objective": 454,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        12,
+        488,
+        454
+      ]
+    },
+    {
+      "instance": "small-tied-20261012",
+      "matrix": "squared",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1564,
+      "alternative_objective": 1564,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        12,
+        366,
+        478
+      ]
+    },
+    {
+      "instance": "small-tied-20261012",
+      "matrix": "squared",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 587,
+      "alternative_objective": 587,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        12,
+        366,
+        478
+      ]
+    },
+    {
+      "instance": "small-tied-20261012",
+      "matrix": "squared",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 2380,
+      "alternative_objective": 2357,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        12,
+        349,
+        553
+      ]
+    },
+    {
+      "instance": "small-tied-20261012",
+      "matrix": "ordinal",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 2542,
+      "alternative_objective": 2536,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        12,
+        364,
+        503
+      ]
+    },
+    {
+      "instance": "small-tied-20261012",
+      "matrix": "ordinal",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1076,
+      "alternative_objective": 1074,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        12,
+        364,
+        528
+      ]
+    },
+    {
+      "instance": "small-tied-20261012",
+      "matrix": "ordinal",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 3358,
+      "alternative_objective": 3348,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        12,
+        364,
+        540
+      ]
+    },
+    {
+      "instance": "small-tied-20261012",
+      "matrix": "zero",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1146,
+      "alternative_objective": 1050,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        12,
+        334,
+        790
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261011",
+      "matrix": "base",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 19730,
+      "alternative_objective": 19730,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        1539,
+        3516,
+        1513
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261011",
+      "matrix": "base",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 6568,
+      "alternative_objective": 6545,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1909,
+        3135,
+        1501
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261011",
+      "matrix": "base",
+      "weight": "rank_sum",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 13162,
+      "alternative_objective": 13162,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1539,
+        3516,
+        1513
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261011",
+      "matrix": "base",
+      "weight": "rank_reciprocal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 22808,
+      "alternative_objective": 22802,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1529,
+        3526,
+        1525
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261011",
+      "matrix": "base",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 37535,
+      "alternative_objective": 37496,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1501,
+        3557,
+        1600
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261011",
+      "matrix": "base",
+      "weight": "flatter",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 197196,
+      "alternative_objective": 197196,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        1539,
+        3516,
+        1513
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261011",
+      "matrix": "base",
+      "weight": "steeper",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 197404,
+      "alternative_objective": 197404,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        1539,
+        3516,
+        1513
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261011",
+      "matrix": "base",
+      "weight": "contribution_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 1539,
+      "alternative_objective": 1479,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1479,
+        3580,
+        2955
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261011",
+      "matrix": "base",
+      "weight": "activity_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 3516,
+      "alternative_objective": 2956,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2094,
+        2956,
+        2842
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261011",
+      "matrix": "base",
+      "weight": "category_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 1513,
+      "alternative_objective": 1636,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1804,
+        3254,
+        1636
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261011",
+      "matrix": "squared",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 17472,
+      "alternative_objective": 17472,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        1539,
+        3516,
+        1513
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261011",
+      "matrix": "squared",
+      "weight": "equal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 5439,
+      "alternative_objective": 5418,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1913,
+        3131,
+        1501
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261011",
+      "matrix": "squared",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 35277,
+      "alternative_objective": 35150,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1488,
+        3570,
+        1700
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261011",
+      "matrix": "ordinal",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 21350,
+      "alternative_objective": 21123,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1584,
+        3471,
+        1659
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261011",
+      "matrix": "ordinal",
+      "weight": "equal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 7378,
+      "alternative_objective": 7231,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1844,
+        3200,
+        1686
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261011",
+      "matrix": "ordinal",
+      "weight": "roc",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 39155,
+      "alternative_objective": 38910,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1509,
+        3547,
+        1698
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261011",
+      "matrix": "zero",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 16704,
+      "alternative_objective": 16650,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1482,
+        3574,
+        2904
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261012",
+      "matrix": "base",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 21007,
+      "alternative_objective": 21007,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1943,
+        3105,
+        1960
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261012",
+      "matrix": "base",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 7008,
+      "alternative_objective": 6948,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2387,
+        2649,
+        1912
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261012",
+      "matrix": "base",
+      "weight": "rank_sum",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 13999,
+      "alternative_objective": 15418,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2140,
+        2910,
+        3178
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261012",
+      "matrix": "base",
+      "weight": "rank_reciprocal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 24893,
+      "alternative_objective": 24646,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1863,
+        3190,
+        1949
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261012",
+      "matrix": "base",
+      "weight": "roc",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 40818,
+      "alternative_objective": 40406,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1845,
+        3209,
+        2033
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261012",
+      "matrix": "base",
+      "weight": "flatter",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 210138,
+      "alternative_objective": 209268,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1952,
+        3094,
+        1924
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261012",
+      "matrix": "base",
+      "weight": "steeper",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 210002,
+      "alternative_objective": 210172,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1881,
+        3168,
+        2023
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261012",
+      "matrix": "base",
+      "weight": "contribution_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 1943,
+      "alternative_objective": 1820,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1820,
+        3236,
+        3485
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261012",
+      "matrix": "base",
+      "weight": "activity_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 3105,
+      "alternative_objective": 2378,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2665,
+        2378,
+        3088
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261012",
+      "matrix": "base",
+      "weight": "category_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 1960,
+      "alternative_objective": 1912,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2376,
+        2676,
+        1912
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261012",
+      "matrix": "squared",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 18497,
+      "alternative_objective": 18349,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1894,
+        3153,
+        1937
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261012",
+      "matrix": "squared",
+      "weight": "equal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 5753,
+      "alternative_objective": 5681,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2409,
+        2627,
+        1912
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261012",
+      "matrix": "squared",
+      "weight": "roc",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 38308,
+      "alternative_objective": 37744,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1836,
+        3218,
+        2060
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261012",
+      "matrix": "ordinal",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 23275,
+      "alternative_objective": 22886,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1888,
+        3162,
+        2291
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261012",
+      "matrix": "ordinal",
+      "weight": "equal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 8142,
+      "alternative_objective": 7959,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2371,
+        2664,
+        2328
+      ]
+    },
+    {
+      "instance": "typical-conflict-20261012",
+      "matrix": "zero",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 17087,
+      "alternative_objective": 16999,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1846,
+        3205,
+        3547
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261011",
+      "matrix": "base",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 15841,
+      "alternative_objective": 15841,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1564,
+        2039,
+        1734
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261011",
+      "matrix": "base",
+      "weight": "equal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 5337,
+      "alternative_objective": 5318,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1589,
+        2069,
+        1660
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261011",
+      "matrix": "base",
+      "weight": "rank_sum",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 10504,
+      "alternative_objective": 10483,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1557,
+        2009,
+        1794
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261011",
+      "matrix": "base",
+      "weight": "rank_reciprocal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 18969,
+      "alternative_objective": 18951,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1544,
+        2049,
+        1770
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261011",
+      "matrix": "base",
+      "weight": "roc",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 30867,
+      "alternative_objective": 30633,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1526,
+        1967,
+        2006
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261011",
+      "matrix": "base",
+      "weight": "flatter",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 159090,
+      "alternative_objective": 159054,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1574,
+        2085,
+        1660
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261011",
+      "matrix": "base",
+      "weight": "steeper",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 157730,
+      "alternative_objective": 157478,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1561,
+        2003,
+        1794
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261011",
+      "matrix": "base",
+      "weight": "contribution_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 1564,
+      "alternative_objective": 1479,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1479,
+        2596,
+        2955
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261011",
+      "matrix": "base",
+      "weight": "activity_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 2039,
+      "alternative_objective": 1770,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1716,
+        1770,
+        3280
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261011",
+      "matrix": "base",
+      "weight": "category_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 1734,
+      "alternative_objective": 1636,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1804,
+        2741,
+        1636
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261011",
+      "matrix": "squared",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 13621,
+      "alternative_objective": 13518,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1543,
+        2010,
+        1961
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261011",
+      "matrix": "squared",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 4227,
+      "alternative_objective": 4174,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1559,
+        2131,
+        1662
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261011",
+      "matrix": "squared",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 28647,
+      "alternative_objective": 28185,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1523,
+        1960,
+        2160
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261011",
+      "matrix": "ordinal",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 17289,
+      "alternative_objective": 17111,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1555,
+        2037,
+        1882
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261011",
+      "matrix": "ordinal",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 6061,
+      "alternative_objective": 5966,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1617,
+        2060,
+        1783
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261011",
+      "matrix": "ordinal",
+      "weight": "roc",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 32315,
+      "alternative_objective": 31974,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1530,
+        2006,
+        2055
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261011",
+      "matrix": "zero",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 12373,
+      "alternative_objective": 11665,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1534,
+        1843,
+        3143
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261012",
+      "matrix": "base",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 16645,
+      "alternative_objective": 16645,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1869,
+        1637,
+        2129
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261012",
+      "matrix": "base",
+      "weight": "equal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 5635,
+      "alternative_objective": 5612,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1878,
+        1689,
+        2045
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261012",
+      "matrix": "base",
+      "weight": "rank_sum",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 11010,
+      "alternative_objective": 11004,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1867,
+        1619,
+        2165
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261012",
+      "matrix": "base",
+      "weight": "rank_reciprocal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 20383,
+      "alternative_objective": 20374,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1859,
+        1670,
+        2105
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261012",
+      "matrix": "base",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 33002,
+      "alternative_objective": 32931,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1852,
+        1631,
+        2202
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261012",
+      "matrix": "base",
+      "weight": "flatter",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 167490,
+      "alternative_objective": 167868,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1880,
+        1694,
+        2057
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261012",
+      "matrix": "base",
+      "weight": "steeper",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 165410,
+      "alternative_objective": 165344,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1869,
+        1622,
+        2153
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261012",
+      "matrix": "base",
+      "weight": "contribution_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 1869,
+      "alternative_objective": 1820,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1820,
+        2261,
+        3485
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261012",
+      "matrix": "base",
+      "weight": "activity_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1637,
+      "alternative_objective": 1360,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2261,
+        1360,
+        3363
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261012",
+      "matrix": "base",
+      "weight": "category_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 2129,
+      "alternative_objective": 1912,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        2376,
+        2272,
+        1912
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261012",
+      "matrix": "squared",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 14227,
+      "alternative_objective": 14141,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1870,
+        1687,
+        2057
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261012",
+      "matrix": "squared",
+      "weight": "equal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 4426,
+      "alternative_objective": 4333,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1878,
+        1736,
+        2009
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261012",
+      "matrix": "squared",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 30584,
+      "alternative_objective": 30504,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1845,
+        1671,
+        2217
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261012",
+      "matrix": "ordinal",
+      "weight": "current",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 18711,
+      "alternative_objective": 18409,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1863,
+        1635,
+        2350
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261012",
+      "matrix": "ordinal",
+      "weight": "equal",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 6668,
+      "alternative_objective": 6518,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1900,
+        1626,
+        2437
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261012",
+      "matrix": "ordinal",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 35068,
+      "alternative_objective": 34523,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1850,
+        1597,
+        2449
+      ]
+    },
+    {
+      "instance": "typical-mixed-20261012",
+      "matrix": "zero",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 12387,
+      "alternative_objective": 11983,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        1849,
+        1529,
+        3546
+      ]
+    },
+    {
+      "instance": "typical-tied-20261011",
+      "matrix": "base",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 9086,
+      "alternative_objective": 9086,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        49,
+        1974,
+        1484
+      ]
+    },
+    {
+      "instance": "typical-tied-20261011",
+      "matrix": "base",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 3507,
+      "alternative_objective": 3507,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        49,
+        1974,
+        1484
+      ]
+    },
+    {
+      "instance": "typical-tied-20261011",
+      "matrix": "base",
+      "weight": "rank_sum",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 5579,
+      "alternative_objective": 5565,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1936,
+        1546
+      ]
+    },
+    {
+      "instance": "typical-tied-20261011",
+      "matrix": "base",
+      "weight": "rank_reciprocal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 9184,
+      "alternative_objective": 9184,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        49,
+        1974,
+        1484
+      ]
+    },
+    {
+      "instance": "typical-tied-20261011",
+      "matrix": "base",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 13377,
+      "alternative_objective": 13254,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1875,
+        1670
+      ]
+    },
+    {
+      "instance": "typical-tied-20261011",
+      "matrix": "base",
+      "weight": "flatter",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 96600,
+      "alternative_objective": 96600,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        49,
+        1974,
+        1484
+      ]
+    },
+    {
+      "instance": "typical-tied-20261011",
+      "matrix": "base",
+      "weight": "steeper",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 85120,
+      "alternative_objective": 84972,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1936,
+        1546
+      ]
+    },
+    {
+      "instance": "typical-tied-20261011",
+      "matrix": "base",
+      "weight": "contribution_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 49,
+      "alternative_objective": 49,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        49,
+        2450,
+        3081
+      ]
+    },
+    {
+      "instance": "typical-tied-20261011",
+      "matrix": "base",
+      "weight": "activity_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1974,
+      "alternative_objective": 1715,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1715,
+        2993
+      ]
+    },
+    {
+      "instance": "typical-tied-20261011",
+      "matrix": "base",
+      "weight": "category_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1484,
+      "alternative_objective": 1352,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        2734,
+        1352
+      ]
+    },
+    {
+      "instance": "typical-tied-20261011",
+      "matrix": "squared",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 7046,
+      "alternative_objective": 6946,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1914,
+        1662
+      ]
+    },
+    {
+      "instance": "typical-tied-20261011",
+      "matrix": "squared",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 2487,
+      "alternative_objective": 2451,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1976,
+        1550
+      ]
+    },
+    {
+      "instance": "typical-tied-20261011",
+      "matrix": "squared",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 11337,
+      "alternative_objective": 11022,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1847,
+        1836
+      ]
+    },
+    {
+      "instance": "typical-tied-20261011",
+      "matrix": "ordinal",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 10230,
+      "alternative_objective": 10190,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        2006,
+        1510
+      ]
+    },
+    {
+      "instance": "typical-tied-20261011",
+      "matrix": "ordinal",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 4079,
+      "alternative_objective": 4031,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        2062,
+        1461
+      ]
+    },
+    {
+      "instance": "typical-tied-20261011",
+      "matrix": "ordinal",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 14521,
+      "alternative_objective": 14338,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1817,
+        1882
+      ]
+    },
+    {
+      "instance": "typical-tied-20261011",
+      "matrix": "zero",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 6118,
+      "alternative_objective": 5341,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1715,
+        2993
+      ]
+    },
+    {
+      "instance": "typical-tied-20261012",
+      "matrix": "base",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 8705,
+      "alternative_objective": 8705,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        49,
+        1473,
+        2045
+      ]
+    },
+    {
+      "instance": "typical-tied-20261012",
+      "matrix": "base",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 3567,
+      "alternative_objective": 3558,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1512,
+        1997
+      ]
+    },
+    {
+      "instance": "typical-tied-20261012",
+      "matrix": "base",
+      "weight": "rank_sum",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 5138,
+      "alternative_objective": 5138,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        49,
+        1461,
+        2069
+      ]
+    },
+    {
+      "instance": "typical-tied-20261012",
+      "matrix": "base",
+      "weight": "rank_reciprocal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 8803,
+      "alternative_objective": 8803,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        49,
+        1473,
+        2045
+      ]
+    },
+    {
+      "instance": "typical-tied-20261012",
+      "matrix": "base",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 11994,
+      "alternative_objective": 11970,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1439,
+        2118
+      ]
+    },
+    {
+      "instance": "typical-tied-20261012",
+      "matrix": "base",
+      "weight": "flatter",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 95034,
+      "alternative_objective": 94986,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1481,
+        2033
+      ]
+    },
+    {
+      "instance": "typical-tied-20261012",
+      "matrix": "base",
+      "weight": "steeper",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 79066,
+      "alternative_objective": 79066,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        49,
+        1473,
+        2045
+      ]
+    },
+    {
+      "instance": "typical-tied-20261012",
+      "matrix": "base",
+      "weight": "contribution_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 49,
+      "alternative_objective": 49,
+      "baseline_suboptimal_proven": false,
+      "baseline_also_optimal_proven": true,
+      "common_scale_components": [
+        49,
+        2194,
+        3051
+      ]
+    },
+    {
+      "instance": "typical-tied-20261012",
+      "matrix": "base",
+      "weight": "activity_only",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 1473,
+      "alternative_objective": 1341,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1341,
+        3313
+      ]
+    },
+    {
+      "instance": "typical-tied-20261012",
+      "matrix": "base",
+      "weight": "category_only",
+      "alternative_proven_optimal": false,
+      "baseline_objective_under_alternative": 2045,
+      "alternative_objective": 1876,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        2337,
+        1876
+      ]
+    },
+    {
+      "instance": "typical-tied-20261012",
+      "matrix": "squared",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 6267,
+      "alternative_objective": 6215,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1501,
+        2022
+      ]
+    },
+    {
+      "instance": "typical-tied-20261012",
+      "matrix": "squared",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 2348,
+      "alternative_objective": 2291,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1564,
+        1974
+      ]
+    },
+    {
+      "instance": "typical-tied-20261012",
+      "matrix": "squared",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 9556,
+      "alternative_objective": 9527,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1450,
+        2145
+      ]
+    },
+    {
+      "instance": "typical-tied-20261012",
+      "matrix": "ordinal",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 10871,
+      "alternative_objective": 10414,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1434,
+        2463
+      ]
+    },
+    {
+      "instance": "typical-tied-20261012",
+      "matrix": "ordinal",
+      "weight": "equal",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 4650,
+      "alternative_objective": 4438,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1465,
+        2438
+      ]
+    },
+    {
+      "instance": "typical-tied-20261012",
+      "matrix": "ordinal",
+      "weight": "roc",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 14160,
+      "alternative_objective": 13598,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1415,
+        2451
+      ]
+    },
+    {
+      "instance": "typical-tied-20261012",
+      "matrix": "zero",
+      "weight": "current",
+      "alternative_proven_optimal": true,
+      "baseline_objective_under_alternative": 4615,
+      "alternative_objective": 4219,
+      "baseline_suboptimal_proven": true,
+      "baseline_also_optimal_proven": false,
+      "common_scale_components": [
+        49,
+        1341,
+        3363
+      ]
+    }
+  ],
+  "total_runs": 306,
+  "checked_option_vectors": 248200,
+  "elapsed_seconds": 343.0454546670662,
+  "scaling_invariance_checks": "passed for every generated option"
+}

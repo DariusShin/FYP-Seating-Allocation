@@ -1,0 +1,156 @@
+{
+  "created_utc": "2026-10-10T18:42:43.726567+00:00",
+  "python": "3.14.7 (v3.14.7:823f0323ee6, Aug  5 2026, 07:07:01) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "ortools": "9.15.6755",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "solver_workers": 1,
+  "solver_seed": 20261011,
+  "time_limit_seconds_per_solve": 1.5,
+  "data_seeds": [
+    20261011,
+    20261012
+  ],
+  "sizes": {
+    "small": [
+      8,
+      8,
+      8
+    ],
+    "typical": [
+      56,
+      24,
+      16
+    ],
+    "full": [
+      80,
+      40,
+      32
+    ]
+  },
+  "patterns": [
+    "mixed",
+    "conflict",
+    "tied"
+  ],
+  "weights": {
+    "current": [
+      4,
+      3,
+      2
+    ],
+    "equal": [
+      1,
+      1,
+      1
+    ],
+    "rank_sum": [
+      3,
+      2,
+      1
+    ],
+    "rank_reciprocal": [
+      6,
+      3,
+      2
+    ],
+    "roc": [
+      11,
+      5,
+      2
+    ],
+    "flatter": [
+      36,
+      30,
+      24
+    ],
+    "steeper": [
+      44,
+      30,
+      16
+    ],
+    "contribution_only": [
+      1,
+      0,
+      0
+    ],
+    "activity_only": [
+      0,
+      1,
+      0
+    ],
+    "category_only": [
+      0,
+      0,
+      1
+    ]
+  },
+  "policy": {
+    "policy_version_id": "pjkit-v4",
+    "normalization_version": "desirability-v2",
+    "tier_order": [
+      "EMPEROR",
+      "MERIT",
+      "BODHI"
+    ],
+    "tier_minimums": {
+      "EMPEROR": 5000,
+      "MERIT": 3000,
+      "BODHI": 2000
+    },
+    "rank_weights": [
+      40,
+      30,
+      20,
+      10
+    ],
+    "initial_packing": "STRICT",
+    "category_zone_costs": {
+      "MONASTIC": {
+        "RIGHT_CENTER": 0,
+        "LEFT_CENTER": 2,
+        "RIGHT_OUTER": 4,
+        "LEFT_OUTER": 8
+      },
+      "COMMITTEE": {
+        "RIGHT_CENTER": 0,
+        "LEFT_CENTER": 2,
+        "RIGHT_OUTER": 3,
+        "LEFT_OUTER": 6
+      },
+      "VOLUNTEER": {
+        "RIGHT_CENTER": 1,
+        "LEFT_CENTER": 2,
+        "RIGHT_OUTER": 1,
+        "LEFT_OUTER": 3
+      },
+      "GENERAL_DEVOTEE": {
+        "RIGHT_CENTER": 2,
+        "LEFT_CENTER": 2,
+        "RIGHT_OUTER": 0,
+        "LEFT_OUTER": 1
+      }
+    },
+    "tier_seat_precedence": "HARD_ALL_PHYSICAL_SEATS",
+    "paid_seat_retention": "INDEPENDENT_OF_ATTENDANCE"
+  },
+  "source_sha256": {
+    "experiments/preference_sensitivity.py": "a51829f11b814fafeeaa5baee2a79835c7909ff1454e9418ab11f740e0aec81f",
+    "config/production_policy.json": "0878141f6833231d769d4d467d0e9e0bb652853db7f7320f733c3fbf24a82e39",
+    "src/seat_solver/production/plan_store.py": "4cb6b16c2a273e8144e12c5b6a84dcb21242a06045198290b038062b5558d230",
+    "src/seat_solver/production/service.py": "d096c36efc0a4dc16771797b27982d3c57ebf49397915cc1b4a7463e2bef87de",
+    "src/seat_solver/production/production_scoring.py": "55aeabf54a3e019a30f6cb64dd1a4cdd04897efe8bd7654001e180b133bc5452",
+    "src/seat_solver/production/verification.py": "bcad08bde3073b40588e53dd820f3ec40dedda660be6d28d1625aa07c9fce1c9",
+    "src/seat_solver/production/evaluation.py": "317cafdbdfb92c3f7457d2136c7d7269b982bd8fead24fbb0d778b04434543ce",
+    "src/seat_solver/production/policy.py": "31d3fddb4832ace2e931ac58ed9400678d40a6b0f607de3bb4e825cb8fc80002",
+    "src/seat_solver/production/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/seat_solver/production/reset_local.py": "180cf18c9307aea2f51f46367dfa4e71029e6a23eb04bfab71d55928a27ac6e9",
+    "src/seat_solver/production/production_validator.py": "610bf4564e6bd0f362c58e826eb8fe6262abd2fbaa8e9fb3143bf430ea121b0b",
+    "src/seat_solver/production/absence_repair.py": "3e6b1a386dc46bbbcb4035994eda3764fbda143d66aa1100ea6ddf6afbb3b385",
+    "src/seat_solver/production/workspace.py": "e5f8637abcc7aaaff43dedb032ff89b8325ad675fc1981045899f4ce45a145d9",
+    "src/seat_solver/production/production_data.py": "eeb75d3165c32fe094d6cc661c7d9be0a63f46fc14cc7cd492cdc641b0e67f69",
+    "src/seat_solver/production/production.py": "e9788ba886be1b231b5e6efa23c289455c0959f7e2f0220af78633eebc630323"
+  },
+  "purpose": "Sensitivity diagnostics; no empirical PJKIT preference labels; all participants synthetic",
+  "scope": "Initial generation only; production hard constraints; no canonical tie breaking; no accessibility requests"
+}

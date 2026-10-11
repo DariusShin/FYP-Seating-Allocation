@@ -1,22 +1,14 @@
-# Current application documentation
+# Documentation index
 
-These guides describe the implemented local application as of 2026-10-05. Production uses the `pjkit-v4` policy, the `desirability-v2` scorer, a Python CP-SAT solver, a Next.js staff interface, SQLite workspaces and browser-local Dexie history.
+Current documentation is organized by responsibility. The local application as of 2026-10-05 uses the `pjkit-v4` policy, the `desirability-v2` scorer, a Python CP-SAT solver, a Next.js staff interface, SQLite workspaces and browser-local Dexie history.
 
-| Guide | Scope |
+| Area | Contents |
 | --- | --- |
-| [Code overview](code_overview.md) | Solver, persistence, API and frontend module responsibilities |
-| [Staff UI](ui-reference.md) | Generation, editing, route navigation and published displays |
-| [Absence reallocation](absence-reallocation.md) | Objective 2, incremental repair, movement priorities and shared attendance |
-| [Verification flow](verification-flow.md) | Entry, findings, corrections, overrides and publication gates |
-| [Manual-edit history](manual-edit-history.md) | Local journals, saved versions, recovery and route handoff |
-| [Mathematical model](mathematical_model.md) | Current production constraints and objective |
-| [Machine-readable model](mathematical_model.json) | Production formulation and lifecycle contract |
-| [Mathematical background](solver-mathematical-background.md) | Plain-language explanation of the production model |
-| [Integration](integration.md) | Service inputs, workspace commands, host identity and public projections |
-| [Requirement traceability](requirements-traceability.md) | Applicable current rules and their implementation/test evidence |
-| [Evaluation](evaluation.md) | Existing test coverage, experiment commands and remaining research measurements |
+| [Application guides](application/README.md) | Implemented behavior: solver/service/UI code overview, verification, absence workflow, manual history and integration |
+| [Methodologies](methodologies/README.md) | Modeling, literature and evaluation-method explanations, including the current mathematical model |
 | [Planning](planning/README.md) | Repository restructuring and commit scopes, plus unimplemented swap replay and cloud architecture proposals |
+| [Results](results/preference-sensitivity-2026-10-11/) | Recorded experiment evidence with manifests, relocation notes and source snapshots |
 
-Start with the [project README](../README.md) for setup and the [frontend README](../frontend/README.md) for a local walkthrough. Component boundaries are described in the [seat component guide](../frontend/src/components/seat/README.md).
+Start with the [project README](../README.md) for setup and the [web app README](../apps/web/README.md) for a local walkthrough. Component boundaries are described in the [seat component guide](../apps/web/src/components/seat/README.md).
 
 Superseded implementation guides, completed plans and redundant replacement pages have been deleted. Prior revisions remain in Git history. Academic reports and feedback under `FYP1/` are research records, not current implementation instructions. The planning index retains only explicitly unimplemented proposals.

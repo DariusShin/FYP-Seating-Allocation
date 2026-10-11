@@ -1,0 +1,80 @@
+{
+  "base/equal": {
+    "paired": 10,
+    "strict": 8,
+    "also": 2
+  },
+  "base/rank_sum": {
+    "paired": 10,
+    "strict": 6,
+    "also": 3,
+    "unresolved": 1
+  },
+  "base/rank_reciprocal": {
+    "paired": 10,
+    "unresolved": 1,
+    "strict": 4,
+    "also": 5
+  },
+  "base/roc": {
+    "paired": 9,
+    "strict": 7,
+    "also": 2
+  },
+  "base/flatter": {
+    "paired": 10,
+    "unresolved": 1,
+    "strict": 4,
+    "also": 5
+  },
+  "base/steeper": {
+    "paired": 10,
+    "strict": 6,
+    "also": 4
+  },
+  "base/contribution_only": {
+    "paired": 9,
+    "strict": 5,
+    "also": 4
+  },
+  "base/activity_only": {
+    "paired": 10,
+    "strict": 10
+  },
+  "base/category_only": {
+    "paired": 10,
+    "strict": 8,
+    "also": 1,
+    "unresolved": 1
+  },
+  "squared/current": {
+    "paired": 10,
+    "strict": 7,
+    "also": 3
+  },
+  "squared/equal": {
+    "paired": 10,
+    "strict": 9,
+    "also": 1
+  },
+  "squared/roc": {
+    "paired": 10,
+    "strict": 10
+  },
+  "ordinal/current": {
+    "paired": 10,
+    "strict": 10
+  },
+  "ordinal/equal": {
+    "paired": 10,
+    "strict": 10
+  },
+  "ordinal/roc": {
+    "paired": 10,
+    "strict": 10
+  },
+  "zero/current": {
+    "paired": 10,
+    "strict": 10
+  }
+}

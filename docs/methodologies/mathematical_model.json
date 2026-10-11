@@ -1,0 +1,210 @@
+{
+  "schema_version": "2.0.0",
+  "policy_version_id": "pjkit-v4",
+  "normalization_version": "desirability-v2",
+  "implementation": "services/seating/src/seat_solver/production/production.py",
+  "status": "Implemented local production workflow; AWS/host deployment measurements are external acceptance gates.",
+  "sets": {
+    "P": "present confirmed registration units; ABSENT units retain records but have no assigned seats",
+    "S": "physical layout seats",
+    "O_p": "legal one-seat or approved two-seat options for p",
+    "T": [
+      "EMPEROR",
+      "MERIT",
+      "BODHI"
+    ],
+    "M": [
+      "INITIAL",
+      "REGENERATE_DRAFT",
+      "REPAIR_ABSENCE"
+    ]
+  },
+  "parameters": {
+    "tier_minimums": {
+      "EMPEROR": 5000,
+      "MERIT": 3000,
+      "BODHI": 2000
+    },
+    "tier_upper_bounds": null,
+    "production_layout": {
+      "id": "pjkit-2026-v3",
+      "rows": 16,
+      "positions": 16,
+      "aisle_after": 8,
+      "blocked": {
+        "6": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "7": [
+          5,
+          6,
+          11,
+          12
+        ],
+        "8": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "9": [
+          5,
+          6,
+          11,
+          12
+        ]
+      },
+      "assignable": 232,
+      "accessible_singles": [
+        1,
+        2,
+        15,
+        16
+      ],
+      "accessible_pairs": [
+        [
+          1,
+          2
+        ],
+        [
+          15,
+          16
+        ]
+      ]
+    },
+    "historical_fixture": "data/historical/report-232.json",
+    "rank_mapper": {
+      "version": "ranked-v1",
+      "keys": [
+        "contribution_seat",
+        "activeness",
+        "category_zone"
+      ],
+      "coefficients": [
+        40,
+        30,
+        20,
+        10
+      ],
+      "disabled": 0,
+      "algorithm": "Keep full order; remove disabled; compact active ranks. No renormalization."
+    },
+    "seat_order": "(row_number - 1) * seats_per_row + priority_rank; ranks unique per row, lower is better"
+  },
+  "variables": {
+    "z[p,o]": "Boolean registration p selects option o",
+    "row[p]": "sum(row(o) * z[p,o])",
+    "occ[s]": "sum(z[p,o] where s in o)",
+    "boundary[g]": "Integer row boundary between consecutive contribution groups within one tier",
+    "tier_boundary[t]": "Integer seat-order boundary between consecutive nonempty tiers",
+    "best[p]": "sum(min(seat_order(s) for s in o) * z[p,o])",
+    "worst[p]": "sum(max(seat_order(s) for s in o) * z[p,o])"
+  },
+  "hard_constraints": {
+    "C1": "For each eligible p: sum_o z[p,o] = 1. No variables for ineligible registrations.",
+    "C2": "For each physical s: occ[s] <= 1, including both seats of Emperor options.",
+    "C3": "Blocked seats are absent from all O_p.",
+    "C4": "Input schema and semantics validate unique coordinates/IDs, bounds, sides and row indices; candidates reference supplied physical seats only.",
+    "C5": "Only CONFIRMED and non-ABSENT registrations are allocated; independent attendance never changes payment status.",
+    "C10": "Every present Emperor registration occupies an approved two-seat pair; absence docks both seats and applies to both occupants.",
+    "C11": "Approved pairs do not straddle the centre aisle; physical positions define adjacency.",
+    "C12": "For higher-tier p and lower-tier q: worst[p] < best[q]. Consecutive nonempty tier boundaries enforce this transitively, including BOTH Emperor seats. Shared rows permitted; accessibility has no exemption.",
+    "C13": "Same tier and contribution[p] > contribution[q] imply row[p] <= row[q]. Consecutive within-tier contribution-group row boundaries implement this.",
+    "C15": "Generation and repair: row occupancy equals min(remaining physical demand, available row capacity), front to back.",
+    "C16": "Generation and repair: occ[later] <= occ[earlier] over available seats ordered right/east outward, then left/west outward. Every assignable east seat must be occupied before any west seat in the same row.",
+    "C17": "Accessible single must occupy an approved side position; accessible pair must have both seats accessible. This never becomes a configurable preference."
+  },
+  "soft_constraints": {
+    "C6": {
+      "contribution_importance": "c_p = 1 + round_half_up(99*(amount_p-min_amount_t)/max(1,max_amount_t-min_amount_t))",
+      "common_desirability": "d_o = 2*mean(priority_rank(s)-1 for s in o); integer for one-seat and two-seat options",
+      "raw": "c_p*d_o",
+      "maximum": "100*2*(seats_per_row-1)",
+      "note": "Contribution importance is a soft preference within the hard feasible set. Cross-tier priority is enforced only by C12, independently of preferences."
+    },
+    "C7": {
+      "importance": "a_p=round_half_up(100*(activity_p-min_activity_t)/max(1,max_activity_t-min_activity_t))",
+      "raw": "a_p*d_o",
+      "maximum": "100*2*(seats_per_row-1)",
+      "equal_activity": "zero differential preference"
+    },
+    "C8": {
+      "raw": "2*mean(category_zone_cost[category_p,zone_s] for s in o)",
+      "maximum": "2*maximum configured zone cost",
+      "unit": "per registration mean, not double the influence for an Emperor pair"
+    },
+    "normalization": "N(raw,max)=floor((200*raw+max)/(2*max)); max is clamped to at least 1",
+    "ordinary_stage": "sum_p sum_enabled_components mapped_weight[c]*N(raw[p,c],max[c])",
+    "all_off": "Weighted cost is zero; hard constraints and canonical selection remain."
+  },
+  "proof_and_canonicalization": {
+    "budget": "One shared deadline across construction, weighted objective and canonical passes.",
+    "stage_fixing": "Only fix a stage objective after OPTIMAL. Stop with incumbent on FEASIBLE or later timeout; no claim about unreached stages.",
+    "canonicalization": "After all business objectives proven and fixed, sort participant IDs and minimize each selected option index in sequence. Sort options by stable seat IDs. Fix each index only after optimal proof.",
+    "completion": "canonicalization_complete is true only when all passes finish. OPTIMAL describes business objectives; canonical completion is separate.",
+    "strict_mode": "require_optimal=true rejects unproven business objectives; production default accepts independently valid FEASIBLE."
+  },
+  "independent_validation": "Reconstruct assignments, physical rules, metrics and stage values from source_request, independently of CP-SAT internals.",
+  "lifecycle": "Generate private draft -> edit/save revision -> safeguard check -> resolve or acknowledge findings -> explicit atomic publication. Publication rechecks persisted placements and expected public pointer; structural validity and complete present paid allocations are mandatory; OPEN C12/C13 findings block, while C15/C16 are advisory.",
+  "code_map": {
+    "policy": "policy.py",
+    "scoring": "production_scoring.py",
+    "model_and_extraction": "production.py",
+    "independent_audit": "production_validator.py",
+    "version_store": "plan_store.py",
+    "host_adapter": "service.py",
+    "evaluation": "evaluation.py",
+    "workspace": "workspace.py",
+    "verification": "verification.py",
+    "absence_repair": "absence_repair.py"
+  },
+  "paid_seat_retention": {
+    "attendance": "Independent PRESENT/ABSENT status per registration; saved atomically in event_attendance and applied across event plans when opened.",
+    "manual_work": "Temporary dock retains PRESENT; absent dock releases seats; publication requires full present allocations.",
+    "regeneration": "Complete private generation excludes absent units; attendance or preference changes enable generation."
+  },
+  "objective_2": {
+    "status": "Incremental absence repair implemented locally; broader research/deployment evaluation remains future work",
+    "scope": "Absence only; Emperor pair is one attendance/movement unit",
+    "baseline": "Latest saved working map",
+    "algorithm": "Freeze outside registrations as constants; start at absence rows; expand by adjacent rows only on proven infeasibility; no automatic full-generation fallback",
+    "stages": [
+      "moved_registrations",
+      "movement_distance_doubled",
+      "weighted_preferences"
+    ],
+    "distance": "Doubled Manhattan distance of row/physical-position centroids",
+    "optimality_scope": "First feasible repair neighbourhood; no global hall optimum or canonicalization claim",
+    "documentation": "absence-reallocation.md",
+    "acceptance": "Accept independently valid FEASIBLE incumbents without requiring proven minimum movement, including when generation require_optimal is true. Only fix proven stages; stop on an unproven stage and retain the last valid incumbent after later timeouts or UNKNOWN. Fail only if no valid incumbent exists, the model is invalid or validation fails."
+  },
+  "supporting_verification": {
+    "status": "Local safeguard verification implemented; formal research evaluation and cloud verification facet remain future work",
+    "implemented": [
+      "Structural validation and complete present paid allocations",
+      "C12/C13 RED ordering findings; explicit staff override permitted",
+      "C15/C16 YELLOW non-blocking packing advisories",
+      "Plan/revision checks and publish-time persisted-state recomputation",
+      "Acknowledgement actor/time/notes in publication review audit",
+      "Optional response-only local-history attribution with 500-active-edit limit"
+    ],
+    "publication_policy": "Prior review, structurally valid complete present placements, zero OPEN red findings, matching active plan/revision and expected public pointer. ACKED ordering exceptions and packing advisories may remain.",
+    "future": [
+      "Formal detection/false-rejection/localization evaluation",
+      "Target-environment latency and concurrency acceptance",
+      "Independent cloud verification record bound to content hash, input/policy/verifier versions and revisions"
+    ],
+    "documentation": "verification-flow.md"
+  }
+}
