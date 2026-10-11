@@ -172,6 +172,25 @@ def test_dock_save_refresh_and_stale_write(setup):
     assert store.published(plan["event_id"]) is None
 
 
+def test_seat_prepared_persists_and_validates(setup):
+    store, ws, plan = setup
+    state = initial_state(plan)
+    pid = next(iter(state["items"]))
+    state["items"][pid]["seat_prepared"] = True
+    saved = action(ws, plan, "workspace_save", state=state)
+    assert ws.load(plan["event_id"])["state"]["items"][pid]["seat_prepared"] is True
+    with pytest.raises(DomainError, match="seat preparation"):
+        broken = copy.deepcopy(state)
+        broken["items"][pid]["seat_prepared"] = "yes"
+        action(ws, plan, "workspace_save", saved["revision"], state=broken)
+    published = action(ws, plan, "workspace_publish", saved["revision"])
+    assert (
+        ws.load(plan["event_id"])["state"]["items"][pid]["seat_prepared"] is True
+    )
+    reopened = ws.open(plan["event_id"], "staff", published["base"]["plan_version_id"])
+    assert reopened["state"]["items"][pid]["seat_prepared"] is True
+
+
 
 
 def test_reviewed_publication_creates_workspace_and_rejects_stale_writes(setup):
