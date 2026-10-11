@@ -6,6 +6,7 @@ Plans describe unimplemented enhancements, not current runtime behavior. See the
 
 | Document | Status and scope |
 | --- | --- |
+| [Rank-weighting experiment protocol](rank-weighting-experiment.md) | Confirmed amended plan; implementation and execution pending. Four methods excluding equal weighting, 12 initial-allocation datasets, 840 searches at four seconds, 56 minutes allocated search within a two-hour runner cap; limited sensitivity/seed checks and later PJKIT-led evaluation |
 | [Repository restructuring and scoped change management](repository-restructuring.md) | Stages 0–4 of the research/application/evidence separation implemented on `restructure-project-folders`; retains the migration inventory, provenance rules, validation gates, conventional commit scopes and the remaining deployment decisions |
 | [Manual swap replay after regeneration](manual-swap-replay-after-regeneration.md) | Proposed. Portable ordered registration-ID decisions, shared storage, replay conflicts and atomic candidate adoption outside the solver |
 | [Production concurrent-edit alerts](concurrent-editing-production-ui.md) | Proposed, outside FYP scope. With Version/Local-history controls hidden, classify stale saves as draft-superseded or published-while-editing, alert with a Reload-latest action and show last-saved provenance; no backend concurrency change |
