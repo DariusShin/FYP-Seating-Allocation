@@ -35,6 +35,15 @@ Offerings `table.md`. The existing Events, Offerings and Auth tables remain unch
   changed since this draft was generated") is detected at the moment it matters by comparing the
   plan snapshot against the live items already in hand. Counters would add a cross-item write to
   every registration save while answering only "something changed", never "what changed".
+- **Deliberate duplication, documented.** A few attributes are repeated across items on
+  purpose, and each carries its weight: `attendance_status` on every workspace item is a
+  materialization of the shared attendance status — without it, marking a registration absent
+  would need to update two independent items (the `ATTENDANCE#` row and the workspace) in one
+  atomic step with no transaction between them, and the undo/redo journal could not treat
+  "restore and place" as a single edit. The workspace copies are reconciled against the
+  authoritative `ATTENDANCE#` items at load time and projected back at save time (see the
+  Workspace entity), so the duplication is a bounded read/write accelerator, not a second
+  source of truth.
 
 ## Type Enums
 
@@ -69,7 +78,7 @@ written/read at setup, at explicit workflow steps, or for audit.
 | Get one plan (open workspace, print, detail) | Table | PK = eventId<br>SK = `"PLAN#<planId>"` | — | high |
 | List plan versions, newest first (also draft discovery after a solve completes — the client lists the newest plan rather than reading a stored "latest" pointer) | Table | PK = eventId<br>SK begins_with(`"PLAN#"`) | — (plan IDs are ULIDs, so descending `sk` order is creation order) | low |
 | Publish a plan — swap `CONFIG` pointers and plan status in one transaction with CAS on the published pointer | Table | PK = eventId<br>SK = `"CONFIG"` *and* SK = `"PLAN#<planId>"` | — (CAS is a condition expression on `publishedPlanVersionId`, not a filter) | low |
-| Load and save the current workspace (save is conditional on the workspace item's own `revision`; no `CONFIG` write involved) | Table | PK = eventId<br>SK = `"WORKSPACE#CURRENT"` | — | high |
+| Load and save the current workspace (save is conditional on the workspace item's own `revision`; no `CONFIG` write involved; changed attendance statuses are projected to the `ATTENDANCE#` items) | Table | PK = eventId<br>SK = `"WORKSPACE#CURRENT"` | — | high |
 | Get the workspace snapshot bound to an older plan | Table | PK = eventId<br>SK = `"WORKSPACE#<planId>"` | — | low |
 | Get or patch the safeguard review for a plan | Table | PK = eventId<br>SK = `"REVIEW#<planId>"` | — | low |
 | List all assignments of one plan (hall display, print) | Table | PK = eventId<br>SK begins_with(`"ASSIGN#<planId>#"`) | — | high |
@@ -453,6 +462,19 @@ the History entity and per-plan snapshots in workspace versions. The state store
 editable `items`; registration context is read from the `REG#` items at load time instead of
 duplicating a read-only snapshot inside every save.
 
+`attendance_status` on each item is a **deliberate materialization** of the shared attendance
+status, not a second source of truth: the authoritative store is the event-scoped
+`ATTENDANCE#<participantId>` items, which survive plan switches and serve the event-day
+checklist and solver-request assembly without opening the workspace. The copy inside the
+workspace exists because marking a registration absent must also empty its `seat_ids` and set
+`dock_reason` in the same edit — one conditional write under one revision, and one journal
+entry in the client's undo/redo history ("restore and place" is a single edit, and a failed
+restore leaves attendance and dock unchanged). Reconciliation bounds the duplication: when a
+saved workspace is opened, the current `ATTENDANCE#` items are re-applied over the snapshot
+(shared attendance wins); when a workspace is saved, changed statuses are projected back to the
+`ATTENDANCE#` items as conditional writes. The drift window is thus bounded to inside one
+save handler.
+
 | Attribute          | Type               | Notes                                                                    |
 | ------------------ | ------------------ | ------------------------------------------------------------------------ |
 | `pk`               | `string`           | Canonical event ID                                                       |
@@ -473,7 +495,7 @@ duplicating a read-only snapshot inside every save.
 | `dock_reason`       | `string`           | Temporary or absence-related dock explanation         |
 | `previous_seat_ids` | `string[]`         | Previous location used by manual history and absence repair |
 | `changed_at`        | `string \| null`   | Optional ISO timestamp for the working item           |
-| `attendance_status` | `ATTENDANCE_STATUS`| `PRESENT` or `ABSENT` for the entire registration     |
+| `attendance_status` | `ATTENDANCE_STATUS`| `PRESENT` or `ABSENT`; materialized from the shared `ATTENDANCE#` item — `ABSENT` implies `seat_ids` is empty |
 
 #### Example
 
@@ -507,6 +529,15 @@ duplicating a read-only snapshot inside every save.
 
 Immutable workspace snapshot bound to a plan, used when staff explicitly reopen an older plan.
 Same shape as `WORKSPACE#CURRENT` minus `basePlanVersionId`, which the `sk` already encodes.
+
+**Why it exists despite `plan.operations`.** A plan item's `operations` map preserves only the
+state as of the last manual *publication*; a solver-generated draft has none. An explicitly
+saved, not-yet-published working state therefore exists nowhere else in the table — without
+this item, switching from plan A to plan B (or reopening A later) would silently discard the
+last saved but unpublished edits, a behaviour regression against the prototype, where saved
+versions are immutable and restorable even before publication. Keeping it costs one small item
+per explicit save and one exact `GetItem` on reopen; deriving instead would either lose data or
+require a speculative reconstruction that can never reproduce a state no plan ever recorded.
 
 | Attribute  | Type     | Notes                                                |
 | ---------- | -------- | ---------------------------------------------------- |
@@ -607,7 +638,6 @@ dialog may change.
 | `pk`                   | `"POLICY"`               | Reserved literal; single shared registry partition                          |
 | `sk`                   | `"policy#<policyId>"`    | `<policyId>` - immutable ULID version ID                                   |
 | `tierOrder`            | `CONTRIBUTION_TIER[]`    | Tier precedence used by the solver                                         |
-| `tierBoundaries`       | `map`                    | Tier → inclusive row range, e.g. `{"EMPEROR": [1, 3], "MERIT": [4, 10], "BODHI": [11, 16]}`. The hard seat-eligibility source: a registration may occupy seats only within its own tier's rows. Validated against the active layout's `row_count` when solving, since row ranges are layout-specific. |
 | `tierMinimums`         | `map`                    | Tier → whole-ringgit minimum (contribution tier boundary)                  |
 | `categoryZoneCosts`    | `map`                    | `PARTICIPANT_CATEGORY → zone → cost`; defines category/zone behaviour      |
 | `rankWeights`          | `number[]`               | Relative preference weights matched to preference rank order               |
@@ -625,7 +655,6 @@ dialog may change.
     "pk": "POLICY",
     "sk": "policy#01JPOLICYEXAMPLE",
     "tierOrder": ["EMPEROR", "MERIT", "BODHI"],
-    "tierBoundaries": { "EMPEROR": [1, 3], "MERIT": [4, 10], "BODHI": [11, 16] },
     "tierMinimums": { "EMPEROR": 5000, "MERIT": 3000, "BODHI": 2000 },
     "categoryZoneCosts": {
         "MONASTIC":        { "RIGHT_CENTER": 0, "LEFT_CENTER": 2, "RIGHT_OUTER": 4, "LEFT_OUTER": 8 },
@@ -643,25 +672,6 @@ dialog may change.
     "createdBy": "usr_staff_01"
 }
 ```
-
-#### Strict tier boundary
-
-The Merit/Bodhi boundary is **strict**: tier eligibility is derived from `tierBoundaries`, and a
-Bodhi registration may never occupy a Merit row — including the first row of the Merit block —
-regardless of available seats or preference penalties. The boundary is a hard constraint
-enforced identically in three places, never a soft penalty:
-
-1. **Solver** — seat domains are pruned per tier before optimization, so an infeasible
-   assignment cannot be produced at all.
-2. **Workspace / manual edits** — a move that crosses the tier boundary is rejected outright
-   (validation error, not a review finding to acknowledge), because the review override flow
-   must never be the thing that permits tier mixing.
-3. **Absence repair** — the minimum-movement repair never relocates a registration across its
-   tier boundary; if an absent unit's release makes a Bodhi seat unreachable within Bodhi rows,
-   the affected registration is docked for manual placement inside its own tier's rows instead.
-
-Review still reports any boundary violation it encounters (e.g. from legacy data) as a **RED**
-finding that blocks publication.
 
 ### History entity
 
@@ -845,7 +855,6 @@ Inference on each policy field — will staff legitimately want to change it, an
 | Field                  | Changes? | Rationale                                                                 | Settings dialog                          |
 | ---------------------- | -------- | -------------------------------------------------------------------------- | ---------------------------------------- |
 | `tierMinimums`         | **Yes**  | Contribution tier boundaries (RM5,000 / RM3,000 / RM2,000) are business decisions that shift per event cycle | **Editable** — tier boundary inputs |
-| `tierBoundaries`       | **Yes**  | Which rows belong to each tier defines the strict Merit/Bodhi boundary; organisers may shift the block edges per event (e.g. a smaller hall) | **Editable** — per-tier row-range inputs; validated to partition all rows disjointly in tier order and to fit the active layout's `row_count` |
 | `categoryZoneCosts`    | **Yes**  | Which categories sit in which zones, and how strongly, is organisers' judgement | **Editable** — category list + per-zone costs |
 | `tierOrder`            | Rarely   | Fixed by the temple's contribution hierarchy                               | **Editable** (advanced section) with validation against `tierMinimums` keys |
 | `rankWeights`          | **Yes**  | Relative preference strength may be retuned between generations            | **Editable** — weight sliders/inputs; validated to match enabled preference count |
