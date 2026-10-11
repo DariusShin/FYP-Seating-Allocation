@@ -99,6 +99,60 @@ per-plan assignment pointers, etc. No listed access pattern needs to find items 
 attributes alone — they are always read inside a known partition — so indexing them would only
 add write cost.
 
+## Key-shape decisions
+
+The SK grammar is derived from the write pattern and the reference graph, never from UI surface:
+a constant SK models a **mutable singleton guarded by a conditional write** (`CONFIG`,
+`WORKSPACE#CURRENT`, one current `ATTENDANCE#<participantId>` item); a versioned SK
+(`PREFIX#<ULID>`) models an **immutable, append-only collection whose members are addressed by
+ID and referenced from other entities**. An evaluation of collapsing the versioned families to
+constant SKs, on the argument that staff only ever consume the latest version, is recorded
+here; all three alternatives were rejected.
+
+**Plan — rejected (`sk = "plan"` singleton).** A constant SK is a destructive overwrite: the
+published plan document must remain readable (via `CONFIG.publishedPlanVersionId`, participant
+`ASSIGN#<planId>#<participantId>` lookups and the hall display) while a newer draft is
+generated, so at minimum two plan versions routinely coexist and a singleton would dangle the
+publication pointer. Overwriting also removes the `SUPERSEDED` lifecycle state from item space,
+turns plan-by-ID retrieval (the high-frequency open/print path) into a FilterExpression scan,
+and forces every plan write into a plan+history `TransactWrite` to avoid destroying the prior
+version. Using the History entity as the version store would violate its own contract — it is a
+low-frequency log from which current state is never reconstructed — and plan-sized
+before/after snapshots would push changeset items toward the 400 KB item limit at ~2× the
+storage and RCU cost of simply keeping immutable items. The latest-version reads the proposal
+optimises for are already answered without any key change: the published plan is an exact
+`GetItem` through the `CONFIG` pointer, the newest draft is the `planId` returned by the solve
+call (or a `Limit 1` descending query on ULID creation order — `publishedAt` is null for
+drafts and therefore cannot order draft discovery).
+
+**Layout — rejected (`sk = "layout"` singleton), lowest-stakes case.** Overwriting a layout is
+survivable — every plan embeds its complete layout inside `sourceRequest`, so no reference
+dangles, and both layout access patterns are low frequency. The versioned key is retained
+because a write-once singleton and a write-once versioned item are behaviourally and
+financially identical, so the constant SK saves nothing while degrading three properties:
+`layout_version_id` is a first-class identity in the request contract (payload/version match
+is a hard validation rule), so the ID would become a name for changing bytes; draft staleness
+detection downgrades from an identifier comparison to a deep content/hash comparison; and a
+destructive overwrite requires transactionally pairing every layout write with a history
+changeset to remain recoverable. Per-event layouts also imply the current 16×16 hall is not
+permanent, and two concurrently active layouts per event cannot be expressed by one item.
+
+**Policy — rejected (`sk = "policy"` singleton), strongest case.** The policy partition is
+shared across all events, so a singleton is one mutable item for the entire system: every
+Settings save would mutate the policy underneath every in-flight event simultaneously,
+defeating the per-event `CONFIG.policyVersionId` pinning that lets different events stay on
+the version they were solved under. Plans reference the exact policy version and reject
+mismatches, so overwriting the item destroys the reproducibility guarantee that "every
+existing plan keeps referencing the exact policy it was solved under". The Settings flow
+(append `policy#<ULID>`, then CAS the pointer) is contention-free and atomically reversible;
+a singleton would replace it with overwrite CAS, mandatory history pairing and snapshot-based
+restore. Engine-coupled fields (`normalizationVersion`, `solverBuildId`) need no versioning —
+they are attributes carried on each version, not a reason to collapse the family.
+
+The general shape rule stays: collapse to a constant SK only when the item is mutable, never
+referenced by identity, and needs no history — which is why `preferences` lives as attributes
+on `CONFIG` rather than as versioned items.
+
 ## Entities
 
 ### Configuration entity
