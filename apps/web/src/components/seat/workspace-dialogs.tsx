@@ -1,5 +1,4 @@
 "use client";
-import { ArrowRightLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -22,7 +21,6 @@ import type {
   Preference,
   SeatSelection,
   SeatModal,
-  SeatCellWithRow,
   LocationFormatter,
   PlanVersion,
   DetailChanges,
@@ -39,14 +37,11 @@ export function WorkspaceDialogs({
   generationBlocked,
   history,
   canEdit,
-  cells,
-  names,
   location,
-  destination,
-  setDestination,
-  applyMove,
   sendToDock,
   onMarkAbsent,
+  onRestoreAttendance,
+  onSetAttendance,
   repair,
   onSaveDetails,
   visible,
@@ -72,14 +67,11 @@ export function WorkspaceDialogs({
   generationBlocked: boolean;
   history: ManualHistory;
   canEdit: boolean;
-  cells: SeatCellWithRow[];
-  names: Record<string, string>;
   location: LocationFormatter;
-  destination: string;
-  setDestination: (value: string) => void;
-  applyMove: (pid: string, sid: string) => void;
   sendToDock: (pid: string) => void;
   onMarkAbsent: (pid: string) => void;
+  onRestoreAttendance: (pid: string) => void;
+  onSetAttendance: (pid: string, status: "PRESENT" | "ABSENT") => void;
   repair: (preferences: Preference[]) => Promise<void>;
   onSaveDetails: (details: DetailChanges) => Promise<boolean>;
   visible: WorkingState["participants"];
@@ -127,7 +119,9 @@ export function WorkspaceDialogs({
               }[modal ?? "legend"]
             }
           </DialogTitle>
-          <DialogDescription>PJKIT staff workspace</DialogDescription>
+          {modal !== "allocation" && (
+            <DialogDescription>PJKIT staff workspace</DialogDescription>
+          )}
         </DialogHeader>
         {modal === "allocation" && (
           <>
@@ -144,52 +138,56 @@ export function WorkspaceDialogs({
                   item={item}
                   location={location(item.seat_ids)}
                   busy={busy || !history.ready}
-                  onClose={() => setModal(null)}
+                  canEdit={canEdit && eligible(person)}
                   onSave={onSaveDetails}
+                  onSeatPrepared={(seat_prepared) =>
+                    void onSaveDetails({
+                      display_names: item.display_names,
+                      note: item.note,
+                      seat_prepared,
+                    })
+                  }
+                  onSetAttendance={(status) =>
+                    onSetAttendance(person.participant_id, status)
+                  }
                 />
                 {canEdit && eligible(person) && (
-                  <div className="mt-2.5 flex flex-col gap-1.75 [&>label]:my-2.5 [&>label]:block [&>label]:text-[13px] [&>label]:text-muted-foreground [&_select]:mt-1 [&_select]:w-full [&_select]:rounded-md [&_select]:border [&_select]:border-input [&_select]:bg-background [&_select]:px-2 [&_select]:py-1.5 [&_select]:text-[15px] [&_select]:text-foreground">
-                    <label>
-                      Move / swap destination
-                      <select
-                        aria-label="Move or swap destination"
-                        value={destination}
-                        onChange={(e) => setDestination(e.target.value)}
-                      >
-                        <option value="">Choose a seat…</option>
-                        {cells
-                          .filter((s) => !s.is_blocked)
-                          .map((s) => (
-                            <option key={s.seat_id} value={s.seat_id}>
-                              {location([s.seat_id])} ·{" "}
-                              {names[s.seat_id] || "Empty"}
-                            </option>
-                          ))}
-                      </select>
-                    </label>
+                  <div className="mt-2.5 flex flex-col gap-1.75">
                     <Button
-                      variant="outline"
-                      size="sm"
-                      disabled={!destination}
-                      onClick={() =>
-                        applyMove(person.participant_id, destination)
-                      }
-                    >
-                      <ArrowRightLeft /> Move / swap
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
                       disabled={!item.seat_ids.length}
                       onClick={() => sendToDock(person.participant_id)}
                     >
                       Send to holding dock
                     </Button>
-                    <Button variant="destructive" size="sm" disabled={item.attendance_status === "ABSENT"}
-                      onClick={() => onMarkAbsent(person.participant_id)}>
-                      Mark {person.contribution_tier === "EMPEROR" ? "pair" : "participant"} absent
-                    </Button>
-                    {item.attendance_status === "ABSENT" && <p className="text-sm text-destructive">Absent — excluded from repair and regeneration. Assigning a seat will ask to restore attendance.</p>}
+                    {item.attendance_status === "ABSENT" ? (
+                      <>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() =>
+                            onRestoreAttendance(person.participant_id)
+                          }
+                        >
+                          Restore to present
+                        </Button>
+                        <p className="text-sm text-destructive">
+                          Absent — excluded from repair and regeneration.
+                          Restore to present to place this registration again.
+                        </p>
+                      </>
+                    ) : (
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => onMarkAbsent(person.participant_id)}
+                      >
+                        Mark{" "}
+                        {person.contribution_tier === "EMPEROR"
+                          ? "pair"
+                          : "participant"}{" "}
+                        absent
+                      </Button>
+                    )}
                   </div>
                 )}
               </>

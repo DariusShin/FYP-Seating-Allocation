@@ -25,7 +25,10 @@ function compile(file, load) {
   return mod.exports;
 }
 const historyFunctions = compile("../src/lib/manual-history.ts", require);
-const workspaceFunctions = compile("../src/lib/workspace.ts", require);
+const boundaryFunctions = compile("../src/lib/movement-boundary.ts", require);
+const workspaceFunctions = compile("../src/lib/workspace.ts", (name) =>
+  name === "./movement-boundary" ? boundaryFunctions : require(name),
+);
 const verificationFunctions = compile("../src/lib/verification.ts", require);
 // Exercise dashboard handlers and rendered props without a browser or new dependencies.
 // Pure view sections render together; stateful children remain boundaries.
@@ -430,6 +433,103 @@ test("dock remains available for drag and drop in edit mode", () => {
   assert.equal(render().find("HallMap").owners.S2, "P1");
 });
 
+test("dragging a seated registration previews its valid drop targets", () => {
+  const render = dashboard(fixture());
+  render()
+    .find("Button", (p) => p.children === "Edit plan")
+    .onClick();
+  render().find("HallMap").onAllocationDragStart("P1");
+  assert.deepEqual([...render().find("HallMap").validTargets], ["S1", "S2"]);
+  render().find("HallMap").onAllocationDragEnd();
+  assert.equal(render().find("HallMap").validTargets, undefined);
+});
+
+test("swapping two seated registrations previews the direct swap target", () => {
+  const value = fixture();
+  value.state.participants.push({
+    ...value.state.participants[0],
+    participant_id: "P2",
+    full_name: "Second",
+  });
+  value.state.items.P2 = {
+    ...value.state.items.P1,
+    seat_ids: ["S2"],
+    display_names: ["Second"],
+  };
+  const render = dashboard(value);
+  render()
+    .find("Button", (p) => p.children === "Edit plan")
+    .onClick();
+  render().find("HallMap").onAllocationDragStart("P1");
+  assert.deepEqual([...render().find("HallMap").validTargets], ["S1", "S2"]);
+  render().find("HallMap").onAllocationDragStart("P2");
+  assert.deepEqual([...render().find("HallMap").validTargets], ["S1", "S2"]);
+});
+
+test("dragging a docked card previews its valid drop targets", () => {
+  const render = dashboard(fixture(true));
+  render()
+    .find("Button", (p) => p.children === "Edit plan")
+    .onClick();
+  render()
+    .find("Button", (p) => p.children?.[0] === "Holding dock (")
+    .onClick();
+  render().find("HoldingDock").onDragStart("P1");
+  assert.deepEqual([...render().find("HallMap").validTargets], ["S1", "S2"]);
+  render().find("HoldingDock").onDragEnd();
+  assert.equal(render().find("HallMap").validTargets, undefined);
+});
+
+test("absent participants recover attendance from the allocation dialog", () => {
+  const render = dashboard(fixture());
+  render()
+    .find("Button", (p) => p.children === "Edit plan")
+    .onClick();
+  render().find("HallMap").onSelect("S1");
+  render().find("WorkspaceDialogs").onMarkAbsent("P1");
+  assert.equal(render().find("WorkspaceToolbar").dockCount, 1);
+  render().find("HoldingDock").selectParticipant("P1");
+  const restore = render().find("Button", (p) => p.children === "Restore to present");
+  assert.ok(restore);
+  restore.onClick();
+  assert.equal(render().find("HallMap").owners.S1, undefined);
+  assert.equal(
+    render().find("WorkspaceDialogs").state.items.P1.attendance_status,
+    "PRESENT",
+  );
+});
+
+test("attendance and seat preparation inside the dialog update the draft", async () => {
+  const render = dashboard(fixture());
+  render()
+    .find("Button", (p) => p.children === "Edit plan")
+    .onClick();
+  render().find("HallMap").onSelect("S1");
+  const dialog = render().find("WorkspaceDialogs");
+  assert.equal(dialog.destination, undefined);
+  assert.equal(dialog.applyMove, undefined);
+  render().find("AllocationDetails").onSetAttendance("ABSENT");
+  assert.equal(
+    render().find("WorkspaceDialogs").state.items.P1.attendance_status,
+    "ABSENT",
+  );
+  assert.equal(render().find("WorkspaceToolbar").dockCount, 1);
+  render().find("AllocationDetails").onSetAttendance("PRESENT");
+  assert.equal(
+    render().find("WorkspaceDialogs").state.items.P1.attendance_status,
+    "PRESENT",
+  );
+  render().find("AllocationDetails").onSeatPrepared(true);
+  assert.equal(
+    render().find("WorkspaceDialogs").state.items.P1.seat_prepared,
+    true,
+  );
+  await settle();
+  const sendToDock = render().find("Button", (p) => p.children === "Send to holding dock");
+  assert.ok(sendToDock);
+  assert.equal(sendToDock.variant, undefined);
+});
+
 const preferences = ["contribution_seat", "activeness", "category_zone"].map(
   (key) => ({ key, enabled: true }),
 );
@@ -560,37 +660,47 @@ test("failed generation keeps preferences for an overlay retry", async (t) => {
   assert.equal(render().find("MapLoadingOverlay"), undefined);
 });
 
-function details(onSave) {
+function details(onSave, overrides = {}) {
   const value = fixture();
   return component(
     "../src/components/seat/allocation-details.tsx",
     "AllocationDetails",
     {
-      person: value.state.participants[0],
+      person: {
+        ...value.state.participants[0],
+        contribution_amount_rm: 3000,
+      },
       item: value.state.items.P1,
       location: "West 1",
       busy: false,
+      canEdit: true,
       onSave,
-      onClose() {},
+      onSeatPrepared() {},
+      onSetAttendance() {},
+      ...overrides,
     },
   );
 }
+const pencilButton = (render) =>
+  render().find("Button", (p) => p["aria-label"] === "Edit display details");
 
-test("details Edit and Cancel discard local changes without saving", () => {
+test("details edit opens from the pencil and cancel discards local changes without saving", () => {
   let saves = 0;
   const render = details(async () => {
     saves++;
     return true;
   });
-  assert.equal(render().find("fieldset").disabled, true);
+  assert.ok(pencilButton(render));
+  assert.equal(
+    render().find("Input", (p) => p["aria-label"] === "Display name"),
+    undefined,
+  );
+  pencilButton(render).onClick();
   render()
-    .find("Button", (p) => p.children === "Edit")
-    .onClick();
-  render()
-    .find("input")
+    .find("Input", (p) => p["aria-label"] === "Display name")
     .onChange({ target: { value: "Edited name" } });
   render()
-    .find("textarea")
+    .find("Textarea", (p) => p["aria-label"] === "Staff note")
     .onChange({ target: { value: "Edited note" } });
   assert.equal(
     render().find("Button", (p) => p.children === "Save draft").disabled,
@@ -599,9 +709,11 @@ test("details Edit and Cancel discard local changes without saving", () => {
   render()
     .find("Button", (p) => p.children === "Cancel")
     .onClick();
-  assert.equal(render().find("input").value, "Participant");
-  assert.equal(render().find("textarea").value, "");
-  assert.ok(render().find("Button", (p) => p.children === "Edit"));
+  assert.equal(
+    render().find("Input", (p) => p["aria-label"] === "Display name"),
+    undefined,
+  );
+  assert.ok(pencilButton(render));
   assert.equal(saves, 0);
 });
 
@@ -611,11 +723,9 @@ test("details stay editable after failed save and exit editing only after succes
     saved.push(data);
     return saved.length === 2;
   });
+  pencilButton(render).onClick();
   render()
-    .find("Button", (p) => p.children === "Edit")
-    .onClick();
-  render()
-    .find("textarea")
+    .find("Textarea", (p) => p["aria-label"] === "Staff note")
     .onChange({ target: { value: "Retain paid seats" } });
   render()
     .find("Button", (p) => p.children === "Save draft")
@@ -626,11 +736,68 @@ test("details stay editable after failed save and exit editing only after succes
     .find("Button", (p) => p.children === "Save draft")
     .onClick();
   await settle();
-  assert.ok(render().find("Button", (p) => p.children === "Edit"));
+  assert.ok(pencilButton(render));
+  assert.equal(
+    render().find("Textarea", (p) => p["aria-label"] === "Staff note"),
+    undefined,
+  );
   assert.deepEqual(saved[0], {
     display_names: ["Participant"],
     note: "Retain paid seats",
   });
+});
+
+test("allocation details show registration facts with attendance and preparation controls", () => {
+  const changes = [];
+  const render = details(async () => true, {
+    onSeatPrepared: (prepared) => changes.push(["seat_prepared", prepared]),
+    onSetAttendance: (status) => changes.push(["attendance", status]),
+  });
+  assert.equal(render().find("h2").children, "Participant");
+  assert.deepEqual(
+    render().findAll("Badge").map((p) => p.children),
+    ["MERIT", "Present"],
+  );
+  const section = JSON.stringify(
+    render().find("section", (p) => p["aria-label"] === "Participant details")
+      .children,
+  );
+  assert.match(section, /MERIT/);
+  assert.match(section, /3,000/);
+  assert.match(section, /Participant/);
+  assert.doesNotMatch(section, /Choose a seat/);
+  render()
+    .find("Select")
+    .onValueChange("ABSENT");
+  render()
+    .find("Switch", (p) => p.id === "seat-prepared")
+    .onCheckedChange(true);
+  assert.deepEqual(changes, [
+    ["attendance", "ABSENT"],
+    ["seat_prepared", true],
+  ]);
+});
+
+test("absent allocation details flag the status and restore through attendance", () => {
+  const changes = [];
+  const render = details(async () => true, {
+    item: {
+      ...fixture().state.items.P1,
+      attendance_status: "ABSENT",
+      seat_ids: [],
+      previous_seat_ids: ["S1"],
+      dock_reason: "Marked absent",
+    },
+    onSetAttendance: (status) => changes.push(status),
+  });
+  assert.deepEqual(
+    render().findAll("Badge").map((p) => p.children),
+    ["MERIT", "Absent"],
+  );
+  render()
+    .find("Select")
+    .onValueChange("PRESENT");
+  assert.deepEqual(changes, ["PRESENT"]);
 });
 
 test("swaps apply immediately, undo and redo both registrations, and reject blocked targets", () => {

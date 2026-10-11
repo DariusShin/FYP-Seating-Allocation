@@ -41,6 +41,7 @@ import {
   move,
   reviewMove,
   markAbsent,
+  restore,
   restoreAndMove,
   floorCells,
   seatLocation,
@@ -84,7 +85,7 @@ export function SeatDashboard({
   });
   const [dockOpen, setDockOpen] = useState(false);
   const draggingParticipant = useRef<string | null>(null);
-  const [destination, setDestination] = useState("");
+  const [dragging, setDragging] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState("all");
   const [modal, setModal] = useState<SeatModal>(null);
@@ -123,6 +124,7 @@ export function SeatDashboard({
     setResume(false);
     setDockOpen(false);
     draggingParticipant.current = null;
+    setDragging(null);
     setBusy(true);
     setError("");
     setGenerationError("");
@@ -245,7 +247,7 @@ export function SeatDashboard({
   const mapData = state
     ? workspaceMapData(state)
     : { names: {}, owners: {}, primaryNames: {}, tiers: {}, markers: {} };
-  const { names, owners } = mapData;
+  const { owners } = mapData;
   const people = state?.participants ?? [];
   const active = people.filter(eligible);
   const docked = active.filter(
@@ -261,6 +263,28 @@ export function SeatDashboard({
     (!workspace?.saved_at || workspace.saved_at === base.published_at) &&
     !dirty;
   const location = (ids: string[]) => seatLocation(cells, ids);
+  const validTargets = useMemo(() => {
+    if (!dragging || !state) return undefined;
+    const item = state.items[dragging];
+    if (!item) return undefined;
+    return new Set(
+      cells
+        .filter((s) => {
+          if (s.is_blocked) return false;
+          try {
+            if (item.attendance_status === "ABSENT")
+              restoreAndMove(state, base, dragging, s.seat_id);
+            else if (item.seat_ids.length)
+              reviewMove(state, base, dragging, s.seat_id);
+            else move(state, base, dragging, s.seat_id);
+            return true;
+          } catch {
+            return false;
+          }
+        })
+        .map((s) => s.seat_id),
+    );
+  }, [dragging, state, base, cells]);
   async function loadVersions() {
     try {
       const response = await fetch(eventApi("/api/plans", base.event_id!));
@@ -293,7 +317,6 @@ export function SeatDashboard({
       if (result.chain) setChainPreview(result);
       else commit(result.state);
       setModal(null);
-      setDestination("");
     } catch (e) {
       setError(String(e));
     }
@@ -309,6 +332,28 @@ export function SeatDashboard({
       setDockOpen(true);
       setModal(null);
       draggingParticipant.current = null;
+      setDragging(null);
+    } catch (e) {
+      setError(String(e));
+    }
+  }
+  function restoreAttendance(pid: string) {
+    if (!canEdit || !state) return;
+    try {
+      commit(restore(state, pid));
+      setModal(null);
+      setDockOpen(true);
+    } catch (e) {
+      setError(String(e));
+    }
+  }
+  function setAttendance(pid: string, status: "PRESENT" | "ABSENT") {
+    if (!canEdit || !state) return;
+    const current = state.items[pid]?.attendance_status ?? "PRESENT";
+    if (status === current) return;
+    try {
+      commit(status === "ABSENT" ? markAbsent(state, pid) : restore(state, pid));
+      setDockOpen(true);
     } catch (e) {
       setError(String(e));
     }
@@ -398,10 +443,8 @@ export function SeatDashboard({
     setSelection((current) => ({ ...current, seatId: sid }));
     if (owners[sid]) {
       setSelection({ participantId: owners[sid], seatId: sid });
-      setDestination("");
       setModal("allocation");
     } else if (canEdit && selection.participantId) {
-      setDestination(sid);
       applyMove(selection.participantId, sid);
     }
   }
@@ -576,13 +619,16 @@ export function SeatDashboard({
                 }
                 matches={query ? matches : undefined}
                 editable={canEdit}
+                validTargets={validTargets}
                 onSelect={selectSeat}
                 onDrop={applyMove}
                 onAllocationDragStart={(pid) => {
                   draggingParticipant.current = pid;
+                  setDragging(pid);
                 }}
                 onAllocationDragEnd={() => {
                   draggingParticipant.current = null;
+                  setDragging(null);
                 }}
               />
             </div>
@@ -617,6 +663,14 @@ export function SeatDashboard({
             onClose={() => setDockOpen(false)}
             sendToDock={sendToDock}
             selectParticipant={selectParticipant}
+            onDragStart={(pid) => {
+              draggingParticipant.current = pid;
+              setDragging(pid);
+            }}
+            onDragEnd={() => {
+              draggingParticipant.current = null;
+              setDragging(null);
+            }}
           />
         )}
       </section>
@@ -632,18 +686,15 @@ export function SeatDashboard({
         generationBlocked={generationBlocked}
         history={history}
         canEdit={canEdit}
-        cells={cells}
-        names={names}
         location={location}
-        destination={destination}
-        setDestination={setDestination}
-        applyMove={applyMove}
         sendToDock={sendToDock}
         onMarkAbsent={(pid) => {
           commit(markAbsent(state, pid));
           setDockOpen(true);
           setModal(null);
         }}
+        onRestoreAttendance={restoreAttendance}
+        onSetAttendance={setAttendance}
         onSaveDetails={(details) =>
           operation("workspace_save", {
             ...state,
@@ -694,7 +745,6 @@ export function SeatDashboard({
             try {
               commit(restoreAndMove(state, base, restorePlacement.pid, restorePlacement.sid));
               setRestorePlacement(null);
-              setDestination("");
             } catch (e) { setError(String(e)); setRestorePlacement(null); }
           }}>Restore to present and assign</Button>
           <Button variant="outline" onClick={() => setRestorePlacement(null)}>Cancel</Button>
