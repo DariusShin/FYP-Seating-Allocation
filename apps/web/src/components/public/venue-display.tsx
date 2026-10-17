@@ -4,6 +4,11 @@ import type { AllocationResult } from "@/lib/allocation-types";
 import { HallMap } from "@/components/seat/hall-map";
 import { chineseVenueName } from "@/lib/venue-names";
 import { Button } from "@/components/ui/button";
+import {
+  saveVenuePdf,
+  saveVenuePng,
+  venueFileName,
+} from "@/lib/venue-export";
 import { eventApi } from "@/components/seat/helpers";
 type Venue = {
   status: string;
@@ -11,10 +16,49 @@ type Venue = {
   published_at?: string;
   pair_display?: Record<string, { primary_name: string }>;
 };
+
+/** Direct exports bypass the print dialog; Print stays for physical copies. */
+export function VenueActions({
+  disabled,
+  saving,
+  onPrint,
+  onSave,
+}: {
+  disabled: boolean;
+  saving: "pdf" | "png" | "";
+  onPrint: () => void;
+  onSave: (format: "pdf" | "png") => void;
+}) {
+  return (
+    <div className="flex gap-2">
+      <Button variant="outline" size="sm" disabled={disabled} onClick={onPrint}>
+        Print
+      </Button>
+      <Button
+        variant="outline"
+        size="sm"
+        disabled={disabled || !!saving}
+        onClick={() => onSave("pdf")}
+      >
+        {saving === "pdf" ? "Rendering…" : "Save PDF"}
+      </Button>
+      <Button
+        variant="outline"
+        size="sm"
+        disabled={disabled || !!saving}
+        onClick={() => onSave("png")}
+      >
+        {saving === "png" ? "Rendering…" : "Save PNG"}
+      </Button>
+    </div>
+  );
+}
 export function VenueDisplay({ eventId }: { eventId: string }) {
   const [value, setValue] = useState<Venue | null>(null);
   const [error, setError] = useState("");
+  const [saving, setSaving] = useState<"pdf" | "png" | "">("");
   const root = useRef<HTMLDivElement>(null);
+  const sheet = useRef<HTMLDivElement>(null);
   useEffect(() => {
     let active = true;
     let pending = false;
@@ -65,6 +109,19 @@ export function VenueDisplay({ eventId }: { eventId: string }) {
       if (s.participant_id) owners[s.seat_id] = s.participant_id;
     }),
   );
+  async function save(format: "pdf" | "png") {
+    if (!sheet.current) return;
+    setSaving(format);
+    try {
+      if (format === "pdf")
+        await saveVenuePdf(sheet.current, venueFileName(eventId, "pdf"));
+      else await saveVenuePng(sheet.current, venueFileName(eventId, "png"));
+    } catch {
+      setError("Unable to export the seating map. Try again or use Print.");
+    } finally {
+      setSaving("");
+    }
+  }
   return (
     <div
       className="venue-page flex h-dvh flex-col bg-background screen:max-[1280px]:[&_.hall-scroll]:overflow-x-auto screen:max-[1280px]:[&_.paper-hall]:min-w-7xl print:block print:h-auto print:bg-white print:text-black"
@@ -78,14 +135,12 @@ export function VenueDisplay({ eventId }: { eventId: string }) {
             : ""}
         </span>
         <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
+          <VenueActions
             disabled={!value?.floor_plan}
-            onClick={() => window.print()}
-          >
-            Print / Save PDF
-          </Button>
+            saving={saving}
+            onPrint={() => window.print()}
+            onSave={(format) => void save(format)}
+          />
           <Button
             size="sm"
             onClick={() =>
@@ -109,7 +164,7 @@ export function VenueDisplay({ eventId }: { eventId: string }) {
         </p>
       )}
       {value?.floor_plan ? (
-        <>
+        <div ref={sheet} className="flex min-h-0 flex-1 flex-col">
           <h1 className="my-2 text-center text-[26px] font-semibold print:mb-[5mm] print:mt-0 print:font-[Songti_SC,PMingLiU,serif] print:text-[18pt] print:leading-[1.2]">
             <span className="hidden print:inline">2026年 </span>
             梁皇寶懺大法會功德主排位
@@ -126,7 +181,7 @@ export function VenueDisplay({ eventId }: { eventId: string }) {
               ]),
             )}
           />
-        </>
+        </div>
       ) : (
         <p className="p-8">
           {error
