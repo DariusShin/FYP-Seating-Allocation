@@ -62,8 +62,10 @@ def validate_metadata(request, metadata):
         for key in ("note", "dock_reason"):
             if not isinstance(m.get(key), str) or len(m[key]) > 2000:
                 raise DomainError("INVALID_INPUT", "Invalid note")
-        if set(m) - {"attendance_status"} != {"seat_ids", "display_names", "note", "dock_reason", "previous_seat_ids", "changed_at"}:
+        if set(m) - {"attendance_status", "seat_prepared"} != {"seat_ids", "display_names", "note", "dock_reason", "previous_seat_ids", "changed_at"}:
             raise DomainError("INVALID_INPUT", "Unsupported working-draft fields")
+        if m.get("seat_prepared") is not None and not isinstance(m["seat_prepared"], bool):
+            raise DomainError("INVALID_INPUT", "Invalid seat preparation flag")
         if m.get("attendance_status", "PRESENT") not in ("PRESENT", "ABSENT"):
             raise DomainError("INVALID_INPUT", "Invalid attendance status")
         if m.get("attendance_status") == "ABSENT" and m["seat_ids"]:

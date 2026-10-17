@@ -11,6 +11,8 @@ export function HoldingDock({
   onClose,
   sendToDock,
   selectParticipant,
+  onDragStart,
+  onDragEnd,
 }: {
   state: WorkingState;
   docked: WorkingState["participants"];
@@ -20,6 +22,8 @@ export function HoldingDock({
   onClose: () => void;
   sendToDock: (id: string) => void;
   selectParticipant: (id: string) => void;
+  onDragStart?: (id: string) => void;
+  onDragEnd?: () => void;
 }) {
   return (
     <aside
@@ -64,9 +68,11 @@ export function HoldingDock({
               className={`mb-2 flex w-full flex-col gap-0.75 rounded-lg border p-2.5 text-left ${state.items[p.participant_id].attendance_status === "ABSENT" ? "border-destructive/50 bg-destructive/10" : "bg-secondary"} ${selection.participantId === p.participant_id ? "outline-2 outline-ring" : ""} [&>strong]:text-[15px] [&>strong]:font-medium [&>span]:text-xs [&>span]:text-muted-foreground [&>small]:text-xs [&>small]:text-muted-foreground`}
               key={p.participant_id}
               draggable={canEdit}
-              onDragStart={(e) =>
-                e.dataTransfer.setData("text/plain", p.participant_id)
-              }
+              onDragStart={(e) => {
+                e.dataTransfer.setData("text/plain", p.participant_id);
+                onDragStart?.(p.participant_id);
+              }}
+              onDragEnd={() => onDragEnd?.()}
               onClick={() => selectParticipant(p.participant_id)}
             >
               <strong>{state.items[p.participant_id].display_names[0]}</strong>

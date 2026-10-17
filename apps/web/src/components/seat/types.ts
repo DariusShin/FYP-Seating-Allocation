@@ -16,15 +16,12 @@ export type SeatModal =
   | "allocation"
   | "checklist"
   | "settings"
-  | "versions"
-  | "history"
   | "legend"
   | null;
 export type GenerationPhase = "generating" | "loading-workspace" | "error";
 export type SeatCellWithRow = SeatCell & { row: number };
 export type LocationFormatter = (ids: string[]) => string;
-export type DetailChanges = Pick<WorkingItem, "display_names" | "note">;
-export type PlanVersion = { id: string; state: string; created: string };
+export type DetailChanges = Pick<WorkingItem, "display_names" | "note" | "seat_prepared">;
 export interface SeatSelection {
   participantId: string | null;
   seatId: string | null;

@@ -1,20 +1,30 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import { createRequire } from "node:module";
 import ts from "typescript";
-const mod = { exports: {} };
-new Function(
-  "exports",
-  "module",
-  ts.transpileModule(
-    fs.readFileSync(
-      new URL("../src/lib/workspace.ts", import.meta.url),
-      "utf8",
-    ),
-    { compilerOptions: { module: ts.ModuleKind.CommonJS } },
-  ).outputText,
-)(mod.exports, mod);
-const { move, dock } = mod.exports;
+const require = createRequire(import.meta.url);
+function compile(file, load = require) {
+  const compiled = ts.transpileModule(
+    fs.readFileSync(new URL(file, import.meta.url), "utf8"),
+    {
+      fileName: file,
+      compilerOptions: {
+        module: ts.ModuleKind.CommonJS,
+        target: ts.ScriptTarget.ES2022,
+        esModuleInterop: true,
+      },
+    },
+  ).outputText;
+  const mod = { exports: {} };
+  new Function("require", "exports", "module", compiled)(load, mod.exports, mod);
+  return mod.exports;
+}
+const boundaryFunctions = compile("../src/lib/movement-boundary.ts");
+const mod = compile("../src/lib/workspace.ts", (name) =>
+  name === "./movement-boundary" ? boundaryFunctions : require(name),
+);
+const { move, dock } = mod;
 const cells = Array.from({ length: 16 }, (_, i) => ({
   seat_id: `s${i + 1}`,
   physical_position: i + 1,
@@ -74,7 +84,7 @@ test("paid Emperor allocation always moves as a complete pair", () => {
   assert.equal(next.participants.length, s.participants.length);
 });
 
-const { reviewMove } = mod.exports;
+const { reviewMove } = mod;
 const reviewBase = {
   ...base,
   source_request: {
@@ -169,14 +179,14 @@ test("pair-to-two-Merit exchange moves all three registrations in one preview", 
 test("absence docks the whole Emperor unit while temporary docking retains attendance", () => {
   const s = state();
   s.items.pair.previous_seat_ids = [];
-  const absent = mod.exports.markAbsent(s, "pair");
+  const absent = mod.markAbsent(s, "pair");
   assert.equal(absent.items.pair.attendance_status, "ABSENT");
   assert.deepEqual(absent.items.pair.seat_ids, []);
   assert.deepEqual(absent.items.pair.previous_seat_ids, ["s7", "s8"]);
   assert.equal(absent.items.pair.display_names.length, 2);
   assert.notEqual(dock(s, "pair").items.pair.attendance_status, "ABSENT");
   assert.throws(() => move(absent, base, "pair", "s9"), /Restore attendance/);
-  const restored = mod.exports.restoreAndMove(absent, base, "pair", "s9");
+  const restored = mod.restoreAndMove(absent, base, "pair", "s9");
   assert.equal(restored.items.pair.attendance_status, "PRESENT");
   assert.deepEqual(restored.items.pair.seat_ids, ["s9", "s10"]);
   assert.equal(absent.items.pair.attendance_status, "ABSENT");
@@ -185,8 +195,8 @@ test("absence docks the whole Emperor unit while temporary docking retains atten
 test("failed restore placement leaves absent attendance and dock unchanged", () => {
   const s = state();
   s.items.pair.previous_seat_ids = [];
-  const absent = mod.exports.markAbsent(s, "pair");
-  assert.throws(() => mod.exports.restoreAndMove(absent, base, "pair", "s5"), /Swap/);
+  const absent = mod.markAbsent(s, "pair");
+  assert.throws(() => mod.restoreAndMove(absent, base, "pair", "s5"), /Swap/);
   assert.equal(absent.items.pair.attendance_status, "ABSENT");
   assert.deepEqual(absent.items.pair.seat_ids, []);
 });

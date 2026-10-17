@@ -2,6 +2,14 @@
 
 This directory contains a research harness, not a production policy change. All participant records are synthetic. See `../../docs/methodologies/preference-parameter-study-2026-10-11.md` for rationale, sources and limitations.
 
+## Planned rank-weighting experiment
+
+The [amended implementation protocol](../../docs/planning/rank-weighting-experiment.md) specifies a separate, not-yet-implemented runner: current-ratio, rank sum, rank reciprocal and ROC, excluding equal weighting. It covers 12 initial-allocation datasets and all 16 ordered enabled configurations (46 distinct objectives per dataset), plus limited sensitivity and seed-repeat batches. The 840 planned experimental searches allocate 56 minutes at four seconds each, within a **120-minute overall runner deadline** including preparation, pilot, validation and reporting. Extended-proof and canonicalization searches are excluded from this capped run.
+
+Follow that protocol for implementation, deadline handling and limitations. The commands below run the earlier preference-sensitivity harness; they do not execute the amended protocol or enforce its overall deadline. Preserve the original 11 October results and source snapshot. New evidence belongs under `docs/results/rank-weighting-initial-<run-date>/`.
+
+## Existing preference-sensitivity harness
+
 Run from the repository root using its existing virtual environment:
 
 ```sh

@@ -5,11 +5,11 @@ generation lifecycle. Its view sections are separate components:
 
 | Component | Responsibility |
 | --- | --- |
-| `WorkspaceHeader` | Search, workspace navigation and version/history actions |
+| `WorkspaceHeader` | Search and workspace navigation |
 | `WorkspaceToolbar` | Draft status, dock access, undo, save and review submission |
 | `WorkspaceFooter` | Occupancy totals and undo/redo controls |
 | `HoldingDock` | Temporary unseated registrations and dock drop target |
-| `WorkspaceDialogs` | Details, settings, local/server versions and help dialogs |
+| `WorkspaceDialogs` | Details, settings and help dialogs |
 | `ParticipantChecklist` | Searchable, filtered registration list with 10 per page and map highlighting |
 | `MapLegend` | Tier colors and participant indicators |
 | `HallMap` | Shared seating geometry for editing, verification and venue display |
@@ -34,8 +34,8 @@ The old `AssignmentsTable`, `ParticipantDialog`, `ParticipantPicker`,
 `PlanActions`, `SeatAssignmentDialog`, `SeatLegend`, `SeatMap`, `StatsSidebar`
 and `useSeatDrag` had no callers in the current editing, verification, venue or
 participant flow. They and their unused theme helpers were removed. The current
-`AllocationDetails`, generation/loading components, `WeightControls` and
-`LocalHistoryPanel` remain in use. `PublicSeatMap` continues to serve the
+`AllocationDetails`, generation/loading components and `WeightControls`
+remain in use. `PublicSeatMap` continues to serve the
 participant-facing published view separately.
 
 Routes read the active workspace without calling `workspace_open`. An old review

@@ -1,17 +1,6 @@
 import { NextResponse } from "next/server";
 import { identity, runProduction, sameOrigin } from "@/lib/production-service";
 export const runtime = "nodejs";
-export async function GET() {
-  const user = await identity();
-  if (user?.role !== "admin" && user?.role !== "staff")
-    return NextResponse.json(
-      { error: "Administrative access required" },
-      { status: 403 },
-    );
-  return NextResponse.json(
-    await runProduction({ command: "history", event_id: user.event_id }),
-  );
-}
 export async function POST(request: Request) {
   const user = await identity();
   if (

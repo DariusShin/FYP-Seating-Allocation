@@ -343,7 +343,7 @@ export class ManualHistory {
     this.session = fresh;
     if (!identity) {
       this.warning =
-        "Local history requires an authenticated workspace. Reload to enable recovery.";
+        "Local recovery requires an authenticated workspace. Reload to enable it.";
       this.failed = true;
     } else
       await this.write(async () => {
@@ -402,7 +402,7 @@ export class ManualHistory {
           this.versions.push(version);
           if (sessions.length)
             this.warning =
-              "A different local branch was retained. Inspect it in Local history; it was not restored over the current server draft.";
+              "A different local branch was retained; it was not restored over the current server draft.";
         }
       });
     this.ready = true;

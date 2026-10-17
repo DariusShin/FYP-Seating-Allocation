@@ -22,8 +22,13 @@ function compile(file, load = require) {
   new Function("require", "module", "exports", code)(load, mod, mod.exports);
   return mod.exports;
 }
+const loadWorkspace = (name) =>
+  name === "./movement-boundary"
+    ? compile("../src/lib/movement-boundary.ts")
+    : require(name);
 const helpers = compile("../src/components/seat/helpers.ts", (name) => {
-  if (name === "@/lib/workspace") return compile("../src/lib/workspace.ts");
+  if (name === "@/lib/workspace")
+    return compile("../src/lib/workspace.ts", loadWorkspace);
   if (name === "@/lib/verification")
     return compile("../src/lib/verification.ts");
   return require(name);
@@ -281,7 +286,8 @@ test("verification saves recovered local edits before checking the server revisi
         };
       if (name === "react/jsx-runtime") return require(name);
       if (name === "@/lib/manual-history") return historyTypes;
-      if (name === "@/lib/workspace") return compile("../src/lib/workspace.ts");
+      if (name === "@/lib/workspace")
+        return compile("../src/lib/workspace.ts", loadWorkspace);
       if (name === "@/lib/verification")
         return compile("../src/lib/verification.ts");
       if (name === "./helpers") return helpers;

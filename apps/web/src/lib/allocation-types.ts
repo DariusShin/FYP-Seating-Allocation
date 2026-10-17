@@ -8,7 +8,6 @@ export interface Registration {
   participant_category: CategoryName;
   events_joined_last_2_years: number;
   age: number;
-  adjacent_person_name: string | null;
 }
 export type Preference = {
   key: "contribution_seat" | "activeness" | "category_zone";
