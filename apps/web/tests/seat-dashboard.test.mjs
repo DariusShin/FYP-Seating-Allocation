@@ -120,7 +120,7 @@ function component(file, exportName, props) {
     if (name === "sonner")
       return {
         toast: Object.fromEntries(
-          ["success", "info", "error"].map((level) => [
+          ["success", "info", "error", "warning"].map((level) => [
             level,
             (message) => notifications.push({ level, message }),
           ]),
@@ -880,9 +880,14 @@ test("swaps apply immediately, undo and redo both registrations, and reject bloc
   assert.deepEqual(render().find("HallMap").owners, { S2: "P1", S1: "P2" });
   render().find("HallMap").onDrop("P1", "S3");
   assert.deepEqual(render().find("HallMap").owners, { S2: "P1", S1: "P2" });
-  assert.match(
-    render().find("div", (p) => p.role === "alert").children,
-    /cannot fit/,
+  assert.equal(
+    render().find("div", (p) => p.role === "alert"),
+    undefined,
+  );
+  assert.ok(
+    render().notifications.some(
+      (n) => n.level === "error" && /cannot fit/.test(n.message),
+    ),
   );
 });
 
@@ -980,7 +985,7 @@ test("attendance changes enable full generation without altering preferences", (
   assert.equal(render().find("Button", (p) => p.children === "Generate new draft").disabled, false);
 });
 
-test("a feasible absence repair renders its movement summary without a generation error", () => {
+test("a feasible absence repair renders without a generation error", () => {
   const value = fixture();
   value.base.solver_status_at_generation = "FEASIBLE";
   value.base.repair_summary = {
@@ -992,9 +997,6 @@ test("a feasible absence repair renders its movement summary without a generatio
     changes: [],
   };
   const render = dashboard(value);
-  const summary = render().find("p", (p) => p.role === "status" && JSON.stringify(p.children).includes("Absence repair"));
-  assert.match(JSON.stringify(summary.children), /Valid repair found; optimality is not proven/);
-  assert.match(JSON.stringify(summary.children), /13/);
   assert.ok(render().find("HallMap"));
   assert.equal(render().find("MapLoadingOverlay"), undefined);
 });

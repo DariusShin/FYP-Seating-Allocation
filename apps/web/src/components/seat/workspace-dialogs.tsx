@@ -13,7 +13,6 @@ import { AllocationDetails } from "./allocation-details";
 import { ParticipantChecklist } from "./participant-checklist";
 import { MapLegend } from "./map-legend";
 import { WeightControls } from "./weight-controls";
-import { LocalHistoryPanel } from "./local-history-panel";
 import type {
   WorkingState,
   Workspace,
@@ -22,7 +21,6 @@ import type {
   SeatSelection,
   SeatModal,
   LocationFormatter,
-  PlanVersion,
   DetailChanges,
 } from "./types";
 export function WorkspaceDialogs({
@@ -32,9 +30,7 @@ export function WorkspaceDialogs({
   workspace,
   base,
   selection,
-  error,
   busy,
-  generationBlocked,
   history,
   canEdit,
   location,
@@ -52,9 +48,6 @@ export function WorkspaceDialogs({
   selectParticipant,
   dirty,
   regenerate,
-  versions,
-  onRestore,
-  onDelete,
 }: {
   modal: SeatModal;
   setModal: (value: SeatModal) => void;
@@ -62,9 +55,7 @@ export function WorkspaceDialogs({
   workspace: Workspace | null;
   base: AllocationResult;
   selection: SeatSelection;
-  error: string;
   busy: boolean;
-  generationBlocked: boolean;
   history: ManualHistory;
   canEdit: boolean;
   location: LocationFormatter;
@@ -82,9 +73,6 @@ export function WorkspaceDialogs({
   selectParticipant: (id: string) => void;
   dirty: boolean;
   regenerate: (preferences: Preference[]) => Promise<void>;
-  versions: PlanVersion[];
-  onRestore: (state: WorkingState) => void;
-  onDelete: () => Promise<void>;
 }) {
   const person = state.participants.find(
     (p) => p.participant_id === selection.participantId,
@@ -113,8 +101,6 @@ export function WorkspaceDialogs({
                 allocation: "Allocation details",
                 checklist: "Participant checklist",
                 settings: "Allocation preferences",
-                versions: "Version history",
-                history: "Local history · this browser",
                 legend: "Map legend and help",
               }[modal ?? "legend"]
             }
@@ -125,11 +111,6 @@ export function WorkspaceDialogs({
         </DialogHeader>
         {modal === "allocation" && (
           <>
-            {error && (
-              <p role="alert" className="text-destructive">
-                {error}
-              </p>
-            )}
             {person && item ? (
               <>
                 <AllocationDetails
@@ -226,27 +207,6 @@ export function WorkspaceDialogs({
               attendanceChanged={Object.entries(state.items).some(([pid, item]) => (item.attendance_status ?? "PRESENT") !== (base.source_request?.attendance?.[pid] ?? "PRESENT"))}
             />
           </>
-        )}
-        {modal === "history" && workspace && (
-          <LocalHistoryPanel
-            history={history}
-            workspace={workspace}
-            current={state}
-            disabled={busy || generationBlocked}
-            onRestore={onRestore}
-            onDelete={onDelete}
-          />
-        )}
-        {modal === "versions" && (
-          <div className="space-y-2">
-            {versions.map((v) => (
-              <div className="rounded border p-3 text-sm" key={v.id}>
-                <strong>{v.state}</strong> ·{" "}
-                {new Date(v.created).toLocaleString()}
-                <p className="text-xs text-muted-foreground">{v.id}</p>
-              </div>
-            ))}
-          </div>
         )}
         {modal === "legend" && <MapLegend />}
       </DialogContent>

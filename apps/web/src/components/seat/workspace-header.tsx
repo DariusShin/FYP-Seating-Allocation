@@ -19,9 +19,7 @@ export function WorkspaceHeader({
   location,
   selectParticipant,
   generationBlocked,
-  historyReady,
   setModal,
-  loadVersions,
   eventId,
 }: {
   state: WorkingState;
@@ -33,9 +31,7 @@ export function WorkspaceHeader({
   location: LocationFormatter;
   selectParticipant: (id: string) => void;
   generationBlocked: boolean;
-  historyReady: boolean;
   setModal: (modal: SeatModal) => void;
-  loadVersions: () => Promise<void>;
   eventId: string;
 }) {
   return (
@@ -138,14 +134,6 @@ export function WorkspaceHeader({
           </div>
         )}
       </div>
-      <Button
-        variant="ghost"
-        size="sm"
-        disabled={!historyReady || generationBlocked}
-        onClick={() => setModal("history")}
-      >
-        Local history
-      </Button>
       <nav
         className="ml-auto flex items-center gap-1 max-[1100px]:ml-0 max-[1100px]:gap-0 max-[700px]:ml-auto"
         aria-label="Workspace"
@@ -175,15 +163,6 @@ export function WorkspaceHeader({
           onClick={() => setModal("settings")}
         >
           <Settings2 /> Settings
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="max-[700px]:px-1.75 max-[700px]:text-[11px]"
-          disabled={generationBlocked}
-          onClick={loadVersions}
-        >
-          Versions
         </Button>
         <Button
           variant="outline"
