@@ -9,6 +9,7 @@ from seat_solver.jsonio import read_json
 from seat_solver.production.plan_store import PlanStore, participant_view
 from seat_solver.production.policy import REPO_ROOT, RESOURCES, DomainError, policy
 from seat_solver.production.production import error, solve
+from seat_solver.production.production_scoring import eligible
 
 
 def dispatch(body, store=None):
@@ -36,6 +37,13 @@ def dispatch(body, store=None):
             )
         )
         layout = req["layout"]
+        participants = eligible(req)
+        tiers = {"EMPEROR": 0, "BODHI": 0, "MERIT": 0}
+        accessible = {"EMPEROR": 0, "BODHI": 0, "MERIT": 0}
+        for p in participants:
+            tiers[p["contribution_tier"]] += 1
+            if p["requires_accessible_seat"]:
+                accessible[p["contribution_tier"]] += 1
         return {
             "floor_plan": {
                 **layout,
@@ -60,7 +68,17 @@ def dispatch(body, store=None):
                     for r in range(1, layout["row_count"] + 1)
                 ],
             },
-            "registrations": len(req["participants"]),
+            "registrations": len(participants),
+            "tier_counts": {
+                "emperor_count": tiers["EMPEROR"],
+                "bodhi_count": tiers["BODHI"],
+                "merit_count": tiers["MERIT"],
+            },
+            "accessible_counts": {
+                "emperor_count": accessible["EMPEROR"],
+                "bodhi_count": accessible["BODHI"],
+                "merit_count": accessible["MERIT"],
+            },
         }
     if command == "venue":
         plan = store.published(event)

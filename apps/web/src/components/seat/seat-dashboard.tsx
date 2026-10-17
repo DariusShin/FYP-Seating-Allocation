@@ -29,6 +29,17 @@ import type {
 } from "./types";
 import { HallMap } from "./hall-map";
 import { MapLoadingOverlay } from "./map-loading-overlay";
+import {
+	SkeletonSeatingMap,
+	GenerationStatus,
+	useSkeletonPlan,
+	useSkeletonProgress,
+} from "./map-skeleton";
+import {
+	countsFromRegistrations,
+	countsFromResult,
+	waitForMapReveal,
+} from "@/lib/skeleton-schedule";
 import { WorkspaceHeader } from "./workspace-header";
 import { WorkspaceToolbar } from "./workspace-toolbar";
 import { WorkspaceFooter } from "./workspace-footer";
@@ -107,6 +118,7 @@ export function SeatDashboard({
 	const [generationPhase, setGenerationPhase] =
 		useState<GenerationPhase | null>(null);
 	const [generationError, setGenerationError] = useState("");
+	const [generationAttempt, setGenerationAttempt] = useState(0);
 	const generationInFlight = useRef(false);
 	const generationPreferences = useRef<Preference[]>([]);
 	const generationMode = useRef<"REGENERATE_DRAFT" | "REPAIR_ABSENCE">(
@@ -114,6 +126,7 @@ export function SeatDashboard({
 	);
 	const generatedPlanId = useRef<string | null>(null);
 	const [draftCreated, setDraftCreated] = useState(false);
+	const [repairRunning, setRepairRunning] = useState(false);
 	const generationBlocked = generationPhase !== null;
 	// All workspace notifications surface through sonner toasts.
 	useEffect(() => {
@@ -132,6 +145,8 @@ export function SeatDashboard({
 	) {
 		if (generationInFlight.current) return;
 		generationInFlight.current = true;
+		setGenerationAttempt((attempt) => attempt + 1);
+		setRepairRunning(requestedMode === "REPAIR_ABSENCE");
 		if (preferences) {
 			generationMode.current = requestedMode;
 			generationPreferences.current = preferences;
@@ -207,6 +222,7 @@ export function SeatDashboard({
 				setDraftCreated(true);
 			}
 			setGenerationPhase("loading-workspace");
+			const openingStarted = performance.now();
 			const response = await fetch(
 				eventApi("/api/workspace", initialResult.event_id!),
 				{
@@ -223,6 +239,8 @@ export function SeatDashboard({
 				throw new Error(
 					value?.error?.message ?? "Unable to open the new draft",
 				);
+			if (generationMode.current !== "REPAIR_ABSENCE")
+				await waitForMapReveal(openingStarted);
 			setWorkspace(value);
 			setState(await openManualHistory(history, value));
 			setSelection({ participantId: null, seatId: null });
@@ -274,6 +292,37 @@ export function SeatDashboard({
 	const dirty =
 		!!workspace && JSON.stringify(state) !== JSON.stringify(workspace.state);
 	const base = workspace?.base ?? initialResult;
+	const skeletonCounts = useMemo(
+		() => {
+			if (!generationPhase || repairRunning) return null;
+			return state
+				? countsFromRegistrations(
+					state.participants,
+					Object.fromEntries(
+						Object.entries(state.items).map(([id, item]) => [
+							id,
+							item.attendance_status ?? "PRESENT",
+						]),
+					),
+				)
+				: countsFromResult(base);
+		},
+		[base, state, repairRunning, generationPhase],
+	);
+	const skeletonSteps = useSkeletonPlan(
+		base.floor_plan,
+		skeletonCounts,
+		base.source_request?.layout?.approved_pairs,
+	);
+	const skeletonPlaced = useSkeletonProgress(
+		skeletonSteps.length,
+		generationPhase !== "generating",
+		generationPhase && generationPhase !== "error" ? generationAttempt : null,
+	);
+	const skeletonVisible =
+		!!skeletonCounts &&
+		!!generationPhase &&
+		generationPhase !== "error";
 	const cells = useMemo(() => floorCells(base.floor_plan), [base.floor_plan]);
 	const mapData = state
 		? workspaceMapData(state)
@@ -606,6 +655,13 @@ export function SeatDashboard({
 			</Dialog>
 			<section className="flex min-h-0 flex-1">
 				<div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+					{skeletonVisible && (
+						<GenerationStatus
+							placed={skeletonPlaced}
+							total={skeletonSteps.length}
+							complete={generationPhase === "loading-workspace"}
+						/>
+					)}
 					<div
 						className="relative flex min-h-0 flex-1 flex-col overflow-hidden"
 						aria-label="Seating map"
@@ -615,39 +671,49 @@ export function SeatDashboard({
 							inert={generationBlocked}
 							aria-busy={generationBlocked}
 						>
-							<HallMap
-								floor={base.floor_plan}
-								{...mapData}
-								selected={selection.participantId}
-								selectedSeat={
-									selection.participantId
-										? (state.items[selection.participantId]?.seat_ids[0] ??
-											null)
-										: selection.seatId
-								}
-								matches={query ? matches : undefined}
-								editable={canEdit}
-								validTargets={validTargets}
-								onSelect={selectSeat}
-								onDrop={applyMove}
-								onAllocationDragStart={(pid) => {
-									draggingParticipant.current = pid;
-									setDragging(pid);
-								}}
-								onAllocationDragEnd={() => {
-									draggingParticipant.current = null;
-									setDragging(null);
-								}}
-							/>
+							{skeletonVisible ? (
+								<SkeletonSeatingMap
+									floor={base.floor_plan}
+									steps={skeletonSteps}
+									placed={skeletonPlaced}
+									complete={generationPhase === "loading-workspace"}
+								/>
+							) : (
+								<HallMap
+									floor={base.floor_plan}
+									{...mapData}
+									selected={selection.participantId}
+									selectedSeat={
+										selection.participantId
+											? (state.items[selection.participantId]?.seat_ids[0] ??
+												null)
+											: selection.seatId
+									}
+									matches={query ? matches : undefined}
+									editable={canEdit}
+									validTargets={validTargets}
+									onSelect={selectSeat}
+									onDrop={applyMove}
+									onAllocationDragStart={(pid) => {
+										draggingParticipant.current = pid;
+										setDragging(pid);
+									}}
+									onAllocationDragEnd={() => {
+										draggingParticipant.current = null;
+										setDragging(null);
+									}}
+								/>
+							)}
 						</div>
-						{generationPhase && (
-							<MapLoadingOverlay
-								phase={generationPhase}
-								error={generationError}
-								onRetry={() => void regenerate()}
-								draftCreated={draftCreated}
-							/>
-						)}
+						{generationPhase &&
+							(repairRunning || generationPhase !== "generating") && (
+								<MapLoadingOverlay
+									phase={generationPhase}
+									error={generationError}
+									onRetry={() => void regenerate()}
+									draftCreated={draftCreated}
+								/>
+							)}
 					</div>
 					<WorkspaceFooter
 						active={active}

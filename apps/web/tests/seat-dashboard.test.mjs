@@ -33,7 +33,7 @@ const verificationFunctions = compile("../src/lib/verification.ts", require);
 // Exercise dashboard handlers and rendered props without a browser or new dependencies.
 // Pure view sections render together; stateful children remain boundaries.
 // State/ref slots persist across explicit rerenders.
-function component(file, exportName, props) {
+function component(file, exportName, props, waitForMapReveal = async () => {}) {
   const slots = [];
   const notifications = [];
   const navigations = [];
@@ -55,6 +55,7 @@ function component(file, exportName, props) {
       return (slots[index] ??= { current: initial });
     },
     useMemo: (fn) => fn(),
+    useCallback: (fn) => fn,
     useEffect() {},
     useSyncExternalStore(_subscribe, get) {
       return get();
@@ -68,6 +69,7 @@ function component(file, exportName, props) {
     "holding-dock",
     "participant-checklist",
     "map-legend",
+    "map-skeleton",
   ]);
   const dependencies = new Map();
   function load(name) {
@@ -92,6 +94,8 @@ function component(file, exportName, props) {
     if (name === "react/jsx-runtime") return require(name);
     if (name === "@/lib/workspace") return workspaceFunctions;
     if (name === "@/lib/verification") return verificationFunctions;
+    if (name === "@/lib/skeleton-schedule")
+      return { ...compile("../src/lib/skeleton-schedule.ts", require), waitForMapReveal };
     if (name === "@/lib/manual-history")
       return {
         ...historyFunctions,
@@ -217,11 +221,12 @@ function openSettings(render) {
   return render().find("WeightControls");
 }
 
-function dashboard(initialWorkspace) {
+function dashboard(initialWorkspace, waitForMapReveal) {
   return component(
     "../src/components/seat/seat-dashboard.tsx",
     "SeatDashboard",
     { initialResult: initialWorkspace.base, initialWorkspace },
+    waitForMapReveal,
   );
 }
 
@@ -371,6 +376,63 @@ test("new draft opens its exact version and updates the map", async (t) => {
       message: "New seating draft ready. Public seating is unchanged.",
     },
   ]);
+});
+
+function initialGeneration(waitForMapReveal) {
+  return component("../src/components/seat/generate-draft.tsx", "GenerateDraft", {
+    eventId: "demo",
+    floor: fixture().base.floor_plan,
+    registrations: 1,
+    skeletonCounts: { emperor: 0, merit: 1, bodhi: 0, accessible: { EMPEROR: 0, MERIT: 0, BODHI: 0 } },
+  }, waitForMapReveal);
+}
+
+test("initial generation keeps the seating preview behind an opening overlay until the handoff ends", async (t) => {
+  let finishSolve, finishReveal;
+  const render = initialGeneration(() => new Promise((resolve) => { finishReveal = resolve; }));
+  const next = fixture();
+  next.base.plan_version_id = "generated";
+  t.mock.method(globalThis, "fetch", async (url, options) => {
+    if (url === "/api/solve?event_id=demo")
+      return new Promise((resolve) => { finishSolve = resolve; });
+    assert.equal(JSON.parse(options.body).plan_version_id, "generated");
+    return response(next);
+  });
+  render().find("Button", (p) => p.children === "Generate draft").onClick();
+  assert.ok(render().find("SkeletonSeatingMap"));
+  assert.equal(render().find("MapLoadingOverlay"), undefined);
+  finishSolve(response({ status: "success", plan_version_id: "generated" }));
+  await settle();
+  assert.equal(render().find("MapLoadingOverlay").phase, "loading-workspace");
+  assert.ok(render().find("SkeletonSeatingMap"));
+  assert.equal(render().find("SeatDashboard"), undefined);
+  finishReveal();
+  await settle();
+  assert.equal(render().find("MapLoadingOverlay"), undefined);
+  assert.equal(render().find("SeatDashboard").initialWorkspace.base.plan_version_id, "generated");
+});
+
+test("initial generation opening failures show the retry overlay and reuse the saved draft", async (t) => {
+  const render = initialGeneration();
+  let solves = 0, opens = 0;
+  t.mock.method(globalThis, "fetch", async (url) => {
+    if (url === "/api/solve?event_id=demo") {
+      solves++;
+      return response({ status: "success", plan_version_id: "generated" });
+    }
+    return ++opens === 1
+      ? response({ error: { message: "Open failed" } }, false)
+      : response(fixture());
+  });
+  render().find("Button", (p) => p.children === "Generate draft").onClick();
+  await settle();
+  assert.equal(render().find("MapLoadingOverlay").phase, "error");
+  assert.equal(render().find("MapLoadingOverlay").draftCreated, true);
+  render().find("MapLoadingOverlay").onRetry();
+  await settle();
+  assert.equal(solves, 1);
+  assert.equal(opens, 2);
+  assert.ok(render().find("SeatDashboard"));
 });
 
 test("saving a draft emits the success toast", async (t) => {
@@ -580,7 +642,8 @@ test("generation is enabled only by changed preference order or enabled flags", 
 });
 
 test("regeneration closes settings and blocks editing until the exact draft opens", async (t) => {
-  const render = dashboard(fixture());
+  let finishReveal;
+  const render = dashboard(fixture(), () => new Promise((resolve) => { finishReveal = resolve; }));
   render()
     .find("Button", (p) => Array.isArray(p.children) && p.children.includes("Edit plan"))
     .onClick();
@@ -603,25 +666,32 @@ test("regeneration closes settings and blocks editing until the exact draft open
   assert.equal(requests.length, 1);
   assert.deepEqual(requests[0].body.preferences, changed);
   assert.equal(render().find("WeightControls"), undefined);
-  assert.equal(render().find("MapLoadingOverlay").phase, "generating");
+  assert.equal(render().find("MapLoadingOverlay"), undefined);
+  assert.ok(render().find("GenerationStatus"));
+  assert.ok(render().find("SkeletonSeatingMap"));
   assert.equal(
     render().find("div", (p) => p.inert === true && p["aria-busy"] === true)[
       "aria-busy"
     ],
     true,
   );
-  assert.equal(render().find("HallMap").editable, false);
-  render().find("HallMap").onDrop("P1", "S2");
-  assert.equal(render().find("HallMap").owners.S1, "P1");
+  assert.equal(render().find("HallMap").editable, undefined);
+  // The skeleton map carries no move handlers, so drops are impossible.
+  assert.equal(render().find("HallMap").onDrop, undefined);
   finishSolve(response({ status: "success", plan_version_id: "new" }));
   await settle();
   assert.equal(render().find("MapLoadingOverlay").phase, "loading-workspace");
-  assert.equal(render().find("HallMap").editable, false);
+  assert.equal(render().find("GenerationStatus").complete, true);
+  assert.equal(render().find("HallMap").editable, undefined);
   assert.equal(requests[1].body.plan_version_id, "new");
   const next = fixture();
   next.base.plan_version_id = "new";
   next.state.items.P1.seat_ids = ["S2"];
   finishOpen(response(next));
+  await settle();
+  assert.equal(render().find("MapLoadingOverlay").phase, "loading-workspace");
+  assert.equal(render().find("HallMap").owners.S2, undefined);
+  finishReveal();
   await pending;
   assert.equal(render().find("MapLoadingOverlay"), undefined);
   assert.equal(

@@ -165,6 +165,7 @@ export interface AllocationResult {
     weighted: PenaltyComponents & { tie_break: number; total: number };
   };
   floor_plan: {
+    approved_pairs?: number[][];
     row_count: number;
     seats_per_row: number;
     total_seats: number;
