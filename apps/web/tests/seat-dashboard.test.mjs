@@ -377,7 +377,7 @@ test("saving a draft emits the success toast", async (t) => {
   const render = dashboard(fixture());
   t.mock.method(globalThis, "fetch", async () => response(fixture()));
   render()
-    .find("Button", (p) => p.children === "Edit plan")
+    .find("Button", (p) => Array.isArray(p.children) && p.children.includes("Edit plan"))
     .onClick();
   await render()
     .find("Button", (p) => p.children === "Save draft")
@@ -388,11 +388,25 @@ test("saving a draft emits the success toast", async (t) => {
   });
 });
 
+test("read mode keeps submit for review beside the secondary edit plan", () => {
+  const render = dashboard(fixture());
+  const edit = render().find("Button", (p) => Array.isArray(p.children) && p.children.includes("Edit plan"));
+  assert.equal(edit.variant, "outline");
+  assert.equal(
+    edit.children.some((c) => c?.type === "Pencil"),
+    true,
+  );
+  const submit = render().find("Button", (p) => p.children === "Submit for review");
+  assert.ok(submit);
+  assert.equal(submit.variant, undefined);
+  assert.equal(submit.disabled, false);
+});
+
 test("submit for review navigates to the event and plan verification route", async () => {
   const value = fixture();
   const render = dashboard(value);
   render()
-    .find("Button", (p) => p.children === "Edit plan")
+    .find("Button", (p) => Array.isArray(p.children) && p.children.includes("Edit plan"))
     .onClick();
   await render()
     .find("Button", (p) => p.children === "Submit for review")
@@ -406,7 +420,7 @@ test("submit for review navigates to the event and plan verification route", asy
 test("unseated paid registrations block review entry", () => {
   const render = dashboard(fixture(true));
   render()
-    .find("Button", (p) => p.children === "Edit plan")
+    .find("Button", (p) => Array.isArray(p.children) && p.children.includes("Edit plan"))
     .onClick();
   assert.equal(
     render().find("Button", (p) => p.children === "Submit for review").disabled,
@@ -418,7 +432,7 @@ test("dock remains available for drag and drop in edit mode", () => {
   const render = dashboard(fixture(true));
   assert.equal(render().find("HallMap").editable, false);
   render()
-    .find("Button", (p) => p.children === "Edit plan")
+    .find("Button", (p) => Array.isArray(p.children) && p.children.includes("Edit plan"))
     .onClick();
   render()
     .find("Button", (p) => p.children?.[0] === "Holding dock (")
@@ -436,7 +450,7 @@ test("dock remains available for drag and drop in edit mode", () => {
 test("dragging a seated registration previews its valid drop targets", () => {
   const render = dashboard(fixture());
   render()
-    .find("Button", (p) => p.children === "Edit plan")
+    .find("Button", (p) => Array.isArray(p.children) && p.children.includes("Edit plan"))
     .onClick();
   render().find("HallMap").onAllocationDragStart("P1");
   assert.deepEqual([...render().find("HallMap").validTargets], ["S1", "S2"]);
@@ -458,7 +472,7 @@ test("swapping two seated registrations previews the direct swap target", () => 
   };
   const render = dashboard(value);
   render()
-    .find("Button", (p) => p.children === "Edit plan")
+    .find("Button", (p) => Array.isArray(p.children) && p.children.includes("Edit plan"))
     .onClick();
   render().find("HallMap").onAllocationDragStart("P1");
   assert.deepEqual([...render().find("HallMap").validTargets], ["S1", "S2"]);
@@ -469,7 +483,7 @@ test("swapping two seated registrations previews the direct swap target", () => 
 test("dragging a docked card previews its valid drop targets", () => {
   const render = dashboard(fixture(true));
   render()
-    .find("Button", (p) => p.children === "Edit plan")
+    .find("Button", (p) => Array.isArray(p.children) && p.children.includes("Edit plan"))
     .onClick();
   render()
     .find("Button", (p) => p.children?.[0] === "Holding dock (")
@@ -483,7 +497,7 @@ test("dragging a docked card previews its valid drop targets", () => {
 test("absent participants recover attendance from the allocation dialog", () => {
   const render = dashboard(fixture());
   render()
-    .find("Button", (p) => p.children === "Edit plan")
+    .find("Button", (p) => Array.isArray(p.children) && p.children.includes("Edit plan"))
     .onClick();
   render().find("HallMap").onSelect("S1");
   render().find("WorkspaceDialogs").onMarkAbsent("P1");
@@ -502,7 +516,7 @@ test("absent participants recover attendance from the allocation dialog", () => 
 test("attendance and seat preparation inside the dialog update the draft", async () => {
   const render = dashboard(fixture());
   render()
-    .find("Button", (p) => p.children === "Edit plan")
+    .find("Button", (p) => Array.isArray(p.children) && p.children.includes("Edit plan"))
     .onClick();
   render().find("HallMap").onSelect("S1");
   const dialog = render().find("WorkspaceDialogs");
@@ -568,7 +582,7 @@ test("generation is enabled only by changed preference order or enabled flags", 
 test("regeneration closes settings and blocks editing until the exact draft opens", async (t) => {
   const render = dashboard(fixture());
   render()
-    .find("Button", (p) => p.children === "Edit plan")
+    .find("Button", (p) => Array.isArray(p.children) && p.children.includes("Edit plan"))
     .onClick();
   let finishSolve, finishOpen;
   const requests = [];
@@ -816,7 +830,7 @@ test("swaps apply immediately, undo and redo both registrations, and reject bloc
   render().find("HallMap").onDrop("P1", "S2");
   assert.equal(render().find("HallMap").owners.S1, "P1");
   render()
-    .find("Button", (p) => p.children === "Edit plan")
+    .find("Button", (p) => Array.isArray(p.children) && p.children.includes("Edit plan"))
     .onClick();
   assert.equal(
     render().find("Button", (p) => p["aria-label"] === "Undo last change")
@@ -869,7 +883,7 @@ test("the selected registration border follows swap, undo, redo and docking", ()
   };
   const render = dashboard(value);
   render()
-    .find("Button", (p) => p.children === "Edit plan")
+    .find("Button", (p) => Array.isArray(p.children) && p.children.includes("Edit plan"))
     .onClick();
   render().find("HallMap").onSelect("S1");
   assert.equal(render().find("HallMap").selectedSeat, "S1");
@@ -893,7 +907,7 @@ test("the selected registration border follows swap, undo, redo and docking", ()
 
 test("absent dock styling, restore cancel and confirmed assignment preserve atomic history", () => {
   const render = dashboard(fixture());
-  render().find("Button", (p) => p.children === "Edit plan").onClick();
+  render().find("Button", (p) => Array.isArray(p.children) && p.children.includes("Edit plan")).onClick();
   render().find("HallMap").onSelect("S1");
   render().find("WorkspaceDialogs").onMarkAbsent("P1");
   assert.deepEqual(render().find("HallMap").owners, {});
@@ -917,7 +931,7 @@ test("absent dock styling, restore cancel and confirmed assignment preserve atom
 
 test("repair saves the edited absence baseline before solving and opens its exact candidate", async (t) => {
   const render = dashboard(fixture());
-  render().find("Button", (p) => p.children === "Edit plan").onClick();
+  render().find("Button", (p) => Array.isArray(p.children) && p.children.includes("Edit plan")).onClick();
   render().find("WorkspaceDialogs").onMarkAbsent("P1");
   const requests = [];
   const saved = fixture(true);

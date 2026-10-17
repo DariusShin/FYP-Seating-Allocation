@@ -1,5 +1,5 @@
 "use client";
-import { Undo2 } from "lucide-react";
+import { Pencil, Undo2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Workspace, SeatMode } from "./types";
 import { savedTime } from "./helpers";
@@ -68,9 +68,19 @@ export function WorkspaceToolbar({
           </Button>
         )}
         {mode !== "edit" ? (
-          <Button size="sm" disabled={busy} onClick={onEdit}>
-            {published ? "Start revision" : "Edit plan"}
-          </Button>
+          <>
+            <Button size="sm" variant="outline" disabled={busy} onClick={onEdit}>
+              <Pencil />
+              {published ? "Start revision" : "Edit plan"}
+            </Button>
+            <Button
+              size="sm"
+              disabled={busy || !historyReady || presentDockCount > 0}
+              onClick={onReview}
+            >
+              Submit for review
+            </Button>
+          </>
         ) : (
           <>
             <Button
