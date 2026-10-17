@@ -5,7 +5,6 @@ import { Pencil } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -93,7 +92,7 @@ export function AllocationDetails({
         <dl className="mt-2 grid gap-2.5 text-sm">
           <div className="grid gap-1">
             <dt className="text-[13px] text-muted-foreground">
-              Display name · payer
+              Display name
             </dt>
             <dd>
               {draft ? (
@@ -117,16 +116,32 @@ export function AllocationDetails({
           <div className="grid gap-1 sm:grid-cols-2 sm:gap-3">
             <div className="grid gap-1">
               <dt className="text-[13px] text-muted-foreground">
-                Contribution tier
-              </dt>
-              <dd>{person.contribution_tier}</dd>
-            </div>
-            <div className="grid gap-1">
-              <dt className="text-[13px] text-muted-foreground">
                 Contribution amount
               </dt>
               <dd>
                 RM {person.contribution_amount_rm.toLocaleString()}
+              </dd>
+            </div>
+            <div className="grid gap-1">
+              <dt className="text-[13px] text-muted-foreground">
+                Participant category
+              </dt>
+              <dd>{person.participant_category}</dd>
+            </div>
+          </div>
+          <div className="grid gap-1 sm:grid-cols-2 sm:gap-3">
+            <div className="grid gap-1">
+              <dt className="text-[13px] text-muted-foreground">
+                Recent events joined
+              </dt>
+              <dd>{person.events_joined_last_2_years}</dd>
+            </div>
+            <div className="grid gap-1">
+              <dt className="text-[13px] text-muted-foreground">
+                Accessible seat
+              </dt>
+              <dd>
+                {person.requires_accessible_seat ? "Required" : "Not required"}
               </dd>
             </div>
           </div>
@@ -134,31 +149,47 @@ export function AllocationDetails({
             <div className="grid gap-1">
               <dt className="text-[13px] text-muted-foreground">Attendance</dt>
               <dd>
-                <Select
-                  value={absent ? "ABSENT" : "PRESENT"}
-                  disabled={busy || !canEdit}
-                  onValueChange={(value) =>
-                    onSetAttendance(value as "PRESENT" | "ABSENT")
-                  }
-                >
-                  <SelectTrigger aria-label="Participant attendance">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="PRESENT">Present</SelectItem>
-                    <SelectItem value="ABSENT">Absent</SelectItem>
-                  </SelectContent>
-                </Select>
+                {draft ? (
+                  <Select
+                    value={absent ? "ABSENT" : "PRESENT"}
+                    disabled={busy || !canEdit}
+                    onValueChange={(value) =>
+                      onSetAttendance(value as "PRESENT" | "ABSENT")
+                    }
+                  >
+                    <SelectTrigger aria-label="Participant attendance">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="PRESENT">Present</SelectItem>
+                      <SelectItem value="ABSENT">Absent</SelectItem>
+                    </SelectContent>
+                  </Select>
+                ) : absent ? (
+                  "Absent"
+                ) : (
+                  "Present"
+                )}
               </dd>
             </div>
-            <div className="flex items-end gap-2 pb-0.5">
-              <Switch
-                id="seat-prepared"
-                checked={!!item.seat_prepared}
-                disabled={busy || !canEdit}
-                onCheckedChange={onSeatPrepared}
-              />
-              <Label htmlFor="seat-prepared">Seat prepared</Label>
+            <div className="grid gap-1">
+              <dt className="text-[13px] text-muted-foreground">
+                Seat prepared
+              </dt>
+              <dd>
+                {draft ? (
+                  <Switch
+                    aria-label="Seat prepared"
+                    checked={!!item.seat_prepared}
+                    disabled={busy || !canEdit}
+                    onCheckedChange={onSeatPrepared}
+                  />
+                ) : item.seat_prepared ? (
+                  "Prepared"
+                ) : (
+                  "Not prepared"
+                )}
+              </dd>
             </div>
           </div>
         </dl>
@@ -189,7 +220,7 @@ export function AllocationDetails({
               disabled={busy || !changed || !draft.name.trim()}
               onClick={() => void save()}
             >
-              Save draft
+              Save
             </Button>
             <Button
               variant="outline"

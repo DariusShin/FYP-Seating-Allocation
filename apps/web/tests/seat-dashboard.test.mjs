@@ -683,6 +683,9 @@ function details(onSave, overrides = {}) {
       person: {
         ...value.state.participants[0],
         contribution_amount_rm: 3000,
+        participant_category: "VOLUNTEER",
+        events_joined_last_2_years: 3,
+        requires_accessible_seat: true,
       },
       item: value.state.items.P1,
       location: "West 1",
@@ -717,7 +720,7 @@ test("details edit opens from the pencil and cancel discards local changes witho
     .find("Textarea", (p) => p["aria-label"] === "Staff note")
     .onChange({ target: { value: "Edited note" } });
   assert.equal(
-    render().find("Button", (p) => p.children === "Save draft").disabled,
+    render().find("Button", (p) => p.children === "Save").disabled,
     false,
   );
   render()
@@ -742,12 +745,12 @@ test("details stay editable after failed save and exit editing only after succes
     .find("Textarea", (p) => p["aria-label"] === "Staff note")
     .onChange({ target: { value: "Retain paid seats" } });
   render()
-    .find("Button", (p) => p.children === "Save draft")
+    .find("Button", (p) => p.children === "Save")
     .onClick();
   await settle();
   assert.ok(render().find("Button", (p) => p.children === "Cancel"));
   render()
-    .find("Button", (p) => p.children === "Save draft")
+    .find("Button", (p) => p.children === "Save")
     .onClick();
   await settle();
   assert.ok(pencilButton(render));
@@ -776,15 +779,21 @@ test("allocation details show registration facts with attendance and preparation
     render().find("section", (p) => p["aria-label"] === "Participant details")
       .children,
   );
-  assert.match(section, /MERIT/);
   assert.match(section, /3,000/);
-  assert.match(section, /Participant/);
+  assert.match(section, /VOLUNTEER/);
+  assert.match(section, /Recent events joined/);
+  assert.match(section, /Required/);
+  assert.match(section, /Present/);
+  assert.match(section, /Not prepared/);
   assert.doesNotMatch(section, /Choose a seat/);
+  assert.equal(render().find("Select"), undefined);
+  assert.equal(render().find("Switch"), undefined);
+  pencilButton(render).onClick();
   render()
     .find("Select")
     .onValueChange("ABSENT");
   render()
-    .find("Switch", (p) => p.id === "seat-prepared")
+    .find("Switch", (p) => p["aria-label"] === "Seat prepared")
     .onCheckedChange(true);
   assert.deepEqual(changes, [
     ["attendance", "ABSENT"],
@@ -808,6 +817,14 @@ test("absent allocation details flag the status and restore through attendance",
     render().findAll("Badge").map((p) => p.children),
     ["MERIT", "Absent"],
   );
+  assert.match(
+    JSON.stringify(
+      render().find("section", (p) => p["aria-label"] === "Participant details")
+        .children,
+    ),
+    /Absent/,
+  );
+  pencilButton(render).onClick();
   render()
     .find("Select")
     .onValueChange("PRESENT");
