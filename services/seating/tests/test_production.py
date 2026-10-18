@@ -155,6 +155,26 @@ def test_empty_event_and_exclusion():
     assert len(o["excluded_participants"]) == 1 and audit_result(o)["passed"]
 
 
+def test_setup_counts_only_solver_eligible_registration_units(tmp_path, monkeypatch):
+    request = generate(emperor=2, merit=3, bodhi=1)
+    emperor = [p for p in request["participants"] if p["contribution_tier"] == "EMPEROR"]
+    merit = [p for p in request["participants"] if p["contribution_tier"] == "MERIT"]
+    emperor[0]["requires_accessible_seat"] = True
+    emperor[1]["registration_status"] = "CANCELLED"
+    merit[0]["registration_status"] = "PENDING"
+    request["attendance"] = {merit[1]["participant_id"]: "ABSENT"}
+    path = tmp_path / "request.json"
+    path.write_text(json.dumps(request))
+    monkeypatch.setenv("SEAT_EVENT_REQUEST", str(path))
+    setup = dispatch({"command": "setup"}, store=PlanStore(tmp_path / "plans.sqlite3"))
+    assert setup["registrations"] == 3
+    assert setup["tier_counts"] == {
+        "emperor_count": 1, "merit_count": 1, "bodhi_count": 1,
+    }
+    assert setup["accessible_counts"]["emperor_count"] == 1
+    assert setup["floor_plan"]["approved_pairs"] == request["layout"]["approved_pairs"]
+
+
 def test_tampering_participant_seat_cost_and_map():
     o = solve(tiny())
     for mutate in (

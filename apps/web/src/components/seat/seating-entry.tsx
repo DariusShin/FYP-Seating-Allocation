@@ -11,17 +11,20 @@ import {
 } from "@/components/ui/dialog";
 import type { AllocationResult } from "./types";
 import { GenerateDraft } from "./generate-draft";
+import type { SkeletonCounts } from "@/lib/skeleton-schedule";
 
 export function SeatingEntry({
   eventId,
   hasPlan,
   floor,
   registrations,
+  skeletonCounts,
 }: {
   eventId: string;
   hasPlan: boolean;
   floor: AllocationResult["floor_plan"];
   registrations: number;
+  skeletonCounts: SkeletonCounts | null;
 }) {
   const router = useRouter();
   const [action, setAction] = useState<"new" | "load" | null>(
@@ -38,6 +41,7 @@ export function SeatingEntry({
         entryAction={action ?? "new"}
         showGenerateButton={action !== null}
         generationMode={hasPlan ? "REGENERATE_DRAFT" : "INITIAL"}
+        skeletonCounts={skeletonCounts}
       />
       <Dialog
         open={action === null}

@@ -33,6 +33,7 @@ export function HallMap({
 	reviewSeats,
 	spotlight,
 	pulse = false,
+	skeleton = false,
 	validTargets,
 }: {
 	floor: AllocationResult["floor_plan"];
@@ -53,6 +54,7 @@ export function HallMap({
 	reviewSeats?: Record<string, "RED" | "YELLOW">;
 	spotlight?: Set<string>;
 	pulse?: boolean;
+	skeleton?: boolean;
 	validTargets?: Set<string>;
 }) {
 	const container = useRef<HTMLDivElement>(null);
@@ -291,16 +293,18 @@ export function HallMap({
 																? undefined
 																: () => onSelect?.(seat.seat_id)
 														}
-														title={
-															presentation
-																? undefined
+													title={
+														presentation
+															? undefined
+															: `${label || "Empty seat"} · ${location}${paired ? " · Emperor pair, two seats" : ""}${markerDescription ? ` · ${markerDescription}` : ""}`
+													}
+													aria-label={
+														presentation
+															? label || "空位"
+															: skeleton && owner
+																? `${paired ? "Assigned pair" : "Assigned seat"} · ${location}`
 																: `${label || "Empty seat"} · ${location}${paired ? " · Emperor pair, two seats" : ""}${markerDescription ? ` · ${markerDescription}` : ""}`
-														}
-														aria-label={
-															presentation
-																? label || "空位"
-																: `${label || "Empty seat"} · ${location}${paired ? " · Emperor pair, two seats" : ""}${markerDescription ? ` · ${markerDescription}` : ""}`
-														}
+													}
 													>
 														{!presentation && owner && (
 															<span
@@ -331,11 +335,18 @@ export function HallMap({
 																)}
 															</span>
 														)}
-														<span
-															className={`seat-display-name w-full text-center font-semibold ${presentation ? "block text-[clamp(14px,0.95vw,18px)] leading-[1.15] whitespace-nowrap break-keep overflow-hidden wrap-normal text-clip" : "text-[clamp(14px,1.2cqw,16px)] leading-5"} print:text-[15pt] print:font-normal print:leading-[1.05] print:whitespace-normal print:overflow-visible print:wrap-anywhere`}
-														>
-															{label ?? ""}
-														</span>
+														{skeleton && owner && !label ? (
+															<span
+																	className="mt-1 h-2.5 w-3/4 animate-pulse rounded-full bg-current opacity-40 motion-reduce:animate-none"
+																aria-hidden="true"
+															/>
+														) : (
+															<span
+																className={`seat-display-name w-full text-center font-semibold ${presentation ? "block text-[clamp(14px,0.95vw,18px)] leading-[1.15] whitespace-nowrap break-keep overflow-hidden wrap-normal text-clip" : "text-[clamp(14px,1.2cqw,16px)] leading-5"} print:text-[15pt] print:font-normal print:leading-[1.05] print:whitespace-normal print:overflow-visible print:wrap-anywhere`}
+															>
+																{label ?? ""}
+															</span>
+														)}
 													</button>
 												);
 											})}

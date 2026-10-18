@@ -5,7 +5,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { HallMap } from "./hall-map";
 import { MapLoadingOverlay } from "./map-loading-overlay";
+import {
+  GenerationStatus,
+  SkeletonSeatingMap,
+  useSkeletonPlan,
+  useSkeletonProgress,
+} from "./map-skeleton";
 import { SeatDashboard } from "./seat-dashboard";
+import { waitForMapReveal, type SkeletonCounts } from "@/lib/skeleton-schedule";
 import type { Workspace } from "./types";
 import type { AllocationResult } from "./types";
 
@@ -17,6 +24,7 @@ export function GenerateDraft({
   eventId,
   entryAction = "new",
   showGenerateButton = true,
+  skeletonCounts = null,
 }: {
   eventId: string;
   entryAction?: "new" | "load";
@@ -25,6 +33,7 @@ export function GenerateDraft({
   registrations: number;
   autoStart?: boolean;
   generationMode?: "INITIAL" | "REGENERATE_DRAFT";
+  skeletonCounts?: SkeletonCounts | null;
 }) {
   const [phase, setPhase] = useState<
     "idle" | "generating" | "loading-workspace" | "ready" | "error"
@@ -43,9 +52,20 @@ export function GenerateDraft({
   const busy = phase === "generating" || phase === "loading-workspace";
   const [error, setError] = useState("");
   const started = useRef(false);
+  const [generationAttempt, setGenerationAttempt] = useState(0);
+  const steps = useSkeletonPlan(floor, skeletonCounts);
+  const skeletonComplete = phase === "loading-workspace" && !!skeletonCounts;
+  const skeletonVisible =
+    !!skeletonCounts && (phase === "generating" || phase === "loading-workspace");
+  const placed = useSkeletonProgress(
+    steps.length,
+    skeletonComplete,
+    skeletonVisible ? generationAttempt : null,
+  );
   const generate = useCallback(async () => {
     if (inFlight.current) return;
     inFlight.current = true;
+    setGenerationAttempt((attempt) => attempt + 1);
     setPhase(
       draftCreated.current || entryAction === "load"
         ? "loading-workspace"
@@ -81,6 +101,7 @@ export function GenerateDraft({
         setHasSavedDraft(true);
       }
       setPhase("loading-workspace");
+      const openingStarted = performance.now();
       const response = await fetch(
         `/api/workspace?event_id=${encodeURIComponent(eventId)}`,
         {
@@ -100,6 +121,8 @@ export function GenerateDraft({
           value?.error?.message ??
             "Unable to load the saved draft. Please try again.",
         );
+      if (skeletonCounts && entryAction === "new")
+        await waitForMapReveal(openingStarted);
       setWorkspace(value);
       setPhase("ready");
     } catch (e) {
@@ -108,7 +131,7 @@ export function GenerateDraft({
     } finally {
       inFlight.current = false;
     }
-  }, [generationMode, eventId, entryAction]);
+  }, [generationMode, eventId, entryAction, skeletonCounts]);
   useEffect(() => {
     if (!autoStart) return;
     // Scheduling lets Strict Mode clean up its first effect before a POST begins.
@@ -172,23 +195,35 @@ export function GenerateDraft({
       </div>
       <section className="flex min-h-0 flex-1" aria-label="Seating map">
         <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-          <div className="relative min-h-[60vh] overflow-hidden rounded-lg">
-            <div
-              className="pointer-events-none opacity-40"
-              inert
-              aria-busy={busy}
-            >
-              <HallMap floor={floor} names={{}} />
-            </div>
-            {phase !== "idle" && (
+          {skeletonVisible && (
+            <GenerationStatus
+              placed={placed}
+              total={steps.length}
+              complete={skeletonComplete}
+            />
+          )}
+          <div className="relative flex min-h-[60vh] flex-1 flex-col overflow-hidden rounded-lg">
+            {skeletonVisible ? (
+              <SkeletonSeatingMap
+                floor={floor}
+                steps={steps}
+                placed={placed}
+                complete={skeletonComplete}
+              />
+            ) : (
+              <div
+                className="pointer-events-none flex min-h-0 flex-1 flex-col opacity-40"
+                inert
+                aria-busy={busy}
+              >
+                <HallMap floor={floor} names={{}} />
+              </div>
+            )}
+            {(phase === "error" ||
+              phase === "loading-workspace" ||
+              (!skeletonVisible && phase === "generating")) && (
               <MapLoadingOverlay
-                phase={
-                  phase === "error"
-                    ? "error"
-                    : phase === "loading-workspace"
-                      ? "loading-workspace"
-                      : "generating"
-                }
+                phase={phase}
                 error={error}
                 onRetry={() => void generate()}
                 draftCreated={hasSavedDraft}
