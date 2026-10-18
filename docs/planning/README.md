@@ -1,12 +1,16 @@
 # Repository and application planning
 
-Plans describe unimplemented enhancements, not current runtime behavior. See the [documentation index](../README.md) for implemented features.
+Plans describe proposed enhancements and retained experiment protocols; each entry records its implementation/execution status. See the [documentation index](../README.md) for implemented features.
 
 ## Proposed enhancements
 
 | Document | Status and scope |
 | --- | --- |
-| [Rank-weighting experiment protocol](rank-weighting-experiment.md) | Confirmed amended plan; implementation and execution pending. Four methods excluding equal weighting, 12 initial-allocation datasets, 840 searches at four seconds, 56 minutes allocated search within a two-hour runner cap; limited sensitivity/seed checks and later PJKIT-led evaluation |
+| [Experiment hypotheses, analysis and confirmed decisions](experiment-hypotheses-and-analysis.md) | Confirmed H1/RQ1 solver comparison, H2 weighting trade-offs, H3 budget comparisons and prototype timing verification; workload estimates, inference limits and Q1–Q13 decision audit. Current GrillMe interview closed; solver harness implemented, main experiments pending |
+| [Benchmark result tables and dissertation figures](benchmark-results-visualization.md) | Confirmed Q10: five analytical figures across solver/budget/weighting studies plus a 230-seat illustration; sensitivity table substitution allowed, three main result tables and appendix records |
+| [Experiment execution sequence and evidence recording](experiment-execution-sequence.md) | Execution guidance for both confirmed protocols: shared preparation/pilots, solver benchmark before weighting, local M4/24 GB primary environment, separate budgets and JSON evidence bundles |
+| [Solver selection and supporting benchmark](solver-selection-benchmark.md) | Confirmed protocol; solver harness and development validation implemented, main execution pending. CP-SAT/greedy/SCIP: 13 events, 52 primary matched cases at five seconds; fixed 12-case subset at 30/60 seconds gives 228 comparative runs, plus four separate prototype checks; shared 90-minute runner ceiling |
+| [Rank-weighting experiment protocol](rank-weighting-experiment.md) | Confirmed amended plan; implementation and execution pending. Four methods excluding equal weighting, 12 initial-allocation datasets, 840 searches at four seconds, 56 minutes allocated search within a two-hour runner cap; limited sensitivity/seed checks. Human verification deferred until post-project live deployment |
 | [Repository restructuring and scoped change management](repository-restructuring.md) | Stages 0–4 of the research/application/evidence separation implemented on `restructure-project-folders`; retains the migration inventory, provenance rules, validation gates, conventional commit scopes and the remaining deployment decisions |
 | [Manual swap replay after regeneration](manual-swap-replay-after-regeneration.md) | Proposed. Portable ordered registration-ID decisions, shared storage, replay conflicts and atomic candidate adoption outside the solver |
 | [Production concurrent-edit alerts](concurrent-editing-production-ui.md) | Proposed, outside FYP scope. With Version/Local-history controls hidden, classify stale saves as draft-superseded or published-while-editing, alert with a Reload-latest action and show last-saved provenance; no backend concurrency change |

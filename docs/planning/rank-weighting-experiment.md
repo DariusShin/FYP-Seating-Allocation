@@ -4,6 +4,10 @@ Date: 12 October 2026 (Asia/Kuala_Lumpur).
 
 Status: **confirmed amended protocol; implementation and execution pending**. Following the initial confirmation on 12 October 2026, the user requested a hardware-constrained experiment lasting no more than two hours and removal of the equal-weight method. This revision replaces the earlier scale and budgets while retaining research decisions Q1–Q9. No new experiment has been executed and no production weights have been changed by this planning work.
 
+**Human-evaluation scope amendment, 12 October 2026:** the user subsequently deferred human/stakeholder verification until after FYP completion and live deployment. It is excluded from the dissertation experiment analyses, figures and required deliverables. Section 7 preserves future-work guidance only. This supersedes the earlier timing assumption that operational preference validation would accompany project usability testing; computational scope, datasets and budgets remain unchanged.
+
+**Reporting/budget cross-reference amendment, Q10–Q13:** this study's 12 events, 840 searches, four-second limits and 120-minute runner ceiling remain unchanged. The separate solver studies now use a 90-minute ceiling and a fixed larger-case 5/30/60-second comparison; do not import those limits or the benchmark-only 230-seat event here. The [hypotheses and analysis plan](experiment-hypotheses-and-analysis.md) records H2, and the [confirmed figure package](benchmark-results-visualization.md) uses weighting component trade-offs and scoring sensitivity as Figures 4/5, allowing a sensitivity table substitution. The GrillMe questions for the current topic are settled; implementation/preflight remains pending.
+
 ## Amendment: hardware budget and candidate scope
 
 The active design uses four methods, 12 primary datasets, four-second searches and a **120-minute overall runner deadline**. It plans 840 experimental searches with 56 minutes of allocated search time; remaining time covers preparation, a bounded pilot, model construction, validation, persistence and reporting. This is a scheduling allocation, not a measured completion guarantee. The former 45-dataset, ten-second, equal-weight-inclusive design and extended-proof batch are superseded.
@@ -18,7 +22,7 @@ The selected plan uses the upper end of the user's one-to-two-hour allowance. A 
 |---|---|---|
 | Q1: Meaning of preference priority | Compensatory relative importance | A higher-ranked preference can be outweighed by improvements in other preferences. No strict preference-priority guarantee is claimed. |
 | Q2: Research claim | Assumption-based design: “This study compares published rank-weighting methods for implementing configurable seating preferences under the modeled PJKIT constraints.” | Synthetic experiments compare properties under stated assumptions; they do not independently establish PJKIT's true numerical trade-offs. |
-| Q2: Subsequent validation | Further validation during usability testing with the industry project supervisor, product manager and PJKIT staff | Plan preference/decision validation explicitly alongside usability evaluation; the method for collecting these judgments is still to be designed. |
+| Q2: Subsequent validation, amended 12 October | Defer human verification until after FYP completion and live deployment | Outside dissertation experiments and required deliverables; retain preference/decision validation and usability as distinct future tasks. |
 | Q3: Scope of weighting mechanism | A general rule supporting staff toggles and reprioritization before seating-map regeneration | Evaluate ordered enabled subsets, not only one three-preference vector. Derive weights using the number of enabled preferences. |
 | Q4: Computational outcome | Characterize trade-offs rather than force a winning method | Stakeholder evaluation will inform the eventual default. Each method's own weighted objective is not a common measure of superiority. |
 | Q5: Scoring assumptions | Keep current component definitions and category matrix fixed for the primary comparison; conduct a separate sensitivity analysis | Attribute primary differences to the weighting rule. Report any changes in conclusions under plausible alternative scoring assumptions. |
@@ -37,7 +41,19 @@ The existing strict absence-repair hierarchy—moved registration units, then di
 - Component penalty definitions, category-zone costs and normalization contain assumptions independent of the rank-to-weight formula.
 - Technical familiarity is not required to compare understandable seating outcomes. Whether a weighting formula represents operational preferences requires evidence beyond interface usability alone.
 
+## Execution order, environment and evidence
+
+Follow the [shared execution sequence and JSON recording guide](experiment-execution-sequence.md). These plans specify experiments. The [solver benchmark runner](../../research/experiments/solver_benchmark/README.md) is now implemented; this amended weighting runner remains pending. The recommended order is shared correctness checks and frozen inputs, separate development pilots, the [solver benchmark](solver-selection-benchmark.md), then this weighting experiment and computational reporting. Human evaluation is deferred post-project future work. This is a practical sequence, not a requirement to establish final operational weights before solver benchmarking: the benchmark holds current-ratio coefficients fixed, whereas this study varies weighting rules with CP-SAT fixed.
+
+Keep this study's 12 events and four-second search limits unchanged. The solver benchmark separately adds the 230-seat Emperor-heavy event, giving it 13 events; that addition does not silently expand this study. Use shared frozen inputs where prescribed and retain their hashes/provenance. Do not change this study's design based on benchmark outcomes without a documented amendment. Computational trade-offs alone do not identify PJKIT's true numerical preferences; later staff judgments inform the default.
+
+Use the user's M4 Mac with 24 GB RAM and macOS as the primary measurement environment, subject to pilot memory/overhead checks. Run both studies sequentially, with the declared worker counts, pinned software, consistent power settings and no competing heavy workload. Colab can support sharing/analysis or a separate portability experiment; keep environment-labelled timing evidence separate. The shared guide cites Google's current resource/persistence limitations.
+
+Save `manifest.json`, frozen input/witness JSON, per-run JSON including complete seat bundles and validation, incumbent/bound traces, separate pilot records and `summary.json` under the result location specified in section 8. Persist each run atomically and record failures and missing coverage. Retain exact coefficient vectors/aliases, scoring variants, source hashes, versions, seeds and timing boundaries so tables can be regenerated from records. Preserve the 120-minute overall runner ceiling; solver benchmarking, budget sensitivity and four prototype checks share a separate 90-minute ceiling. Neither cap includes a later stakeholder session or an additional final-policy solver recheck.
+
 ## Research questions and permitted conclusions
+
+**H2:** on cases with conflicting preferences, alternative rank-weighting rules produce different trade-offs between contribution, activity and category penalties. Examine the predeclared conflict cases and distinct multi-preference objectives on the shared reference component scale; describe other patterns separately. Record unchanged outcomes as findings, not failed experiments. Equivalent vectors are correctness controls. At four-second limits, retain proof/bound and limited seed evidence: different returned incumbents do not necessarily establish different exact optimal trade-offs. This is a descriptive synthetic comparison, not a test of human satisfaction or a universal formula winner.
 
 1. How do published rank-to-weight rules change initial-allocation component costs across configurable rankings and enabled subsets?
 2. How do dataset characteristics and compulsory rules limit or expose those differences?
@@ -189,7 +205,9 @@ For each variant, retain both native and original-reference component scores. Ne
 
 Suggested dissertation wording: “This exploratory experiment compares four representations of assumed ranked preference importance under fixed seating constraints and declared computational budgets. Equal weighting is excluded because it does not distinguish preference ranks. Findings describe the tested synthetic scenarios and require subsequent stakeholder evaluation; they do not establish that unequal weighting is superior to equal weighting.”
 
-## 7. Later stakeholder validation
+## 7. Deferred post-project stakeholder validation (future work only)
+
+This section is excluded from the dissertation experiment analysis and deliverables. It records potential work after FYP completion and live deployment, as requested by the user. No human data collection, acceptance/satisfaction metric, stakeholder figure or operational calibration claim is required or supplied by the current computational studies. A default used during the project remains explicitly assumption-based.
 
 PJKIT staff provide the primary operational appropriateness judgments. Record the industry project supervisor's and product manager's evaluations separately; they can also assess usability, explainability and product suitability. Participant recruitment counts and availability must be reported, not invented or inferred from the number of plan comparisons.
 
@@ -211,8 +229,8 @@ Planned implementation deliverables:
 - A dedicated rank-weighting experiment runner under `research/experiments/`, with pure formula generation, alias mapping, incremental persistence, a 120-minute outer deadline and explicit output paths. The existing preference-sensitivity runner is not an implementation of this amended protocol.
 - Focused correctness checks for formula ratios at enabled counts 0–3, disabled weights, all 16 configurations, 64 logical combinations mapping to 46 vectors (24/18/3/1 by enabled count), preserved hard constraints, and independent objective recomputation. Verify deadline cleanup and execution-status handling with bounded fixtures before the timed study.
 - New evidence under `docs/results/rank-weighting-initial-<run-date>/`: protocol/version, source hashes or verified snapshot, inputs/witnesses, seed/configuration manifest, alias map, event traces, placements, audits and analyses.
-- Tables of common-scale component trade-offs, quality over time and sensitivity; plotted scientific figures may accompany these. No forced winner table.
-- A separate stakeholder session instrument and later evaluation record, distinguishing proposed questions from collected observations.
+- Tables of common-scale component trade-offs, quality over time and sensitivity; the confirmed main-chapter package uses weighting trade-offs in Figure 4 and scoring sensitivity in Figure 5, with a sensitivity table substitution if clearer. Additional plots belong in the appendix. No forced winner table.
+- A clear future-work statement that human verification is deferred after project completion and live deployment; a stakeholder instrument or collected human evaluation record is not a deliverable of this computational experiment.
 
 Correctness checks precede pilot and main runs. A failed audit or scorer mismatch is a harness defect to investigate, not a result to discard silently. Preserve the failed record and document the corrected runner version. Continue independent valid cases only when the failure is understood well enough not to undermine them.
 
@@ -222,6 +240,10 @@ Keep the original 11 October evidence unchanged. Do not alter deployment policy,
 
 ## Related material
 
+- [Experiment hypotheses, analysis and confirmed decision audit](experiment-hypotheses-and-analysis.md)
+- [Confirmed dissertation tables and figure package](benchmark-results-visualization.md)
+- [Shared experiment execution sequence, environment and JSON evidence](experiment-execution-sequence.md)
+- [Solver selection and supporting benchmark](solver-selection-benchmark.md)
 - [Domain glossary](../../CONTEXT.md)
 - [Parameter research and previous experiment design](../methodologies/preference-parameter-study-2026-10-11.md)
 - [Recorded previous results](../results/preference-sensitivity-2026-10-11/results.md)

@@ -1,6 +1,28 @@
-# Preference sensitivity experiments
+# Seating allocation experiments
 
 This directory contains a research harness, not a production policy change. All participant records are synthetic. See `../../docs/methodologies/preference-parameter-study-2026-10-11.md` for rationale, sources and limitations.
+
+## Planned execution sequence
+
+See the [shared execution/environment/JSON guide](../../docs/planning/experiment-execution-sequence.md) and [hypotheses/confirmed decision audit](../../docs/planning/experiment-hypotheses-and-analysis.md). The [solver benchmark runner and commands](solver_benchmark/README.md) are implemented; its main study has not yet run. The amended weighting runner remains pending. Markdown plans cannot be executed as scripts. The sequence is shared correctness/input certification, separate pilots, solver comparison with fixed reference weights, larger-case budget comparisons and prototype checks, then weighting with CP-SAT fixed and JSON-derived computational reporting. The solver package has 156 primary five-second runs, 72 fresh 30/60-second runs and four separate prototype checks within **90 minutes**. Weighting retains 840 searches within **120 minutes**. Human verification is deferred post-project future work. Use the local M4/24 GB Mac, run studies sequentially and preserve separate evidence bundles.
+
+## Solver-selection benchmark: CP-SAT, SCIP and greedy
+
+Start with the [complete setup, commands and output guide](solver_benchmark/README.md). From the repository root, using Python 3.12 or newer:
+
+```sh
+python3 research/experiments/setup_benchmark.py
+.venv/bin/python -m pytest research/experiments/tests/test_solver_benchmark.py -q
+.venv/bin/python research/experiments/solver_selection_benchmark.py pilot --out docs/results/my-new-solver-pilot
+```
+
+Inspect `docs/results/my-new-solver-pilot/pilot/results.md` and `pilot/projection.json`. Development evidence stays separate from dissertation results. To collect the declared main study later, choose another new directory:
+
+```sh
+.venv/bin/python research/experiments/solver_selection_benchmark.py run --out docs/results/my-new-solver-study
+```
+
+The main command repeats its correctness, input-certification and pilot gates. It stops before main comparisons if the complete workload projects beyond 90 minutes. The main output directory contains `results.md`, `summary.json`, raw JSON in `runs/`, CSV tables in `tables/`, and PNG/PDF/SVG plots in `figures/`. The detailed guide lists every output and shows how to regenerate reports from saved records. The [setup validation record](../../docs/results/solver-benchmark-setup-2026-10-18.md) records implementation tests and retained development pilots; the full main study has not been run as part of setup.
 
 ## Planned rank-weighting experiment
 
