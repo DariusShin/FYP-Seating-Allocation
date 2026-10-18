@@ -1,0 +1,1955 @@
+{
+  "protocol": "solver-selection-v1-2026-10-18",
+  "mode": "pilot",
+  "created_at": "2026-10-18T06:21:05.862524+00:00",
+  "execution_status": "pilot_completed",
+  "seeds": {
+    "input": 20261021,
+    "heavy_input": 20261022,
+    "pilot_input": 20261020,
+    "search": 20261012,
+    "execution_order": 20261018
+  },
+  "runner_ceiling_seconds": 600,
+  "jobs": [
+    {
+      "id": "primary__typical-accessible__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__disabled__scip__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__reversed__scip__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__reversed__scip__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__current__greedy__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__disabled__scip__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__current__scip__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__current__scip__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__disabled__scip__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__two__greedy__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__current__scip__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__current__greedy__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__two__greedy__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__disabled__scip__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__reversed__scip__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__disabled__scip__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__disabled__scip__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__two__scip__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__two__greedy__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__two__greedy__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__current__greedy__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__reversed__scip__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__current__scip__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__two__greedy__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__current__scip__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__two__greedy__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__reversed__scip__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__two__greedy__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__current__greedy__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__two__greedy__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__disabled__scip__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__reversed__scip__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__disabled__scip__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__current__scip__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__reversed__scip__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__two__greedy__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__current__greedy__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__two__scip__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__current__scip__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__current__greedy__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__two__scip__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__current__greedy__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__current__scip__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__current__greedy__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__current__scip__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__two__scip__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__two__scip__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__current__scip__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__two__scip__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__current__scip__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__current__greedy__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__disabled__scip__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__current__greedy__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__disabled__scip__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__two__scip__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__current__scip__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__two__scip__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__disabled__scip__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__two__scip__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__reversed__scip__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__disabled__scip__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__current__greedy__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__two__greedy__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__reversed__scip__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__two__scip__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__current__greedy__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__reversed__scip__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__two__scip__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__reversed__scip__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__two__scip__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__reversed__scip__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__two__greedy__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__current__scip__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__disabled__scip__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__current__greedy__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__two__greedy__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__two__scip__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__two__greedy__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__reversed__scip__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__two__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-conflict__reversed__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-conflict__reversed__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__reversed__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-tied__reversed__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-tied",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-tied__reversed__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-tied",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-tied__current__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__reversed__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__two__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__two__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-conflict__two__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-conflict",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__reversed__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-conflict__current__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-tied__current__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__reversed__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-conflict__two__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-conflict",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__current__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-conflict__current__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-tied__two__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-tied",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__current__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__reversed__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-conflict__two__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-conflict",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-conflict__current__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__reversed__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-conflict__reversed__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-conflict__reversed__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__reversed__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-tied__reversed__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-tied",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__two__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-tied__current__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__current__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-tied__reversed__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-tied",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-tied__two__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-tied",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__current__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__two__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__current__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__current__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-conflict__two__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-conflict",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-tied__two__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-tied",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__current__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__current__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-conflict__two__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-conflict",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-conflict__two__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-conflict",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-tied__two__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-tied",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-tied__two__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-tied",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-conflict__reversed__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-conflict__current__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-conflict__current__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__two__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__two__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__reversed__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__current__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__reversed__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__current__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__two__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__two__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-tied__reversed__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-tied",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__two__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-tied__reversed__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-tied",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__two__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__reversed__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-tied__two__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-tied",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__two__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-conflict__reversed__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__current__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__reversed__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-tied__current__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__current__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-tied__current__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-tied__current__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-conflict__current__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__reversed__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "prototype__full-conflict__current__cp_sat__60s",
+      "batch": "prototype",
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "prototype__full-mixed__current__cp_sat__60s",
+      "batch": "prototype",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "prototype__heavy-mixed__current__cp_sat__60s",
+      "batch": "prototype",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "prototype__full-tied__current__cp_sat__60s",
+      "batch": "prototype",
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    }
+  ],
+  "planned_counts": {
+    "primary": 156,
+    "budget_sensitivity": 72,
+    "prototype": 4
+  },
+  "budget_kind": "prototype shared function allowance; comparative search-only allowance",
+  "study_scope": "INITIAL synthetic events; human satisfaction excluded",
+  "environment": {
+    "python": "3.14.7 (v3.14.7:823f0323ee6, Aug  5 2026, 07:07:01) [Clang 21.0.0 (clang-2100.1.1.101)]",
+    "executable": "/Users/dariusleeshin/.codex/worktrees/712c/FYP-Seating-Allocation/.venv/bin/python",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "hardware": {
+      "hw.model": "unavailable",
+      "hw.memsize": "unavailable",
+      "machdep.cpu.brand_string": "unavailable"
+    },
+    "machine": "arm64",
+    "processor": "arm",
+    "cpu_count": 10,
+    "ortools": "9.15.6755",
+    "scip": "SCIP 10.0.0 [LP solver: SoPlex 8.0.0]",
+    "source_sha256": {
+      "docs/planning/benchmark-results-visualization.md": "36e353890766853dcd7b03cee824ba6f540cf9547d2314a8e95103844b3308d8",
+      "docs/planning/experiment-execution-sequence.md": "dc219d0680e6f142d0bb87997a7bf7be97508daa0f752457f4fecf0864a2f47a",
+      "docs/planning/experiment-hypotheses-and-analysis.md": "c31cfe30b72bb16e14d8ec5a027b1fb5e481b186ffad84ca9c038b2bf47d0512",
+      "docs/planning/rank-weighting-experiment.md": "4f67724c1d7fe1c76a0a46044731e9396444ddd5ac6aedd00fbc62928d154d3f",
+      "docs/planning/solver-selection-benchmark.md": "70ae54554751bc622138e6737863716fada3058cd5e036b20bb9fc8a6c0cb806",
+      "research/experiments/requirements-benchmark-lock.txt": "f46decd057b5fbfa535e891f64327d6ba2c8cfdb4cfead0386b6959558428567",
+      "research/experiments/requirements-benchmark.txt": "cc952a980dc0426ba0d31825031c39cee3812aa70466c742a564847395dbcdc9",
+      "research/experiments/setup_benchmark.py": "729eb3e963312bee915f2bf36a7d811044d782c23965c86847c0616d151acd6f",
+      "research/experiments/solver_benchmark/README.md": "4969a7cadb032c083d6d0dfbb68b2eb7524129b2258e396f04488ee39b660857",
+      "research/experiments/solver_benchmark/__init__.py": "5e6d6d0e8c563b2abcc1c61365661001e6135b61bbd62e4cd963e28470ab1025",
+      "research/experiments/solver_benchmark/adapters.py": "2955187cbf2a2d6a5d7a053c7b2f3227d73b4339d75f22d221433ef01387f773",
+      "research/experiments/solver_benchmark/cases.py": "34bf9cdc388f79ab1108ae55796a3a4d3d3e24f93b85c04f1542fa0d80b32c9a",
+      "research/experiments/solver_benchmark/checks.py": "dacfc89b79865ab5b783d43043c78d4be4d8e1fd8a2db0d21f8f84cfb410cbad",
+      "research/experiments/solver_benchmark/common.py": "362031c434cf8a64b2a4e69fb5212d0c82267215c656b33b668b666a9223c883",
+      "research/experiments/solver_benchmark/report.py": "04e3d3dd07d80f0a4f74daf26407f8b71025cbf78be2b10d7aa54f11a6f49626",
+      "research/experiments/solver_benchmark/runner.py": "5b5185a050af0e96b381b81c37f7fddb4d95ba4c84644d6c90389a361e96b6e5",
+      "research/experiments/solver_selection_benchmark.py": "6b1c0bcf447665241d6e53c8fb7c69268544dcafcef57e3ccbbf93d3a50a3ee4",
+      "research/fixtures/synthetic_participants.py": "9c168e76e5a64c4c893a1ef673f1e14ce53e651a83aa8f231e7624a05b73bd7d",
+      "services/seating/config/production_policy.json": "0878141f6833231d769d4d467d0e9e0bb652853db7f7320f733c3fbf24a82e39",
+      "services/seating/data/production_request.json": "e55e96c1fe409822bd1e7a0991f08474456aaca70b321b9faedf389adf7f5139",
+      "services/seating/schemas/production_policy.schema.json": "a8eb609c2d73f9146e9cd8d826098aca3c08d383f1712f44f3c03975404ad895",
+      "services/seating/schemas/production_request.schema.json": "cfb8b12ed30b1de304725c67337e8b75f4b82f6ec14dc7929f404e2176904a04",
+      "services/seating/src/seat_solver/__init__.py": "a7ffefbd5d500dfb8f9a334abd00cec554264a0b9b50ae7cbe2f3059428a4acf",
+      "services/seating/src/seat_solver/cli.py": "6e4a87d8e62ff42c6cce8e22bb2dce0020260fd377a4c4f97cf916d6321a9610",
+      "services/seating/src/seat_solver/jsonio.py": "6a6e6d0f3630cd9546e63ae42e283f795f74a9e3eed9bda38b29b35b99cbe7d9",
+      "services/seating/src/seat_solver/production/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "services/seating/src/seat_solver/production/absence_repair.py": "3e6b1a386dc46bbbcb4035994eda3764fbda143d66aa1100ea6ddf6afbb3b385",
+      "services/seating/src/seat_solver/production/plan_store.py": "4cb6b16c2a273e8144e12c5b6a84dcb21242a06045198290b038062b5558d230",
+      "services/seating/src/seat_solver/production/policy.py": "fdc1dfa605a38f81a5631951bf21470662de53b1719b454786f446973cb6b875",
+      "services/seating/src/seat_solver/production/production.py": "e9788ba886be1b231b5e6efa23c289455c0959f7e2f0220af78633eebc630323",
+      "services/seating/src/seat_solver/production/production_data.py": "eb15c7109399a214ac1a5bb3da1cbefdbc023fca2f57990c869a362863a40d2a",
+      "services/seating/src/seat_solver/production/production_scoring.py": "55aeabf54a3e019a30f6cb64dd1a4cdd04897efe8bd7654001e180b133bc5452",
+      "services/seating/src/seat_solver/production/production_validator.py": "610bf4564e6bd0f362c58e826eb8fe6262abd2fbaa8e9fb3143bf430ea121b0b",
+      "services/seating/src/seat_solver/production/reset_local.py": "6a757b3419d65a560f3157ef1047994ae04d81022c5eb8b7b887a1ccdcafedcc",
+      "services/seating/src/seat_solver/production/service.py": "7bee4541dd0bce76bd7a5e2242770ddc8d46909cff27a213464f799eecb8fc5a",
+      "services/seating/src/seat_solver/production/verification.py": "bcad08bde3073b40588e53dd820f3ec40dedda660be6d28d1625aa07c9fce1c9",
+      "services/seating/src/seat_solver/production/workspace.py": "b7c12102d7feda094f12c03294058a0d423200126ef0729472a56be9898ebdff"
+    },
+    "git_revision": "0e2df6c16fd697fe3dd097a5ca2fff103b77a60b",
+    "git_status": "MM docs/README.md\nMM docs/planning/README.md\nAM docs/planning/benchmark-results-visualization.md\nAM docs/planning/experiment-execution-sequence.md\nAM docs/planning/experiment-hypotheses-and-analysis.md\nMM docs/planning/rank-weighting-experiment.md\nAM docs/planning/solver-selection-benchmark.md\nMM research/experiments/README.md\n?? docs/results/solver-benchmark-development-2026-10-18-v2/\n?? docs/results/solver-benchmark-development-2026-10-18/\n?? docs/results/solver-benchmark-plan-2026-10-18/\n?? research/experiments/requirements-benchmark-lock.txt\n?? research/experiments/requirements-benchmark.txt\n?? research/experiments/setup_benchmark.py\n?? research/experiments/solver_benchmark/\n?? research/experiments/solver_selection_benchmark.py\n?? research/experiments/tests/\n",
+    "timezone": "Asia/Kuala_Lumpur",
+    "power_conditions": "Operator must keep plugged in/awake, stable power settings, no competing heavy workloads"
+  },
+  "pilot_projection": {
+    "elapsed_preparation_seconds": 215.67214429099113,
+    "comparative_search_allocation_seconds": 4020,
+    "overhead_seconds_per_method": {
+      "cp_sat": 3.1577661462360993,
+      "scip": 1.850349061191082,
+      "greedy": 1.5189340623910539
+    },
+    "prototype_extra_seconds": 3.3269832812366076,
+    "report_reserve_seconds": 300,
+    "projected_total_seconds": 5285.035821922123,
+    "fits_90_minutes": true,
+    "method": "Full allocated search + 1.25x maximum pilot overhead + fixed margins; no assumed greedy early exit"
+  },
+  "ended_at": "2026-10-18T06:24:41.534392+00:00",
+  "elapsed_seconds_before_reporting": 215.67263333301526,
+  "report_completed": true,
+  "runner_elapsed_seconds": 216.51072320796084
+}

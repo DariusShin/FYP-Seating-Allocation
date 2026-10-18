@@ -1,0 +1,14 @@
+{
+  "kind": "trial",
+  "job": {
+    "id": "pilot__full__scip__5s",
+    "batch": "pilot",
+    "event": "full-mixed",
+    "configuration": "current",
+    "method": "scip",
+    "budget_seconds": 5
+  },
+  "input": "/Users/dariusleeshin/.codex/worktrees/712c/FYP-Seating-Allocation/docs/results/solver-benchmark-development-2026-10-18/pilot/inputs/full-mixed.json",
+  "store": "/Users/dariusleeshin/.codex/worktrees/712c/FYP-Seating-Allocation/docs/results/solver-benchmark-development-2026-10-18/local_stores/pilot/pilot__full__scip__5s/plans.sqlite3",
+  "raw_output": "/Users/dariusleeshin/.codex/worktrees/712c/FYP-Seating-Allocation/docs/results/solver-benchmark-development-2026-10-18/prototype_outputs/pilot/pilot__full__scip__5s.json"
+}

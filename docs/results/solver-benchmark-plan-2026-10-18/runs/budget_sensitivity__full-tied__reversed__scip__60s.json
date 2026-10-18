@@ -1,0 +1,10 @@
+{
+  "id": "budget_sensitivity__full-tied__reversed__scip__60s",
+  "batch": "budget_sensitivity",
+  "event": "full-tied",
+  "configuration": "reversed",
+  "method": "scip",
+  "budget_seconds": 60,
+  "execution_status": "not_started",
+  "valid": false
+}

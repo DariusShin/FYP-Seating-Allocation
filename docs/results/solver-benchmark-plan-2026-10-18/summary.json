@@ -1,0 +1,2684 @@
+{
+  "protocol": "solver-selection-v1-2026-10-18",
+  "mode": "plan",
+  "study_status": "planned",
+  "groups": [
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "current",
+      "method": "cp_sat",
+      "planned": 13,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 13
+      },
+      "solver_statuses": {
+        "unavailable": 13
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "current",
+      "method": "scip",
+      "planned": 13,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 13
+      },
+      "solver_statuses": {
+        "unavailable": 13
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "current",
+      "method": "greedy",
+      "planned": 13,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 13
+      },
+      "solver_statuses": {
+        "unavailable": 13
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "planned": 13,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 13
+      },
+      "solver_statuses": {
+        "unavailable": 13
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "reversed",
+      "method": "scip",
+      "planned": 13,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 13
+      },
+      "solver_statuses": {
+        "unavailable": 13
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "reversed",
+      "method": "greedy",
+      "planned": 13,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 13
+      },
+      "solver_statuses": {
+        "unavailable": 13
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "two",
+      "method": "cp_sat",
+      "planned": 13,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 13
+      },
+      "solver_statuses": {
+        "unavailable": 13
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "two",
+      "method": "scip",
+      "planned": 13,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 13
+      },
+      "solver_statuses": {
+        "unavailable": 13
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "two",
+      "method": "greedy",
+      "planned": 13,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 13
+      },
+      "solver_statuses": {
+        "unavailable": 13
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "planned": 13,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 13
+      },
+      "solver_statuses": {
+        "unavailable": 13
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "disabled",
+      "method": "scip",
+      "planned": 13,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 13
+      },
+      "solver_statuses": {
+        "unavailable": 13
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "disabled",
+      "method": "greedy",
+      "planned": 13,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 13
+      },
+      "solver_statuses": {
+        "unavailable": 13
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 30,
+      "configuration": "current",
+      "method": "cp_sat",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 30,
+      "configuration": "current",
+      "method": "scip",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 30,
+      "configuration": "current",
+      "method": "greedy",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 30,
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 30,
+      "configuration": "reversed",
+      "method": "scip",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 30,
+      "configuration": "reversed",
+      "method": "greedy",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 30,
+      "configuration": "two",
+      "method": "cp_sat",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 30,
+      "configuration": "two",
+      "method": "scip",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 30,
+      "configuration": "two",
+      "method": "greedy",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 60,
+      "configuration": "current",
+      "method": "cp_sat",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 60,
+      "configuration": "current",
+      "method": "scip",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 60,
+      "configuration": "current",
+      "method": "greedy",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 60,
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 60,
+      "configuration": "reversed",
+      "method": "scip",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 60,
+      "configuration": "reversed",
+      "method": "greedy",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 60,
+      "configuration": "two",
+      "method": "cp_sat",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 60,
+      "configuration": "two",
+      "method": "scip",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 60,
+      "configuration": "two",
+      "method": "greedy",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    },
+    {
+      "batch": "prototype",
+      "budget_seconds": 60,
+      "configuration": "current",
+      "method": "cp_sat",
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0,
+      "valid_rate_attempted": null,
+      "coverage": 0.0,
+      "execution_statuses": {
+        "not_started": 4
+      },
+      "solver_statuses": {
+        "unavailable": 4
+      }
+    }
+  ],
+  "solver_pairs": [
+    {
+      "event": "full-accessible",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-accessible",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-conflict",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-mixed",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-tied",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-accessible",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-conflict",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-mixed",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-tied",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-accessible",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-accessible",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-conflict",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-mixed",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-tied",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-accessible",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-conflict",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-mixed",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-tied",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-accessible",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-accessible",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-conflict",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-mixed",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-tied",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-accessible",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-conflict",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-mixed",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-tied",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-accessible",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-accessible",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-conflict",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-mixed",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-tied",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-accessible",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-conflict",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-mixed",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-tied",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-accessible",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-accessible",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-conflict",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-mixed",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-tied",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-accessible",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-conflict",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-mixed",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-tied",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-accessible",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-accessible",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-conflict",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-mixed",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-tied",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-accessible",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-conflict",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-mixed",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-tied",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    }
+  ],
+  "H1_and_RQ1": [
+    {
+      "configuration": "current",
+      "comparator": "greedy",
+      "both_valid_pairs": 0,
+      "planned_pairs": 13,
+      "median_difference_per_registration": null,
+      "cp_lower": 0,
+      "ties": 0,
+      "cp_higher": 0,
+      "interpretation": "not_estimable"
+    },
+    {
+      "configuration": "current",
+      "comparator": "scip",
+      "both_valid_pairs": 0,
+      "planned_pairs": 13,
+      "median_difference_per_registration": null,
+      "cp_lower": 0,
+      "ties": 0,
+      "cp_higher": 0,
+      "interpretation": "not_estimable"
+    },
+    {
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "both_valid_pairs": 0,
+      "planned_pairs": 13,
+      "median_difference_per_registration": null,
+      "cp_lower": 0,
+      "ties": 0,
+      "cp_higher": 0,
+      "interpretation": "not_estimable"
+    },
+    {
+      "configuration": "reversed",
+      "comparator": "scip",
+      "both_valid_pairs": 0,
+      "planned_pairs": 13,
+      "median_difference_per_registration": null,
+      "cp_lower": 0,
+      "ties": 0,
+      "cp_higher": 0,
+      "interpretation": "not_estimable"
+    },
+    {
+      "configuration": "two",
+      "comparator": "greedy",
+      "both_valid_pairs": 0,
+      "planned_pairs": 13,
+      "median_difference_per_registration": null,
+      "cp_lower": 0,
+      "ties": 0,
+      "cp_higher": 0,
+      "interpretation": "not_estimable"
+    },
+    {
+      "configuration": "two",
+      "comparator": "scip",
+      "both_valid_pairs": 0,
+      "planned_pairs": 13,
+      "median_difference_per_registration": null,
+      "cp_lower": 0,
+      "ties": 0,
+      "cp_higher": 0,
+      "interpretation": "not_estimable"
+    }
+  ],
+  "budget_contrasts": [
+    {
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "two",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "two",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "two",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "two",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "two",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "two",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "reversed",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "reversed",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "reversed",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "reversed",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "two",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "two",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "two",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "two",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "two",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "two",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": false,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": null,
+      "lost_valid_map": null,
+      "cost_difference_per_registration": null,
+      "earlier_proof": null,
+      "later_proof": null,
+      "exclusion": "Unexecuted/interrupted/error record; not an observed budget effect"
+    }
+  ],
+  "budget_subset_coverage": [
+    {
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 30,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 60,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 30,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 60,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 30,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 60,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 30,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 60,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 30,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 60,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 30,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 60,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 30,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 60,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 30,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 60,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 30,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    },
+    {
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 60,
+      "planned": 4,
+      "attempted": 0,
+      "validated": 0
+    }
+  ],
+  "limitations": [
+    "Synthetic related cases, no repeated timing trials or population significance tests",
+    "Costs conditioned on both-valid pairs; inspect failures and coverage",
+    "Budget comparisons are fresh-run endpoints, not convergence traces",
+    "Prototype settings differ from controlled comparisons; human satisfaction not measured"
+  ]
+}

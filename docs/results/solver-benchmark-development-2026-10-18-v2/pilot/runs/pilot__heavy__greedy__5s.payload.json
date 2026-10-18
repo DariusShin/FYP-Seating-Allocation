@@ -1,0 +1,15 @@
+{
+  "kind": "trial",
+  "job": {
+    "id": "pilot__heavy__greedy__5s",
+    "batch": "pilot",
+    "event": "heavy-mixed",
+    "configuration": "current",
+    "method": "greedy",
+    "budget_seconds": 5
+  },
+  "input": "/Users/dariusleeshin/.codex/worktrees/712c/FYP-Seating-Allocation/docs/results/solver-benchmark-development-2026-10-18-v2/pilot/inputs/heavy-mixed.json",
+  "input_sha256": "92590ccf269f5b7e14049600e374dbfb456ba4bb696dffab8290be5f5776a048",
+  "store": "/Users/dariusleeshin/.codex/worktrees/712c/FYP-Seating-Allocation/docs/results/solver-benchmark-development-2026-10-18-v2/local_stores/pilot/pilot__heavy__greedy__5s/plans.sqlite3",
+  "raw_output": "/Users/dariusleeshin/.codex/worktrees/712c/FYP-Seating-Allocation/docs/results/solver-benchmark-development-2026-10-18-v2/prototype_outputs/pilot/pilot__heavy__greedy__5s.json"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "primary__full-tied__current__cp_sat__5s",
+  "batch": "primary",
+  "event": "full-tied",
+  "configuration": "current",
+  "method": "cp_sat",
+  "budget_seconds": 5,
+  "execution_status": "not_started",
+  "valid": false
+}

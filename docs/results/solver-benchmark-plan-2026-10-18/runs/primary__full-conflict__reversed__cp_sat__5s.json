@@ -1,0 +1,10 @@
+{
+  "id": "primary__full-conflict__reversed__cp_sat__5s",
+  "batch": "primary",
+  "event": "full-conflict",
+  "configuration": "reversed",
+  "method": "cp_sat",
+  "budget_seconds": 5,
+  "execution_status": "not_started",
+  "valid": false
+}

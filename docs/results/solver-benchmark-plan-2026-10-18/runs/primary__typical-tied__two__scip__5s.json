@@ -1,0 +1,10 @@
+{
+  "id": "primary__typical-tied__two__scip__5s",
+  "batch": "primary",
+  "event": "typical-tied",
+  "configuration": "two",
+  "method": "scip",
+  "budget_seconds": 5,
+  "execution_status": "not_started",
+  "valid": false
+}

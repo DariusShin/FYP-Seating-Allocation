@@ -1,0 +1,10 @@
+{
+  "id": "budget_sensitivity__full-tied__reversed__cp_sat__30s",
+  "batch": "budget_sensitivity",
+  "event": "full-tied",
+  "configuration": "reversed",
+  "method": "cp_sat",
+  "budget_seconds": 30,
+  "execution_status": "not_started",
+  "valid": false
+}

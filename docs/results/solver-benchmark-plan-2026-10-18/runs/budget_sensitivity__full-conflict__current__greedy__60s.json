@@ -1,0 +1,10 @@
+{
+  "id": "budget_sensitivity__full-conflict__current__greedy__60s",
+  "batch": "budget_sensitivity",
+  "event": "full-conflict",
+  "configuration": "current",
+  "method": "greedy",
+  "budget_seconds": 60,
+  "execution_status": "not_started",
+  "valid": false
+}

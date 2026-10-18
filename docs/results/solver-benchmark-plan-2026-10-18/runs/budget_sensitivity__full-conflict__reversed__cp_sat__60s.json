@@ -1,0 +1,10 @@
+{
+  "id": "budget_sensitivity__full-conflict__reversed__cp_sat__60s",
+  "batch": "budget_sensitivity",
+  "event": "full-conflict",
+  "configuration": "reversed",
+  "method": "cp_sat",
+  "budget_seconds": 60,
+  "execution_status": "not_started",
+  "valid": false
+}

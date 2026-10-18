@@ -1,0 +1,14 @@
+{
+  "kind": "trial",
+  "job": {
+    "id": "pilot__small__cp_sat__5s",
+    "batch": "pilot",
+    "event": "small-mixed",
+    "configuration": "current",
+    "method": "cp_sat",
+    "budget_seconds": 5
+  },
+  "input": "/Users/dariusleeshin/.codex/worktrees/712c/FYP-Seating-Allocation/docs/results/solver-benchmark-development-2026-10-18/pilot/inputs/small-mixed.json",
+  "store": "/Users/dariusleeshin/.codex/worktrees/712c/FYP-Seating-Allocation/docs/results/solver-benchmark-development-2026-10-18/local_stores/pilot/pilot__small__cp_sat__5s/plans.sqlite3",
+  "raw_output": "/Users/dariusleeshin/.codex/worktrees/712c/FYP-Seating-Allocation/docs/results/solver-benchmark-development-2026-10-18/prototype_outputs/pilot/pilot__small__cp_sat__5s.json"
+}

@@ -1,0 +1,14 @@
+{
+  "elapsed_preparation_seconds": 250.93855312501546,
+  "comparative_search_allocation_seconds": 4020,
+  "overhead_seconds_per_method": {
+    "cp_sat": 4.798414322489407,
+    "scip": 10.128048749960726,
+    "greedy": 10.671108906157315
+  },
+  "prototype_extra_seconds": 9.749274166184478,
+  "report_reserve_seconds": 300,
+  "projected_total_seconds": 6795.351120163919,
+  "fits_90_minutes": false,
+  "method": "Full allocated search + 1.25x maximum pilot overhead + fixed margins; no assumed greedy early exit"
+}

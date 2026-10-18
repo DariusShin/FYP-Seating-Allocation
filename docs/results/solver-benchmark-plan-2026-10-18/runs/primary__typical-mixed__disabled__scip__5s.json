@@ -1,0 +1,10 @@
+{
+  "id": "primary__typical-mixed__disabled__scip__5s",
+  "batch": "primary",
+  "event": "typical-mixed",
+  "configuration": "disabled",
+  "method": "scip",
+  "budget_seconds": 5,
+  "execution_status": "not_started",
+  "valid": false
+}

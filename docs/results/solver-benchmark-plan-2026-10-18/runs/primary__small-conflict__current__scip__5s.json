@@ -1,0 +1,10 @@
+{
+  "id": "primary__small-conflict__current__scip__5s",
+  "batch": "primary",
+  "event": "small-conflict",
+  "configuration": "current",
+  "method": "scip",
+  "budget_seconds": 5,
+  "execution_status": "not_started",
+  "valid": false
+}

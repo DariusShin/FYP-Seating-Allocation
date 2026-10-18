@@ -1,0 +1,10 @@
+{
+  "id": "primary__typical-tied__reversed__greedy__5s",
+  "batch": "primary",
+  "event": "typical-tied",
+  "configuration": "reversed",
+  "method": "greedy",
+  "budget_seconds": 5,
+  "execution_status": "not_started",
+  "valid": false
+}

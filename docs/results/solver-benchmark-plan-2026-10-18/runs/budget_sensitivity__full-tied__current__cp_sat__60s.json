@@ -1,0 +1,10 @@
+{
+  "id": "budget_sensitivity__full-tied__current__cp_sat__60s",
+  "batch": "budget_sensitivity",
+  "event": "full-tied",
+  "configuration": "current",
+  "method": "cp_sat",
+  "budget_seconds": 60,
+  "execution_status": "not_started",
+  "valid": false
+}

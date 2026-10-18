@@ -1,0 +1,185 @@
+{
+  "passed": true,
+  "events": {
+    "small-mixed": {
+      "seed": 20261021,
+      "size": "small",
+      "pattern": "mixed",
+      "accessibility_derivative": false,
+      "input_sha256": "d15a072f0b2b1bee4b8f79bd049ced6304cb8fa19895790285620e834b50f88a",
+      "witness_sha256": "cf025f96fcd1961529c0e7c384ac5a34843cca62c32f63f364b46878b0e64a97",
+      "checked_option_vectors": 320,
+      "registrations": 24,
+      "physical_seats": 32
+    },
+    "small-conflict": {
+      "seed": 20261021,
+      "size": "small",
+      "pattern": "conflict",
+      "accessibility_derivative": false,
+      "input_sha256": "4e6188a9331894a155511fd57ac3c88588393b638b6884f1028895efa10859b1",
+      "witness_sha256": "cf025f96fcd1961529c0e7c384ac5a34843cca62c32f63f364b46878b0e64a97",
+      "checked_option_vectors": 320,
+      "registrations": 24,
+      "physical_seats": 32
+    },
+    "small-tied": {
+      "seed": 20261021,
+      "size": "small",
+      "pattern": "tied",
+      "accessibility_derivative": false,
+      "input_sha256": "b0a830a78351f272592311600d741927ab8b8cafa545131eb212f1c216b0350f",
+      "witness_sha256": "c1fe82db44ff6c6394e67a12c2db1855b9c7af8420975cef479e9342ea0ce981",
+      "checked_option_vectors": 320,
+      "registrations": 24,
+      "physical_seats": 32
+    },
+    "typical-mixed": {
+      "seed": 20261021,
+      "size": "typical",
+      "pattern": "mixed",
+      "accessibility_derivative": false,
+      "input_sha256": "0a6981240781112b3ad9fa257df1a56f6540b4613f3844a7341cfb5ad4265b8f",
+      "witness_sha256": "08a539a59e145fc2ad4708dc6258a53dbfe63d5b5773cd847e608dc08501e53b",
+      "checked_option_vectors": 1718,
+      "registrations": 96,
+      "physical_seats": 152
+    },
+    "typical-conflict": {
+      "seed": 20261021,
+      "size": "typical",
+      "pattern": "conflict",
+      "accessibility_derivative": false,
+      "input_sha256": "bdf1b8e4d078987083dc0bdf600a30cce4ea987f1abd78d7d2a66c6d42289cee",
+      "witness_sha256": "08a539a59e145fc2ad4708dc6258a53dbfe63d5b5773cd847e608dc08501e53b",
+      "checked_option_vectors": 1718,
+      "registrations": 96,
+      "physical_seats": 152
+    },
+    "typical-tied": {
+      "seed": 20261021,
+      "size": "typical",
+      "pattern": "tied",
+      "accessibility_derivative": false,
+      "input_sha256": "27c3598140b6fc28962ff80d6dfa4ca263fcf5e9a8c147d53bd527d98c06111b",
+      "witness_sha256": "421e55ac3d96ee2a4a600d454e029d20d3adc39f540b42289c7e6c5ac9767f30",
+      "checked_option_vectors": 4288,
+      "registrations": 96,
+      "physical_seats": 152
+    },
+    "full-mixed": {
+      "seed": 20261021,
+      "size": "full",
+      "pattern": "mixed",
+      "accessibility_derivative": false,
+      "input_sha256": "5f9fa8803246ad9a0457cdcc51a0f7eeb3407b03e11c7949c71b30049cb368dd",
+      "witness_sha256": "f66bc7388a432040af340fd5ef57a2b918751008d9d2d76a3f4533c0073ba022",
+      "checked_option_vectors": 3088,
+      "registrations": 152,
+      "physical_seats": 232
+    },
+    "full-conflict": {
+      "seed": 20261021,
+      "size": "full",
+      "pattern": "conflict",
+      "accessibility_derivative": false,
+      "input_sha256": "c0a0aa65665879c541d7b047c981e7d45f0a449f0e4468f4a2de2a32d0c1d715",
+      "witness_sha256": "f66bc7388a432040af340fd5ef57a2b918751008d9d2d76a3f4533c0073ba022",
+      "checked_option_vectors": 3088,
+      "registrations": 152,
+      "physical_seats": 232
+    },
+    "full-tied": {
+      "seed": 20261021,
+      "size": "full",
+      "pattern": "tied",
+      "accessibility_derivative": false,
+      "input_sha256": "89c508f5ad4d4c88cf6aa31904e2c528a5686aa5ef0dc4e9e8f1445c29e3d898",
+      "witness_sha256": "f2a9856b79d64f194ef9f9ad6b05c0936c3e55bf47ea7dff2e3c0e3000208316",
+      "checked_option_vectors": 9664,
+      "registrations": 152,
+      "physical_seats": 232
+    },
+    "heavy-mixed": {
+      "seed": 20261022,
+      "size": "heavy",
+      "pattern": "mixed",
+      "accessibility_derivative": false,
+      "input_sha256": "29506f1bc179d665bdc4c30ee6ef52a66d30d61eff1a86d0f42974b3c099f949",
+      "witness_sha256": "b8703cd2f74fa010b459f6c531610d49cf3cec1a578301ec007f0a9d59eb4b0c",
+      "checked_option_vectors": 3156,
+      "registrations": 131,
+      "physical_seats": 230
+    },
+    "small-accessible": {
+      "seed": 20261021,
+      "size": "small",
+      "pattern": "mixed",
+      "accessibility_derivative": true,
+      "base_event": "small-mixed",
+      "accessible_ids": [
+        "P0004",
+        "P0008"
+      ],
+      "input_sha256": "6cf220b2c006cbf8534d4a26f47d9c0bf5d6aa96737a0d05b078f90e65e5ab58",
+      "witness_sha256": "cf025f96fcd1961529c0e7c384ac5a34843cca62c32f63f364b46878b0e64a97",
+      "checked_option_vectors": 308,
+      "registrations": 24,
+      "physical_seats": 32
+    },
+    "typical-accessible": {
+      "seed": 20261021,
+      "size": "typical",
+      "pattern": "mixed",
+      "accessibility_derivative": true,
+      "base_event": "typical-mixed",
+      "accessible_ids": [
+        "P0003",
+        "P0005",
+        "P0009",
+        "P0011",
+        "P0012",
+        "P0020",
+        "P0024",
+        "P0027",
+        "P0031"
+      ],
+      "input_sha256": "a454bf2eb7db64d937ab05f46de7c17e792b80f052bbaccea88822e1400dbf2c",
+      "witness_sha256": "08a539a59e145fc2ad4708dc6258a53dbfe63d5b5773cd847e608dc08501e53b",
+      "checked_option_vectors": 1606,
+      "registrations": 96,
+      "physical_seats": 152
+    },
+    "full-accessible": {
+      "seed": 20261021,
+      "size": "full",
+      "pattern": "mixed",
+      "accessibility_derivative": true,
+      "base_event": "full-mixed",
+      "accessible_ids": [
+        "P0005",
+        "P0011",
+        "P0016",
+        "P0019",
+        "P0022",
+        "P0023",
+        "P0026",
+        "P0030",
+        "P0034",
+        "P0036",
+        "P0038",
+        "P0044",
+        "P0047",
+        "P0049",
+        "P0054"
+      ],
+      "input_sha256": "da0e8282cfeca94445ba6867fbdaa0fce757cf109f3b6ddccdd77d424ad4e0cb",
+      "witness_sha256": "f66bc7388a432040af340fd5ef57a2b918751008d9d2d76a3f4533c0073ba022",
+      "checked_option_vectors": 2862,
+      "registrations": 152,
+      "physical_seats": 232
+    }
+  },
+  "worker_elapsed_seconds": 43.513566999929026,
+  "worker_exit_code": 0
+}

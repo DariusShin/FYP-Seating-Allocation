@@ -1,0 +1,10 @@
+{
+  "id": "primary__heavy-mixed__reversed__cp_sat__5s",
+  "batch": "primary",
+  "event": "heavy-mixed",
+  "configuration": "reversed",
+  "method": "cp_sat",
+  "budget_seconds": 5,
+  "execution_status": "not_started",
+  "valid": false
+}

@@ -1,0 +1,10 @@
+{
+  "id": "primary__typical-accessible__disabled__greedy__5s",
+  "batch": "primary",
+  "event": "typical-accessible",
+  "configuration": "disabled",
+  "method": "greedy",
+  "budget_seconds": 5,
+  "execution_status": "not_started",
+  "valid": false
+}

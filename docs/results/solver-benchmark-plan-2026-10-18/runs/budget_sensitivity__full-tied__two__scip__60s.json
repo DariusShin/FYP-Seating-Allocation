@@ -1,0 +1,10 @@
+{
+  "id": "budget_sensitivity__full-tied__two__scip__60s",
+  "batch": "budget_sensitivity",
+  "event": "full-tied",
+  "configuration": "two",
+  "method": "scip",
+  "budget_seconds": 60,
+  "execution_status": "not_started",
+  "valid": false
+}

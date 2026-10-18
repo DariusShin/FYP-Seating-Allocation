@@ -1,0 +1,10 @@
+{
+  "id": "budget_sensitivity__full-conflict__current__scip__30s",
+  "batch": "budget_sensitivity",
+  "event": "full-conflict",
+  "configuration": "current",
+  "method": "scip",
+  "budget_seconds": 30,
+  "execution_status": "not_started",
+  "valid": false
+}

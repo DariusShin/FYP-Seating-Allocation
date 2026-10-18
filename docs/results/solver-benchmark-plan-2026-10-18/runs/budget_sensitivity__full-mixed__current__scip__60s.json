@@ -1,0 +1,10 @@
+{
+  "id": "budget_sensitivity__full-mixed__current__scip__60s",
+  "batch": "budget_sensitivity",
+  "event": "full-mixed",
+  "configuration": "current",
+  "method": "scip",
+  "budget_seconds": 60,
+  "execution_status": "not_started",
+  "valid": false
+}
