@@ -1,0 +1,981 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "case": "singles",
+      "configuration": "current",
+      "method": "cp_sat",
+      "oracle_objective": 73,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 73
+    },
+    {
+      "case": "singles",
+      "configuration": "current",
+      "method": "scip",
+      "oracle_objective": 73,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 73
+    },
+    {
+      "case": "singles",
+      "configuration": "current",
+      "method": "greedy",
+      "oracle_objective": 73,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 73
+    },
+    {
+      "case": "singles",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "oracle_objective": 118,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 118
+    },
+    {
+      "case": "singles",
+      "configuration": "reversed",
+      "method": "scip",
+      "oracle_objective": 118,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 118
+    },
+    {
+      "case": "singles",
+      "configuration": "reversed",
+      "method": "greedy",
+      "oracle_objective": 118,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 125
+    },
+    {
+      "case": "singles",
+      "configuration": "two",
+      "method": "cp_sat",
+      "oracle_objective": 78,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 78
+    },
+    {
+      "case": "singles",
+      "configuration": "two",
+      "method": "scip",
+      "oracle_objective": 78,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 78
+    },
+    {
+      "case": "singles",
+      "configuration": "two",
+      "method": "greedy",
+      "oracle_objective": 78,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 78
+    },
+    {
+      "case": "singles",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "singles",
+      "configuration": "disabled",
+      "method": "scip",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "singles",
+      "configuration": "disabled",
+      "method": "greedy",
+      "oracle_objective": 0,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "mixed_tiers",
+      "configuration": "current",
+      "method": "cp_sat",
+      "oracle_objective": 52,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 52
+    },
+    {
+      "case": "mixed_tiers",
+      "configuration": "current",
+      "method": "scip",
+      "oracle_objective": 52,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 52
+    },
+    {
+      "case": "mixed_tiers",
+      "configuration": "current",
+      "method": "greedy",
+      "oracle_objective": 52,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 52
+    },
+    {
+      "case": "mixed_tiers",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "oracle_objective": 104,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 104
+    },
+    {
+      "case": "mixed_tiers",
+      "configuration": "reversed",
+      "method": "scip",
+      "oracle_objective": 104,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 104
+    },
+    {
+      "case": "mixed_tiers",
+      "configuration": "reversed",
+      "method": "greedy",
+      "oracle_objective": 104,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 104
+    },
+    {
+      "case": "mixed_tiers",
+      "configuration": "two",
+      "method": "cp_sat",
+      "oracle_objective": 78,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 78
+    },
+    {
+      "case": "mixed_tiers",
+      "configuration": "two",
+      "method": "scip",
+      "oracle_objective": 78,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 78
+    },
+    {
+      "case": "mixed_tiers",
+      "configuration": "two",
+      "method": "greedy",
+      "oracle_objective": 78,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 78
+    },
+    {
+      "case": "mixed_tiers",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "mixed_tiers",
+      "configuration": "disabled",
+      "method": "scip",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "mixed_tiers",
+      "configuration": "disabled",
+      "method": "greedy",
+      "oracle_objective": 0,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "two_rows",
+      "configuration": "current",
+      "method": "cp_sat",
+      "oracle_objective": 135,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 135
+    },
+    {
+      "case": "two_rows",
+      "configuration": "current",
+      "method": "scip",
+      "oracle_objective": 135,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 135
+    },
+    {
+      "case": "two_rows",
+      "configuration": "current",
+      "method": "greedy",
+      "oracle_objective": 135,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 156
+    },
+    {
+      "case": "two_rows",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "oracle_objective": 227,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 227
+    },
+    {
+      "case": "two_rows",
+      "configuration": "reversed",
+      "method": "scip",
+      "oracle_objective": 227,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 227
+    },
+    {
+      "case": "two_rows",
+      "configuration": "reversed",
+      "method": "greedy",
+      "oracle_objective": 227,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 252
+    },
+    {
+      "case": "two_rows",
+      "configuration": "two",
+      "method": "cp_sat",
+      "oracle_objective": 165,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 165
+    },
+    {
+      "case": "two_rows",
+      "configuration": "two",
+      "method": "scip",
+      "oracle_objective": 165,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 165
+    },
+    {
+      "case": "two_rows",
+      "configuration": "two",
+      "method": "greedy",
+      "oracle_objective": 165,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 165
+    },
+    {
+      "case": "two_rows",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "two_rows",
+      "configuration": "disabled",
+      "method": "scip",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "two_rows",
+      "configuration": "disabled",
+      "method": "greedy",
+      "oracle_objective": 0,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "two_pairs",
+      "configuration": "current",
+      "method": "cp_sat",
+      "oracle_objective": 115,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 115
+    },
+    {
+      "case": "two_pairs",
+      "configuration": "current",
+      "method": "scip",
+      "oracle_objective": 115,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 115
+    },
+    {
+      "case": "two_pairs",
+      "configuration": "current",
+      "method": "greedy",
+      "oracle_objective": 115,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 115
+    },
+    {
+      "case": "two_pairs",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "oracle_objective": 147,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 147
+    },
+    {
+      "case": "two_pairs",
+      "configuration": "reversed",
+      "method": "scip",
+      "oracle_objective": 147,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 147
+    },
+    {
+      "case": "two_pairs",
+      "configuration": "reversed",
+      "method": "greedy",
+      "oracle_objective": 147,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 161
+    },
+    {
+      "case": "two_pairs",
+      "configuration": "two",
+      "method": "cp_sat",
+      "oracle_objective": 90,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 90
+    },
+    {
+      "case": "two_pairs",
+      "configuration": "two",
+      "method": "scip",
+      "oracle_objective": 90,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 90
+    },
+    {
+      "case": "two_pairs",
+      "configuration": "two",
+      "method": "greedy",
+      "oracle_objective": 90,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 90
+    },
+    {
+      "case": "two_pairs",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "two_pairs",
+      "configuration": "disabled",
+      "method": "scip",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "two_pairs",
+      "configuration": "disabled",
+      "method": "greedy",
+      "oracle_objective": 0,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "empty",
+      "configuration": "current",
+      "method": "cp_sat",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "empty",
+      "configuration": "current",
+      "method": "scip",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "empty",
+      "configuration": "current",
+      "method": "greedy",
+      "oracle_objective": 0,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "empty",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "empty",
+      "configuration": "reversed",
+      "method": "scip",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "empty",
+      "configuration": "reversed",
+      "method": "greedy",
+      "oracle_objective": 0,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "empty",
+      "configuration": "two",
+      "method": "cp_sat",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "empty",
+      "configuration": "two",
+      "method": "scip",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "empty",
+      "configuration": "two",
+      "method": "greedy",
+      "oracle_objective": 0,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "empty",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "empty",
+      "configuration": "disabled",
+      "method": "scip",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "empty",
+      "configuration": "disabled",
+      "method": "greedy",
+      "oracle_objective": 0,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "capacity_infeasible",
+      "configuration": "current",
+      "method": "cp_sat",
+      "oracle_objective": null,
+      "solver_status": "INFEASIBLE",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "capacity_infeasible",
+      "configuration": "current",
+      "method": "scip",
+      "oracle_objective": null,
+      "solver_status": "INFEASIBLE",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "capacity_infeasible",
+      "configuration": "current",
+      "method": "greedy",
+      "oracle_objective": null,
+      "solver_status": "CONSTRUCTION_FAILED",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "capacity_infeasible",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "oracle_objective": null,
+      "solver_status": "INFEASIBLE",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "capacity_infeasible",
+      "configuration": "reversed",
+      "method": "scip",
+      "oracle_objective": null,
+      "solver_status": "INFEASIBLE",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "capacity_infeasible",
+      "configuration": "reversed",
+      "method": "greedy",
+      "oracle_objective": null,
+      "solver_status": "CONSTRUCTION_FAILED",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "capacity_infeasible",
+      "configuration": "two",
+      "method": "cp_sat",
+      "oracle_objective": null,
+      "solver_status": "INFEASIBLE",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "capacity_infeasible",
+      "configuration": "two",
+      "method": "scip",
+      "oracle_objective": null,
+      "solver_status": "INFEASIBLE",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "capacity_infeasible",
+      "configuration": "two",
+      "method": "greedy",
+      "oracle_objective": null,
+      "solver_status": "CONSTRUCTION_FAILED",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "capacity_infeasible",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "oracle_objective": null,
+      "solver_status": "INFEASIBLE",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "capacity_infeasible",
+      "configuration": "disabled",
+      "method": "scip",
+      "oracle_objective": null,
+      "solver_status": "INFEASIBLE",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "capacity_infeasible",
+      "configuration": "disabled",
+      "method": "greedy",
+      "oracle_objective": null,
+      "solver_status": "CONSTRUCTION_FAILED",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "accessibility_infeasible",
+      "configuration": "current",
+      "method": "cp_sat",
+      "oracle_objective": null,
+      "solver_status": "INFEASIBLE",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "accessibility_infeasible",
+      "configuration": "current",
+      "method": "scip",
+      "oracle_objective": null,
+      "solver_status": "INFEASIBLE",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "accessibility_infeasible",
+      "configuration": "current",
+      "method": "greedy",
+      "oracle_objective": null,
+      "solver_status": "CONSTRUCTION_FAILED",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "accessibility_infeasible",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "oracle_objective": null,
+      "solver_status": "INFEASIBLE",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "accessibility_infeasible",
+      "configuration": "reversed",
+      "method": "scip",
+      "oracle_objective": null,
+      "solver_status": "INFEASIBLE",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "accessibility_infeasible",
+      "configuration": "reversed",
+      "method": "greedy",
+      "oracle_objective": null,
+      "solver_status": "CONSTRUCTION_FAILED",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "accessibility_infeasible",
+      "configuration": "two",
+      "method": "cp_sat",
+      "oracle_objective": null,
+      "solver_status": "INFEASIBLE",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "accessibility_infeasible",
+      "configuration": "two",
+      "method": "scip",
+      "oracle_objective": null,
+      "solver_status": "INFEASIBLE",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "accessibility_infeasible",
+      "configuration": "two",
+      "method": "greedy",
+      "oracle_objective": null,
+      "solver_status": "CONSTRUCTION_FAILED",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "accessibility_infeasible",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "oracle_objective": null,
+      "solver_status": "INFEASIBLE",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "accessibility_infeasible",
+      "configuration": "disabled",
+      "method": "scip",
+      "oracle_objective": null,
+      "solver_status": "INFEASIBLE",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "accessibility_infeasible",
+      "configuration": "disabled",
+      "method": "greedy",
+      "oracle_objective": null,
+      "solver_status": "CONSTRUCTION_FAILED",
+      "valid": false,
+      "objective": null
+    },
+    {
+      "case": "accessible_pair",
+      "configuration": "current",
+      "method": "cp_sat",
+      "oracle_objective": 26,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 26
+    },
+    {
+      "case": "accessible_pair",
+      "configuration": "current",
+      "method": "scip",
+      "oracle_objective": 26,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 26
+    },
+    {
+      "case": "accessible_pair",
+      "configuration": "current",
+      "method": "greedy",
+      "oracle_objective": 26,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 26
+    },
+    {
+      "case": "accessible_pair",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "oracle_objective": 52,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 52
+    },
+    {
+      "case": "accessible_pair",
+      "configuration": "reversed",
+      "method": "scip",
+      "oracle_objective": 52,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 52
+    },
+    {
+      "case": "accessible_pair",
+      "configuration": "reversed",
+      "method": "greedy",
+      "oracle_objective": 52,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 52
+    },
+    {
+      "case": "accessible_pair",
+      "configuration": "two",
+      "method": "cp_sat",
+      "oracle_objective": 39,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 39
+    },
+    {
+      "case": "accessible_pair",
+      "configuration": "two",
+      "method": "scip",
+      "oracle_objective": 39,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 39
+    },
+    {
+      "case": "accessible_pair",
+      "configuration": "two",
+      "method": "greedy",
+      "oracle_objective": 39,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 39
+    },
+    {
+      "case": "accessible_pair",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "accessible_pair",
+      "configuration": "disabled",
+      "method": "scip",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "accessible_pair",
+      "configuration": "disabled",
+      "method": "greedy",
+      "oracle_objective": 0,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "equal_scores",
+      "configuration": "current",
+      "method": "cp_sat",
+      "oracle_objective": 52,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 52
+    },
+    {
+      "case": "equal_scores",
+      "configuration": "current",
+      "method": "scip",
+      "oracle_objective": 52,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 52
+    },
+    {
+      "case": "equal_scores",
+      "configuration": "current",
+      "method": "greedy",
+      "oracle_objective": 52,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 52
+    },
+    {
+      "case": "equal_scores",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "oracle_objective": 104,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 104
+    },
+    {
+      "case": "equal_scores",
+      "configuration": "reversed",
+      "method": "scip",
+      "oracle_objective": 104,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 104
+    },
+    {
+      "case": "equal_scores",
+      "configuration": "reversed",
+      "method": "greedy",
+      "oracle_objective": 104,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 104
+    },
+    {
+      "case": "equal_scores",
+      "configuration": "two",
+      "method": "cp_sat",
+      "oracle_objective": 78,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 78
+    },
+    {
+      "case": "equal_scores",
+      "configuration": "two",
+      "method": "scip",
+      "oracle_objective": 78,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 78
+    },
+    {
+      "case": "equal_scores",
+      "configuration": "two",
+      "method": "greedy",
+      "oracle_objective": 78,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 78
+    },
+    {
+      "case": "equal_scores",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "equal_scores",
+      "configuration": "disabled",
+      "method": "scip",
+      "oracle_objective": 0,
+      "solver_status": "OPTIMAL",
+      "valid": true,
+      "objective": 0
+    },
+    {
+      "case": "equal_scores",
+      "configuration": "disabled",
+      "method": "greedy",
+      "oracle_objective": 0,
+      "solver_status": "FEASIBLE",
+      "valid": true,
+      "objective": 0
+    }
+  ],
+  "checked_option_vectors": 59,
+  "note": "Separate correctness suite; no records enter benchmark denominators",
+  "worker_elapsed_seconds": 3.9994197003543377,
+  "worker_exit_code": 0
+}

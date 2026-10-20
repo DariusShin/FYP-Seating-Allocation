@@ -1,0 +1,10 @@
+{
+  "id": "budget_sensitivity__heavy-mixed__two__greedy__60s",
+  "batch": "budget_sensitivity",
+  "event": "heavy-mixed",
+  "configuration": "two",
+  "method": "greedy",
+  "budget_seconds": 60,
+  "execution_status": "running",
+  "valid": false
+}

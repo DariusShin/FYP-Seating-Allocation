@@ -1,0 +1,10 @@
+{
+  "id": "primary__full-tied__disabled__scip__5s",
+  "batch": "primary",
+  "event": "full-tied",
+  "configuration": "disabled",
+  "method": "scip",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

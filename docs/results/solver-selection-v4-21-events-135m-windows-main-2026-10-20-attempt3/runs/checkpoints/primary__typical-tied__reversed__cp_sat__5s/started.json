@@ -1,0 +1,10 @@
+{
+  "id": "primary__typical-tied__reversed__cp_sat__5s",
+  "batch": "primary",
+  "event": "typical-tied",
+  "configuration": "reversed",
+  "method": "cp_sat",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

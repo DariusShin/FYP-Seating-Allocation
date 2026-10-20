@@ -1,0 +1,28 @@
+{
+  "scope": "development pilot only; excluded from main-study analyses",
+  "planned": 28,
+  "attempted": 28,
+  "completed": 28,
+  "validated": 14,
+  "projection": {
+    "elapsed_preparation_seconds": 656.4572812998667,
+    "comparative_search_allocation_seconds": 4500,
+    "comparative_jobs_per_method": {
+      "cp_sat": 108,
+      "scip": 108,
+      "greedy": 108
+    },
+    "prototype_allowance_seconds": 240,
+    "overhead_seconds_per_method": {
+      "cp_sat": 11.059062125044875,
+      "scip": 3.712107624509372,
+      "greedy": 2.8320713746361434
+    },
+    "prototype_extra_seconds": 6.9929651248967275,
+    "report_reserve_seconds": 300,
+    "runner_ceiling_seconds": 8100,
+    "projected_total_seconds": 7625.579183212016,
+    "fits_runner_ceiling": true,
+    "method": "Full allocated search + 1.25x maximum pilot overhead + fixed margins; no assumed greedy early exit"
+  }
+}

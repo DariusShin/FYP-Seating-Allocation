@@ -1,0 +1,10 @@
+{
+  "id": "primary__high-mixed__two__greedy__5s",
+  "batch": "primary",
+  "event": "high-mixed",
+  "configuration": "two",
+  "method": "greedy",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

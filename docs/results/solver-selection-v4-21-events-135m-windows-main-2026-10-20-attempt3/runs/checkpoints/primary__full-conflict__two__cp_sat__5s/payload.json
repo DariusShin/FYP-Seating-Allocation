@@ -1,0 +1,16 @@
+{
+  "kind": "trial",
+  "job": {
+    "id": "primary__full-conflict__two__cp_sat__5s",
+    "batch": "primary",
+    "event": "full-conflict",
+    "configuration": "two",
+    "method": "cp_sat",
+    "budget_seconds": 5
+  },
+  "input": "D:\\web-projects\\FYP-Seating-Allocation\\docs\\results\\solver-selection-v4-21-events-135m-windows-main-2026-10-20-attempt3\\inputs\\full-conflict.json",
+  "input_sha256": "c0a0aa65665879c541d7b047c981e7d45f0a449f0e4468f4a2de2a32d0c1d715",
+  "store": "D:\\web-projects\\FYP-Seating-Allocation\\docs\\results\\solver-selection-v4-21-events-135m-windows-main-2026-10-20-attempt3\\local_stores\\main\\primary__full-conflict__two__cp_sat__5s\\plans.sqlite3",
+  "raw_output": "D:\\web-projects\\FYP-Seating-Allocation\\docs\\results\\solver-selection-v4-21-events-135m-windows-main-2026-10-20-attempt3\\prototype_outputs\\main\\primary__full-conflict__two__cp_sat__5s.json",
+  "checkpoint_dir": "D:\\web-projects\\FYP-Seating-Allocation\\docs\\results\\solver-selection-v4-21-events-135m-windows-main-2026-10-20-attempt3\\runs\\checkpoints\\primary__full-conflict__two__cp_sat__5s"
+}

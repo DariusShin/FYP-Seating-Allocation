@@ -1,0 +1,16 @@
+{
+  "kind": "trial",
+  "job": {
+    "id": "pilot__full__scip__5s",
+    "batch": "pilot",
+    "event": "full-mixed",
+    "configuration": "current",
+    "method": "scip",
+    "budget_seconds": 5
+  },
+  "input": "D:\\web-projects\\FYP-Seating-Allocation\\docs\\results\\solver-selection-v4-21-events-135m-windows-main-2026-10-20-attempt3\\pilot\\inputs\\full-mixed.json",
+  "input_sha256": "d6d31f17c29c47899b3ba03f20f2e5835e0663803da11a51ff9a87e77e29d0f4",
+  "store": "D:\\web-projects\\FYP-Seating-Allocation\\docs\\results\\solver-selection-v4-21-events-135m-windows-main-2026-10-20-attempt3\\local_stores\\pilot\\pilot__full__scip__5s\\plans.sqlite3",
+  "raw_output": "D:\\web-projects\\FYP-Seating-Allocation\\docs\\results\\solver-selection-v4-21-events-135m-windows-main-2026-10-20-attempt3\\prototype_outputs\\pilot\\pilot__full__scip__5s.json",
+  "checkpoint_dir": "D:\\web-projects\\FYP-Seating-Allocation\\docs\\results\\solver-selection-v4-21-events-135m-windows-main-2026-10-20-attempt3\\pilot\\runs\\checkpoints\\pilot__full__scip__5s"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "budget_sensitivity__heavy-mixed__reversed__cp_sat__30s",
+  "batch": "budget_sensitivity",
+  "event": "heavy-mixed",
+  "configuration": "reversed",
+  "method": "cp_sat",
+  "budget_seconds": 30,
+  "execution_status": "running",
+  "valid": false
+}

@@ -1,0 +1,10 @@
+{
+  "id": "pilot__high__scip__5s",
+  "batch": "pilot",
+  "event": "high-mixed",
+  "configuration": "current",
+  "method": "scip",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

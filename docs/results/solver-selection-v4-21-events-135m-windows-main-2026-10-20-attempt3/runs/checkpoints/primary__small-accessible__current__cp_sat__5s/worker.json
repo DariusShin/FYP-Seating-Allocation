@@ -1,0 +1,216 @@
+{
+  "id": "primary__small-accessible__current__cp_sat__5s",
+  "batch": "primary",
+  "event": "small-accessible",
+  "configuration": "current",
+  "method": "cp_sat",
+  "budget_seconds": 5,
+  "search_seed": 20261012,
+  "worker_count": 1,
+  "canonicalize": false,
+  "request_sha256": "8a11001761427e447078e35ad9e84edaf07514d115579654ee240ce0ce7693ba",
+  "weights": {
+    "contribution_seat": 4,
+    "activeness": 3,
+    "category_zone": 2
+  },
+  "registrations": 24,
+  "physical_seats": 32,
+  "execution_status": "completed",
+  "valid": true,
+  "placements": [
+    {
+      "participant_id": "P0001",
+      "seat_ids": [
+        "R01-S09",
+        "R01-S10"
+      ]
+    },
+    {
+      "participant_id": "P0002",
+      "seat_ids": [
+        "R01-S13",
+        "R01-S14"
+      ]
+    },
+    {
+      "participant_id": "P0003",
+      "seat_ids": [
+        "R01-S11",
+        "R01-S12"
+      ]
+    },
+    {
+      "participant_id": "P0004",
+      "seat_ids": [
+        "R01-S01",
+        "R01-S02"
+      ]
+    },
+    {
+      "participant_id": "P0005",
+      "seat_ids": [
+        "R01-S03",
+        "R01-S04"
+      ]
+    },
+    {
+      "participant_id": "P0006",
+      "seat_ids": [
+        "R01-S07",
+        "R01-S08"
+      ]
+    },
+    {
+      "participant_id": "P0007",
+      "seat_ids": [
+        "R01-S05",
+        "R01-S06"
+      ]
+    },
+    {
+      "participant_id": "P0008",
+      "seat_ids": [
+        "R01-S15",
+        "R01-S16"
+      ]
+    },
+    {
+      "participant_id": "P0009",
+      "seat_ids": [
+        "R02-S09"
+      ]
+    },
+    {
+      "participant_id": "P0010",
+      "seat_ids": [
+        "R02-S15"
+      ]
+    },
+    {
+      "participant_id": "P0011",
+      "seat_ids": [
+        "R02-S11"
+      ]
+    },
+    {
+      "participant_id": "P0012",
+      "seat_ids": [
+        "R02-S10"
+      ]
+    },
+    {
+      "participant_id": "P0013",
+      "seat_ids": [
+        "R02-S13"
+      ]
+    },
+    {
+      "participant_id": "P0014",
+      "seat_ids": [
+        "R02-S12"
+      ]
+    },
+    {
+      "participant_id": "P0015",
+      "seat_ids": [
+        "R02-S14"
+      ]
+    },
+    {
+      "participant_id": "P0016",
+      "seat_ids": [
+        "R02-S16"
+      ]
+    },
+    {
+      "participant_id": "P0017",
+      "seat_ids": [
+        "R02-S04"
+      ]
+    },
+    {
+      "participant_id": "P0018",
+      "seat_ids": [
+        "R02-S07"
+      ]
+    },
+    {
+      "participant_id": "P0019",
+      "seat_ids": [
+        "R02-S08"
+      ]
+    },
+    {
+      "participant_id": "P0020",
+      "seat_ids": [
+        "R02-S01"
+      ]
+    },
+    {
+      "participant_id": "P0021",
+      "seat_ids": [
+        "R02-S05"
+      ]
+    },
+    {
+      "participant_id": "P0022",
+      "seat_ids": [
+        "R02-S06"
+      ]
+    },
+    {
+      "participant_id": "P0023",
+      "seat_ids": [
+        "R02-S03"
+      ]
+    },
+    {
+      "participant_id": "P0024",
+      "seat_ids": [
+        "R02-S02"
+      ]
+    }
+  ],
+  "objective": 4139,
+  "components": {
+    "contribution_seat": 262,
+    "activeness": 653,
+    "category_zone": 566
+  },
+  "component_means": {
+    "contribution_seat": 10.916666666666666,
+    "activeness": 27.208333333333332,
+    "category_zone": 23.583333333333332
+  },
+  "absolute_gap": 0,
+  "relative_gap": 0.0,
+  "validation": {
+    "passed": true,
+    "issues": []
+  },
+  "first_incumbent_seconds": null,
+  "first_incumbent_unavailable_reason": "No comparable incumbent callback in SCIP MPSolver wrapper",
+  "solver_status": "OPTIMAL",
+  "reported_objective": 4139.0,
+  "best_bound": 4139.0,
+  "backend": "OR-Tools CP-SAT",
+  "solver_wall_seconds": 0.5824750000000001,
+  "search_call_seconds": 0.5844784001819789,
+  "branches": 13979,
+  "conflicts": 114,
+  "cost_per_registration": 172.45833333333334,
+  "timing": {
+    "preprocessing_seconds": 0.058703099843114614,
+    "model_build_seconds": 0.53856569994241,
+    "search_seconds": 0.5844784001819789,
+    "extraction_seconds": 0.0005768998526036739,
+    "validation_scoring_seconds": 0.09406000003218651,
+    "allocation_total_seconds": 1.2763840998522937
+  },
+  "valid_plan_return_seconds": 1.2763840998522937,
+  "memory": {
+    "worker_peak_rss_bytes": null,
+    "scope": "Fresh per-trial worker lifetime peak; includes imports, model and audit; not solver-only"
+  }
+}

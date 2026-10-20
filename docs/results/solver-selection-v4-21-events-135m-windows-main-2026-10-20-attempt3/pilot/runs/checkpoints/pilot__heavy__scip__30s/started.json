@@ -1,0 +1,10 @@
+{
+  "id": "pilot__heavy__scip__30s",
+  "batch": "pilot",
+  "event": "heavy-mixed",
+  "configuration": "current",
+  "method": "scip",
+  "budget_seconds": 30,
+  "execution_status": "running",
+  "valid": false
+}

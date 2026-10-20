@@ -1,0 +1,3062 @@
+{
+  "protocol": "solver-selection-v4-21-events-135m-2026-10-20",
+  "mode": "run",
+  "created_at": "2026-10-20T14:01:26.985088+00:00",
+  "execution_status": "completed",
+  "seeds": {
+    "input": 20261021,
+    "heavy_input": 20261022,
+    "pilot_input": 20261020,
+    "search": 20261012,
+    "execution_order": 20261018
+  },
+  "runner_ceiling_seconds": 8100,
+  "jobs": [
+    {
+      "id": "primary__small-conflict__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__current__scip__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-accessible__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "high-accessible",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-accessible__current__greedy__5s",
+      "batch": "primary",
+      "event": "near-accessible",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-mixed__current__scip__5s",
+      "batch": "primary",
+      "event": "near-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__two__greedy__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-conflict__disabled__scip__5s",
+      "batch": "primary",
+      "event": "high-conflict",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-mixed__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "near-mixed",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__two__scip__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-tied__reversed__scip__5s",
+      "batch": "primary",
+      "event": "high-tied",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-accessible__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "near-accessible",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__two__greedy__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-conflict__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "high-conflict",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__current__greedy__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__current__greedy__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-accessible__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "near-accessible",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__disabled__scip__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-accessible__disabled__scip__5s",
+      "batch": "primary",
+      "event": "high-accessible",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__current__scip__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-mixed__two__greedy__5s",
+      "batch": "primary",
+      "event": "high-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-tied__current__scip__5s",
+      "batch": "primary",
+      "event": "near-tied",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-accessible__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "near-accessible",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-accessible__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "high-accessible",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-conflict__current__scip__5s",
+      "batch": "primary",
+      "event": "high-conflict",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-conflict__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "high-conflict",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__reversed__scip__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__current__scip__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-conflict__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "near-conflict",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-conflict__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "near-conflict",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-mixed__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "near-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-accessible__reversed__scip__5s",
+      "batch": "primary",
+      "event": "near-accessible",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-tied__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "near-tied",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-accessible__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "near-accessible",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__reversed__scip__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-mixed__reversed__scip__5s",
+      "batch": "primary",
+      "event": "near-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-tied__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "high-tied",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-mixed__current__greedy__5s",
+      "batch": "primary",
+      "event": "high-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-tied__disabled__scip__5s",
+      "batch": "primary",
+      "event": "high-tied",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-mixed__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "near-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__current__greedy__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-tied__reversed__scip__5s",
+      "batch": "primary",
+      "event": "near-tied",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__disabled__scip__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__reversed__scip__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__disabled__scip__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__disabled__scip__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-mixed__reversed__scip__5s",
+      "batch": "primary",
+      "event": "high-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-conflict__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "high-conflict",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__two__scip__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-accessible__two__scip__5s",
+      "batch": "primary",
+      "event": "high-accessible",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__current__scip__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__reversed__scip__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-mixed__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "high-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__disabled__scip__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__reversed__scip__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-tied__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "high-tied",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-conflict__current__greedy__5s",
+      "batch": "primary",
+      "event": "near-conflict",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-mixed__current__scip__5s",
+      "batch": "primary",
+      "event": "high-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-mixed__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "high-mixed",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-conflict__reversed__scip__5s",
+      "batch": "primary",
+      "event": "high-conflict",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-mixed__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "near-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-mixed__two__scip__5s",
+      "batch": "primary",
+      "event": "high-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-accessible__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "high-accessible",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-conflict__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "high-conflict",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-mixed__two__scip__5s",
+      "batch": "primary",
+      "event": "near-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-tied__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "near-tied",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__current__scip__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-mixed__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "high-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-accessible__current__scip__5s",
+      "batch": "primary",
+      "event": "near-accessible",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__reversed__scip__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-accessible__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "near-accessible",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__current__scip__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__two__greedy__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-tied__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "high-tied",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__current__greedy__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-accessible__reversed__scip__5s",
+      "batch": "primary",
+      "event": "high-accessible",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__disabled__scip__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__current__scip__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__two__greedy__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-tied__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "high-tied",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__disabled__scip__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-tied__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "near-tied",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__reversed__scip__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-tied__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "near-tied",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-tied__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "high-tied",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-mixed__disabled__scip__5s",
+      "batch": "primary",
+      "event": "near-mixed",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__two__greedy__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-tied__current__greedy__5s",
+      "batch": "primary",
+      "event": "high-tied",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__two__scip__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__current__scip__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__disabled__scip__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__disabled__scip__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-conflict__two__greedy__5s",
+      "batch": "primary",
+      "event": "high-conflict",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-mixed__disabled__scip__5s",
+      "batch": "primary",
+      "event": "high-mixed",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__current__greedy__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__two__scip__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__two__greedy__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-mixed__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "high-mixed",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-conflict__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "near-conflict",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-tied__current__scip__5s",
+      "batch": "primary",
+      "event": "high-tied",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-accessible__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "near-accessible",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-mixed__two__greedy__5s",
+      "batch": "primary",
+      "event": "near-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-tied__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "high-tied",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-accessible__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "high-accessible",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-tied__two__greedy__5s",
+      "batch": "primary",
+      "event": "high-tied",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__two__scip__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-conflict__two__scip__5s",
+      "batch": "primary",
+      "event": "high-conflict",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-conflict__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "near-conflict",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__current__greedy__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__current__scip__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-accessible__current__greedy__5s",
+      "batch": "primary",
+      "event": "high-accessible",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__reversed__scip__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__reversed__scip__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-mixed__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "near-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-accessible__two__scip__5s",
+      "batch": "primary",
+      "event": "near-accessible",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-conflict__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "high-conflict",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__current__greedy__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__current__scip__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-tied__two__scip__5s",
+      "batch": "primary",
+      "event": "high-tied",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-mixed__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "high-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-tied__current__greedy__5s",
+      "batch": "primary",
+      "event": "near-tied",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__disabled__scip__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__current__greedy__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-conflict__two__scip__5s",
+      "batch": "primary",
+      "event": "near-conflict",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__two__scip__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__current__greedy__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-mixed__current__greedy__5s",
+      "batch": "primary",
+      "event": "near-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-conflict__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "near-conflict",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-conflict__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "near-conflict",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-conflict__current__scip__5s",
+      "batch": "primary",
+      "event": "near-conflict",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__disabled__scip__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-tied__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "near-tied",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__reversed__scip__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__current__scip__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__two__greedy__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-accessible__two__greedy__5s",
+      "batch": "primary",
+      "event": "near-accessible",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-mixed__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "high-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__current__greedy__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__two__scip__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-conflict__current__greedy__5s",
+      "batch": "primary",
+      "event": "high-conflict",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__two__greedy__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__current__scip__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__disabled__scip__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__reversed__scip__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__two__scip__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__two__greedy__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__current__greedy__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-tied__disabled__scip__5s",
+      "batch": "primary",
+      "event": "near-tied",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-mixed__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-conflict__reversed__scip__5s",
+      "batch": "primary",
+      "event": "near-conflict",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__two__scip__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-tied__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-tied",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__two__greedy__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-tied__two__greedy__5s",
+      "batch": "primary",
+      "event": "near-tied",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-accessible__disabled__scip__5s",
+      "batch": "primary",
+      "event": "near-accessible",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__two__scip__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__reversed__scip__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__two__scip__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__two__greedy__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-accessible__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "full-accessible",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__current__scip__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-conflict__disabled__scip__5s",
+      "batch": "primary",
+      "event": "near-conflict",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-tied__two__cp_sat__5s",
+      "batch": "primary",
+      "event": "near-tied",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__heavy-mixed__two__scip__5s",
+      "batch": "primary",
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-mixed__disabled__greedy__5s",
+      "batch": "primary",
+      "event": "typical-mixed",
+      "configuration": "disabled",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-accessible__current__scip__5s",
+      "batch": "primary",
+      "event": "high-accessible",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-mixed__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-tied__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-tied",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__full-conflict__current__greedy__5s",
+      "batch": "primary",
+      "event": "full-conflict",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__current__greedy__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-accessible__two__greedy__5s",
+      "batch": "primary",
+      "event": "high-accessible",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__two__greedy__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-accessible__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-accessible",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-tied__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "small-tied",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__disabled__scip__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "disabled",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-tied__two__scip__5s",
+      "batch": "primary",
+      "event": "near-tied",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-conflict__two__greedy__5s",
+      "batch": "primary",
+      "event": "near-conflict",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__near-mixed__disabled__cp_sat__5s",
+      "batch": "primary",
+      "event": "near-mixed",
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-accessible__reversed__greedy__5s",
+      "batch": "primary",
+      "event": "high-accessible",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-conflict__reversed__scip__5s",
+      "batch": "primary",
+      "event": "small-conflict",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__two__scip__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-conflict__current__cp_sat__5s",
+      "batch": "primary",
+      "event": "high-conflict",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__typical-conflict__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "typical-conflict",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__small-accessible__two__greedy__5s",
+      "batch": "primary",
+      "event": "small-accessible",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5
+    },
+    {
+      "id": "primary__high-accessible__reversed__cp_sat__5s",
+      "batch": "primary",
+      "event": "high-accessible",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5
+    },
+    {
+      "id": "budget_sensitivity__high-mixed__two__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "high-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__near-mixed__two__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "near-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__high-mixed__current__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "high-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__near-mixed__two__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "near-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__high-mixed__two__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "high-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__two__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__near-mixed__current__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "near-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__reversed__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__near-mixed__reversed__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "near-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__current__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__current__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__high-mixed__current__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "high-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__near-mixed__two__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "near-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__high-mixed__reversed__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "high-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__near-mixed__reversed__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "near-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__high-mixed__current__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "high-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__near-mixed__current__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "near-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__current__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__two__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__near-mixed__current__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "near-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__two__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__near-mixed__two__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "near-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__near-mixed__current__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "near-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__near-mixed__reversed__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "near-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__near-mixed__two__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "near-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__reversed__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__two__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__current__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__current__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__reversed__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__high-mixed__reversed__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "high-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__current__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__reversed__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__near-mixed__reversed__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "near-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__two__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__high-mixed__two__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "high-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__reversed__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__reversed__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__near-mixed__reversed__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "near-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__two__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__high-mixed__current__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "high-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__high-mixed__reversed__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "high-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__two__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__high-mixed__current__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "high-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__two__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__current__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__near-mixed__current__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "near-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__near-mixed__current__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "near-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__high-mixed__reversed__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "high-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__two__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__high-mixed__reversed__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "high-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__high-mixed__two__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "high-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__high-mixed__reversed__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "high-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__two__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__reversed__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__two__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__reversed__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__reversed__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__current__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__reversed__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__near-mixed__two__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "near-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__two__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__current__scip__60s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__high-mixed__current__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "high-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__current__scip__30s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__current__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__high-mixed__two__cp_sat__30s",
+      "batch": "budget_sensitivity",
+      "event": "high-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__reversed__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__heavy-mixed__reversed__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__high-mixed__two__greedy__30s",
+      "batch": "budget_sensitivity",
+      "event": "high-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 30
+    },
+    {
+      "id": "budget_sensitivity__near-mixed__reversed__greedy__60s",
+      "batch": "budget_sensitivity",
+      "event": "near-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 60
+    },
+    {
+      "id": "budget_sensitivity__full-mixed__current__cp_sat__60s",
+      "batch": "budget_sensitivity",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "prototype__heavy-mixed__current__cp_sat__60s",
+      "batch": "prototype",
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "prototype__near-mixed__current__cp_sat__60s",
+      "batch": "prototype",
+      "event": "near-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "prototype__full-mixed__current__cp_sat__60s",
+      "batch": "prototype",
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    },
+    {
+      "id": "prototype__high-mixed__current__cp_sat__60s",
+      "batch": "prototype",
+      "event": "high-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 60
+    }
+  ],
+  "protocol_amendment": {
+    "date": "2026-10-20",
+    "record": "docs/planning/solver-benchmark-scope-amendment-2026-10-20.md",
+    "events": 21,
+    "main_jobs": 328,
+    "pilot_jobs": 28,
+    "original_runner_ceiling_seconds": 7200
+  },
+  "runtime_amendment": {
+    "date": "2026-10-20",
+    "record": "docs/planning/solver-benchmark-runtime-amendment-2026-10-20.md",
+    "previous_runner_ceiling_seconds": 7200,
+    "runner_ceiling_seconds": 8100,
+    "measured_work_cutoff_seconds": 7800
+  },
+  "persistence_amendment": {
+    "date": "2026-10-20",
+    "record": "docs/planning/solver-benchmark-persistence-amendment-2026-10-20.md",
+    "windows_replace_retry_seconds": [
+      0.05,
+      0.1,
+      0.2,
+      0.4,
+      0.8,
+      1.6
+    ],
+    "study_design_changed": false
+  },
+  "checkpoint_amendment": {
+    "date": "2026-10-20",
+    "record": "docs/planning/solver-benchmark-checkpoint-amendment-2026-10-20.md",
+    "final_trial_record_writes": 1,
+    "study_design_changed": false
+  },
+  "planned_counts": {
+    "primary": 252,
+    "budget_sensitivity": 72,
+    "prototype": 4
+  },
+  "budget_kind": "prototype shared function allowance; comparative search-only allowance",
+  "study_scope": "INITIAL synthetic events; human satisfaction excluded",
+  "environment": {
+    "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+    "executable": "D:\\web-projects\\FYP-Seating-Allocation\\.venv\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "hardware": {},
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "cpu_count": 12,
+    "ortools": "9.15.6755",
+    "scip": "SCIP 10.0.0 [LP solver: SoPlex 8.0.0]",
+    "source_sha256": {
+      "docs\\planning\\benchmark-results-visualization.md": "ef48b837b2331dc89c96d60e0585ebd1da90bfd96785e15f50ae35b23679e41c",
+      "docs\\planning\\experiment-execution-sequence.md": "d801707e6ceef0ae84f4d6c56bda8a5f28eeb37c3eeaec22fb136f5cec0586c2",
+      "docs\\planning\\experiment-hypotheses-and-analysis.md": "ffbd1a428d67c7f40f97463bbb3d2f4f4c11d0d6d59694b394ade9a8b5a79a8d",
+      "docs\\planning\\rank-weighting-experiment.md": "c089d99d1c83d4b032caa2ff8456a9d63ef5e9b0c2a551c156e438d5d5f9c0b1",
+      "docs\\planning\\solver-benchmark-checkpoint-amendment-2026-10-20.md": "ebe5378172b698ec6009555d49b6523f47944cba937e1e568239aa2fa24e6f9d",
+      "docs\\planning\\solver-benchmark-persistence-amendment-2026-10-20.md": "ce987152bc20b6e3b0b10af0237516d10568839b749ffa63c4dffcc781b9a9a6",
+      "docs\\planning\\solver-benchmark-runtime-amendment-2026-10-20.md": "869b291c5247a710c6e2cb253df7387cdf70f550b842847dfc0d2fad351b0236",
+      "docs\\planning\\solver-benchmark-scope-amendment-2026-10-20.md": "f6bdc7c911906523fbbe64c8069e53b1312dc97cc3ea6963bf2365948a8296c6",
+      "docs\\planning\\solver-selection-benchmark.md": "af62c5f0f9ef696842c350f415f2d62a97323f38cc757163ebcea5f5827f2e9f",
+      "research\\experiments\\requirements-benchmark-lock.txt": "0ecc9643514390a0cf847218ea6801cb8dbe7390f99599f49eef610e5c1efbeb",
+      "research\\experiments\\requirements-benchmark.txt": "032df918bb004f5a5e1bdb22ad2ec28fed9fab49e9669fb8023ff34b647c9f6b",
+      "research\\experiments\\setup_benchmark.py": "ea273d666bfdc4e639a3f67ea7e4a1b9a8ed992cf135f82bd19ae154f82287bd",
+      "research\\experiments\\solver_benchmark\\__init__.py": "fc82aaafa0dde89768db92095f2280c9326432978be8cb5b39b4a5587486f280",
+      "research\\experiments\\solver_benchmark\\adapters.py": "cd5bed459989138ea8f2b52bf9c517601e7d0d2a2ccec01fd7fb0909685e34d2",
+      "research\\experiments\\solver_benchmark\\cases.py": "97bac1ac19267e64f40a23d6d5e939e29dc649ae137a3e676107a773cc225675",
+      "research\\experiments\\solver_benchmark\\checks.py": "1f5d8630d288de6832d6d3a97277e66bab9f2a22a458310b9efa3bb11cfdb5d9",
+      "research\\experiments\\solver_benchmark\\common.py": "15c57850d5ea9d1e00489731449e68025abed4bb18e1207e80eb26acb6a38b55",
+      "research\\experiments\\solver_benchmark\\README.md": "ee7e13bb7537024790ae993be9e6b2d1531d3ea1f27aa5be7547c6023afc5e65",
+      "research\\experiments\\solver_benchmark\\report.py": "36c08b817273cfdc34fd54c43ffe519af4aca5ab22412521de1c4616efb73d8f",
+      "research\\experiments\\solver_benchmark\\runner.py": "49a5812d7b07062f3416b9832bffe6ee233d3d136a1968c9ae77ef135c6ca867",
+      "research\\experiments\\solver_selection_benchmark.py": "9221908886f6e667d3038276110659e91cd1fa55aeb5c86d8f59e9f2066061ef",
+      "research\\fixtures\\synthetic_participants.py": "6ee06206791b88285a409e57257eb29d84061044ef80ad17b4904d09cc251d96",
+      "services\\seating\\config\\production_policy.json": "306cd51bf9e00297128ffaf773cf772cb63111c39b8ca96fda6a704b5c9a15c9",
+      "services\\seating\\data\\production_request.json": "89fce8c80363767bad3e513f1079d9f1590c844dcf0f6d778cf365e8ebc92b9d",
+      "services\\seating\\schemas\\production_policy.schema.json": "c70f066c431c5d895ec3e1d0094a2486f48aeb44e479ff4885e1964d378888ff",
+      "services\\seating\\schemas\\production_request.schema.json": "0b3501c00cdf149578560e52c9b283d92ce664e7a605e250a639d4fa6757078a",
+      "services\\seating\\src\\seat_solver\\__init__.py": "c8d624c8beb30ea5034e42eafed1abed1b49f2eb9fb365349b8cc7c70b8cb3e4",
+      "services\\seating\\src\\seat_solver\\cli.py": "38d9302ee012eda76b9e734a356efd8d6c08289ff89bd15a00dd053a10cc318d",
+      "services\\seating\\src\\seat_solver\\jsonio.py": "8567b2ebea615223540edd05c61500425f7a8e05c0e26e4447f5eaa7dd0dfd79",
+      "services\\seating\\src\\seat_solver\\production\\__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "services\\seating\\src\\seat_solver\\production\\absence_repair.py": "b9105a57a24c6839e0710dc0641833ca02239dda7fd78690302e88bf5417c7a4",
+      "services\\seating\\src\\seat_solver\\production\\plan_store.py": "424820466189a2631cf695018bc1ac6b285c89158aae2130dd06c1197fdd1a89",
+      "services\\seating\\src\\seat_solver\\production\\policy.py": "6c76cef59aabe99852f191c7e0d7ba9440f538e6b1ab531267e1e9ee972e36d9",
+      "services\\seating\\src\\seat_solver\\production\\production.py": "562988c945d135832e3b939dda4c84268ec454443120b3b73de7633e98c1e351",
+      "services\\seating\\src\\seat_solver\\production\\production_data.py": "fd996b89ebfcb696e2a58558ba9bb8c1b94ae6b5734c0dc42069b2d33df1559b",
+      "services\\seating\\src\\seat_solver\\production\\production_scoring.py": "8299019b47ce17ce402c1b882d49bffe066e321cfd8bf8e65f59d3aa6b7899e8",
+      "services\\seating\\src\\seat_solver\\production\\production_validator.py": "05cd02979121ddb6faf2c2740a278f49546f238c4724ebbd79d7be40c795df5d",
+      "services\\seating\\src\\seat_solver\\production\\reset_local.py": "4b72435c90472d717194412520891be6fa915430b8cf29ea70ec7bcdeacf09aa",
+      "services\\seating\\src\\seat_solver\\production\\service.py": "06a9341bc4aec5cbebeb15587895b7e26dd39fbe4a9751439c0812ced2c1b5ed",
+      "services\\seating\\src\\seat_solver\\production\\verification.py": "a21e206674f73c5ded7d9437f9fdecd6a6e349a91161f9e34ab9191fecee2f23",
+      "services\\seating\\src\\seat_solver\\production\\workspace.py": "a63aee528b079596f09f64860fe473fc08090d2ac895fbbf99bcecec3ba9994b"
+    },
+    "git_revision": "c0a9c5e1c80ee249c863ac3ee75070be1c3531b9",
+    "git_status": " M docs/planning/experiment-execution-sequence.md\n M docs/planning/solver-benchmark-scope-amendment-2026-10-20.md\n M docs/planning/solver-selection-benchmark.md\n M research/experiments/README.md\n M research/experiments/setup_benchmark.py\n M research/experiments/solver_benchmark/README.md\n M research/experiments/solver_benchmark/cases.py\n M research/experiments/solver_benchmark/common.py\n M research/experiments/solver_benchmark/report.py\n M research/experiments/solver_benchmark/runner.py\n M research/experiments/tests/test_solver_benchmark.py\n?? docs/planning/solver-benchmark-checkpoint-amendment-2026-10-20.md\n?? docs/planning/solver-benchmark-persistence-amendment-2026-10-20.md\n?? docs/planning/solver-benchmark-runtime-amendment-2026-10-20.md\n?? docs/results/my-new-solver-pilot/\n?? docs/results/solver-selection-benchmark-v2-120m-windows/\n?? docs/results/solver-selection-near-prototype-checkpoint-diagnostic-2026-10-20/\n?? docs/results/solver-selection-v4-21-events-135m-windows-main-2026-10-20-attempt1/\n?? docs/results/solver-selection-v4-21-events-135m-windows-main-2026-10-20-attempt2/\n?? docs/results/solver-selection-v4-21-events-135m-windows-main-2026-10-20-attempt3/\n?? docs/results/solver-selection-v4-21-events-135m-windows-plan-2026-10-20/\n",
+    "timezone": "Asia/Kuala_Lumpur",
+    "power_conditions": "Operator must keep plugged in/awake, stable power settings, no competing heavy workloads"
+  },
+  "events": {
+    "small-mixed": {
+      "seed": 20261021,
+      "size": "small",
+      "pattern": "mixed",
+      "accessibility_derivative": false,
+      "input_sha256": "d15a072f0b2b1bee4b8f79bd049ced6304cb8fa19895790285620e834b50f88a",
+      "witness_sha256": "cf025f96fcd1961529c0e7c384ac5a34843cca62c32f63f364b46878b0e64a97",
+      "checked_option_vectors": 320,
+      "registrations": 24,
+      "physical_seats": 32
+    },
+    "small-conflict": {
+      "seed": 20261021,
+      "size": "small",
+      "pattern": "conflict",
+      "accessibility_derivative": false,
+      "input_sha256": "4e6188a9331894a155511fd57ac3c88588393b638b6884f1028895efa10859b1",
+      "witness_sha256": "cf025f96fcd1961529c0e7c384ac5a34843cca62c32f63f364b46878b0e64a97",
+      "checked_option_vectors": 320,
+      "registrations": 24,
+      "physical_seats": 32
+    },
+    "small-tied": {
+      "seed": 20261021,
+      "size": "small",
+      "pattern": "tied",
+      "accessibility_derivative": false,
+      "input_sha256": "b0a830a78351f272592311600d741927ab8b8cafa545131eb212f1c216b0350f",
+      "witness_sha256": "c1fe82db44ff6c6394e67a12c2db1855b9c7af8420975cef479e9342ea0ce981",
+      "checked_option_vectors": 320,
+      "registrations": 24,
+      "physical_seats": 32
+    },
+    "typical-mixed": {
+      "seed": 20261021,
+      "size": "typical",
+      "pattern": "mixed",
+      "accessibility_derivative": false,
+      "input_sha256": "0a6981240781112b3ad9fa257df1a56f6540b4613f3844a7341cfb5ad4265b8f",
+      "witness_sha256": "08a539a59e145fc2ad4708dc6258a53dbfe63d5b5773cd847e608dc08501e53b",
+      "checked_option_vectors": 1718,
+      "registrations": 96,
+      "physical_seats": 152
+    },
+    "typical-conflict": {
+      "seed": 20261021,
+      "size": "typical",
+      "pattern": "conflict",
+      "accessibility_derivative": false,
+      "input_sha256": "bdf1b8e4d078987083dc0bdf600a30cce4ea987f1abd78d7d2a66c6d42289cee",
+      "witness_sha256": "08a539a59e145fc2ad4708dc6258a53dbfe63d5b5773cd847e608dc08501e53b",
+      "checked_option_vectors": 1718,
+      "registrations": 96,
+      "physical_seats": 152
+    },
+    "typical-tied": {
+      "seed": 20261021,
+      "size": "typical",
+      "pattern": "tied",
+      "accessibility_derivative": false,
+      "input_sha256": "27c3598140b6fc28962ff80d6dfa4ca263fcf5e9a8c147d53bd527d98c06111b",
+      "witness_sha256": "421e55ac3d96ee2a4a600d454e029d20d3adc39f540b42289c7e6c5ac9767f30",
+      "checked_option_vectors": 4288,
+      "registrations": 96,
+      "physical_seats": 152
+    },
+    "high-mixed": {
+      "seed": 20261021,
+      "size": "high",
+      "pattern": "mixed",
+      "accessibility_derivative": false,
+      "input_sha256": "c5fb38d0cee514c6009224d8cd9f527dbf9d03db6121dceaae425c12b3824ad7",
+      "witness_sha256": "798bc3d921f463bb7dc8c8bccb99db9531c89907c007d919c4650ff5c36d5b9f",
+      "checked_option_vectors": 2398,
+      "registrations": 117,
+      "physical_seats": 179
+    },
+    "high-conflict": {
+      "seed": 20261021,
+      "size": "high",
+      "pattern": "conflict",
+      "accessibility_derivative": false,
+      "input_sha256": "0de9920b30a0cf72cd1923ec66a232222c46b4555c7047e475fa6bd42bad7863",
+      "witness_sha256": "798bc3d921f463bb7dc8c8bccb99db9531c89907c007d919c4650ff5c36d5b9f",
+      "checked_option_vectors": 2398,
+      "registrations": 117,
+      "physical_seats": 179
+    },
+    "high-tied": {
+      "seed": 20261021,
+      "size": "high",
+      "pattern": "tied",
+      "accessibility_derivative": false,
+      "input_sha256": "6cb58add184efcf73c235146383cbd3d56eeb7da5db56e0810f32e67bb3292f5",
+      "witness_sha256": "f270fb07457394767836b770b92c0d10cda6119156df3718c518248bc9b250f2",
+      "checked_option_vectors": 6472,
+      "registrations": 117,
+      "physical_seats": 179
+    },
+    "near-mixed": {
+      "seed": 20261021,
+      "size": "near",
+      "pattern": "mixed",
+      "accessibility_derivative": false,
+      "input_sha256": "32ebc8207f369e2cef093efb939d5e6ed51d670285d15ff9b738956c34acae8f",
+      "witness_sha256": "1579949f979107af468183cf2e38a5eadf406baac89e65d0894fe1b5288667e5",
+      "checked_option_vectors": 2868,
+      "registrations": 139,
+      "physical_seats": 212
+    },
+    "near-conflict": {
+      "seed": 20261021,
+      "size": "near",
+      "pattern": "conflict",
+      "accessibility_derivative": false,
+      "input_sha256": "a4cb0ee6125a3e22e0397978f08a01955f119f45685bc64a8753eaef34c5c407",
+      "witness_sha256": "1579949f979107af468183cf2e38a5eadf406baac89e65d0894fe1b5288667e5",
+      "checked_option_vectors": 2868,
+      "registrations": 139,
+      "physical_seats": 212
+    },
+    "near-tied": {
+      "seed": 20261021,
+      "size": "near",
+      "pattern": "tied",
+      "accessibility_derivative": false,
+      "input_sha256": "82f066c67226b07a3e2e6c1dadf664ac64b1a7fff83ef2eb81887847d21be36e",
+      "witness_sha256": "6b5787b75b159971a67f6efcecc49ea5a31e8f05022373d26c7b6b11fcce1321",
+      "checked_option_vectors": 8716,
+      "registrations": 139,
+      "physical_seats": 212
+    },
+    "full-mixed": {
+      "seed": 20261021,
+      "size": "full",
+      "pattern": "mixed",
+      "accessibility_derivative": false,
+      "input_sha256": "5f9fa8803246ad9a0457cdcc51a0f7eeb3407b03e11c7949c71b30049cb368dd",
+      "witness_sha256": "f66bc7388a432040af340fd5ef57a2b918751008d9d2d76a3f4533c0073ba022",
+      "checked_option_vectors": 3088,
+      "registrations": 152,
+      "physical_seats": 232
+    },
+    "full-conflict": {
+      "seed": 20261021,
+      "size": "full",
+      "pattern": "conflict",
+      "accessibility_derivative": false,
+      "input_sha256": "c0a0aa65665879c541d7b047c981e7d45f0a449f0e4468f4a2de2a32d0c1d715",
+      "witness_sha256": "f66bc7388a432040af340fd5ef57a2b918751008d9d2d76a3f4533c0073ba022",
+      "checked_option_vectors": 3088,
+      "registrations": 152,
+      "physical_seats": 232
+    },
+    "full-tied": {
+      "seed": 20261021,
+      "size": "full",
+      "pattern": "tied",
+      "accessibility_derivative": false,
+      "input_sha256": "89c508f5ad4d4c88cf6aa31904e2c528a5686aa5ef0dc4e9e8f1445c29e3d898",
+      "witness_sha256": "f2a9856b79d64f194ef9f9ad6b05c0936c3e55bf47ea7dff2e3c0e3000208316",
+      "checked_option_vectors": 9664,
+      "registrations": 152,
+      "physical_seats": 232
+    },
+    "heavy-mixed": {
+      "seed": 20261022,
+      "size": "heavy",
+      "pattern": "mixed",
+      "accessibility_derivative": false,
+      "input_sha256": "29506f1bc179d665bdc4c30ee6ef52a66d30d61eff1a86d0f42974b3c099f949",
+      "witness_sha256": "b8703cd2f74fa010b459f6c531610d49cf3cec1a578301ec007f0a9d59eb4b0c",
+      "checked_option_vectors": 3156,
+      "registrations": 131,
+      "physical_seats": 230
+    },
+    "small-accessible": {
+      "seed": 20261021,
+      "size": "small",
+      "pattern": "mixed",
+      "accessibility_derivative": true,
+      "base_event": "small-mixed",
+      "accessible_ids": [
+        "P0004",
+        "P0008"
+      ],
+      "input_sha256": "6cf220b2c006cbf8534d4a26f47d9c0bf5d6aa96737a0d05b078f90e65e5ab58",
+      "witness_sha256": "cf025f96fcd1961529c0e7c384ac5a34843cca62c32f63f364b46878b0e64a97",
+      "checked_option_vectors": 308,
+      "registrations": 24,
+      "physical_seats": 32
+    },
+    "typical-accessible": {
+      "seed": 20261021,
+      "size": "typical",
+      "pattern": "mixed",
+      "accessibility_derivative": true,
+      "base_event": "typical-mixed",
+      "accessible_ids": [
+        "P0003",
+        "P0005",
+        "P0009",
+        "P0011",
+        "P0012",
+        "P0020",
+        "P0024",
+        "P0027",
+        "P0031"
+      ],
+      "input_sha256": "a454bf2eb7db64d937ab05f46de7c17e792b80f052bbaccea88822e1400dbf2c",
+      "witness_sha256": "08a539a59e145fc2ad4708dc6258a53dbfe63d5b5773cd847e608dc08501e53b",
+      "checked_option_vectors": 1606,
+      "registrations": 96,
+      "physical_seats": 152
+    },
+    "high-accessible": {
+      "seed": 20261021,
+      "size": "high",
+      "pattern": "mixed",
+      "accessibility_derivative": true,
+      "base_event": "high-mixed",
+      "accessible_ids": [
+        "P0002",
+        "P0006",
+        "P0011",
+        "P0016",
+        "P0019",
+        "P0024",
+        "P0025",
+        "P0029",
+        "P0031",
+        "P0033",
+        "P0034"
+      ],
+      "input_sha256": "c69940ab75cb12a7a8c179c0de874057290285055eb8afd1d7e714fe34676b57",
+      "witness_sha256": "798bc3d921f463bb7dc8c8bccb99db9531c89907c007d919c4650ff5c36d5b9f",
+      "checked_option_vectors": 2252,
+      "registrations": 117,
+      "physical_seats": 179
+    },
+    "near-accessible": {
+      "seed": 20261021,
+      "size": "near",
+      "pattern": "mixed",
+      "accessibility_derivative": true,
+      "base_event": "near-mixed",
+      "accessible_ids": [
+        "P0002",
+        "P0007",
+        "P0008",
+        "P0010",
+        "P0018",
+        "P0024",
+        "P0025",
+        "P0028",
+        "P0030",
+        "P0032",
+        "P0034",
+        "P0041",
+        "P0045"
+      ],
+      "input_sha256": "adb5eea1b359d97557382fb4c0428ccedbd60ce1e16b927a277880a50dc08c59",
+      "witness_sha256": "1579949f979107af468183cf2e38a5eadf406baac89e65d0894fe1b5288667e5",
+      "checked_option_vectors": 2664,
+      "registrations": 139,
+      "physical_seats": 212
+    },
+    "full-accessible": {
+      "seed": 20261021,
+      "size": "full",
+      "pattern": "mixed",
+      "accessibility_derivative": true,
+      "base_event": "full-mixed",
+      "accessible_ids": [
+        "P0005",
+        "P0011",
+        "P0016",
+        "P0019",
+        "P0022",
+        "P0023",
+        "P0026",
+        "P0030",
+        "P0034",
+        "P0036",
+        "P0038",
+        "P0044",
+        "P0047",
+        "P0049",
+        "P0054"
+      ],
+      "input_sha256": "da0e8282cfeca94445ba6867fbdaa0fce757cf109f3b6ddccdd77d424ad4e0cb",
+      "witness_sha256": "f66bc7388a432040af340fd5ef57a2b918751008d9d2d76a3f4533c0073ba022",
+      "checked_option_vectors": 2862,
+      "registrations": 152,
+      "physical_seats": 232
+    }
+  },
+  "pilot_projection": {
+    "elapsed_preparation_seconds": 656.4572812998667,
+    "comparative_search_allocation_seconds": 4500,
+    "comparative_jobs_per_method": {
+      "cp_sat": 108,
+      "scip": 108,
+      "greedy": 108
+    },
+    "prototype_allowance_seconds": 240,
+    "overhead_seconds_per_method": {
+      "cp_sat": 11.059062125044875,
+      "scip": 3.712107624509372,
+      "greedy": 2.8320713746361434
+    },
+    "prototype_extra_seconds": 6.9929651248967275,
+    "report_reserve_seconds": 300,
+    "runner_ceiling_seconds": 8100,
+    "projected_total_seconds": 7625.579183212016,
+    "fits_runner_ceiling": true,
+    "method": "Full allocated search + 1.25x maximum pilot overhead + fixed margins; no assumed greedy early exit"
+  },
+  "ended_at": "2026-10-20T15:08:28.595917+00:00",
+  "elapsed_seconds_before_reporting": 4021.6091501000337,
+  "report_completed": true,
+  "runner_elapsed_seconds": 4045.0503223999403
+}

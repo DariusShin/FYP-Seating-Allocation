@@ -1,0 +1,10 @@
+{
+  "id": "primary__near-accessible__current__scip__5s",
+  "batch": "primary",
+  "event": "near-accessible",
+  "configuration": "current",
+  "method": "scip",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

@@ -1,0 +1,10 @@
+{
+  "id": "primary__high-conflict__disabled__greedy__5s",
+  "batch": "primary",
+  "event": "high-conflict",
+  "configuration": "disabled",
+  "method": "greedy",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

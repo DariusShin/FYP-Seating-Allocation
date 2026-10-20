@@ -1,0 +1,10 @@
+{
+  "id": "pilot__near__cp_sat__5s",
+  "batch": "pilot",
+  "event": "near-mixed",
+  "configuration": "current",
+  "method": "cp_sat",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

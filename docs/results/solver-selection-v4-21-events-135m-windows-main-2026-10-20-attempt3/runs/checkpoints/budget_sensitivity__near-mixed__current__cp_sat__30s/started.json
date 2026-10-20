@@ -1,0 +1,10 @@
+{
+  "id": "budget_sensitivity__near-mixed__current__cp_sat__30s",
+  "batch": "budget_sensitivity",
+  "event": "near-mixed",
+  "configuration": "current",
+  "method": "cp_sat",
+  "budget_seconds": 30,
+  "execution_status": "running",
+  "valid": false
+}

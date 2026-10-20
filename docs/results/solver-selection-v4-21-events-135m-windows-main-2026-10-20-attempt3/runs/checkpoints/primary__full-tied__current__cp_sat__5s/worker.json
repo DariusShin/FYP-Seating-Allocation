@@ -1,0 +1,51 @@
+{
+  "id": "primary__full-tied__current__cp_sat__5s",
+  "batch": "primary",
+  "event": "full-tied",
+  "configuration": "current",
+  "method": "cp_sat",
+  "budget_seconds": 5,
+  "search_seed": 20261012,
+  "worker_count": 1,
+  "canonicalize": false,
+  "request_sha256": "b84bf29365fd078de7dd9464d2fd58073d10e8a67ead0a3e025052b3dd9f2f17",
+  "weights": {
+    "contribution_seat": 4,
+    "activeness": 3,
+    "category_zone": 2
+  },
+  "registrations": 152,
+  "physical_seats": 232,
+  "execution_status": "completed",
+  "valid": false,
+  "placements": null,
+  "objective": null,
+  "components": null,
+  "component_means": null,
+  "absolute_gap": null,
+  "relative_gap": null,
+  "validation": null,
+  "first_incumbent_seconds": null,
+  "first_incumbent_unavailable_reason": "No comparable incumbent callback in SCIP MPSolver wrapper",
+  "solver_status": "UNKNOWN",
+  "reported_objective": null,
+  "best_bound": null,
+  "backend": "OR-Tools CP-SAT",
+  "solver_wall_seconds": 5.0141935,
+  "search_call_seconds": 5.0171129000373185,
+  "branches": 31022,
+  "conflicts": 0,
+  "timing": {
+    "preprocessing_seconds": 1.5279629998840392,
+    "model_build_seconds": 17.464003699831665,
+    "search_seconds": 5.0171129000373185,
+    "extraction_seconds": 8.180039003491402e-05,
+    "validation_scoring_seconds": 0.002002499997615814,
+    "allocation_total_seconds": 24.011163900140673
+  },
+  "valid_plan_return_seconds": null,
+  "memory": {
+    "worker_peak_rss_bytes": null,
+    "scope": "Fresh per-trial worker lifetime peak; includes imports, model and audit; not solver-only"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "passed": true,
+  "events": {
+    "small-mixed": {
+      "seed": 20261020,
+      "size": "small",
+      "pattern": "mixed",
+      "accessibility_derivative": false,
+      "input_sha256": "e4fef6faba04d2dfa6906248eed8f00cc723506854108ddc595b398012b2e2d6",
+      "witness_sha256": "d9fbda7af6e7d03d853f45265835ccd5bed7ed3d3d20baeeb51c22f4ddcab539",
+      "checked_option_vectors": 320,
+      "registrations": 24,
+      "physical_seats": 32
+    },
+    "typical-mixed": {
+      "seed": 20261020,
+      "size": "typical",
+      "pattern": "mixed",
+      "accessibility_derivative": false,
+      "input_sha256": "5a7537c5f1631c9f359fa392a2fa6301869de9fd788764dedc845239b78140f7",
+      "witness_sha256": "c445e8761770eb6999319843c6c36a9966cc5fd16de3cdcca6aeab32cda9f2d3",
+      "checked_option_vectors": 1674,
+      "registrations": 96,
+      "physical_seats": 152
+    },
+    "high-mixed": {
+      "seed": 20261020,
+      "size": "high",
+      "pattern": "mixed",
+      "accessibility_derivative": false,
+      "input_sha256": "a0090dc2c77d87fa3cc8eac9cfb7207bd4bb44c25388aa87dac3fd7ca9bde656",
+      "witness_sha256": "6928e79c308461718212ae4de2e7af554c7e3a2b2d8b2652b8d0dc7dfdd7c590",
+      "checked_option_vectors": 2426,
+      "registrations": 117,
+      "physical_seats": 179
+    },
+    "near-mixed": {
+      "seed": 20261020,
+      "size": "near",
+      "pattern": "mixed",
+      "accessibility_derivative": false,
+      "input_sha256": "1d24e1327499df74e52bdeafc216b3496be68c47ad198592d3478b5a65f5c344",
+      "witness_sha256": "05d5e21ba161dd73347926a4423da9fff39ddfb408e4844ab4bf0bc7b832ebbc",
+      "checked_option_vectors": 2850,
+      "registrations": 139,
+      "physical_seats": 212
+    },
+    "full-mixed": {
+      "seed": 20261020,
+      "size": "full",
+      "pattern": "mixed",
+      "accessibility_derivative": false,
+      "input_sha256": "d6d31f17c29c47899b3ba03f20f2e5835e0663803da11a51ff9a87e77e29d0f4",
+      "witness_sha256": "ada251e4210993d3d5050c5ae185c98d64dd978d698adda3ed4c73774aed576d",
+      "checked_option_vectors": 3302,
+      "registrations": 152,
+      "physical_seats": 232
+    },
+    "heavy-mixed": {
+      "seed": 20261020,
+      "size": "heavy",
+      "pattern": "mixed",
+      "accessibility_derivative": false,
+      "input_sha256": "92590ccf269f5b7e14049600e374dbfb456ba4bb696dffab8290be5f5776a048",
+      "witness_sha256": "c45bb3f5606d4cd6c5cf95a347a4397e2394c8cf6b888598216c8ef7365fb11c",
+      "checked_option_vectors": 3348,
+      "registrations": 131,
+      "physical_seats": 230
+    }
+  },
+  "worker_elapsed_seconds": 27.650057200342417,
+  "worker_exit_code": 0
+}

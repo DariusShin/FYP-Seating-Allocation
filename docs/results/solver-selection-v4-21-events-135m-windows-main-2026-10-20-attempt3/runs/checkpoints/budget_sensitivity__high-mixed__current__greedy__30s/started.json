@@ -1,0 +1,10 @@
+{
+  "id": "budget_sensitivity__high-mixed__current__greedy__30s",
+  "batch": "budget_sensitivity",
+  "event": "high-mixed",
+  "configuration": "current",
+  "method": "greedy",
+  "budget_seconds": 30,
+  "execution_status": "running",
+  "valid": false
+}

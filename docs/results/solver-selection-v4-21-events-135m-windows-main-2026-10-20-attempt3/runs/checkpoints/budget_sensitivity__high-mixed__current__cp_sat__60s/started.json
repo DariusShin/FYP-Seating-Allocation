@@ -1,0 +1,10 @@
+{
+  "id": "budget_sensitivity__high-mixed__current__cp_sat__60s",
+  "batch": "budget_sensitivity",
+  "event": "high-mixed",
+  "configuration": "current",
+  "method": "cp_sat",
+  "budget_seconds": 60,
+  "execution_status": "running",
+  "valid": false
+}

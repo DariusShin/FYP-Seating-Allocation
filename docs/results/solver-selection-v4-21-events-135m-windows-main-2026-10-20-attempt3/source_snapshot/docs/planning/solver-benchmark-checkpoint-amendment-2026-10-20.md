@@ -1,0 +1,9 @@
+# Solver benchmark checkpoint amendment: 20 October 2026
+
+Status: **implementation safeguard for the next separate main-run attempt**. The v4 study design, 21 events, 328 main jobs, solver allowances, pilot and runner ceilings, scoring, and analysis are unchanged.
+
+The second Windows main-run attempt stopped during the pilot after 551.4 seconds. The `pilot__prototype__near-mixed__60s` worker raised `PermissionError: [WinError 5] Access is denied` while replacing its existing JSON record. Its worker had run for 64.4 seconds; no deadline was reached. That attempt used the D: checkout before the JSON replacement retry was copied there. The exact process that denied replacement is unknown. Preserve the stopped attempt as evidence.
+
+Previously, a trial's report-facing `runs/<id>.json` could be replaced for the initial marker, validation checkpoint, worker result, parent timing, and final result. The runner now writes trial stages to distinct paths under `runs/checkpoints/<id>/`: `started.json`, `validation_pending.json` or `service_return.json` when applicable, `worker.json`, and `payload.json`. The parent writes `runs/<id>.json` once after the worker exits, including its elapsed time, exit code, and any failure status. Main `run` bundles no longer pre-create `not_started` trial files; the manifest supplies the complete schedule. `plan` bundles retain those placeholders. If an interrupted run lacks a final record, reporting marks its existing checkpoint as an attempted but unvalidated trial.
+
+The Windows retry safeguard remains in place for each JSON publication. An execution error or exhausted retry still stops the study and is not treated as a valid solver outcome. This change reduces exposure to locks on an existing trial record; it cannot guarantee writes against persistent access restrictions or disk failure. Use a new output directory and do not merge stopped attempts with it.

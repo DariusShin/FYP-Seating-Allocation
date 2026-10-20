@@ -1,0 +1,10 @@
+{
+  "id": "primary__high-mixed__two__cp_sat__5s",
+  "batch": "primary",
+  "event": "high-mixed",
+  "configuration": "two",
+  "method": "cp_sat",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

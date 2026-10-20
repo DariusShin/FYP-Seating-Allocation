@@ -1,0 +1,10 @@
+{
+  "id": "pilot__typical__greedy__5s",
+  "batch": "pilot",
+  "event": "typical-mixed",
+  "configuration": "current",
+  "method": "greedy",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

@@ -1,0 +1,10 @@
+{
+  "id": "primary__typical-tied__current__greedy__5s",
+  "batch": "primary",
+  "event": "typical-tied",
+  "configuration": "current",
+  "method": "greedy",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

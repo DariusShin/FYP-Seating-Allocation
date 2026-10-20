@@ -1,0 +1,10 @@
+{
+  "id": "primary__heavy-mixed__current__cp_sat__5s",
+  "batch": "primary",
+  "event": "heavy-mixed",
+  "configuration": "current",
+  "method": "cp_sat",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

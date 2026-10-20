@@ -1,0 +1,16 @@
+{
+  "kind": "trial",
+  "job": {
+    "id": "primary__full-tied__disabled__cp_sat__5s",
+    "batch": "primary",
+    "event": "full-tied",
+    "configuration": "disabled",
+    "method": "cp_sat",
+    "budget_seconds": 5
+  },
+  "input": "D:\\web-projects\\FYP-Seating-Allocation\\docs\\results\\solver-selection-v4-21-events-135m-windows-main-2026-10-20-attempt3\\inputs\\full-tied.json",
+  "input_sha256": "89c508f5ad4d4c88cf6aa31904e2c528a5686aa5ef0dc4e9e8f1445c29e3d898",
+  "store": "D:\\web-projects\\FYP-Seating-Allocation\\docs\\results\\solver-selection-v4-21-events-135m-windows-main-2026-10-20-attempt3\\local_stores\\main\\primary__full-tied__disabled__cp_sat__5s\\plans.sqlite3",
+  "raw_output": "D:\\web-projects\\FYP-Seating-Allocation\\docs\\results\\solver-selection-v4-21-events-135m-windows-main-2026-10-20-attempt3\\prototype_outputs\\main\\primary__full-tied__disabled__cp_sat__5s.json",
+  "checkpoint_dir": "D:\\web-projects\\FYP-Seating-Allocation\\docs\\results\\solver-selection-v4-21-events-135m-windows-main-2026-10-20-attempt3\\runs\\checkpoints\\primary__full-tied__disabled__cp_sat__5s"
+}

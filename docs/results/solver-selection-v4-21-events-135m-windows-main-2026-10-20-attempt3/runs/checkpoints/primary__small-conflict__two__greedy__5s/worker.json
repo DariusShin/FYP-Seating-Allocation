@@ -1,0 +1,214 @@
+{
+  "id": "primary__small-conflict__two__greedy__5s",
+  "batch": "primary",
+  "event": "small-conflict",
+  "configuration": "two",
+  "method": "greedy",
+  "budget_seconds": 5,
+  "search_seed": 20261012,
+  "worker_count": 1,
+  "canonicalize": false,
+  "request_sha256": "902c5bb364090f3de84903ce0c8498db0c907e85f419faf685343e95bd019b55",
+  "weights": {
+    "contribution_seat": 4,
+    "activeness": 0,
+    "category_zone": 3
+  },
+  "registrations": 24,
+  "physical_seats": 32,
+  "execution_status": "completed",
+  "valid": true,
+  "placements": [
+    {
+      "participant_id": "P0001",
+      "seat_ids": [
+        "R01-S09",
+        "R01-S10"
+      ]
+    },
+    {
+      "participant_id": "P0002",
+      "seat_ids": [
+        "R01-S13",
+        "R01-S14"
+      ]
+    },
+    {
+      "participant_id": "P0003",
+      "seat_ids": [
+        "R01-S15",
+        "R01-S16"
+      ]
+    },
+    {
+      "participant_id": "P0004",
+      "seat_ids": [
+        "R01-S11",
+        "R01-S12"
+      ]
+    },
+    {
+      "participant_id": "P0005",
+      "seat_ids": [
+        "R01-S01",
+        "R01-S02"
+      ]
+    },
+    {
+      "participant_id": "P0006",
+      "seat_ids": [
+        "R01-S05",
+        "R01-S06"
+      ]
+    },
+    {
+      "participant_id": "P0007",
+      "seat_ids": [
+        "R01-S07",
+        "R01-S08"
+      ]
+    },
+    {
+      "participant_id": "P0008",
+      "seat_ids": [
+        "R01-S03",
+        "R01-S04"
+      ]
+    },
+    {
+      "participant_id": "P0009",
+      "seat_ids": [
+        "R02-S09"
+      ]
+    },
+    {
+      "participant_id": "P0010",
+      "seat_ids": [
+        "R02-S10"
+      ]
+    },
+    {
+      "participant_id": "P0011",
+      "seat_ids": [
+        "R02-S11"
+      ]
+    },
+    {
+      "participant_id": "P0012",
+      "seat_ids": [
+        "R02-S12"
+      ]
+    },
+    {
+      "participant_id": "P0013",
+      "seat_ids": [
+        "R02-S13"
+      ]
+    },
+    {
+      "participant_id": "P0014",
+      "seat_ids": [
+        "R02-S14"
+      ]
+    },
+    {
+      "participant_id": "P0015",
+      "seat_ids": [
+        "R02-S15"
+      ]
+    },
+    {
+      "participant_id": "P0016",
+      "seat_ids": [
+        "R02-S16"
+      ]
+    },
+    {
+      "participant_id": "P0017",
+      "seat_ids": [
+        "R02-S08"
+      ]
+    },
+    {
+      "participant_id": "P0018",
+      "seat_ids": [
+        "R02-S06"
+      ]
+    },
+    {
+      "participant_id": "P0019",
+      "seat_ids": [
+        "R02-S07"
+      ]
+    },
+    {
+      "participant_id": "P0020",
+      "seat_ids": [
+        "R02-S05"
+      ]
+    },
+    {
+      "participant_id": "P0021",
+      "seat_ids": [
+        "R02-S04"
+      ]
+    },
+    {
+      "participant_id": "P0022",
+      "seat_ids": [
+        "R02-S03"
+      ]
+    },
+    {
+      "participant_id": "P0023",
+      "seat_ids": [
+        "R02-S02"
+      ]
+    },
+    {
+      "participant_id": "P0024",
+      "seat_ids": [
+        "R02-S01"
+      ]
+    }
+  ],
+  "objective": 2785,
+  "components": {
+    "contribution_seat": 253,
+    "activeness": 956,
+    "category_zone": 591
+  },
+  "component_means": {
+    "contribution_seat": 10.541666666666666,
+    "activeness": 39.833333333333336,
+    "category_zone": 24.625
+  },
+  "absolute_gap": null,
+  "relative_gap": null,
+  "validation": {
+    "passed": true,
+    "issues": []
+  },
+  "first_incumbent_seconds": null,
+  "first_incumbent_unavailable_reason": "No comparable incumbent callback in SCIP MPSolver wrapper",
+  "solver_status": "FEASIBLE",
+  "best_bound": null,
+  "reported_objective": null,
+  "backend": "deterministic forward-checking greedy v1",
+  "candidates_tested": 24,
+  "committed_registrations": 24,
+  "cost_per_registration": 116.04166666666667,
+  "timing": {
+    "preprocessing_seconds": 0.05947719980031252,
+    "model_build_seconds": 7.4999406933784485e-06,
+    "search_seconds": 0.0184086998924613,
+    "extraction_seconds": 0,
+    "validation_scoring_seconds": 0.0858591003343463,
+    "allocation_total_seconds": 0.1637524999678135
+  },
+  "valid_plan_return_seconds": 0.1637524999678135,
+  "memory": {
+    "worker_peak_rss_bytes": null,
+    "scope": "Fresh per-trial worker lifetime peak; includes imports, model and audit; not solver-only"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "primary__small-conflict__current__greedy__5s",
+  "batch": "primary",
+  "event": "small-conflict",
+  "configuration": "current",
+  "method": "greedy",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

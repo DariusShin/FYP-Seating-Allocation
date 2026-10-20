@@ -1,0 +1,10 @@
+{
+  "id": "primary__small-tied__reversed__scip__5s",
+  "batch": "primary",
+  "event": "small-tied",
+  "configuration": "reversed",
+  "method": "scip",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

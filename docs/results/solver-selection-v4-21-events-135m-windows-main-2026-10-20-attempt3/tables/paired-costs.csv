@@ -1,0 +1,127 @@
+event,configuration,comparator,cp_valid,comparator_valid,difference_per_registration,exclusion
+full-accessible,current,greedy,True,True,-23.17763157894737,
+full-conflict,current,greedy,True,False,,No both-valid complete pair
+full-mixed,current,greedy,False,False,,No both-valid complete pair
+full-tied,current,greedy,False,False,,No both-valid complete pair
+heavy-mixed,current,greedy,True,False,,No both-valid complete pair
+high-accessible,current,greedy,True,False,,No both-valid complete pair
+high-conflict,current,greedy,True,False,,No both-valid complete pair
+high-mixed,current,greedy,False,False,,No both-valid complete pair
+high-tied,current,greedy,False,False,,No both-valid complete pair
+near-accessible,current,greedy,True,False,,No both-valid complete pair
+near-conflict,current,greedy,False,True,,No both-valid complete pair
+near-mixed,current,greedy,True,True,-27.050359712230215,
+near-tied,current,greedy,False,False,,No both-valid complete pair
+small-accessible,current,greedy,True,True,-11.75,
+small-conflict,current,greedy,True,True,-22.208333333333332,
+small-mixed,current,greedy,True,True,-13.916666666666666,
+small-tied,current,greedy,True,False,,No both-valid complete pair
+typical-accessible,current,greedy,True,False,,No both-valid complete pair
+typical-conflict,current,greedy,True,False,,No both-valid complete pair
+typical-mixed,current,greedy,True,False,,No both-valid complete pair
+typical-tied,current,greedy,True,False,,No both-valid complete pair
+full-accessible,current,scip,True,False,,No both-valid complete pair
+full-conflict,current,scip,True,False,,No both-valid complete pair
+full-mixed,current,scip,False,False,,No both-valid complete pair
+full-tied,current,scip,False,False,,No both-valid complete pair
+heavy-mixed,current,scip,True,False,,No both-valid complete pair
+high-accessible,current,scip,True,False,,No both-valid complete pair
+high-conflict,current,scip,True,False,,No both-valid complete pair
+high-mixed,current,scip,False,False,,No both-valid complete pair
+high-tied,current,scip,False,False,,No both-valid complete pair
+near-accessible,current,scip,True,True,13.0,
+near-conflict,current,scip,False,False,,No both-valid complete pair
+near-mixed,current,scip,True,True,14.553956834532373,
+near-tied,current,scip,False,False,,No both-valid complete pair
+small-accessible,current,scip,True,True,0.0,
+small-conflict,current,scip,True,True,0.0,
+small-mixed,current,scip,True,True,0.0,
+small-tied,current,scip,True,True,0.0,
+typical-accessible,current,scip,True,True,1.5833333333333333,
+typical-conflict,current,scip,True,True,2.7708333333333335,
+typical-mixed,current,scip,True,True,0.3958333333333333,
+typical-tied,current,scip,True,False,,No both-valid complete pair
+full-accessible,reversed,greedy,True,True,-15.31578947368421,
+full-conflict,reversed,greedy,True,False,,No both-valid complete pair
+full-mixed,reversed,greedy,True,False,,No both-valid complete pair
+full-tied,reversed,greedy,False,False,,No both-valid complete pair
+heavy-mixed,reversed,greedy,True,False,,No both-valid complete pair
+high-accessible,reversed,greedy,True,False,,No both-valid complete pair
+high-conflict,reversed,greedy,True,False,,No both-valid complete pair
+high-mixed,reversed,greedy,False,False,,No both-valid complete pair
+high-tied,reversed,greedy,False,False,,No both-valid complete pair
+near-accessible,reversed,greedy,True,False,,No both-valid complete pair
+near-conflict,reversed,greedy,True,True,-10.884892086330936,
+near-mixed,reversed,greedy,False,True,,No both-valid complete pair
+near-tied,reversed,greedy,False,False,,No both-valid complete pair
+small-accessible,reversed,greedy,True,False,,No both-valid complete pair
+small-conflict,reversed,greedy,True,False,,No both-valid complete pair
+small-mixed,reversed,greedy,True,False,,No both-valid complete pair
+small-tied,reversed,greedy,True,False,,No both-valid complete pair
+typical-accessible,reversed,greedy,True,False,,No both-valid complete pair
+typical-conflict,reversed,greedy,True,False,,No both-valid complete pair
+typical-mixed,reversed,greedy,True,False,,No both-valid complete pair
+typical-tied,reversed,greedy,True,False,,No both-valid complete pair
+full-accessible,reversed,scip,True,False,,No both-valid complete pair
+full-conflict,reversed,scip,True,False,,No both-valid complete pair
+full-mixed,reversed,scip,True,False,,No both-valid complete pair
+full-tied,reversed,scip,False,False,,No both-valid complete pair
+heavy-mixed,reversed,scip,True,False,,No both-valid complete pair
+high-accessible,reversed,scip,True,False,,No both-valid complete pair
+high-conflict,reversed,scip,True,False,,No both-valid complete pair
+high-mixed,reversed,scip,False,False,,No both-valid complete pair
+high-tied,reversed,scip,False,False,,No both-valid complete pair
+near-accessible,reversed,scip,True,False,,No both-valid complete pair
+near-conflict,reversed,scip,True,False,,No both-valid complete pair
+near-mixed,reversed,scip,False,False,,No both-valid complete pair
+near-tied,reversed,scip,False,False,,No both-valid complete pair
+small-accessible,reversed,scip,True,True,0.0,
+small-conflict,reversed,scip,True,True,0.0,
+small-mixed,reversed,scip,True,True,0.0,
+small-tied,reversed,scip,True,True,0.0,
+typical-accessible,reversed,scip,True,True,0.09375,
+typical-conflict,reversed,scip,True,True,0.0,
+typical-mixed,reversed,scip,True,True,0.22916666666666666,
+typical-tied,reversed,scip,True,False,,No both-valid complete pair
+full-accessible,two,greedy,True,True,-12.81578947368421,
+full-conflict,two,greedy,True,False,,No both-valid complete pair
+full-mixed,two,greedy,True,False,,No both-valid complete pair
+full-tied,two,greedy,False,False,,No both-valid complete pair
+heavy-mixed,two,greedy,True,False,,No both-valid complete pair
+high-accessible,two,greedy,True,False,,No both-valid complete pair
+high-conflict,two,greedy,True,False,,No both-valid complete pair
+high-mixed,two,greedy,True,False,,No both-valid complete pair
+high-tied,two,greedy,True,False,,No both-valid complete pair
+near-accessible,two,greedy,True,False,,No both-valid complete pair
+near-conflict,two,greedy,True,False,,No both-valid complete pair
+near-mixed,two,greedy,True,False,,No both-valid complete pair
+near-tied,two,greedy,False,False,,No both-valid complete pair
+small-accessible,two,greedy,True,True,-13.291666666666666,
+small-conflict,two,greedy,True,True,-20.583333333333332,
+small-mixed,two,greedy,True,True,-20.583333333333332,
+small-tied,two,greedy,True,False,,No both-valid complete pair
+typical-accessible,two,greedy,True,False,,No both-valid complete pair
+typical-conflict,two,greedy,True,False,,No both-valid complete pair
+typical-mixed,two,greedy,True,False,,No both-valid complete pair
+typical-tied,two,greedy,True,False,,No both-valid complete pair
+full-accessible,two,scip,True,False,,No both-valid complete pair
+full-conflict,two,scip,True,False,,No both-valid complete pair
+full-mixed,two,scip,True,False,,No both-valid complete pair
+full-tied,two,scip,False,False,,No both-valid complete pair
+heavy-mixed,two,scip,True,False,,No both-valid complete pair
+high-accessible,two,scip,True,False,,No both-valid complete pair
+high-conflict,two,scip,True,False,,No both-valid complete pair
+high-mixed,two,scip,True,False,,No both-valid complete pair
+high-tied,two,scip,True,False,,No both-valid complete pair
+near-accessible,two,scip,True,True,19.014388489208635,
+near-conflict,two,scip,True,True,15.309352517985612,
+near-mixed,two,scip,True,True,15.309352517985612,
+near-tied,two,scip,False,False,,No both-valid complete pair
+small-accessible,two,scip,True,True,0.0,
+small-conflict,two,scip,True,True,0.0,
+small-mixed,two,scip,True,True,0.0,
+small-tied,two,scip,True,True,0.0,
+typical-accessible,two,scip,True,True,9.71875,
+typical-conflict,two,scip,True,True,4.46875,
+typical-mixed,two,scip,True,True,4.46875,
+typical-tied,two,scip,True,False,,No both-valid complete pair

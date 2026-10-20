@@ -1,0 +1,10 @@
+{
+  "id": "pilot__full__cp_sat__5s",
+  "batch": "pilot",
+  "event": "full-mixed",
+  "configuration": "current",
+  "method": "cp_sat",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

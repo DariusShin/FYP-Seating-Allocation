@@ -1,0 +1,3136 @@
+{
+  "protocol": "solver-selection-v4-21-events-135m-2026-10-20",
+  "mode": "run",
+  "study_status": "completed",
+  "groups": [
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "current",
+      "method": "cp_sat",
+      "planned": 21,
+      "attempted": 21,
+      "validated": 15,
+      "valid_rate_attempted": 0.7142857142857143,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 21
+      },
+      "solver_statuses": {
+        "FEASIBLE": 10,
+        "UNKNOWN": 6,
+        "OPTIMAL": 5
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "current",
+      "method": "scip",
+      "planned": 21,
+      "attempted": 21,
+      "validated": 9,
+      "valid_rate_attempted": 0.42857142857142855,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 21
+      },
+      "solver_statuses": {
+        "OPTIMAL": 7,
+        "FEASIBLE": 2,
+        "UNKNOWN": 12
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "current",
+      "method": "greedy",
+      "planned": 21,
+      "attempted": 21,
+      "validated": 6,
+      "valid_rate_attempted": 0.2857142857142857,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 21
+      },
+      "solver_statuses": {
+        "CONSTRUCTION_FAILED": 15,
+        "FEASIBLE": 6
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "planned": 21,
+      "attempted": 21,
+      "validated": 16,
+      "valid_rate_attempted": 0.7619047619047619,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 21
+      },
+      "solver_statuses": {
+        "OPTIMAL": 5,
+        "FEASIBLE": 11,
+        "UNKNOWN": 5
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "reversed",
+      "method": "scip",
+      "planned": 21,
+      "attempted": 21,
+      "validated": 7,
+      "valid_rate_attempted": 0.3333333333333333,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 21
+      },
+      "solver_statuses": {
+        "UNKNOWN": 14,
+        "OPTIMAL": 7
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "reversed",
+      "method": "greedy",
+      "planned": 21,
+      "attempted": 21,
+      "validated": 3,
+      "valid_rate_attempted": 0.14285714285714285,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 21
+      },
+      "solver_statuses": {
+        "CONSTRUCTION_FAILED": 18,
+        "FEASIBLE": 3
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "two",
+      "method": "cp_sat",
+      "planned": 21,
+      "attempted": 21,
+      "validated": 19,
+      "valid_rate_attempted": 0.9047619047619048,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 21
+      },
+      "solver_statuses": {
+        "FEASIBLE": 15,
+        "OPTIMAL": 4,
+        "UNKNOWN": 2
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "two",
+      "method": "scip",
+      "planned": 21,
+      "attempted": 21,
+      "validated": 10,
+      "valid_rate_attempted": 0.47619047619047616,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 21
+      },
+      "solver_statuses": {
+        "OPTIMAL": 7,
+        "UNKNOWN": 11,
+        "FEASIBLE": 3
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "two",
+      "method": "greedy",
+      "planned": 21,
+      "attempted": 21,
+      "validated": 4,
+      "valid_rate_attempted": 0.19047619047619047,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 21
+      },
+      "solver_statuses": {
+        "FEASIBLE": 4,
+        "CONSTRUCTION_FAILED": 17
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "disabled",
+      "method": "cp_sat",
+      "planned": 21,
+      "attempted": 21,
+      "validated": 20,
+      "valid_rate_attempted": 0.9523809523809523,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 21
+      },
+      "solver_statuses": {
+        "UNKNOWN": 1,
+        "OPTIMAL": 20
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "disabled",
+      "method": "scip",
+      "planned": 21,
+      "attempted": 21,
+      "validated": 17,
+      "valid_rate_attempted": 0.8095238095238095,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 21
+      },
+      "solver_statuses": {
+        "OPTIMAL": 17,
+        "UNKNOWN": 4
+      }
+    },
+    {
+      "batch": "primary",
+      "budget_seconds": 5,
+      "configuration": "disabled",
+      "method": "greedy",
+      "planned": 21,
+      "attempted": 21,
+      "validated": 0,
+      "valid_rate_attempted": 0.0,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 21
+      },
+      "solver_statuses": {
+        "CONSTRUCTION_FAILED": 21
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 30,
+      "configuration": "current",
+      "method": "cp_sat",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4,
+      "valid_rate_attempted": 1.0,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "FEASIBLE": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 30,
+      "configuration": "current",
+      "method": "scip",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4,
+      "valid_rate_attempted": 1.0,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "OPTIMAL": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 30,
+      "configuration": "current",
+      "method": "greedy",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 1,
+      "valid_rate_attempted": 0.25,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "CONSTRUCTION_FAILED": 3,
+        "FEASIBLE": 1
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 30,
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4,
+      "valid_rate_attempted": 1.0,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "FEASIBLE": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 30,
+      "configuration": "reversed",
+      "method": "scip",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4,
+      "valid_rate_attempted": 1.0,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "OPTIMAL": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 30,
+      "configuration": "reversed",
+      "method": "greedy",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 1,
+      "valid_rate_attempted": 0.25,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "CONSTRUCTION_FAILED": 3,
+        "FEASIBLE": 1
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 30,
+      "configuration": "two",
+      "method": "cp_sat",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4,
+      "valid_rate_attempted": 1.0,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "FEASIBLE": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 30,
+      "configuration": "two",
+      "method": "scip",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4,
+      "valid_rate_attempted": 1.0,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "OPTIMAL": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 30,
+      "configuration": "two",
+      "method": "greedy",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 0,
+      "valid_rate_attempted": 0.0,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "CONSTRUCTION_FAILED": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 60,
+      "configuration": "current",
+      "method": "cp_sat",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4,
+      "valid_rate_attempted": 1.0,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "FEASIBLE": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 60,
+      "configuration": "current",
+      "method": "scip",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4,
+      "valid_rate_attempted": 1.0,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "OPTIMAL": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 60,
+      "configuration": "current",
+      "method": "greedy",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 1,
+      "valid_rate_attempted": 0.25,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "CONSTRUCTION_FAILED": 3,
+        "FEASIBLE": 1
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 60,
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4,
+      "valid_rate_attempted": 1.0,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "FEASIBLE": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 60,
+      "configuration": "reversed",
+      "method": "scip",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4,
+      "valid_rate_attempted": 1.0,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "OPTIMAL": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 60,
+      "configuration": "reversed",
+      "method": "greedy",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 1,
+      "valid_rate_attempted": 0.25,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "CONSTRUCTION_FAILED": 3,
+        "FEASIBLE": 1
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 60,
+      "configuration": "two",
+      "method": "cp_sat",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4,
+      "valid_rate_attempted": 1.0,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "FEASIBLE": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 60,
+      "configuration": "two",
+      "method": "scip",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4,
+      "valid_rate_attempted": 1.0,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "OPTIMAL": 4
+      }
+    },
+    {
+      "batch": "budget_sensitivity",
+      "budget_seconds": 60,
+      "configuration": "two",
+      "method": "greedy",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 0,
+      "valid_rate_attempted": 0.0,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "CONSTRUCTION_FAILED": 4
+      }
+    },
+    {
+      "batch": "prototype",
+      "budget_seconds": 60,
+      "configuration": "current",
+      "method": "cp_sat",
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4,
+      "valid_rate_attempted": 1.0,
+      "coverage": 1.0,
+      "execution_statuses": {
+        "completed": 4
+      },
+      "solver_statuses": {
+        "OPTIMAL": 4
+      }
+    }
+  ],
+  "solver_pairs": [
+    {
+      "event": "full-accessible",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": -23.17763157894737,
+      "exclusion": null
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-accessible",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-conflict",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-tied",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "near-accessible",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "near-conflict",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": true,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": -27.050359712230215,
+      "exclusion": null
+    },
+    {
+      "event": "near-tied",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-accessible",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": -11.75,
+      "exclusion": null
+    },
+    {
+      "event": "small-conflict",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": -22.208333333333332,
+      "exclusion": null
+    },
+    {
+      "event": "small-mixed",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": -13.916666666666666,
+      "exclusion": null
+    },
+    {
+      "event": "small-tied",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-accessible",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-conflict",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-mixed",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-tied",
+      "configuration": "current",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-accessible",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-accessible",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-conflict",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-tied",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "near-accessible",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 13.0,
+      "exclusion": null
+    },
+    {
+      "event": "near-conflict",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 14.553956834532373,
+      "exclusion": null
+    },
+    {
+      "event": "near-tied",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-accessible",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 0.0,
+      "exclusion": null
+    },
+    {
+      "event": "small-conflict",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 0.0,
+      "exclusion": null
+    },
+    {
+      "event": "small-mixed",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 0.0,
+      "exclusion": null
+    },
+    {
+      "event": "small-tied",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 0.0,
+      "exclusion": null
+    },
+    {
+      "event": "typical-accessible",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 1.5833333333333333,
+      "exclusion": null
+    },
+    {
+      "event": "typical-conflict",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 2.7708333333333335,
+      "exclusion": null
+    },
+    {
+      "event": "typical-mixed",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 0.3958333333333333,
+      "exclusion": null
+    },
+    {
+      "event": "typical-tied",
+      "configuration": "current",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-accessible",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": -15.31578947368421,
+      "exclusion": null
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-accessible",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-conflict",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-tied",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "near-accessible",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "near-conflict",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": -10.884892086330936,
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": true,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "near-tied",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-accessible",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-conflict",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-mixed",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-tied",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-accessible",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-conflict",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-mixed",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-tied",
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-accessible",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-accessible",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-conflict",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-tied",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "near-accessible",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "near-conflict",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "near-tied",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-accessible",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 0.0,
+      "exclusion": null
+    },
+    {
+      "event": "small-conflict",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 0.0,
+      "exclusion": null
+    },
+    {
+      "event": "small-mixed",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 0.0,
+      "exclusion": null
+    },
+    {
+      "event": "small-tied",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 0.0,
+      "exclusion": null
+    },
+    {
+      "event": "typical-accessible",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 0.09375,
+      "exclusion": null
+    },
+    {
+      "event": "typical-conflict",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 0.0,
+      "exclusion": null
+    },
+    {
+      "event": "typical-mixed",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 0.22916666666666666,
+      "exclusion": null
+    },
+    {
+      "event": "typical-tied",
+      "configuration": "reversed",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-accessible",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": -12.81578947368421,
+      "exclusion": null
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-accessible",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-conflict",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-tied",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "near-accessible",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "near-conflict",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "near-tied",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-accessible",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": -13.291666666666666,
+      "exclusion": null
+    },
+    {
+      "event": "small-conflict",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": -20.583333333333332,
+      "exclusion": null
+    },
+    {
+      "event": "small-mixed",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": -20.583333333333332,
+      "exclusion": null
+    },
+    {
+      "event": "small-tied",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-accessible",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-conflict",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-mixed",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "typical-tied",
+      "configuration": "two",
+      "comparator": "greedy",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-accessible",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-conflict",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "full-tied",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-accessible",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-conflict",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "high-tied",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "near-accessible",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 19.014388489208635,
+      "exclusion": null
+    },
+    {
+      "event": "near-conflict",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 15.309352517985612,
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 15.309352517985612,
+      "exclusion": null
+    },
+    {
+      "event": "near-tied",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": false,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    },
+    {
+      "event": "small-accessible",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 0.0,
+      "exclusion": null
+    },
+    {
+      "event": "small-conflict",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 0.0,
+      "exclusion": null
+    },
+    {
+      "event": "small-mixed",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 0.0,
+      "exclusion": null
+    },
+    {
+      "event": "small-tied",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 0.0,
+      "exclusion": null
+    },
+    {
+      "event": "typical-accessible",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 9.71875,
+      "exclusion": null
+    },
+    {
+      "event": "typical-conflict",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 4.46875,
+      "exclusion": null
+    },
+    {
+      "event": "typical-mixed",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": true,
+      "difference_per_registration": 4.46875,
+      "exclusion": null
+    },
+    {
+      "event": "typical-tied",
+      "configuration": "two",
+      "comparator": "scip",
+      "cp_valid": true,
+      "comparator_valid": false,
+      "difference_per_registration": null,
+      "exclusion": "No both-valid complete pair"
+    }
+  ],
+  "H1_and_RQ1": [
+    {
+      "configuration": "current",
+      "comparator": "greedy",
+      "both_valid_pairs": 5,
+      "planned_pairs": 21,
+      "median_difference_per_registration": -22.208333333333332,
+      "cp_lower": 5,
+      "ties": 0,
+      "cp_higher": 0,
+      "interpretation": "supports_H1_in_this_configuration"
+    },
+    {
+      "configuration": "current",
+      "comparator": "scip",
+      "both_valid_pairs": 9,
+      "planned_pairs": 21,
+      "median_difference_per_registration": 0.3958333333333333,
+      "cp_lower": 0,
+      "ties": 4,
+      "cp_higher": 5,
+      "interpretation": "exploratory_SCIP_comparison"
+    },
+    {
+      "configuration": "reversed",
+      "comparator": "greedy",
+      "both_valid_pairs": 2,
+      "planned_pairs": 21,
+      "median_difference_per_registration": -13.100340780007574,
+      "cp_lower": 2,
+      "ties": 0,
+      "cp_higher": 0,
+      "interpretation": "supports_H1_in_this_configuration"
+    },
+    {
+      "configuration": "reversed",
+      "comparator": "scip",
+      "both_valid_pairs": 7,
+      "planned_pairs": 21,
+      "median_difference_per_registration": 0.0,
+      "cp_lower": 0,
+      "ties": 5,
+      "cp_higher": 2,
+      "interpretation": "exploratory_SCIP_comparison"
+    },
+    {
+      "configuration": "two",
+      "comparator": "greedy",
+      "both_valid_pairs": 4,
+      "planned_pairs": 21,
+      "median_difference_per_registration": -16.9375,
+      "cp_lower": 4,
+      "ties": 0,
+      "cp_higher": 0,
+      "interpretation": "supports_H1_in_this_configuration"
+    },
+    {
+      "configuration": "two",
+      "comparator": "scip",
+      "both_valid_pairs": 10,
+      "planned_pairs": 21,
+      "median_difference_per_registration": 4.46875,
+      "cp_lower": 0,
+      "ties": 4,
+      "cp_higher": 6,
+      "interpretation": "exploratory_SCIP_comparison"
+    }
+  ],
+  "budget_contrasts": [
+    {
+      "event": "high-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": true,
+      "new_valid_map": true,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "UNKNOWN",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -1.376068376068376,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": true,
+      "new_valid_map": true,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "UNKNOWN",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": 0.0,
+      "earlier_proof": "OPTIMAL",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": true,
+      "new_valid_map": true,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "UNKNOWN",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -0.7521367521367521,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": true,
+      "new_valid_map": true,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "UNKNOWN",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": 0.0,
+      "earlier_proof": "OPTIMAL",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -3.948717948717949,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -2.5042735042735043,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": true,
+      "new_valid_map": true,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "UNKNOWN",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": 0.0,
+      "earlier_proof": "OPTIMAL",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "high-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -2.935251798561151,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -0.35251798561151076,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -3.971223021582734,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": 0.0,
+      "earlier_proof": "OPTIMAL",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": 0.0,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": 0.0,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": true,
+      "new_valid_map": true,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "UNKNOWN",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -42.32374100719424,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": true,
+      "new_valid_map": true,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "UNKNOWN",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": 0.0,
+      "earlier_proof": "OPTIMAL",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": 0.0,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": 0.0,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": 0.0,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -6.669064748201439,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -3.9280575539568345,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": 0.0,
+      "earlier_proof": "OPTIMAL",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "near-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": true,
+      "new_valid_map": true,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "UNKNOWN",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -1.986842105263158,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": true,
+      "new_valid_map": true,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "UNKNOWN",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": 0.0,
+      "earlier_proof": "OPTIMAL",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -5.5131578947368425,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -26.49342105263158,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": true,
+      "new_valid_map": true,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "UNKNOWN",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": 0.0,
+      "earlier_proof": "OPTIMAL",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -12.486842105263158,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -0.7828947368421053,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": true,
+      "new_valid_map": true,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "UNKNOWN",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": 0.0,
+      "earlier_proof": "OPTIMAL",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "full-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -6.00763358778626,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -1.9541984732824427,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": true,
+      "new_valid_map": true,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "UNKNOWN",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": 0.0,
+      "earlier_proof": "OPTIMAL",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "current",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -5.5038167938931295,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -1.6870229007633588,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": true,
+      "new_valid_map": true,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "UNKNOWN",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": 0.0,
+      "earlier_proof": "OPTIMAL",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "reversed",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -1.9312977099236641,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "cp_sat",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": -6.305343511450381,
+      "earlier_proof": "FEASIBLE",
+      "later_proof": "FEASIBLE",
+      "exclusion": null
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": true,
+      "new_valid_map": true,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "UNKNOWN",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "scip",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": true,
+      "later_valid": true,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": 0.0,
+      "earlier_proof": "OPTIMAL",
+      "later_proof": "OPTIMAL",
+      "exclusion": null
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "earlier_seconds": 5,
+      "later_seconds": 30,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    },
+    {
+      "event": "heavy-mixed",
+      "configuration": "two",
+      "method": "greedy",
+      "earlier_seconds": 30,
+      "later_seconds": 60,
+      "both_observed": true,
+      "earlier_valid": false,
+      "later_valid": false,
+      "new_valid_map": false,
+      "lost_valid_map": false,
+      "cost_difference_per_registration": null,
+      "earlier_proof": "CONSTRUCTION_FAILED",
+      "later_proof": "CONSTRUCTION_FAILED",
+      "exclusion": null
+    }
+  ],
+  "budget_subset_coverage": [
+    {
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 5,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 2
+    },
+    {
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 30,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4
+    },
+    {
+      "configuration": "current",
+      "method": "cp_sat",
+      "budget_seconds": 60,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4
+    },
+    {
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 5,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 1
+    },
+    {
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 30,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4
+    },
+    {
+      "configuration": "current",
+      "method": "scip",
+      "budget_seconds": 60,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4
+    },
+    {
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 5,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 1
+    },
+    {
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 30,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 1
+    },
+    {
+      "configuration": "current",
+      "method": "greedy",
+      "budget_seconds": 60,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 1
+    },
+    {
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 5,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 2
+    },
+    {
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 30,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4
+    },
+    {
+      "configuration": "reversed",
+      "method": "cp_sat",
+      "budget_seconds": 60,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4
+    },
+    {
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 5,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 0
+    },
+    {
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 30,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4
+    },
+    {
+      "configuration": "reversed",
+      "method": "scip",
+      "budget_seconds": 60,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4
+    },
+    {
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 5,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 1
+    },
+    {
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 30,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 1
+    },
+    {
+      "configuration": "reversed",
+      "method": "greedy",
+      "budget_seconds": 60,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 1
+    },
+    {
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 5,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4
+    },
+    {
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 30,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4
+    },
+    {
+      "configuration": "two",
+      "method": "cp_sat",
+      "budget_seconds": 60,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4
+    },
+    {
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 5,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 1
+    },
+    {
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 30,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4
+    },
+    {
+      "configuration": "two",
+      "method": "scip",
+      "budget_seconds": 60,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 4
+    },
+    {
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 5,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 0
+    },
+    {
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 30,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 0
+    },
+    {
+      "configuration": "two",
+      "method": "greedy",
+      "budget_seconds": 60,
+      "planned": 4,
+      "attempted": 4,
+      "validated": 0
+    }
+  ],
+  "limitations": [
+    "Synthetic related cases, no repeated timing trials or population significance tests",
+    "Costs conditioned on both-valid pairs; inspect failures and coverage",
+    "Budget comparisons are fresh-run endpoints, not convergence traces",
+    "Prototype settings differ from controlled comparisons; human satisfaction not measured"
+  ]
+}

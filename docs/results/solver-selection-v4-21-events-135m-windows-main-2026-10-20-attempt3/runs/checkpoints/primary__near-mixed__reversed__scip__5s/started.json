@@ -1,0 +1,10 @@
+{
+  "id": "primary__near-mixed__reversed__scip__5s",
+  "batch": "primary",
+  "event": "near-mixed",
+  "configuration": "reversed",
+  "method": "scip",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

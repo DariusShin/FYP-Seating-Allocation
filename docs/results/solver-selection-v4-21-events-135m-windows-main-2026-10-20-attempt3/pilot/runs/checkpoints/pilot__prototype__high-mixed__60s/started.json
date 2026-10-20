@@ -1,0 +1,10 @@
+{
+  "id": "pilot__prototype__high-mixed__60s",
+  "batch": "prototype",
+  "event": "high-mixed",
+  "configuration": "current",
+  "method": "cp_sat",
+  "budget_seconds": 60,
+  "execution_status": "running",
+  "valid": false
+}

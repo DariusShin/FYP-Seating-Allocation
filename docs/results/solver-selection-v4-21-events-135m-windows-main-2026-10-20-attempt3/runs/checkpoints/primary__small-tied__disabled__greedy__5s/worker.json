@@ -1,0 +1,49 @@
+{
+  "id": "primary__small-tied__disabled__greedy__5s",
+  "batch": "primary",
+  "event": "small-tied",
+  "configuration": "disabled",
+  "method": "greedy",
+  "budget_seconds": 5,
+  "search_seed": 20261012,
+  "worker_count": 1,
+  "canonicalize": false,
+  "request_sha256": "bd96c41d1fde3021922587cf428e0a5f97271e1f142d5048cd6c13e26bc69714",
+  "weights": {
+    "contribution_seat": 0,
+    "activeness": 0,
+    "category_zone": 0
+  },
+  "registrations": 24,
+  "physical_seats": 32,
+  "execution_status": "completed",
+  "valid": false,
+  "placements": null,
+  "objective": null,
+  "components": null,
+  "component_means": null,
+  "absolute_gap": null,
+  "relative_gap": null,
+  "validation": null,
+  "first_incumbent_seconds": null,
+  "first_incumbent_unavailable_reason": "No comparable incumbent callback in SCIP MPSolver wrapper",
+  "solver_status": "CONSTRUCTION_FAILED",
+  "best_bound": null,
+  "reported_objective": null,
+  "backend": "deterministic forward-checking greedy v1",
+  "candidates_tested": 11,
+  "committed_registrations": 9,
+  "timing": {
+    "preprocessing_seconds": 0.06191310007125139,
+    "model_build_seconds": 3.439979627728462e-05,
+    "search_seconds": 0.013681699987500906,
+    "extraction_seconds": 0,
+    "validation_scoring_seconds": 0.0011801999062299728,
+    "allocation_total_seconds": 0.07680939976125956
+  },
+  "valid_plan_return_seconds": null,
+  "memory": {
+    "worker_peak_rss_bytes": null,
+    "scope": "Fresh per-trial worker lifetime peak; includes imports, model and audit; not solver-only"
+  }
+}

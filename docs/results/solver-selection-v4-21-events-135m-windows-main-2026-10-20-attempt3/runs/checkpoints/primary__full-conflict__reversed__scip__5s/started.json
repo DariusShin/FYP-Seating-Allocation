@@ -1,0 +1,10 @@
+{
+  "id": "primary__full-conflict__reversed__scip__5s",
+  "batch": "primary",
+  "event": "full-conflict",
+  "configuration": "reversed",
+  "method": "scip",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

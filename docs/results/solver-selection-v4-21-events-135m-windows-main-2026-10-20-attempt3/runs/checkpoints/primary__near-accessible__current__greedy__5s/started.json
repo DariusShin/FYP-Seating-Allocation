@@ -1,0 +1,10 @@
+{
+  "id": "primary__near-accessible__current__greedy__5s",
+  "batch": "primary",
+  "event": "near-accessible",
+  "configuration": "current",
+  "method": "greedy",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

@@ -1,0 +1,10 @@
+{
+  "id": "primary__full-tied__two__greedy__5s",
+  "batch": "primary",
+  "event": "full-tied",
+  "configuration": "two",
+  "method": "greedy",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

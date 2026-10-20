@@ -1,0 +1,10 @@
+{
+  "id": "primary__near-accessible__reversed__cp_sat__5s",
+  "batch": "primary",
+  "event": "near-accessible",
+  "configuration": "reversed",
+  "method": "cp_sat",
+  "budget_seconds": 5,
+  "execution_status": "running",
+  "valid": false
+}

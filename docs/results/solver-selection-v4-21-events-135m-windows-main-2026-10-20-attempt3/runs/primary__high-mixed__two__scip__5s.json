@@ -1,0 +1,51 @@
+{
+  "id": "primary__high-mixed__two__scip__5s",
+  "batch": "primary",
+  "event": "high-mixed",
+  "configuration": "two",
+  "method": "scip",
+  "budget_seconds": 5,
+  "search_seed": 20261012,
+  "worker_count": 1,
+  "canonicalize": false,
+  "request_sha256": "ab3f74775fafc7db21ebd59203a572b7a70aaa3a7e96597bd411b79c5a25ff44",
+  "weights": {
+    "contribution_seat": 4,
+    "activeness": 0,
+    "category_zone": 3
+  },
+  "registrations": 117,
+  "physical_seats": 179,
+  "execution_status": "completed",
+  "valid": false,
+  "placements": null,
+  "objective": null,
+  "components": null,
+  "component_means": null,
+  "absolute_gap": null,
+  "relative_gap": null,
+  "validation": null,
+  "first_incumbent_seconds": null,
+  "first_incumbent_unavailable_reason": "No comparable incumbent callback in SCIP MPSolver wrapper",
+  "solver_status": "UNKNOWN",
+  "reported_objective": null,
+  "best_bound": null,
+  "backend": "SCIP 10.0.0 [LP solver: SoPlex 8.0.0]",
+  "nodes": 1,
+  "search_call_seconds": 4.724519700277597,
+  "timing": {
+    "preprocessing_seconds": 0.35127480002120137,
+    "model_build_seconds": 0.20944060012698174,
+    "search_seconds": 4.724519700277597,
+    "extraction_seconds": 4.7099776566028595e-05,
+    "validation_scoring_seconds": 0.0015962999314069748,
+    "allocation_total_seconds": 5.286878500133753
+  },
+  "valid_plan_return_seconds": null,
+  "memory": {
+    "worker_peak_rss_bytes": null,
+    "scope": "Fresh per-trial worker lifetime peak; includes imports, model and audit; not solver-only"
+  },
+  "worker_elapsed_seconds": 6.895708700176328,
+  "worker_exit_code": 0
+}
