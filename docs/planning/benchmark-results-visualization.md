@@ -2,7 +2,7 @@
 
 Date: 12 October 2026 (Asia/Kuala_Lumpur).
 
-Status (18 October 2026): **confirmed reporting plan; solver report renderer implemented; main measurements pending**. The main package is five analytical figures across solver, budget and weighting studies plus one 230-seat illustration. A compact sensitivity table may replace Figure 5 if clearer. The [solver protocol](solver-selection-benchmark.md) includes the confirmed 5/30/60-second design and 90-minute ceiling; the [weighting protocol](rank-weighting-experiment.md) retains its 120-minute ceiling. The [solver report module](../../research/experiments/solver_benchmark/report.py) produces Figures 1–3 and the 230-seat illustration from main-run JSON, with CSV tables and PDF/SVG/PNG exports. Renderer checks use explicitly missing observations, not invented measurements. Weighting Figures 4/5 remain pending the separate study; development pilots do not become main figures.
+Status (20 October 2026): **reporting scope confirmed; adaptation to the 21-event amendment and main measurements pending**. Retain five analytical figures across solver, budget and weighting studies plus one 230-seat Emperor-heavy illustration; a compact sensitivity table may replace Figure 5. The [scope amendment](solver-benchmark-scope-amendment-2026-10-20.md) sets the solver ceiling to 120 minutes; weighting retains its own 120 minutes. The existing [renderer](../../research/experiments/solver_benchmark/report.py) implements the earlier report package; its schedule-dependent labels and coverage must be checked for the amended inventory before main execution. Figures derive from saved JSON, with CSV and PDF/SVG/PNG exports. No measurements are invented. Weighting Figures 4/5 remain pending; pilots are separate development evidence.
 
 Scope amendment confirmed by the user on 12 October 2026: exclude human/stakeholder evaluation from the dissertation's experiment analyses and figure package. Operational human verification is deferred until after FYP completion and live system deployment. Preserve it only as future work, not as a pending requirement for completing these computational experiments. The user's latest Q10 answer confirms this amended figure package, superseding the earlier five-solver-figure proposal.
 
@@ -10,7 +10,7 @@ Scope amendment confirmed by the user on 12 October 2026: exclude human/stakehol
 
 Use figures to explain whether the evaluated implementations return complete valid maps, their modeled preference costs, resource/time behavior and available proof information. The dissertation's confirmed claim is a justified CP-SAT engineering choice on evaluated PJKIT scenarios, not universal algorithm superiority. Evidence contradicting the choice must remain visible.
 
-The primary solver benchmark is 13 synthetic events × four preference configurations = 52 matched cases, evaluated by three methods = 156 primary runs at five seconds. Q13 adds 72 fresh 30/60-second runs on 12 matched larger cases and four separately configured prototype checks. There is one run per method/case/budget, not repeated timing trials or 228 independent event samples. The three constructed accessibility derivatives are related to their mixed-attribute base events. Compare budget rates on the same 12-case subset, never the full 52-case primary denominator against the smaller subset. See the [hypothesis-to-analysis mapping](experiment-hypotheses-and-analysis.md).
+The amended primary benchmark is 21 synthetic events × four configurations = 84 matched cases, evaluated by three methods = 252 primary five-second runs. Add 72 fresh 30/60-second runs on 12 matched mixed-profile cases and four separate prototype checks, giving 324 comparative runs and 328 main jobs. There is one run per method/case/budget, not repeated timing trials or independent population samples. Five accessibility derivatives relate to their mixed bases. Compare budget rates on the same 12-case subset, never the full 84-case primary denominator against the smaller subset. Added occupancy families also vary count and composition, so figures cannot isolate a causal occupancy effect. See the [analysis mapping](experiment-hypotheses-and-analysis.md).
 
 Lewis & Carroll's peer-reviewed seating study plots solution costs and runtime against problem characteristics and compares a heuristic with IP under time limits. This supports discussing quality and time together; their figures do not establish what PJKIT's unrun benchmark will show. See [author manuscript, §§4–5 and Figures 4–5](https://rhydlewis.eu/papers/LewisCarroll.pdf), [journal DOI](https://doi.org/10.1057/jors.2016.34), checked 12 October 2026. The figure choices below are project recommendations adapted to the current design.
 
@@ -19,9 +19,9 @@ Lewis & Carroll's peer-reviewed seating study plots solution costs and runtime a
 | Activity | Question | Evidence and boundary |
 |---|---|---|
 | Correctness and equivalence suite | Do model, scorer and placement audit implement the same declared rules? | Tiny independently solved cases, known-feasible witnesses and separate deliberately infeasible/invalid cases. This is a gate before performance measurement, not a solver-speed ranking. Greedy is not expected to prove infeasibility. |
-| Solver comparison | Which method returns a valid map, at what cost and time, under the common search budget? | 52 matched cases × CP-SAT/greedy/SCIP; fixed current-ratio rule within each preference configuration. Primary dissertation solver-selection evidence. |
-| Scenario analyses of that benchmark | How do outcomes differ with demand, attribute conflict, ties, accessibility and Emperor-heavy demand? | Slices of the same 156 runs, not additional independent experiments. Emphasize the 230-seat case and full 232-seat cases. |
-| Budget comparison | What additional valid maps, lower costs or stronger proofs are observed at 30 and 60 seconds? | Four fixed larger events × three active configurations × three methods; reuse primary five-second endpoints and add 72 fresh runs. H3 contrasts 5→30 and 30→60 separately. |
+| Solver comparison | Which method returns a valid map, at what cost and time, under the common search budget? | 84 matched cases × CP-SAT/greedy/SCIP; fixed current-ratio rule within each preference configuration. Primary dissertation solver-selection evidence. |
+| Scenario analyses of that benchmark | How do outcomes differ with demand, attribute conflict, ties, accessibility and Emperor-heavy demand? | Slices of the same 252 runs, not additional independent experiments. Include 179/212-seat families alongside Emperor-heavy 230-seat and full 232-seat cases. |
+| Budget comparison | What additional valid maps, lower costs or stronger proofs are observed at 30 and 60 seconds? | High-occupancy, near-capacity, full-capacity and Emperor-heavy mixed events × three active configurations × three methods; reuse five-second endpoints and add 72 fresh runs. H3 contrasts 5→30 and 30→60 separately, for mixed profiles only. |
 | Prototype timing verification | What complete-result return time does the configured 60-second prototype achieve? | Four separately labelled local initial-allocation checks under current/default order and actual prototype settings; report complete output and audit, not just search time. Exclude these from matched solver comparisons. |
 | Weighting comparison | How do current-ratio, rank sum, rank reciprocal and ROC represent ranked preferences? | Separate CP-SAT-only protocol with 12 events and its declared batches; report common-scale components rather than rank formulas by their different objectives. |
 | Scoring sensitivity and limited seed check | Are weighting observations sensitive to scoring assumptions or one extra search seed? | Already-defined weighting-study subsets, not solver-wide sensitivity/robustness experiments. |
@@ -50,11 +50,11 @@ Generate tables from the saved JSON described in the [execution guide](experimen
 
 | Table | Grain and key columns |
 |---|---|
-| Event inventory | 13 event rows: event ID, pattern, registration count, tier counts, physical seat demand, Emperor registration share, accessibility provenance and witness status |
-| Run outcomes | 228 planned comparative method-run rows plus four separately labelled prototype rows: batch, event/configuration/method/budget, worker/canonicalization settings, execution and solver statuses, complete-map return, independent audit, objective coefficients/cost, three component means, bound/proof, construction/search/audit/total time |
+| Event inventory | 21 event rows: event ID, family/pattern, registration count, tier counts, physical seat demand/occupancy, Emperor registration share, accessibility provenance and witness status |
+| Run outcomes | 324 planned comparative rows plus four separate prototype rows: batch, event/configuration/method/budget, worker/canonicalization settings, execution and solver statuses, complete-map return, independent audit, coefficients/cost, component means, bound/proof, construction/search/audit/total time |
 | Matched comparisons | One row per eligible method pair and matched case: both-valid flag, paired cost/time/component differences and reasons for exclusion; keep the complete planned case list visible |
 | Coverage and outcomes | By method/configuration/scenario: planned, attempted, completed, validated, no-map, invalid and not-started/interrupted counts; validated/attempted known-feasible rate alongside coverage against the manifest |
-| Near-capacity case detail | All four configurations for the 230-seat event, with each method's outcome, costs, component means, phase times and proof; give the full-size mixed event a separate clearly identified comparison |
+| Emperor-heavy case detail | All four configurations for the 230-seat event, with outcomes, costs, components, phase times and proof; identify the separate 212-seat near-capacity family and 232-seat full family clearly |
 | Budget contrasts | For each method/configuration, 5→30 and 30→60 on the same four larger events: both-valid count, additional/lost valid maps, paired cost/component differences, time difference and proof change |
 | Weighting results | Rule/configuration/event/scoring variant/seed, distinct objective aliases, component vector, validity, proof/bound and 1/4-second checkpoint availability |
 
@@ -68,11 +68,11 @@ These are five analytical figure families across all studies, plus one map illus
 
 ### Figure 1 — Complete-map outcomes
 
-Use a categorical outcome heatmap with 13 event rows, three method columns and four panels for the preference configurations. Group event rows by base scenario/accessibility derivative and mark the additional Emperor-heavy case. A small companion count table can provide denominators.
+Use a categorical heatmap with 21 event rows, three method columns and four preference panels. Group by the five four-pattern families, ordering demand as 32/152/179/212/232, and mark the separate 230-seat Emperor-heavy event. Retain readable row labels when increasing the figure height. A companion count table can show denominators.
 
 Show independently validated optimal/feasible outputs, no-map timeout/unknown, greedy construction failure, invalid output, and unexecuted/interrupted/validation-pending records distinctly. Keep solver proof and audit meanings clear; a solver's OPTIMAL label does not override a failed placement audit. All-disabled feasibility is a control, not evidence of preference-quality superiority.
 
-Discussion: whether each method reliably returned a complete hard-valid map on the tested cases within the declared budget. Count outcomes descriptively; do not infer population reliability from 52 correlated cases.
+Discussion: complete hard-valid map return on the tested cases within the budget. Each method has 84 primary cases, 21 per configuration; related cases do not establish population reliability.
 
 ### Figure 2 — Matched preference-cost differences
 
@@ -80,11 +80,13 @@ Use paired difference dot plots for CP-SAT versus SCIP and CP-SAT versus greedy,
 
 Costs must be independently rescored under identical coefficients for the matched case. Per-registration normalization prevents raw event totals alone from reflecting different numbers of registrations, but does not remove scoring/population assumptions. Keep panels separate; active-count/rank coefficients differ across configurations, so do not average these costs into a single global algorithm score. Exclude all-disabled cases from preference-quality ranking. If a comparator returns no valid matched plans, report that comparison as not estimable rather than forcing a cost plot.
 
+Each active-configuration/comparator panel contains at most 21 both-valid pairs. Show the eligible count and exclusions rather than treating all 84 primary configurations as one pooled quality sample.
+
 Discussion: where methods find better modeled allocations within the cutoff, and whether any difference is established optimal or only a difference between time-limited incumbents.
 
 ### Figure 3 — Budget response at 5, 30 and 60 seconds
 
-Use aligned panels for valid-plan counts/rates, paired preference-cost changes, and observed elapsed time under the three search allowances. Use only the predeclared 12 matched larger cases at all three budgets, with four events per active configuration and 12 per method across configurations. Show denominators and execution coverage. Keep configuration-specific costs separate and plot each method's 5→30 and 30→60 paired changes on both-valid cases. If a comparison has no valid pair, show it as unavailable, not zero improvement.
+Use aligned panels for valid-plan counts/rates, paired preference-cost changes, and observed elapsed time. Use only high-occupancy mixed, near-capacity mixed, full-capacity mixed and Emperor-heavy mixed at all three budgets: four events per active configuration and 12 per method across configurations. Show denominators and execution coverage. Keep configuration-specific costs separate and plot 5→30 and 30→60 paired changes on both-valid cases. Mark missing pairs unavailable. Conflict, tied and accessibility cases receive five-second comparisons only; these panels make no longer-budget claim for those patterns.
 
 The x-axis is **configured search allowance**, not elapsed time along a single solve. These are separate fresh runs; connecting endpoints is only a comparison guide, not a convergence trajectory. Do not force monotonic results or interpolate unobserved budgets. Search and total return time have distinct units/boundaries even when both are seconds. Failed-run duration is not time to a valid map. Report prototype observations separately in the budget table rather than mixing eight-worker canonicalized observations with the one-worker comparison.
 
@@ -94,7 +96,7 @@ Discussion: H3's additional valid maps, cost changes, proof-only gains and extra
 
 Use three aligned dot-plot panels or a labelled component heatmap for contribution-seat, activity and category mean penalties under current-ratio, rank sum, rank reciprocal and ROC. Compare rules on matched events/configurations with the primary scoring definitions fixed. A pair counts as one registration, consistent with the scorer. Lower is better; these are modeled penalties, not satisfaction percentages. Show distinct objective aliases so equivalent two-, one- and zero-preference controls are not presented as independent solver trials.
 
-Emphasize the predeclared conflict cases and multi-preference configurations for H2, with matched pattern/ranking panels where legible. Retain other configurations/events in the appendix. The weighting study has 12 events and does not contain the benchmark-only 230-seat event. Mark disabled components as diagnostic. Retain no-map outcomes and proof status beside the component comparisons; time-limited incumbents are not automatically exact optimal responses to a weight change.
+Emphasize the predeclared conflict cases and multi-preference configurations for H2, with matched pattern/ranking panels where legible. Retain other configurations/events in the appendix. Weighting keeps its original 12 events, excluding the benchmark-only 230-seat event and eight new occupancy cases. Mark disabled components as diagnostic. Retain no-map outcomes and proof status; time-limited incumbents are not automatically exact optimal responses to a weight change.
 
 Discussion: how weighting rules change observed trade-offs, where rules agree, and where compulsory constraints limit response. Never rank formulas by their own differently weighted objective totals or infer equal cardinal meaning from normalized component endpoints.
 
@@ -106,7 +108,7 @@ If observations are unchanged or a compact table communicates the effect better,
 
 Discussion: which conclusions depend on the scoring assumptions and which persist across the tested variants. Robustness here is limited to those declared variants; it does not validate PJKIT's true preference strengths.
 
-## Near-capacity map illustration
+## Emperor-heavy 230-seat map illustration
 
 Include one additional case illustration beside the 230-seat results table: aligned returned seating maps with identical geometry, tier colors/pair outlines and blocked/empty-seat conventions. Use the primary five-second outputs in current preference order for the predeclared 230-seat event. Label 99 Emperor pairs, 19 Merit, 13 Bodhi; 131 registrations, 230 occupied seats out of 232 available; event/configuration, validity, objective/proof and timing.
 
@@ -115,7 +117,7 @@ Show every comparator's outcome, including a no-map panel when appropriate. Use 
 ## Conditional and secondary figures
 
 - **Anytime/convergence curves:** only if comparable incumbent/bound events are captured during the original solver runs. Use step curves with search time on the x-axis and cost/bound on the y-axis; the curve is undefined until a complete valid incumbent exists. Do not invent intermediate points, join separate case endpoints into a trajectory, or repeat solves to simulate a trace within the approved budget. This is optional in the solver protocol; endpoint figures remain the confirmed primary package.
-- **Runtime versus workload:** use observed physical demands 32, 152, 230 and 232, annotated with registration counts 24, 96, 131 and 152 and profile/accessibility markers. Search, construction and audit times remain distinct. Demand/composition vary together, so do not infer a participant-count causal effect or an empirical complexity law. Do not smooth/interpolate unsupported scalability curves.
+- **Runtime versus workload:** use physical demands 32, 152, 179, 212, 230 and 232, annotated with respective registration counts 24, 96, 117, 139, 131 and 152 and pattern/accessibility markers. Search, construction and audit times remain distinct. Demand/composition vary together, so do not infer a causal occupancy or participant-count effect, or an empirical complexity law. Do not smooth/interpolate unsupported scalability curves.
 - **Solver component explanation:** show aligned contribution/activity/category mean penalties for the primary 230-seat/current-order case, retaining no-map panels. If no comparable maps exist, retain that outcome and use the predeclared full-size mixed case as a secondary illustration. Never select a case because it favors CP-SAT.
 - **Solver proof information:** retain bounds/gaps/proof in the main table; add a secondary status/gap figure only when useful. Greedy bounds are N/A, unavailable bounds are missing, all-disabled zero objectives are separate and a small nonzero gap is not proof. Equal unproved costs do not establish a shared optimum.
 - **Accessibility paired comparison:** connect each mixed base event with its constructed accessibility derivative, with method and configuration fixed. Show cost/time and outcome changes. This is limited to the constructed cases, not broad accessibility robustness.
@@ -130,11 +132,11 @@ Show every comparator's outcome, including a no-map panel when appropriate. Use 
 - Avoid an invented algorithm-accuracy percentage, a satisfaction percentage derived from penalties, and a single winner score. Avoid radar charts for the main comparison: they obscure units and trade-offs already addressed by aligned panels.
 - Use consistent method colors plus shapes/line styles and direct labels so figures remain understandable in grayscale. Use consistent axes for matched panels, legible legends and captions identifying event/configuration, budget, units, lower-is-better direction, denominator and exclusions.
 - Export dissertation plots as PDF/SVG with a high-resolution PNG fallback. Create scientific plots from saved records with standard plotting tools; no generated chart artwork or invented data. Exact formatting/export tooling can be settled during reporting implementation.
-- Discuss outcomes in this order: coverage/validity, valid-map quality, time/workload, component explanations, proof limits, then the near-capacity example and threats to validity. Cite tables and figures as evidence for conditional conclusions; do not write results before the main records exist.
+- Discuss outcomes in this order: coverage/validity, valid-map quality, time/workload, component explanations, proof limits, then the Emperor-heavy example and threats to validity. Cite tables and figures as evidence for conditional conclusions; do not write results before the main records exist.
 - Derive tables/figures from saved JSON with reproducible filters. Essential reporting must fit existing runner allowances. If final publication formatting is completed later, identify it as postprocessing of frozen records without extending solver execution or losing the deadline diagnostics.
 
 ## Confirmed Q10 and closed interview
 
 The user confirmed the amended main package: five analytical figures (solver outcomes, solver cost, budget response, weighting trade-offs and weighting sensitivity) plus the 230-seat illustration, allowing a sensitivity table substitution when clearer. Three main results tables preserve exact values; complete records and secondary plots belong in the appendix/evidence bundle. This supersedes the earlier proposal to use five solver-only figures.
 
-Q13 confirms the timed experiment scope underlying these views. No unanswered figure-scope question remains. See the [complete decision audit and implementation work](experiment-hypotheses-and-analysis.md#grillme-decision-audit-and-remaining-work); main-study figures and hypothesis findings remain pending; the solver renderer and development validation are recorded separately.
+The separate 20 October Q6 A confirms the expanded scope while retaining this figure package. No unanswered figure-scope question remains. See the [scope amendment](solver-benchmark-scope-amendment-2026-10-20.md) and [decision audit](experiment-hypotheses-and-analysis.md#grillme-decision-audit-and-remaining-work). Renderer adaptation and main-study figures/findings remain pending; historical development checks stay separate.

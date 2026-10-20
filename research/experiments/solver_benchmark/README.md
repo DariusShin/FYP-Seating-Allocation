@@ -6,6 +6,12 @@ The controlling documents are the [solver protocol](../../../docs/planning/solve
 
 Implementation and development checks are documented in the [setup validation record](../../../docs/results/solver-benchmark-setup-2026-10-18.md). A development pilot does not establish the dissertation hypotheses. The main study must be explicitly launched using `run`.
 
+## Confirmed amendment and current implementation
+
+The user confirmed the [20 October scope amendment](../../../docs/planning/solver-benchmark-scope-amendment-2026-10-20.md) through Q6 A: retain the original 13 inputs and generator, add two four-pattern families at 179/212 seats, reselect the longer-budget/prototype subset, and use 21 events / 328 main jobs / 28 pilot jobs within 120 minutes. Spreadsheet-derived candidate inputs are excluded. All research-design questions are closed.
+
+**The executable amendment is pending.** The commands, frozen-design counts, pilot settings and output schedule described below remain those of the existing 18 October implementation: 13 events / 232 main jobs / 19 pilot jobs / 90 minutes. Documentation confirmation does not change command behavior. Implement and verify the amendment, including original input hashes, fresh witnesses, projections and reporting labels, before collecting evidence for the expanded study. Existing development pilots do not establish that it fits 120 minutes. No experiment was executed during this planning update.
+
 ## Environment
 
 From the repository root, use Python 3.12 or newer (the tested lock requires it):
@@ -20,6 +26,8 @@ Setup creates a repository-local `.venv` and installs the tested dependency lock
 Use the local M4/24 GB Mac, plugged in and awake, with stable power settings and no competing heavy workloads. The controlled methods run sequentially with one worker. The four prototype checks preserve the source fixture's actual settings, currently eight workers and canonicalization enabled. Local and Colab timings must not be pooled.
 
 ## Commands
+
+These commands currently execute the 18 October protocol identified above. They do not yet produce the approved 21-event schedule or enforce its 120-minute ceiling.
 
 Every command except `report` requires a **new** output directory and refuses to overwrite an existing one. Dates in the examples are labels; choose a new suffix for another invocation.
 
@@ -36,7 +44,7 @@ Every command except `report` requires a **new** output directory and refuses to
 # Rebuild a pilot's diagnostic table from its saved JSON, without solving.
 .venv/bin/python research/experiments/solver_selection_benchmark.py report --out docs/results/solver-benchmark-pilot-2026-10-18
 
-# Full declared study, including fresh preflight/pilot inside the 90-minute ceiling.
+# Existing 13-event study, with fresh gates inside 90 minutes; amendment pending.
 .venv/bin/python research/experiments/solver_selection_benchmark.py run --out docs/results/solver-selection-benchmark-2026-10-18
 
 # Regenerate tables/figures from an existing main-study bundle; no solving.
@@ -48,7 +56,7 @@ Every command except `report` requires a **new** output directory and refuses to
 
 `run` is the deliberate full-experiment command. It rechecks correctness and input witnesses, performs its own pilot, and evaluates the completion projection before starting main runs. A previous development pilot does not bypass these checks or move their cost outside the main runner's clock. No resume mode combines interrupted runs into an apparently complete original experiment.
 
-For the first use, install the environment and run the implementation tests. `plan`, `check` and `pilot` are optional development commands for inspecting each stage separately. When ready to collect dissertation evidence, use one new `run` directory; that command repeats all required gates within its own clock. Do not edit solver code, configuration, input files or planning files while it runs. Exit status 0 means the command completed its requested mode; a stopped run returns a nonzero status with a reason in `manifest.json`. A completed pilot can still project more than 90 minutes: inspect `pilot/projection.json` before interpreting its completion as readiness.
+For the first use, install the environment and run the implementation tests. `plan`, `check` and `pilot` are optional development commands for inspecting each stage separately. Before collecting evidence for the 21-event study, implement and verify the amendment. Use one new `run` directory for the identified protocol; the command repeats all required gates within its own clock. Do not edit solver code, configuration, input files or planning files while it runs. Exit status 0 means the requested mode completed; stopped runs return nonzero with a reason in `manifest.json`. The current pilot can project beyond its implemented 90-minute limit: inspect `pilot/projection.json` before treating completion as readiness.
 
 ## Where to find the results
 
@@ -79,7 +87,7 @@ The **pilot** writes `pilot/results.md`, `pilot/summary.json`, `pilot/tables/run
 
 Costs are modeled preference penalties, with lower values preferred under the same coefficients. Blank CSV cells / JSON `null` mean unavailable, including costs for missing or invalid maps. Greedy has no optimality certificate or lower bound. First-incumbent time is unavailable for this matched comparison because SCIP's installed wrapper lacks comparable callbacks. Human satisfaction and a combined algorithm-accuracy score are not measured.
 
-## Frozen design
+## Currently implemented design: 18 October 2026
 
 - Primary: 13 events × four configurations × three methods = **156 runs at five seconds**.
 - Budget sensitivity: the three full 232-seat base patterns and 230-seat Emperor-heavy mixed event × three active configurations × three methods × 30/60-second limits = **72 additional runs**. Reuse the primary five-second endpoints on those same 12 matched cases.

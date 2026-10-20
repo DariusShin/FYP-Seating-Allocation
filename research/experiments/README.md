@@ -4,11 +4,11 @@ This directory contains a research harness, not a production policy change. All 
 
 ## Planned execution sequence
 
-See the [shared execution/environment/JSON guide](../../docs/planning/experiment-execution-sequence.md) and [hypotheses/confirmed decision audit](../../docs/planning/experiment-hypotheses-and-analysis.md). The [solver benchmark runner and commands](solver_benchmark/README.md) are implemented; its main study has not yet run. The amended weighting runner remains pending. Markdown plans cannot be executed as scripts. The sequence is shared correctness/input certification, separate pilots, solver comparison with fixed reference weights, larger-case budget comparisons and prototype checks, then weighting with CP-SAT fixed and JSON-derived computational reporting. The solver package has 156 primary five-second runs, 72 fresh 30/60-second runs and four separate prototype checks within **90 minutes**. Weighting retains 840 searches within **120 minutes**. Human verification is deferred post-project future work. Use the local M4/24 GB Mac, run studies sequentially and preserve separate evidence bundles.
+See the [execution guide](../../docs/planning/experiment-execution-sequence.md), [hypotheses](../../docs/planning/experiment-hypotheses-and-analysis.md) and [confirmed 20 October scope amendment](../../docs/planning/solver-benchmark-scope-amendment-2026-10-20.md). The approved solver target is 21 events, 252 primary five-second runs, 72 fresh 30/60-second runs and four prototype checks, with a 28-job pilot inside **120 minutes**. **Executable amendment pending:** current scripts still implement 13 events, 156 primary runs, a 19-job pilot and **90 minutes**. Main execution has not occurred. Implement and validate the amendment before collecting its evidence. Weighting remains a separate, not-yet-implemented 12-event / 840-search study within **120 minutes**. Sequence: correctness/input certification, separate pilots, solver comparison, budget/prototype checks, then weighting and JSON-derived reporting. Human verification is future work. Use the local M4/24 GB Mac and sequential, separately recorded studies.
 
 ## Solver-selection benchmark: CP-SAT, SCIP and greedy
 
-Start with the [complete setup, commands and output guide](solver_benchmark/README.md). From the repository root, using Python 3.12 or newer:
+Start with the [setup, commands and output guide](solver_benchmark/README.md). The commands below describe the current 18 October implementation, not the approved 21-event amendment. From the repository root, using Python 3.12 or newer:
 
 ```sh
 python3 research/experiments/setup_benchmark.py
@@ -16,13 +16,19 @@ python3 research/experiments/setup_benchmark.py
 .venv/bin/python research/experiments/solver_selection_benchmark.py pilot --out docs/results/my-new-solver-pilot
 ```
 
-Inspect `docs/results/my-new-solver-pilot/pilot/results.md` and `pilot/projection.json`. Development evidence stays separate from dissertation results. To collect the declared main study later, choose another new directory:
+Inspect `docs/results/my-new-solver-pilot/pilot/results.md` and `pilot/projection.json`. Development evidence stays separate from dissertation results. The following main-command syntax will still execute the older scope until its implementation is amended; use a new directory when collecting an explicitly identified protocol:
 
 ```sh
 .venv/bin/python research/experiments/solver_selection_benchmark.py run --out docs/results/my-new-solver-study
 ```
 
-The main command repeats its correctness, input-certification and pilot gates. It stops before main comparisons if the complete workload projects beyond 90 minutes. The main output directory contains `results.md`, `summary.json`, raw JSON in `runs/`, CSV tables in `tables/`, and PNG/PDF/SVG plots in `figures/`. The detailed guide lists every output and shows how to regenerate reports from saved records. The [setup validation record](../../docs/results/solver-benchmark-setup-2026-10-18.md) records implementation tests and retained development pilots; the full main study has not been run as part of setup.
+The current main command repeats correctness, input-certification and pilot gates and stops if its existing workload projects beyond 90 minutes. The approved 120-minute amendment still needs implementation. Outputs include `results.md`, `summary.json`, raw `runs/` JSON, `tables/` CSVs and `figures/` PNG/PDF/SVG exports. The detailed guide explains regeneration. The [setup validation record](../../docs/results/solver-benchmark-setup-2026-10-18.md) preserves the older implementation tests and pilots; the full main study has not run.
+
+### Source-informed candidate inputs, 20 October 2026
+
+The [new PJKIT sample-data bundle](../fixtures/pjkit-sample-2026-10-20/README.md) reconciles 599 masked registrations from the supplied 2021–2026 workbook and summary CSV. It contains six yearly cohorts, one prototype demo and 13 independently generated controlled cases with source-informed activity frequencies. Per the user's explicit instruction, those candidate requests encode full-history registration totals in the existing `events_joined_last_2_years` field; the override, actual lookback counts and one synthetic amount correction are documented separately. Industry-supervisor review remains pending.
+
+The user explicitly declined adoption of the 13 source-informed controlled candidates in the confirmed 20 October amendment. They remain available alongside historical/yearly/demo data, outside the benchmark and unchanged weighting protocol. The new 179/212-seat families will use the original controlled generator and activity semantics. Prototype timing checks will use the declared benchmark events, not this separate demo. Data preparation did not run a solver experiment or change the current executable inputs.
 
 ## Planned rank-weighting experiment
 
