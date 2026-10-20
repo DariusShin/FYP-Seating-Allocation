@@ -1,0 +1,391 @@
+{
+  "construction": "tier/contribution ordered physical-seat prefix; no solver",
+  "placements": [
+    {
+      "participant_id": "DEMO-R2026-0003",
+      "seat_ids": [
+        "R01-S09",
+        "R01-S10"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0021",
+      "seat_ids": [
+        "R01-S11",
+        "R01-S12"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0022",
+      "seat_ids": [
+        "R01-S13",
+        "R01-S14"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0023",
+      "seat_ids": [
+        "R01-S15",
+        "R01-S16"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0026",
+      "seat_ids": [
+        "R01-S08",
+        "R01-S07"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0027",
+      "seat_ids": [
+        "R01-S06",
+        "R01-S05"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0028",
+      "seat_ids": [
+        "R01-S04",
+        "R01-S03"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0029",
+      "seat_ids": [
+        "R01-S02",
+        "R01-S01"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0031",
+      "seat_ids": [
+        "R02-S09",
+        "R02-S10"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0032",
+      "seat_ids": [
+        "R02-S11",
+        "R02-S12"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0034",
+      "seat_ids": [
+        "R02-S13",
+        "R02-S14"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0035",
+      "seat_ids": [
+        "R02-S15",
+        "R02-S16"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0037",
+      "seat_ids": [
+        "R02-S08",
+        "R02-S07"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0038",
+      "seat_ids": [
+        "R02-S06",
+        "R02-S05"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0041",
+      "seat_ids": [
+        "R02-S04",
+        "R02-S03"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0044",
+      "seat_ids": [
+        "R02-S02",
+        "R02-S01"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0050",
+      "seat_ids": [
+        "R03-S09",
+        "R03-S10"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0053",
+      "seat_ids": [
+        "R03-S11",
+        "R03-S12"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0056",
+      "seat_ids": [
+        "R03-S13",
+        "R03-S14"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0057",
+      "seat_ids": [
+        "R03-S15",
+        "R03-S16"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0059",
+      "seat_ids": [
+        "R03-S08",
+        "R03-S07"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0060",
+      "seat_ids": [
+        "R03-S06",
+        "R03-S05"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0001",
+      "seat_ids": [
+        "R03-S04"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0008",
+      "seat_ids": [
+        "R03-S03"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0009",
+      "seat_ids": [
+        "R03-S02"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0010",
+      "seat_ids": [
+        "R03-S01"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0015",
+      "seat_ids": [
+        "R04-S09"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0016",
+      "seat_ids": [
+        "R04-S10"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0017",
+      "seat_ids": [
+        "R04-S11"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0019",
+      "seat_ids": [
+        "R04-S12"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0024",
+      "seat_ids": [
+        "R04-S13"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0025",
+      "seat_ids": [
+        "R04-S14"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0030",
+      "seat_ids": [
+        "R04-S15"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0033",
+      "seat_ids": [
+        "R04-S16"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0040",
+      "seat_ids": [
+        "R04-S08"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0047",
+      "seat_ids": [
+        "R04-S07"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0048",
+      "seat_ids": [
+        "R04-S06"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0049",
+      "seat_ids": [
+        "R04-S05"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0058",
+      "seat_ids": [
+        "R04-S04"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0002",
+      "seat_ids": [
+        "R04-S03"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0004",
+      "seat_ids": [
+        "R04-S02"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0005",
+      "seat_ids": [
+        "R04-S01"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0006",
+      "seat_ids": [
+        "R05-S09"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0007",
+      "seat_ids": [
+        "R05-S10"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0011",
+      "seat_ids": [
+        "R05-S11"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0012",
+      "seat_ids": [
+        "R05-S12"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0013",
+      "seat_ids": [
+        "R05-S13"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0014",
+      "seat_ids": [
+        "R05-S14"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0018",
+      "seat_ids": [
+        "R05-S15"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0020",
+      "seat_ids": [
+        "R05-S16"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0036",
+      "seat_ids": [
+        "R05-S08"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0039",
+      "seat_ids": [
+        "R05-S07"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0042",
+      "seat_ids": [
+        "R05-S06"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0043",
+      "seat_ids": [
+        "R05-S05"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0045",
+      "seat_ids": [
+        "R05-S04"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0046",
+      "seat_ids": [
+        "R05-S03"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0051",
+      "seat_ids": [
+        "R05-S02"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0052",
+      "seat_ids": [
+        "R05-S01"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0054",
+      "seat_ids": [
+        "R06-S13"
+      ]
+    },
+    {
+      "participant_id": "DEMO-R2026-0055",
+      "seat_ids": [
+        "R06-S14"
+      ]
+    }
+  ],
+  "validation": {
+    "passed": true,
+    "issues": []
+  }
+}

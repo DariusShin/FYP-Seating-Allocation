@@ -1,0 +1,721 @@
+{
+  "name_groups": [
+    {
+      "person_id": "DEMO-P0151",
+      "reasons": [
+        "unusual_display_token_length_requires_manual_review"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2021",
+          "row": 2
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0078",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2021",
+          "row": 3
+        },
+        {
+          "sheet": "2022",
+          "row": 25
+        },
+        {
+          "sheet": "2023",
+          "row": 3
+        },
+        {
+          "sheet": "2024",
+          "row": 15
+        },
+        {
+          "sheet": "2025",
+          "row": 12
+        },
+        {
+          "sheet": "2026",
+          "row": 11
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0193",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2021",
+          "row": 5
+        },
+        {
+          "sheet": "2022",
+          "row": 8
+        },
+        {
+          "sheet": "2023",
+          "row": 7
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0048",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2021",
+          "row": 15
+        },
+        {
+          "sheet": "2022",
+          "row": 42
+        },
+        {
+          "sheet": "2023",
+          "row": 14
+        },
+        {
+          "sheet": "2024",
+          "row": 23
+        },
+        {
+          "sheet": "2025",
+          "row": 31
+        },
+        {
+          "sheet": "2026",
+          "row": 37
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0183",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2021",
+          "row": 18
+        },
+        {
+          "sheet": "2022",
+          "row": 29
+        },
+        {
+          "sheet": "2023",
+          "row": 47
+        },
+        {
+          "sheet": "2024",
+          "row": 41
+        },
+        {
+          "sheet": "2025",
+          "row": 26
+        },
+        {
+          "sheet": "2026",
+          "row": 33
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0169",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2021",
+          "row": 19
+        },
+        {
+          "sheet": "2022",
+          "row": 28
+        },
+        {
+          "sheet": "2023",
+          "row": 12
+        },
+        {
+          "sheet": "2024",
+          "row": 34
+        },
+        {
+          "sheet": "2025",
+          "row": 36
+        },
+        {
+          "sheet": "2026",
+          "row": 36
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0052",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2021",
+          "row": 27
+        },
+        {
+          "sheet": "2025",
+          "row": 92
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0119",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2021",
+          "row": 32
+        },
+        {
+          "sheet": "2022",
+          "row": 7
+        },
+        {
+          "sheet": "2023",
+          "row": 36
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0115",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2021",
+          "row": 42
+        },
+        {
+          "sheet": "2022",
+          "row": 41
+        },
+        {
+          "sheet": "2023",
+          "row": 68
+        },
+        {
+          "sheet": "2024",
+          "row": 48
+        },
+        {
+          "sheet": "2025",
+          "row": 30
+        },
+        {
+          "sheet": "2026",
+          "row": 27
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0186",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2021",
+          "row": 43
+        },
+        {
+          "sheet": "2022",
+          "row": 31
+        },
+        {
+          "sheet": "2023",
+          "row": 58
+        },
+        {
+          "sheet": "2024",
+          "row": 61
+        },
+        {
+          "sheet": "2025",
+          "row": 38
+        },
+        {
+          "sheet": "2026",
+          "row": 24
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0132",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2021",
+          "row": 47
+        },
+        {
+          "sheet": "2022",
+          "row": 26
+        },
+        {
+          "sheet": "2023",
+          "row": 76
+        },
+        {
+          "sheet": "2024",
+          "row": 75
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0022",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2021",
+          "row": 49
+        },
+        {
+          "sheet": "2022",
+          "row": 78
+        },
+        {
+          "sheet": "2023",
+          "row": 102
+        },
+        {
+          "sheet": "2025",
+          "row": 113
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0001",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2021",
+          "row": 59
+        },
+        {
+          "sheet": "2022",
+          "row": 67
+        },
+        {
+          "sheet": "2023",
+          "row": 10
+        },
+        {
+          "sheet": "2024",
+          "row": 65
+        },
+        {
+          "sheet": "2025",
+          "row": 70
+        },
+        {
+          "sheet": "2026",
+          "row": 4
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0079",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2021",
+          "row": 69
+        },
+        {
+          "sheet": "2022",
+          "row": 95
+        },
+        {
+          "sheet": "2023",
+          "row": 51
+        },
+        {
+          "sheet": "2024",
+          "row": 38
+        },
+        {
+          "sheet": "2025",
+          "row": 45
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0195",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2021",
+          "row": 89
+        },
+        {
+          "sheet": "2022",
+          "row": 96
+        },
+        {
+          "sheet": "2023",
+          "row": 100
+        },
+        {
+          "sheet": "2024",
+          "row": 35
+        },
+        {
+          "sheet": "2025",
+          "row": 118
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0099",
+      "reasons": [
+        "unusual_display_token_length_requires_manual_review"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2022",
+          "row": 14
+        },
+        {
+          "sheet": "2023",
+          "row": 56
+        },
+        {
+          "sheet": "2024",
+          "row": 105
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0188",
+      "reasons": [
+        "multiple_registrations_in_one_annual_event"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2022",
+          "row": 24
+        },
+        {
+          "sheet": "2022",
+          "row": 82
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0164",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2022",
+          "row": 34
+        },
+        {
+          "sheet": "2023",
+          "row": 71
+        },
+        {
+          "sheet": "2024",
+          "row": 52
+        },
+        {
+          "sheet": "2025",
+          "row": 57
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0156",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2022",
+          "row": 98
+        },
+        {
+          "sheet": "2023",
+          "row": 42
+        },
+        {
+          "sheet": "2024",
+          "row": 24
+        },
+        {
+          "sheet": "2025",
+          "row": 37
+        },
+        {
+          "sheet": "2026",
+          "row": 31
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0128",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2022",
+          "row": 100
+        },
+        {
+          "sheet": "2023",
+          "row": 17
+        },
+        {
+          "sheet": "2024",
+          "row": 29
+        },
+        {
+          "sheet": "2025",
+          "row": 35
+        },
+        {
+          "sheet": "2026",
+          "row": 28
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0062",
+      "reasons": [
+        "unusual_display_token_length_requires_manual_review"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2023",
+          "row": 2
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0034",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2023",
+          "row": 63
+        },
+        {
+          "sheet": "2024",
+          "row": 7
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0165",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2024",
+          "row": 6
+        },
+        {
+          "sheet": "2025",
+          "row": 6
+        },
+        {
+          "sheet": "2026",
+          "row": 7
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0130",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key",
+        "multiple_registrations_in_one_annual_event"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2024",
+          "row": 20
+        },
+        {
+          "sheet": "2024",
+          "row": 21
+        },
+        {
+          "sheet": "2025",
+          "row": 60
+        },
+        {
+          "sheet": "2026",
+          "row": 15
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0057",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2025",
+          "row": 41
+        },
+        {
+          "sheet": "2026",
+          "row": 41
+        }
+      ]
+    },
+    {
+      "person_id": "DEMO-P0024",
+      "reasons": [
+        "multiple_original_name_strings_share_display_key",
+        "multiple_registrations_in_one_annual_event"
+      ],
+      "source_rows": [
+        {
+          "sheet": "2025",
+          "row": 61
+        },
+        {
+          "sheet": "2025",
+          "row": 62
+        },
+        {
+          "sheet": "2026",
+          "row": 13
+        },
+        {
+          "sheet": "2026",
+          "row": 14
+        }
+      ]
+    }
+  ],
+  "shared_contact_groups": [
+    {
+      "demo_contact_id": "DEMO-CONTACT-0004",
+      "person_ids": [
+        "DEMO-P0175",
+        "DEMO-P0193"
+      ],
+      "automatic_merge": false
+    },
+    {
+      "demo_contact_id": "DEMO-CONTACT-0020",
+      "person_ids": [
+        "DEMO-P0056",
+        "DEMO-P0085"
+      ],
+      "automatic_merge": false
+    },
+    {
+      "demo_contact_id": "DEMO-CONTACT-0030",
+      "person_ids": [
+        "DEMO-P0113",
+        "DEMO-P0196"
+      ],
+      "automatic_merge": false
+    },
+    {
+      "demo_contact_id": "DEMO-CONTACT-0038",
+      "person_ids": [
+        "DEMO-P0119",
+        "DEMO-P0149"
+      ],
+      "automatic_merge": false
+    },
+    {
+      "demo_contact_id": "DEMO-CONTACT-0048",
+      "person_ids": [
+        "DEMO-P0082",
+        "DEMO-P0133"
+      ],
+      "automatic_merge": false
+    },
+    {
+      "demo_contact_id": "DEMO-CONTACT-0053",
+      "person_ids": [
+        "DEMO-P0052",
+        "DEMO-P0099"
+      ],
+      "automatic_merge": false
+    },
+    {
+      "demo_contact_id": "DEMO-CONTACT-0072",
+      "person_ids": [
+        "DEMO-P0024",
+        "DEMO-P0130",
+        "DEMO-P0158"
+      ],
+      "automatic_merge": false
+    },
+    {
+      "demo_contact_id": "DEMO-CONTACT-0088",
+      "person_ids": [
+        "DEMO-P0131",
+        "DEMO-P0132"
+      ],
+      "automatic_merge": false
+    },
+    {
+      "demo_contact_id": "DEMO-CONTACT-0089",
+      "person_ids": [
+        "DEMO-P0064",
+        "DEMO-P0182"
+      ],
+      "automatic_merge": false
+    },
+    {
+      "demo_contact_id": "DEMO-CONTACT-0105",
+      "person_ids": [
+        "DEMO-P0020",
+        "DEMO-P0161"
+      ],
+      "automatic_merge": false
+    },
+    {
+      "demo_contact_id": "DEMO-CONTACT-0106",
+      "person_ids": [
+        "DEMO-P0041",
+        "DEMO-P0172"
+      ],
+      "automatic_merge": false
+    }
+  ]
+}

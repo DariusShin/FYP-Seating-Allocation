@@ -1,0 +1,472 @@
+{
+  "dataset_version": "pjkit-source-informed-v1-2026-10-20",
+  "cases": [
+    {
+      "case_id": "yearly/2021",
+      "kind": "masked_year_cohort_with_declared_synthetic_defaults",
+      "input": "requests/yearly/2021.json",
+      "sha256": "9f3a4d6dfea9ffab3359c12e0f94a1d7a8af2647bbca7c078100e5c8b1ecb22e",
+      "registrations": 91,
+      "tier_counts": {
+        "BODHI": 19,
+        "MERIT": 30,
+        "EMPEROR": 42
+      },
+      "physical_seat_demand": 133,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "CONFIRMED is an assumed synthetic paid status, not observed payment or attendance",
+        "age=40 is a required-schema placeholder; role=GENERAL_DEVOTEE and accessibility=false are defaults, not observed facts",
+        "same existing 232-seat layout; historical layouts and accessibility needs were not provided",
+        "full-history total intentionally encoded in the existing two-year-named field; cross-sectional synthetic cohort only"
+      ]
+    },
+    {
+      "case_id": "yearly/2022",
+      "kind": "masked_year_cohort_with_declared_synthetic_defaults",
+      "input": "requests/yearly/2022.json",
+      "sha256": "e3f7c5fd5ecae1dd71fc7b1ba85c5f49b9b3d2582c90a4ad9d2685573edcc7fa",
+      "registrations": 103,
+      "tier_counts": {
+        "MERIT": 31,
+        "BODHI": 29,
+        "EMPEROR": 43
+      },
+      "physical_seat_demand": 146,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "CONFIRMED is an assumed synthetic paid status, not observed payment or attendance",
+        "age=40 is a required-schema placeholder; role=GENERAL_DEVOTEE and accessibility=false are defaults, not observed facts",
+        "same existing 232-seat layout; historical layouts and accessibility needs were not provided",
+        "full-history total intentionally encoded in the existing two-year-named field; cross-sectional synthetic cohort only"
+      ]
+    },
+    {
+      "case_id": "yearly/2023",
+      "kind": "masked_year_cohort_with_declared_synthetic_defaults",
+      "input": "requests/yearly/2023.json",
+      "sha256": "52e648a1323c968a1a928977e3127a70d06f2ee0d17f895081e92b4948a667d2",
+      "registrations": 114,
+      "tier_counts": {
+        "BODHI": 30,
+        "MERIT": 32,
+        "EMPEROR": 52
+      },
+      "physical_seat_demand": 166,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "CONFIRMED is an assumed synthetic paid status, not observed payment or attendance",
+        "age=40 is a required-schema placeholder; role=GENERAL_DEVOTEE and accessibility=false are defaults, not observed facts",
+        "same existing 232-seat layout; historical layouts and accessibility needs were not provided",
+        "full-history total intentionally encoded in the existing two-year-named field; cross-sectional synthetic cohort only"
+      ]
+    },
+    {
+      "case_id": "yearly/2024",
+      "kind": "masked_year_cohort_with_declared_synthetic_defaults",
+      "input": "requests/yearly/2024.json",
+      "sha256": "702de8ebfa5e132b0a3e6141168447fcdeb93d993ec46ea3ed9c91fb1f3384ac",
+      "registrations": 105,
+      "tier_counts": {
+        "MERIT": 31,
+        "BODHI": 30,
+        "EMPEROR": 44
+      },
+      "physical_seat_demand": 149,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "CONFIRMED is an assumed synthetic paid status, not observed payment or attendance",
+        "age=40 is a required-schema placeholder; role=GENERAL_DEVOTEE and accessibility=false are defaults, not observed facts",
+        "same existing 232-seat layout; historical layouts and accessibility needs were not provided",
+        "full-history total intentionally encoded in the existing two-year-named field; cross-sectional synthetic cohort only"
+      ]
+    },
+    {
+      "case_id": "yearly/2025",
+      "kind": "masked_year_cohort_with_declared_synthetic_defaults",
+      "input": "requests/yearly/2025.json",
+      "sha256": "406a2bd5afa33ed3cdab075d4bacae4b4443beba4540a6af157b521ec1e6cbe8",
+      "registrations": 126,
+      "tier_counts": {
+        "MERIT": 37,
+        "BODHI": 36,
+        "EMPEROR": 53
+      },
+      "physical_seat_demand": 179,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "CONFIRMED is an assumed synthetic paid status, not observed payment or attendance",
+        "age=40 is a required-schema placeholder; role=GENERAL_DEVOTEE and accessibility=false are defaults, not observed facts",
+        "same existing 232-seat layout; historical layouts and accessibility needs were not provided",
+        "full-history total intentionally encoded in the existing two-year-named field; cross-sectional synthetic cohort only"
+      ]
+    },
+    {
+      "case_id": "yearly/2026",
+      "kind": "masked_year_cohort_with_declared_synthetic_defaults",
+      "input": "requests/yearly/2026.json",
+      "sha256": "603ec8fb78f197828165736fbdd3678aa7f8306976735536cc74ded0f9554cef",
+      "registrations": 60,
+      "tier_counts": {
+        "MERIT": 17,
+        "BODHI": 21,
+        "EMPEROR": 22
+      },
+      "physical_seat_demand": 82,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "CONFIRMED is an assumed synthetic paid status, not observed payment or attendance",
+        "age=40 is a required-schema placeholder; role=GENERAL_DEVOTEE and accessibility=false are defaults, not observed facts",
+        "same existing 232-seat layout; historical layouts and accessibility needs were not provided",
+        "full-history total intentionally encoded in the existing two-year-named field; cross-sectional synthetic cohort only"
+      ]
+    },
+    {
+      "case_id": "prototype-2026",
+      "kind": "prototype_demo_with_simulated_roles_and_ages",
+      "input": "requests/prototype-2026.json",
+      "sha256": "c773dce30f77ef48b08c42034f97b6f1f456d68fbb4eb2292da261c4a7942ec9",
+      "registrations": 60,
+      "tier_counts": {
+        "MERIT": 17,
+        "BODHI": 21,
+        "EMPEROR": 22
+      },
+      "physical_seat_demand": 82,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "CONFIRMED is an assumed synthetic paid status, not observed payment or attendance",
+        "age=40 is a required-schema placeholder; role=GENERAL_DEVOTEE and accessibility=false are defaults, not observed facts",
+        "same existing 232-seat layout; historical layouts and accessibility needs were not provided",
+        "full-history total intentionally encoded in the existing two-year-named field; cross-sectional synthetic cohort only",
+        "role and age fields deliberately replaced with seeded simulated values to exercise the prototype"
+      ]
+    },
+    {
+      "case_id": "controlled/small-mixed",
+      "kind": "distribution_sampled_synthetic_stress_case",
+      "input": "requests/controlled/small-mixed.json",
+      "sha256": "a727ff9a58e4cad25c69e6258b55eb9c8188ee9f74b90f9b08ec2ee6e0c589eb",
+      "registrations": 24,
+      "tier_counts": {
+        "EMPEROR": 8,
+        "MERIT": 8,
+        "BODHI": 8
+      },
+      "physical_seat_demand": 32,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "activity sampled with replacement from the 2026 cohort's tier-conditional full-history frequency distribution",
+        "sizes and tier mix are declared controlled scenarios, not estimates of PJKIT's population",
+        "within-tier contribution increments, uniform role choices and ages are simulated; no such variation/roles were measured",
+        "no individual source identity or historical trajectory copied into these independently generated participants",
+        "pattern=mixed"
+      ]
+    },
+    {
+      "case_id": "controlled/small-conflict",
+      "kind": "distribution_sampled_synthetic_stress_case",
+      "input": "requests/controlled/small-conflict.json",
+      "sha256": "384a0bc49a4a9b629aa8fea3228f3f6300d3d3a59f7936ae239c7c2f1d1e8971",
+      "registrations": 24,
+      "tier_counts": {
+        "EMPEROR": 8,
+        "MERIT": 8,
+        "BODHI": 8
+      },
+      "physical_seat_demand": 32,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "activity sampled with replacement from the 2026 cohort's tier-conditional full-history frequency distribution",
+        "sizes and tier mix are declared controlled scenarios, not estimates of PJKIT's population",
+        "within-tier contribution increments, uniform role choices and ages are simulated; no such variation/roles were measured",
+        "no individual source identity or historical trajectory copied into these independently generated participants",
+        "pattern=conflict"
+      ]
+    },
+    {
+      "case_id": "controlled/small-tied",
+      "kind": "distribution_sampled_synthetic_stress_case",
+      "input": "requests/controlled/small-tied.json",
+      "sha256": "2949944a0367e9d8824b7f99cca37ea1ba5f72b69fa4db68be4235c336273b18",
+      "registrations": 24,
+      "tier_counts": {
+        "EMPEROR": 8,
+        "MERIT": 8,
+        "BODHI": 8
+      },
+      "physical_seat_demand": 32,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "activity sampled with replacement from the 2026 cohort's tier-conditional full-history frequency distribution",
+        "sizes and tier mix are declared controlled scenarios, not estimates of PJKIT's population",
+        "within-tier contribution increments, uniform role choices and ages are simulated; no such variation/roles were measured",
+        "no individual source identity or historical trajectory copied into these independently generated participants",
+        "pattern=tied"
+      ]
+    },
+    {
+      "case_id": "controlled/small-accessible",
+      "kind": "distribution_sampled_synthetic_stress_case",
+      "input": "requests/controlled/small-accessible.json",
+      "sha256": "bfb1e5426314307d8fd79c54a4f3a96e54dc1c4f79b380ded213d49c89498d07",
+      "registrations": 24,
+      "tier_counts": {
+        "EMPEROR": 8,
+        "MERIT": 8,
+        "BODHI": 8
+      },
+      "physical_seat_demand": 32,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "activity sampled with replacement from the 2026 cohort's tier-conditional full-history frequency distribution",
+        "sizes and tier mix are declared controlled scenarios, not estimates of PJKIT's population",
+        "within-tier contribution increments, uniform role choices and ages are simulated; no such variation/roles were measured",
+        "no individual source identity or historical trajectory copied into these independently generated participants",
+        "accessibility requirements assigned only to witness-compatible synthetic IDs; not an observed prevalence"
+      ]
+    },
+    {
+      "case_id": "controlled/typical-mixed",
+      "kind": "distribution_sampled_synthetic_stress_case",
+      "input": "requests/controlled/typical-mixed.json",
+      "sha256": "585b7f199da5802e8dd059eee61d345a3918c648a642a122b5eb37e37989bd20",
+      "registrations": 96,
+      "tier_counts": {
+        "EMPEROR": 56,
+        "MERIT": 24,
+        "BODHI": 16
+      },
+      "physical_seat_demand": 152,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "activity sampled with replacement from the 2026 cohort's tier-conditional full-history frequency distribution",
+        "sizes and tier mix are declared controlled scenarios, not estimates of PJKIT's population",
+        "within-tier contribution increments, uniform role choices and ages are simulated; no such variation/roles were measured",
+        "no individual source identity or historical trajectory copied into these independently generated participants",
+        "pattern=mixed"
+      ]
+    },
+    {
+      "case_id": "controlled/typical-conflict",
+      "kind": "distribution_sampled_synthetic_stress_case",
+      "input": "requests/controlled/typical-conflict.json",
+      "sha256": "2e6d6215c3a27a8f57a70379688c9685382a25eccf4cf250485d8e9357e6bac3",
+      "registrations": 96,
+      "tier_counts": {
+        "EMPEROR": 56,
+        "MERIT": 24,
+        "BODHI": 16
+      },
+      "physical_seat_demand": 152,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "activity sampled with replacement from the 2026 cohort's tier-conditional full-history frequency distribution",
+        "sizes and tier mix are declared controlled scenarios, not estimates of PJKIT's population",
+        "within-tier contribution increments, uniform role choices and ages are simulated; no such variation/roles were measured",
+        "no individual source identity or historical trajectory copied into these independently generated participants",
+        "pattern=conflict"
+      ]
+    },
+    {
+      "case_id": "controlled/typical-tied",
+      "kind": "distribution_sampled_synthetic_stress_case",
+      "input": "requests/controlled/typical-tied.json",
+      "sha256": "4b93fc63892446d46a5e5fc4f25faaff210bad539b4c434531200116effb9721",
+      "registrations": 96,
+      "tier_counts": {
+        "EMPEROR": 56,
+        "MERIT": 24,
+        "BODHI": 16
+      },
+      "physical_seat_demand": 152,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "activity sampled with replacement from the 2026 cohort's tier-conditional full-history frequency distribution",
+        "sizes and tier mix are declared controlled scenarios, not estimates of PJKIT's population",
+        "within-tier contribution increments, uniform role choices and ages are simulated; no such variation/roles were measured",
+        "no individual source identity or historical trajectory copied into these independently generated participants",
+        "pattern=tied"
+      ]
+    },
+    {
+      "case_id": "controlled/typical-accessible",
+      "kind": "distribution_sampled_synthetic_stress_case",
+      "input": "requests/controlled/typical-accessible.json",
+      "sha256": "252e1d2a3a5ddbe04b123763adb580a585a09912de4607d07983294ac1f52b50",
+      "registrations": 96,
+      "tier_counts": {
+        "EMPEROR": 56,
+        "MERIT": 24,
+        "BODHI": 16
+      },
+      "physical_seat_demand": 152,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "activity sampled with replacement from the 2026 cohort's tier-conditional full-history frequency distribution",
+        "sizes and tier mix are declared controlled scenarios, not estimates of PJKIT's population",
+        "within-tier contribution increments, uniform role choices and ages are simulated; no such variation/roles were measured",
+        "no individual source identity or historical trajectory copied into these independently generated participants",
+        "accessibility requirements assigned only to witness-compatible synthetic IDs; not an observed prevalence"
+      ]
+    },
+    {
+      "case_id": "controlled/full-mixed",
+      "kind": "distribution_sampled_synthetic_stress_case",
+      "input": "requests/controlled/full-mixed.json",
+      "sha256": "e349d8621c3a60a7c70eacc386def20bfdead045b020dbc67bb6051698a9bc90",
+      "registrations": 152,
+      "tier_counts": {
+        "EMPEROR": 80,
+        "MERIT": 40,
+        "BODHI": 32
+      },
+      "physical_seat_demand": 232,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "activity sampled with replacement from the 2026 cohort's tier-conditional full-history frequency distribution",
+        "sizes and tier mix are declared controlled scenarios, not estimates of PJKIT's population",
+        "within-tier contribution increments, uniform role choices and ages are simulated; no such variation/roles were measured",
+        "no individual source identity or historical trajectory copied into these independently generated participants",
+        "pattern=mixed"
+      ]
+    },
+    {
+      "case_id": "controlled/full-conflict",
+      "kind": "distribution_sampled_synthetic_stress_case",
+      "input": "requests/controlled/full-conflict.json",
+      "sha256": "eac86f63c056d1e0471551746dda349e5a34ab0314bf8937da70b0a25fb3e1c4",
+      "registrations": 152,
+      "tier_counts": {
+        "EMPEROR": 80,
+        "MERIT": 40,
+        "BODHI": 32
+      },
+      "physical_seat_demand": 232,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "activity sampled with replacement from the 2026 cohort's tier-conditional full-history frequency distribution",
+        "sizes and tier mix are declared controlled scenarios, not estimates of PJKIT's population",
+        "within-tier contribution increments, uniform role choices and ages are simulated; no such variation/roles were measured",
+        "no individual source identity or historical trajectory copied into these independently generated participants",
+        "pattern=conflict"
+      ]
+    },
+    {
+      "case_id": "controlled/full-tied",
+      "kind": "distribution_sampled_synthetic_stress_case",
+      "input": "requests/controlled/full-tied.json",
+      "sha256": "0de5a2706ac19b73f92a35437d651a8872666530032e2ab0b4ef60ca3d7f0991",
+      "registrations": 152,
+      "tier_counts": {
+        "EMPEROR": 80,
+        "MERIT": 40,
+        "BODHI": 32
+      },
+      "physical_seat_demand": 232,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "activity sampled with replacement from the 2026 cohort's tier-conditional full-history frequency distribution",
+        "sizes and tier mix are declared controlled scenarios, not estimates of PJKIT's population",
+        "within-tier contribution increments, uniform role choices and ages are simulated; no such variation/roles were measured",
+        "no individual source identity or historical trajectory copied into these independently generated participants",
+        "pattern=tied"
+      ]
+    },
+    {
+      "case_id": "controlled/full-accessible",
+      "kind": "distribution_sampled_synthetic_stress_case",
+      "input": "requests/controlled/full-accessible.json",
+      "sha256": "ce5be76f260a02d4265af6daa1e6882cea654f70c70db5caca067eeb536ffbd9",
+      "registrations": 152,
+      "tier_counts": {
+        "EMPEROR": 80,
+        "MERIT": 40,
+        "BODHI": 32
+      },
+      "physical_seat_demand": 232,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "activity sampled with replacement from the 2026 cohort's tier-conditional full-history frequency distribution",
+        "sizes and tier mix are declared controlled scenarios, not estimates of PJKIT's population",
+        "within-tier contribution increments, uniform role choices and ages are simulated; no such variation/roles were measured",
+        "no individual source identity or historical trajectory copied into these independently generated participants",
+        "accessibility requirements assigned only to witness-compatible synthetic IDs; not an observed prevalence"
+      ]
+    },
+    {
+      "case_id": "controlled/heavy-mixed",
+      "kind": "distribution_sampled_synthetic_stress_case",
+      "input": "requests/controlled/heavy-mixed.json",
+      "sha256": "cd0263a086d7320f8d872295ec6d1b6481c203ae5f0783e097f5f47fb2334c80",
+      "registrations": 131,
+      "tier_counts": {
+        "EMPEROR": 99,
+        "MERIT": 19,
+        "BODHI": 13
+      },
+      "physical_seat_demand": 230,
+      "feasibility_witness_valid": true,
+      "assumptions": [
+        "activity sampled with replacement from the 2026 cohort's tier-conditional full-history frequency distribution",
+        "sizes and tier mix are declared controlled scenarios, not estimates of PJKIT's population",
+        "within-tier contribution increments, uniform role choices and ages are simulated; no such variation/roles were measured",
+        "no individual source identity or historical trajectory copied into these independently generated participants",
+        "pattern=mixed"
+      ]
+    }
+  ],
+  "activity_calibration_histograms_2026_by_tier": {
+    "EMPEROR": {
+      "6": 16,
+      "5": 2,
+      "3": 1,
+      "2": 3
+    },
+    "MERIT": {
+      "2": 4,
+      "3": 4,
+      "4": 2,
+      "6": 5,
+      "1": 1,
+      "5": 1
+    },
+    "BODHI": {
+      "6": 4,
+      "3": 4,
+      "1": 6,
+      "4": 6,
+      "5": 1
+    }
+  },
+  "solver_benchmark_candidate_cases": [
+    "controlled/small-mixed",
+    "controlled/small-conflict",
+    "controlled/small-tied",
+    "controlled/small-accessible",
+    "controlled/typical-mixed",
+    "controlled/typical-conflict",
+    "controlled/typical-tied",
+    "controlled/typical-accessible",
+    "controlled/full-mixed",
+    "controlled/full-conflict",
+    "controlled/full-tied",
+    "controlled/full-accessible",
+    "controlled/heavy-mixed"
+  ],
+  "weighting_candidate_cases": [
+    "controlled/small-mixed",
+    "controlled/small-conflict",
+    "controlled/small-tied",
+    "controlled/small-accessible",
+    "controlled/typical-mixed",
+    "controlled/typical-conflict",
+    "controlled/typical-tied",
+    "controlled/typical-accessible",
+    "controlled/full-mixed",
+    "controlled/full-conflict",
+    "controlled/full-tied",
+    "controlled/full-accessible"
+  ],
+  "adoption": "Candidate data only: frozen benchmark runner still generates its original inputs; protocol update and fresh pilot required before adoption"
+}

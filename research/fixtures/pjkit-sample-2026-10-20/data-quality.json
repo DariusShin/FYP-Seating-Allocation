@@ -1,0 +1,31 @@
+{
+  "registration_count": 599,
+  "year_counts": {
+    "2021": 91,
+    "2022": 103,
+    "2023": 114,
+    "2024": 105,
+    "2025": 126,
+    "2026": 60
+  },
+  "raw_name_string_count": 221,
+  "raw_name_phone_combination_count": 295,
+  "provisional_display_name_groups": 196,
+  "summary_registrant_rows": 219,
+  "missing_phone_registrations": 260,
+  "shared_contact_groups": 11,
+  "duplicate_person_year_excess_registrations": 4,
+  "tier_amount_corrections": [
+    {
+      "registration_id": "DEMO-R2022-0081",
+      "person_id": "DEMO-P0188",
+      "source": {
+        "sheet": "2022",
+        "row": 82
+      },
+      "source_amount_rm": 1000,
+      "synthetic_amount_rm": 3000
+    }
+  ],
+  "supervisor_identity_review_pending": true
+}

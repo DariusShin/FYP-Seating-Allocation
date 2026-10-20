@@ -1,0 +1,161 @@
+{
+  "construction": "tier/contribution ordered physical-seat prefix; no solver",
+  "placements": [
+    {
+      "participant_id": "SYN-SMALL-0005",
+      "seat_ids": [
+        "R01-S09",
+        "R01-S10"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0001",
+      "seat_ids": [
+        "R01-S11",
+        "R01-S12"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0008",
+      "seat_ids": [
+        "R01-S13",
+        "R01-S14"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0006",
+      "seat_ids": [
+        "R01-S15",
+        "R01-S16"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0002",
+      "seat_ids": [
+        "R01-S08",
+        "R01-S07"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0003",
+      "seat_ids": [
+        "R01-S06",
+        "R01-S05"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0004",
+      "seat_ids": [
+        "R01-S04",
+        "R01-S03"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0007",
+      "seat_ids": [
+        "R01-S02",
+        "R01-S01"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0010",
+      "seat_ids": [
+        "R02-S09"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0012",
+      "seat_ids": [
+        "R02-S10"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0011",
+      "seat_ids": [
+        "R02-S11"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0014",
+      "seat_ids": [
+        "R02-S12"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0015",
+      "seat_ids": [
+        "R02-S13"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0009",
+      "seat_ids": [
+        "R02-S14"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0013",
+      "seat_ids": [
+        "R02-S15"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0016",
+      "seat_ids": [
+        "R02-S16"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0020",
+      "seat_ids": [
+        "R02-S08"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0021",
+      "seat_ids": [
+        "R02-S07"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0023",
+      "seat_ids": [
+        "R02-S06"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0018",
+      "seat_ids": [
+        "R02-S05"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0024",
+      "seat_ids": [
+        "R02-S04"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0017",
+      "seat_ids": [
+        "R02-S03"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0019",
+      "seat_ids": [
+        "R02-S02"
+      ]
+    },
+    {
+      "participant_id": "SYN-SMALL-0022",
+      "seat_ids": [
+        "R02-S01"
+      ]
+    }
+  ],
+  "validation": {
+    "passed": true,
+    "issues": []
+  }
+}
