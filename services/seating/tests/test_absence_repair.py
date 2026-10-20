@@ -39,8 +39,15 @@ def command(saved, **kwargs):
                 plan_version_id=saved['base']['plan_version_id'], revision=saved['revision'], **kwargs)
 
 
+def solver_repair_only(monkeypatch):
+    """Disable the deterministic stage so a test exercises the CP-SAT fallback."""
+    from seat_solver.production import absence_repair
+    monkeypatch.setattr(absence_repair, 'shift_forward_solutions', lambda *args, **kwargs: None)
+
+
 def test_repair_uses_separate_path_and_matches_exhaustive_lexicographic_oracle(tmp_path, monkeypatch):
     store, ws, plan = saved_session(tmp_path)
+    solver_repair_only(monkeypatch)
     state = initial_state(plan)
     cells = {s['seat_id']: s for s in plan['source_request']['layout']['seats']}
     front = min(state['items'], key=lambda pid: cells[state['items'][pid]['seat_ids'][0]]['priority_rank'])
@@ -91,7 +98,8 @@ def test_emperor_absence_keeps_both_names_and_restoration_requires_complete_pair
         save(ws, result, attempted, opened['revision'])
 
 
-def test_expands_only_on_infeasibility_and_keeps_outside_registrations_fixed(tmp_path):
+def test_expands_only_on_infeasibility_and_keeps_outside_registrations_fixed(tmp_path, monkeypatch):
+    solver_repair_only(monkeypatch)
     request = generate(emperor=0, merit=50, bodhi=0)
     request['layout']['row_count'] = 4
     request['layout']['seats'] = [s for s in request['layout']['seats'] if s['row_number'] <= 4]
@@ -191,6 +199,7 @@ def test_all_absent_and_already_packed_absence_need_no_movement(tmp_path):
 
 def test_search_without_any_solution_does_not_change_workspace(tmp_path, monkeypatch):
     from types import SimpleNamespace
+    solver_repair_only(monkeypatch)
     from seat_solver.production import absence_repair
     store, ws, plan = saved_session(tmp_path)
     cells = {s['seat_id']: s for s in plan['source_request']['layout']['seats']}
@@ -240,6 +249,7 @@ def test_legacy_plan_publication_cannot_ignore_new_event_attendance(tmp_path):
 @pytest.mark.parametrize('stop_stage', [1, 2, 3])
 def test_feasible_repair_is_saved_without_requiring_optimality(tmp_path, monkeypatch, stop_stage):
     from seat_solver.production import absence_repair
+    solver_repair_only(monkeypatch)
     store, ws, plan = saved_session(tmp_path)
     cells = {s['seat_id']: s for s in plan['source_request']['layout']['seats']}
     state = initial_state(plan)
@@ -278,6 +288,7 @@ def test_feasible_repair_is_saved_without_requiring_optimality(tmp_path, monkeyp
 @pytest.mark.parametrize('stop_stage', [2, 3])
 def test_later_stage_without_solution_retains_earlier_valid_incumbent(tmp_path, monkeypatch, stop_stage):
     from seat_solver.production import absence_repair
+    solver_repair_only(monkeypatch)
     store, ws, plan = saved_session(tmp_path)
     cells = {s['seat_id']: s for s in plan['source_request']['layout']['seats']}
     state = initial_state(plan)
@@ -313,6 +324,7 @@ def test_later_stage_without_solution_retains_earlier_valid_incumbent(tmp_path, 
 
 def test_deadline_after_first_solution_returns_the_valid_incumbent(tmp_path, monkeypatch):
     from seat_solver.production import absence_repair
+    solver_repair_only(monkeypatch)
     store, ws, plan = saved_session(tmp_path)
     cells = {s['seat_id']: s for s in plan['source_request']['layout']['seats']}
     state = initial_state(plan)
