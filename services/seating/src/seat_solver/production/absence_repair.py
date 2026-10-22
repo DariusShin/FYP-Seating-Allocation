@@ -3,12 +3,13 @@
 The deterministic stage fills the absence gap without any search: the
 farthest-back registration that may legally and fairly take the earliest free
 seat moves into it, and the seat it releases becomes the next hole, so the gap
-migrates to the packing tail. When the gap shape, pairing, accessibility or
-fairness gate defeats that pass, a progressively expanded CP-SAT repair of the
-saved working map takes over. The generation solver is never called.
-Registrations outside the current row neighbourhood remain constants in the
-shared hard-rule model. Optimality is scoped to the first feasible
-neighbourhood, not claimed for the entire hall.
+migrates to the packing tail. Registrations restored to present while docked
+take part as cost-free movers and are seated on the tail of their tier band.
+When the gap shape, pairing, accessibility or fairness gate defeats that pass,
+a progressively expanded CP-SAT repair of the saved working map takes over.
+The generation solver is never called. Registrations outside the current row
+neighbourhood remain constants in the shared hard-rule model. Optimality is
+scoped to the first feasible neighbourhood, not claimed for the entire hall.
 """
 import copy
 import time
@@ -17,13 +18,18 @@ from ortools.sat.python import cp_model
 
 from seat_solver.production.policy import TIERS, DomainError, policy
 from seat_solver.production.production import build, error, format_result, now
-from seat_solver.production.production_scoring import eligible, options, quality
+from seat_solver.production.production_scoring import candidate_cost, eligible, options
 from seat_solver.production.production_validator import validate_placements
 from seat_solver.production.workspace import validate_state
 
 
 def movement(ids, previous, seats):
-    if not previous or set(ids) == set(previous):
+    if not ids:
+        return 0, 0
+    if not previous:
+        # Seating a restored registration is always a move; it owns no baseline.
+        return 1, 0
+    if set(ids) == set(previous):
         return 0, 0
     def centre(bundle, key):
         return 2 * sum(seats[s][key] for s in bundle) // len(bundle)
@@ -32,17 +38,21 @@ def movement(ids, previous, seats):
 
 
 def shift_forward_solutions(request, people, baseline, absent, state, seats):
-    """Deterministic no-overtake repair of absence gaps; None declines to CP-SAT.
+    """Deterministic no-overtake repair of gaps and restored registrations.
 
     Seats are ordered by hall packing order (row-major over priority rank). A
     free seat with an occupied seat behind it is filled by the farthest-back
     registration unit that may legally take it; its released seats become the
     next hole, so the free seats always end as a suffix of the packing order.
-    Fairness extends C13: a mover may not be seated better than any same-tier
-    registration with a strictly higher contribution amount that it passes, and
-    C12 confines movers to seats at or behind every better tier seated behind
-    the hole. Emperor units move as whole bundles onto approved pairs only.
-    Returns (placements, scope_rows) or None.
+    Registrations restored to present while docked are preferred movers: they
+    must be seated anyway, so taking a hole costs no extra movement, measured
+    against the seats they held before the absence. Any still unseated
+    registration takes the farthest-back legal span inside its tier band, or
+    the stage declines. Fairness extends C13: a mover may not be seated better
+    than any same-tier registration with a strictly higher contribution amount
+    that it passes, and C12 confines movers to seats at or behind every better
+    tier seated behind the hole. Emperor units move as whole approved pairs
+    only. Returns (placements, scope_rows) or None to decline to CP-SAT.
     """
     previous = {pid: state["items"][pid].get("previous_seat_ids") or [] for pid in absent}
     if any(not ids for ids in previous.values()):
@@ -58,84 +68,169 @@ def shift_forward_solutions(request, people, baseline, absent, state, seats):
             return None
         gap.update(index_of[s] for s in ids)
     meta = {}
+    docked = []
     for p in people:
         pid = p["participant_id"]
-        home = [index_of.get(s) for s in baseline[pid]]
-        if not home or any(i is None for i in home):
-            return None
-        meta[pid] = {
+        info = {
             "tier": p["contribution_tier"],
             "amount": p["contribution_amount_rm"],
             "emperor": p["contribution_tier"] == "EMPEROR",
             "accessible": p["requires_accessible_seat"],
-            "origin": frozenset(home),
-            "span": set(home),
         }
-    if not meta:
-        return None
-    occupied = set().union(*(m["span"] for m in meta.values()))
-    last = max(occupied)
+        if baseline[pid]:
+            home = [index_of.get(s) for s in baseline[pid]]
+            if not home or any(i is None for i in home):
+                return None
+            meta[pid] = {**info, "origin": frozenset(home), "span": set(home)}
+        else:
+            old = [index_of[s] for s in state["items"][pid].get("previous_seat_ids") or []
+                   if s in index_of]
+            docked.append({**info, "pid": pid, "origin": old})
+    docked.sort(key=lambda d: (TIERS.index(d["tier"]), d["pid"]))
+    occupied = set().union(*(m["span"] for m in meta.values())) if meta else set()
+    last = max(occupied, default=-1)
     free = set(range(len(cells))) - occupied
-    if not gap <= free or not any(i < last for i in free):
+    if not any(i < last for i in free) and not docked:
         return None
     if any(i < last and i not in gap for i in free):
         return None
     approved = {tuple(sorted(pair)) for pair in request["layout"]["approved_pairs"]}
     tier_rank = {tier: i for i, tier in enumerate(TIERS)}
 
-    def fair(pid, target):
-        origin = min(meta[pid]["span"])
-        for other, m in meta.items():
-            if (other != pid and m["tier"] == meta[pid]["tier"]
-                    and m["amount"] > meta[pid]["amount"]):
-                span = m["span"]
-                if target < min(span) and max(span) < origin:
-                    return False
+    def row_of(span):
+        return cells[min(span)]["row_number"]
+
+    def overtakes(target, origin, tier, amount):
+        for m in meta.values():
+            if m["tier"] != tier or m["amount"] <= amount:
+                continue
+            span = m["span"]
+            if target < min(span) and max(span) < origin:
+                return False
         return True
 
+    def c13_fits(tier, amount, row):
+        for m in meta.values():
+            if m["tier"] != tier:
+                continue
+            r = row_of(m["span"])
+            if r < row and m["amount"] < amount:
+                return False
+            if r > row and m["amount"] > amount:
+                return False
+        return True
+
+    def gate(d, target):
+        return overtakes(target, min(d["origin"]) if d["origin"] else 0,
+                         d["tier"], d["amount"]) and c13_fits(
+            d["tier"], d["amount"], row_of([target]))
+
+    def occupied_now():
+        return set().union(*(m["span"] for m in meta.values())) if meta else set()
+
+    def take(mover, span):
+        if isinstance(mover, dict):
+            meta[mover["pid"]] = {**mover, "origin": frozenset(mover["origin"]),
+                                  "span": set(span)}
+            docked.remove(mover)
+        else:
+            meta[mover]["span"] = set(span)
+
     while True:
-        occupied_now = set().union(*(m["span"] for m in meta.values()))
-        last_now = max(occupied_now)
-        holes = sorted(i for i in set(range(len(cells))) - occupied_now if i < last_now)
+        occ = occupied_now()
+        last_now = max(occ, default=-1)
+        holes = sorted(i for i in set(range(len(cells))) - occ if i < last_now)
         if not holes:
             break
         a = holes[0]
         behind = [pid for pid, m in meta.items() if min(m["span"]) > a]
         floor_tier = min((tier_rank[meta[pid]["tier"]] for pid in behind), default=0)
-        if a + 1 < len(cells) and a + 1 not in occupied_now:
+        mover = None
+        span = None
+        if a + 1 < len(cells) and a + 1 not in occ:
             key = tuple(sorted((cells[a]["physical_position"], cells[a + 1]["physical_position"])))
             if key in approved:
+                pair_accessible = cells[a]["is_accessible"] and cells[a + 1]["is_accessible"]
+                mover = next((d for d in docked
+                              if d["emperor"]
+                              and (not d["accessible"] or pair_accessible)
+                              and tier_rank[d["tier"]] <= floor_tier
+                              and gate(d, a)), None)
+                if mover is None:
+                    candidates = [
+                        pid for pid in behind
+                        if meta[pid]["emperor"]
+                        and (not meta[pid]["accessible"] or pair_accessible)
+                        and tier_rank[meta[pid]["tier"]] <= floor_tier
+                        and overtakes(a, min(meta[pid]["span"]),
+                                      meta[pid]["tier"], meta[pid]["amount"])
+                    ]
+                    if candidates:
+                        mover = max(candidates, key=lambda pid: min(meta[pid]["span"]))
+                if mover is not None:
+                    span = (a, a + 1)
+        if mover is None:
+            mover = next((d for d in docked
+                          if not d["emperor"]
+                          and (not d["accessible"] or cells[a]["is_accessible"])
+                          and tier_rank[d["tier"]] <= floor_tier
+                          and gate(d, a)), None)
+            if mover is None:
                 candidates = [
                     pid for pid in behind
-                    if meta[pid]["emperor"]
-                    and (not meta[pid]["accessible"]
-                         or (cells[a]["is_accessible"] and cells[a + 1]["is_accessible"]))
+                    if not meta[pid]["emperor"]
+                    and (not meta[pid]["accessible"] or cells[a]["is_accessible"])
                     and tier_rank[meta[pid]["tier"]] <= floor_tier
-                    and fair(pid, a)
+                    and overtakes(a, min(meta[pid]["span"]),
+                                  meta[pid]["tier"], meta[pid]["amount"])
                 ]
-                if candidates:
-                    mover = max(candidates, key=lambda pid: min(meta[pid]["span"]))
-                    meta[mover]["span"] = {a, a + 1}
-                    continue
-        candidates = [
-            pid for pid in behind
-            if not meta[pid]["emperor"]
-            and (not meta[pid]["accessible"] or cells[a]["is_accessible"])
-            and tier_rank[meta[pid]["tier"]] <= floor_tier
-            and fair(pid, a)
-        ]
-        if not candidates:
+                if not candidates:
+                    return None
+                mover = max(candidates, key=lambda pid: min(meta[pid]["span"]))
+            span = (a,)
+        take(mover, span)
+    for d in list(docked):
+        best = None
+        for a in range(len(cells)):
+            span = None
+            if d["emperor"]:
+                if a + 1 < len(cells) and a + 1 not in occupied_now():
+                    key = tuple(sorted((cells[a]["physical_position"],
+                                        cells[a + 1]["physical_position"])))
+                    if (key in approved
+                            and (not d["accessible"]
+                                 or (cells[a]["is_accessible"] and cells[a + 1]["is_accessible"]))):
+                        span = (a, a + 1)
+            elif a not in occupied_now() and (not d["accessible"] or cells[a]["is_accessible"]):
+                span = (a,)
+            if span is None:
+                continue
+            occ = occupied_now()
+            if any(tier_rank[m["tier"]] < tier_rank[d["tier"]]
+                   and max(m["span"]) >= span[0] for m in meta.values()):
+                continue
+            if any(tier_rank[m["tier"]] > tier_rank[d["tier"]]
+                   and min(m["span"]) <= span[-1] for m in meta.values()):
+                continue
+            if not gate(d, span[0]):
+                continue
+            # The earliest legal span keeps every free seat behind the seated
+            # region, so the placement itself never opens a new packing hole.
+            if best is None or span[0] < best[0]:
+                best = span
+        if best is None:
             return None
-        mover = max(candidates, key=lambda pid: min(meta[pid]["span"]))
-        meta[mover]["span"] = {a}
+        take(d, best)
     solutions = {}
     for p in people:
         pid = p["participant_id"]
-        m = meta[pid]
-        solutions[pid] = (
-            [cells[i]["seat_id"] for i in sorted(m["span"])]
-            if m["span"] != m["origin"] else list(baseline[pid])
-        )
+        m = meta.get(pid)
+        if m is None:
+            solutions[pid] = list(baseline[pid])
+        elif baseline[pid] and m["span"] == m["origin"]:
+            solutions[pid] = list(baseline[pid])
+        else:
+            solutions[pid] = [cells[i]["seat_id"] for i in sorted(m["span"])]
     audit = validate_placements(request, [
         {"participant_id": pid, "seat_ids": ids} for pid, ids in solutions.items()
     ])
@@ -160,12 +255,15 @@ def repair(plan, state, preferences=None):
     seats = {s["seat_id"]: s for s in request["layout"]["seats"]}
     people = eligible(request)
     baseline = {p["participant_id"]: state["items"][p["participant_id"]]["seat_ids"] for p in people}
-    if any(not ids for ids in baseline.values()):
+    docked_present = [p["participant_id"] for p in people if not baseline[p["participant_id"]]]
+    if any(state["items"][pid].get("dock_reason") for pid in docked_present):
         raise DomainError("INVALID_INPUT", "Seat present registrations from the temporary dock before absence repair")
     absent = [pid for pid, item in state["items"].items() if item.get("attendance_status", "PRESENT") == "ABSENT"]
     if not absent:
         raise DomainError("INVALID_INPUT", "Absence repair requires an absent registration")
     seeds = {seats[s]["row_number"] for pid in absent for s in state["items"][pid]["previous_seat_ids"]}
+    for pid in docked_present:
+        seeds.update(seats[s]["row_number"] for s in state["items"][pid].get("previous_seat_ids") or [])
     seeds = seeds or {1}
     deadline = started + request["solver"]["max_time_seconds"]
     attempts = []
@@ -192,7 +290,10 @@ def repair(plan, state, preferences=None):
             domains = {}
             for p in people:
                 pid = p["participant_id"]
-                if seats[baseline[pid][0]]["row_number"] in scope:
+                if not baseline[pid]:
+                    domains[pid] = {tuple(sorted(s["seat_id"] for s in o)) for o in options(request, p)
+                                    if o[0]["row_number"] in scope}
+                elif seats[baseline[pid][0]]["row_number"] in scope:
                     domains[pid] = {tuple(sorted(s["seat_id"] for s in o)) for o in options(request, p) if o[0]["row_number"] in scope}
                 else:
                     domains[pid] = {tuple(sorted(baseline[pid]))}
@@ -265,7 +366,15 @@ def repair(plan, state, preferences=None):
         return error("OUTPUT_VALIDATION_FAILED", "Independent repair validation failed", audit)
     engine_name = ("Deterministic shift-forward repair" if fast is not None
                    else "Google OR-Tools CP-SAT incremental repair")
-    preference_before = quality(request, policy(), baseline)["weighted"]["total"]
+    # Preference delta over the population seated both before and after, so
+    # restored registrations without a baseline never skew the comparison.
+    seated_before = {pid: ids for pid, ids in baseline.items() if ids}
+    def weighted_total(placements):
+        return sum(
+            candidate_cost(request, policy(), p, [seats[s] for s in placements[p["participant_id"]]])["weighted"]["total"]
+            for p in people if p["participant_id"] in placements)
+    preference_before = weighted_total(seated_before)
+    preference_after = weighted_total({pid: solutions[pid] for pid in seated_before})
     changes = [{"participant_id": pid, "from_seat_ids": baseline[pid], "to_seat_ids": ids,
                 "distance_doubled": movement(ids, baseline[pid], seats)[1]}
                for pid, ids in solutions.items() if set(ids) != set(baseline[pid])]
@@ -282,12 +391,13 @@ def repair(plan, state, preferences=None):
                                 "optimality_proven": business_optimal, "stopped_stage": stopped_stage,
                                 "engine": engine_name,
                                 "preference_cost_before": preference_before,
-                                "preference_cost_after": result["quality"]["weighted"]["total"]}
+                                "preference_cost_after": preference_after}
     result["operations"] = copy.deepcopy(state["items"])
     for pid, ids in solutions.items():
         item = result["operations"][pid]
         if set(ids) != set(item["seat_ids"]):
-            item["previous_seat_ids"] = item["seat_ids"]
+            if item["seat_ids"]:
+                item["previous_seat_ids"] = item["seat_ids"]
             item["changed_at"] = now()
         item["seat_ids"] = ids
         item["dock_reason"] = ""

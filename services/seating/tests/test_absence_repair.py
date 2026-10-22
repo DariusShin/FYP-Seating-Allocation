@@ -182,6 +182,7 @@ def test_temporary_dock_and_no_absence_cannot_trigger_repair(tmp_path):
         repair(plan, state)
     state = absent(state, plan['assignments'][0]['participant_id'])
     state['items'][plan['assignments'][1]['participant_id']]['seat_ids'] = []
+    state['items'][plan['assignments'][1]['participant_id']]['dock_reason'] = 'Manual rearrangement'
     with pytest.raises(DomainError, match='temporary dock'):
         repair(plan, state)
 
