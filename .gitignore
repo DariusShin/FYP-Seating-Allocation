@@ -1,5 +1,6 @@
 # ---------- Python ----------
 .venv/
+.venv-study-b/
 venv/
 env/
 __pycache__/

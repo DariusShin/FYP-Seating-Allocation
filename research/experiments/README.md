@@ -2,6 +2,10 @@
 
 This directory contains a research harness, not a production policy change. All participant records are synthetic. See `../../docs/methodologies/preference-parameter-study-2026-10-11.md` for rationale, sources and limitations.
 
+## Study B: Windows production solver comparison
+
+The isolated [Study B package and Windows commands](production_benchmark/README.md) implement the [production comparison protocol](../../docs/planning/solver-selection-production-follow-up.md). Use `setup_production_benchmark.py`, `.venv-study-b` and `production_solver_benchmark.py`; these are separate from the older controlled benchmark commands below. Study B covers the fixed 64-job CP-SAT/SCIP production schedule, native concurrency/correctness gates, canonical adoption, regeneration compatibility, two-hour cap and B1–B5 reporting. Native Windows validation and measured execution are pending; development checks are not dissertation observations. The app's production default and Study A evidence are unchanged.
+
 ## Planned execution sequence
 
 See the [execution guide](../../docs/planning/experiment-execution-sequence.md), [hypotheses](../../docs/planning/experiment-hypotheses-and-analysis.md) and [confirmed 20 October scope amendment](../../docs/planning/solver-benchmark-scope-amendment-2026-10-20.md). The approved solver target is 21 events, 252 primary five-second runs, 72 fresh 30/60-second runs and four prototype checks, with a 28-job pilot inside **120 minutes**. **Executable amendment pending:** current scripts still implement 13 events, 156 primary runs, a 19-job pilot and **90 minutes**. Main execution has not occurred. Implement and validate the amendment before collecting its evidence. Weighting remains a separate, not-yet-implemented 12-event / 840-search study within **120 minutes**. Sequence: correctness/input certification, separate pilots, solver comparison, budget/prototype checks, then weighting and JSON-derived reporting. Human verification is future work. Use the local M4/24 GB Mac and sequential, separately recorded studies.
