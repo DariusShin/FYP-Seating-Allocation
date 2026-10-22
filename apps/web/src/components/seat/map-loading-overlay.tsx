@@ -7,6 +7,8 @@ export function MapLoadingOverlay({
   phase,
   error,
   onRetry,
+  onRegenerate,
+  repair = false,
   draftCreated,
   title,
 }: {
@@ -14,6 +16,8 @@ export function MapLoadingOverlay({
   phase: GenerationPhase;
   error: string;
   onRetry: () => void;
+  onRegenerate?: () => void;
+  repair?: boolean;
   draftCreated: boolean;
 }) {
   const failed = phase === "error";
@@ -53,8 +57,17 @@ export function MapLoadingOverlay({
         {failed && (
           <div className="mt-5 flex flex-wrap items-center justify-center gap-4">
             <Button onClick={onRetry}>
-              {draftCreated ? "Retry opening draft" : "Retry generation"}
+              {draftCreated
+                ? "Retry opening draft"
+                : repair
+                  ? "Retry repair"
+                  : "Retry generation"}
             </Button>
+            {repair && !draftCreated && onRegenerate && (
+              <Button variant="outline" onClick={onRegenerate}>
+                Regenerate seating map
+              </Button>
+            )}
             <Link
               href="/event"
               className="text-sm underline underline-offset-4"

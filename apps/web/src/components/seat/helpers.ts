@@ -30,6 +30,8 @@ export function planPath(eventId: string, planId: string) {
 }
 export const verificationPath = (eventId: string, planId: string) =>
   `${planPath(eventId, planId)}/verification`;
+export const seatPath = (eventId: string) =>
+  `/event/${encodeURIComponent(eventId)}/seat`;
 export const venuePath = (eventId: string) =>
   `/events/${encodeURIComponent(eventId)}/venue`;
 export const eventApi = (path: string, eventId: string) =>

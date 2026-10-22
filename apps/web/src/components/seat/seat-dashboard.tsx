@@ -710,7 +710,16 @@ export function SeatDashboard({
 								<MapLoadingOverlay
 									phase={generationPhase}
 									error={generationError}
-									onRetry={() => void regenerate()}
+									onRetry={() =>
+										void regenerate(undefined, generationMode.current)
+									}
+									onRegenerate={() =>
+										void regenerate(
+											generationPreferences.current,
+											"REGENERATE_DRAFT",
+										)
+									}
+									repair={repairRunning}
 									draftCreated={draftCreated}
 								/>
 							)}

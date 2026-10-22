@@ -70,6 +70,7 @@ function component(file, exportName, props, waitForMapReveal = async () => {}) {
     "participant-checklist",
     "map-legend",
     "map-skeleton",
+    "map-loading-overlay",
   ]);
   const dependencies = new Map();
   function load(name) {
@@ -1068,5 +1069,72 @@ test("a feasible absence repair renders without a generation error", () => {
   };
   const render = dashboard(value);
   assert.ok(render().find("HallMap"));
+  assert.equal(render().find("MapLoadingOverlay"), undefined);
+});
+
+test("failed repair retries the repair itself from the overlay", async (t) => {
+  const render = dashboard(fixture());
+  render().find("Button", (p) => Array.isArray(p.children) && p.children.includes("Edit plan")).onClick();
+  render().find("WorkspaceDialogs").onMarkAbsent("P1");
+  const requests = [];
+  const saved = fixture(true);
+  saved.revision = 1;
+  saved.state.items.P1.attendance_status = "ABSENT";
+  t.mock.method(globalThis, "fetch", async (url, options) => {
+    const body = JSON.parse(options.body);
+    requests.push(body);
+    if (body.command === "workspace_save") return response(saved);
+    if (url.includes("/api/solve")) {
+      return requests.filter((r) => r.generation_mode).length === 1
+        ? response({ error: { message: "Repair stalled" } }, false)
+        : response({ status: "success", plan_version_id: "repair2" });
+    }
+    return response({ ...saved, base: { ...saved.base, plan_version_id: "repair2" } });
+  });
+  await openSettings(render).onRepair(preferences);
+  const overlay = render().find("MapLoadingOverlay");
+  assert.equal(overlay.phase, "error");
+  assert.equal(overlay.draftCreated, false);
+  assert.equal(overlay.repair, true);
+  assert.equal(
+    render().find("Button", (p) => p.children === "Retry repair") !== undefined,
+    true,
+  );
+  overlay.onRetry();
+  await settle();
+  assert.equal(requests[1].generation_mode, "REPAIR_ABSENCE");
+  assert.equal(requests[2].generation_mode, "REPAIR_ABSENCE");
+  assert.equal(render().find("MapLoadingOverlay"), undefined);
+});
+
+test("failed repair offers a regeneration escape that re-solves the whole map", async (t) => {
+  const render = dashboard(fixture());
+  render().find("Button", (p) => Array.isArray(p.children) && p.children.includes("Edit plan")).onClick();
+  render().find("WorkspaceDialogs").onMarkAbsent("P1");
+  const requests = [];
+  const saved = fixture(true);
+  saved.revision = 1;
+  saved.state.items.P1.attendance_status = "ABSENT";
+  t.mock.method(globalThis, "fetch", async (url, options) => {
+    const body = JSON.parse(options.body);
+    requests.push(body);
+    if (body.command === "workspace_save") return response(saved);
+    if (url.includes("/api/solve")) {
+      return requests.filter((r) => r.generation_mode).length === 1
+        ? response({ error: { message: "Repair stalled" } }, false)
+        : response({ status: "success", plan_version_id: "new" });
+    }
+    return response({ ...saved, base: { ...saved.base, plan_version_id: "new" } });
+  });
+  await openSettings(render).onRepair(preferences);
+  const overlay = render().find("MapLoadingOverlay");
+  assert.equal(
+    render().find("Button", (p) => p.children === "Regenerate seating map") !== undefined,
+    true,
+  );
+  overlay.onRegenerate();
+  await settle();
+  assert.equal(requests[1].generation_mode, "REPAIR_ABSENCE");
+  assert.equal(requests[2].generation_mode, "REGENERATE_DRAFT");
   assert.equal(render().find("MapLoadingOverlay"), undefined);
 });

@@ -37,8 +37,12 @@ const proxy = new Proxy(
 const load = (name) => {
   if (name === "react") return react;
   if (name === "react/jsx-runtime") return require(name);
+  if (name === "@/components/seat/helpers") return helpers;
   return proxy;
 };
+// The display renders route helpers during render; the proxy stubs would
+// turn them into strings and break the back-to-editing fallback.
+const helpers = compile("../src/components/seat/helpers.ts", load);
 const { captureScale, venueFileName, pdfPlacement, EXPORT_WIDTH_PX, printStyleCss, saveVenuePng, saveVenuePdf } =
   compile("../src/lib/venue-export.ts", load);
 
@@ -136,9 +140,13 @@ test("venue actions keep print beside the direct PDF and PNG exports", () => {
 
 test("venue display offers the export actions before a plan loads", () => {
   const nodes = buttons(render(VenueDisplay({ eventId: "event" })));
+  // The back link falls back to the seating entry and later upgrades to the
+  // current draft workspace route once the workspace load succeeds.
+  assert.equal(nodes[0].children.props.href, "/event/event/seat");
+  assert.equal(nodes[0].children.props.children.includes("Back to editing"), true);
   assert.deepEqual(
-    nodes.map((p) => p.children),
+    nodes.slice(1).map((p) => p.children),
     ["Print", "Save PDF", "Save PNG", "Full screen"],
   );
-  assert.ok(nodes.slice(0, 3).every((p) => p.disabled));
+  assert.ok(nodes.slice(1, 4).every((p) => p.disabled));
 });

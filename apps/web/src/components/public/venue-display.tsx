@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import type { AllocationResult } from "@/lib/allocation-types";
 import { HallMap } from "@/components/seat/hall-map";
 import { chineseVenueName } from "@/lib/venue-names";
@@ -9,7 +11,7 @@ import {
   saveVenuePng,
   venueFileName,
 } from "@/lib/venue-export";
-import { eventApi } from "@/components/seat/helpers";
+import { eventApi, planPath, seatPath } from "@/components/seat/helpers";
 type Venue = {
   status: string;
   floor_plan?: AllocationResult["floor_plan"];
@@ -57,8 +59,30 @@ export function VenueDisplay({ eventId }: { eventId: string }) {
   const [value, setValue] = useState<Venue | null>(null);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState<"pdf" | "png" | "">("");
+  // Back to editing targets the current draft workspace when one exists and
+  // falls back to the seating entry otherwise; both stay staff-only routes.
+  const [editHref, setEditHref] = useState(seatPath(eventId));
   const root = useRef<HTMLDivElement>(null);
   const sheet = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    let active = true;
+    void (async () => {
+      try {
+        const r = await fetch(eventApi("/api/workspace", eventId), {
+          cache: "no-store",
+        });
+        if (!r.ok) return;
+        const workspace = await r.json();
+        if (active && workspace?.base?.plan_version_id)
+          setEditHref(planPath(eventId, workspace.base.plan_version_id));
+      } catch {
+        // Keep the seating entry fallback.
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, [eventId]);
   useEffect(() => {
     let active = true;
     let pending = false;
@@ -127,13 +151,21 @@ export function VenueDisplay({ eventId }: { eventId: string }) {
       className="venue-page flex h-dvh flex-col bg-background screen:max-[1280px]:[&_.hall-scroll]:overflow-x-auto screen:max-[1280px]:[&_.paper-hall]:min-w-7xl print:block print:h-auto print:bg-white print:text-black"
       ref={root}
     >
-      <div className="flex justify-between px-5 py-2 text-sm print:hidden">
-        <span>
-          PJKIT · Published seating{" "}
-          {value?.published_at
-            ? `· ${new Date(value.published_at).toLocaleString()}`
-            : ""}
-        </span>
+      <div className="flex items-center justify-between px-5 py-2 text-sm print:hidden">
+        <div className="flex items-center gap-4">
+          <Button variant="outline" size="sm" asChild>
+            <Link href={editHref}>
+              <ArrowLeft size={14} data-icon="inline-start" />
+              Back to editing
+            </Link>
+          </Button>
+          <span>
+            PJKIT · Published seating{" "}
+            {value?.published_at
+              ? `· ${new Date(value.published_at).toLocaleString()}`
+              : ""}
+          </span>
+        </div>
         <div className="flex gap-2">
           <VenueActions
             disabled={!value?.floor_plan}
