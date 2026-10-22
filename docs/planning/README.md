@@ -6,6 +6,7 @@ Plans describe proposed enhancements and retained experiment protocols; each ent
 
 | Document | Status and scope |
 | --- | --- |
+| [Production solver comparison and figure plan](solver-selection-production-follow-up.md) | Confirmed Study B design, implementation/execution pending. Separate from the completed attempt 3 Study A figures; compares CP-SAT/SCIP production initial allocation, canonical reproducibility and CP-SAT regeneration under a two-hour runner cap |
 | [Experiment hypotheses, analysis and confirmed decisions](experiment-hypotheses-and-analysis.md) | H1/RQ1 solver comparison, H2 weighting trade-offs, H3 budget comparisons and prototype verification; amended denominators and inference limits. Original Q1–Q13 and 20 October Q1–Q6 sessions closed; executable scope amendment and main execution pending |
 | [Solver benchmark scope amendment, 20 October 2026](solver-benchmark-scope-amendment-2026-10-20.md) | Confirmed through Q6 A: retain original inputs, exclude spreadsheet-derived candidates, add 179/212-seat four-pattern families, revise longer/prototype subset, 28-job pilot and 120-minute ceiling. Complete case inventory, acceptance checks and decision audit; documentation recorded, scripts pending |
 | [Benchmark result tables and dissertation figures](benchmark-results-visualization.md) | Confirmed Q10: five analytical figures across solver/budget/weighting studies plus a 230-seat illustration; sensitivity table substitution allowed, three main result tables and appendix records |

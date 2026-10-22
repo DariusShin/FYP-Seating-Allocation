@@ -1,0 +1,82 @@
+{
+  "package": "pjkit-study-a-saved-record-figures-v1",
+  "execution_status": "completed",
+  "analysis_date": "2026-10-23",
+  "source_evidence_directory": "/Users/dariusleeshin/.codex/worktrees/712c/FYP-Seating-Allocation/docs/results/solver-selection-v4-21-events-135m-windows-main-2026-10-20-attempt3",
+  "source_sha256": {
+    "tables/run-records.csv": "74e49408e5bcf9945d183a0efeac498034ca5f3ae734ce3936531bc07f83d081",
+    "tables/paired-costs.csv": "b6fac1c262d94c1701fcc1197e3e203585cecbd323ad3035333efa5cb034e80c",
+    "inputs/heavy-mixed.json": "ec8d31bfd0e40a09febb930682bf91d5707a075e0df9749fb90a706d463704e1",
+    "manifest.json": "acb813ad55d68fc48094cabaa83fcf2dffa2f3ae9bff2b16bef2a244184464f2",
+    "runs/budget_sensitivity__heavy-mixed__current__cp_sat__60s.json": "1c21ebb44bb6abc9df56b288289a4f975f0c918e9ad6f3fa9ca741453756858e",
+    "runs/budget_sensitivity__heavy-mixed__current__scip__60s.json": "34df9c4ee178817084005b2df22a23cf66c7d68e2144aff59637cc4adcde8937",
+    "runs/budget_sensitivity__heavy-mixed__current__greedy__60s.json": "9e52ab74524d9a363ef32a525132028c9d97fee6759e7e68b36e4b647bd5fcfc"
+  },
+  "renderer_sha256": "c654d216ac747c6db3260c0582ed0e50a00da75442c7baf26d5d6d9aba946b2d",
+  "study": "A",
+  "mode": "saved-record postprocessing only",
+  "render_environment": {
+    "python": "3.12.14",
+    "matplotlib": "3.11.2",
+    "numpy": "2.5.4",
+    "pypdf": "6.10.0"
+  },
+  "study_b": "planned separately; no measured results",
+  "solver_executions": 0,
+  "figures": [
+    {
+      "id": "a1-five-second-outcomes",
+      "title": "Five-second outcomes on the complete primary cohort",
+      "formats": [
+        "pdf",
+        "svg",
+        "png"
+      ]
+    },
+    {
+      "id": "a2-matched-budget-outcomes",
+      "title": "Matched outcomes at 5, 30 and 60 seconds",
+      "formats": [
+        "pdf",
+        "svg",
+        "png"
+      ]
+    },
+    {
+      "id": "a3-paired-preference-costs",
+      "title": "Paired preference-penalty differences",
+      "formats": [
+        "pdf",
+        "svg",
+        "png"
+      ]
+    },
+    {
+      "id": "a4-budget-response",
+      "title": "Coverage, paired cost changes and observed allocation time",
+      "formats": [
+        "pdf",
+        "svg",
+        "png"
+      ]
+    },
+    {
+      "id": "a5-phase-timing-60s",
+      "title": "Recorded allocation phases at the 60-second search allowance",
+      "formats": [
+        "pdf",
+        "svg",
+        "png"
+      ]
+    },
+    {
+      "id": "a6-230-seat-60s",
+      "title": "The 230-seat case at a common 60-second search allowance",
+      "formats": [
+        "pdf",
+        "svg",
+        "png"
+      ]
+    }
+  ]
+}

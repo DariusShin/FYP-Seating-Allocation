@@ -7,7 +7,7 @@ Current documentation is organized by responsibility. The local application as o
 | [Application guides](application/README.md) | Implemented behavior: solver/service/UI code overview, verification, absence workflow, manual history and integration |
 | [Methodologies](methodologies/README.md) | Modeling, literature and evaluation-method explanations, including the current mathematical model |
 | [Planning](planning/README.md) | Confirmed experiment hypotheses, solver/weighting protocols, execution and dissertation figures; repository restructuring and unimplemented application proposals |
-| [Results](results/preference-sensitivity-2026-10-11/) | Recorded experiment evidence with manifests, relocation notes and source snapshots |
+| Results | [Preference sensitivity](results/preference-sensitivity-2026-10-11/) and [expanded attempt 3 Study A figures](results/solver-selection-v4-attempt3-figures-2026-10-23/README.md), with manifests and source snapshots. The [production Study B plan](planning/solver-selection-production-follow-up.md) is separate and has no measured results yet |
 | [Solver benchmark setup](results/solver-benchmark-setup-2026-10-18.md) | Implementation validation and development pilots; links to executable commands, raw data and diagnostic tables; main-study execution pending |
 
 Start with the [project README](../README.md) for setup and the [web app README](../apps/web/README.md) for a local walkthrough. Component boundaries are described in the [seat component guide](../apps/web/src/components/seat/README.md).

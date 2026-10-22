@@ -8,6 +8,10 @@ Language for discussing PJKIT registration allocation and seating preferences.
 A registration receiving its complete seating entitlement. An Emperor registration is one unit entitled to two seats and counts as one affected unit when its seat bundle changes.
 _Avoid_: Person, when counting registrations or affected registration units.
 
+**Validated seating allocation**:
+A complete allocation in which every eligible registration receives its full seating entitlement and all compulsory seating rules pass independent validation. It is acceptable for staff use without a proof that its seating-preference penalty is minimum; preference optimality is reported separately.
+_Avoid_: Optimal allocation, when only completeness and compulsory-rule validity have been established.
+
 **Physical seat demand**:
 The number of seats required by all registration entitlements in an event: two per Emperor registration and one per Merit or Bodhi registration.
 _Avoid_: Participant count, when referring to occupied physical seats.
