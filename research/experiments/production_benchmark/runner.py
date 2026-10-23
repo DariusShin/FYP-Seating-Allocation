@@ -19,8 +19,9 @@ import traceback
 import psutil
 
 from .protocol import (BACKENDS, PILOT_SECONDS, PREFLIGHT_SECONDS, REPORT_SECONDS, ROOT, RUNNER_SECONDS,
+                       SWEEP_RUNNER_SECONDS,
                        STUDY, THREADS, digest, file_digest, frozen_inputs, pilot_schedule, read, request_for,
-                       save, schedule, semantic_hash)
+                       save, schedule, semantic_hash, sweep_schedule, sweep_pilot_schedule)
 
 ENTRY = ROOT / "research/experiments/production_solver_benchmark.py"
 
@@ -42,7 +43,7 @@ def source_files():
         "research/experiments/requirements-benchmark-lock.txt",
         "research/experiments/tests/test_production_benchmark.py", "research/experiments/tests/conftest.py", "pytest.ini",
         "research/experiments/run_study_b_windows.ps1", "research/experiments/production_benchmark/README.md",
-        "docs/planning/solver-selection-production-follow-up.md"))
+        "docs/planning/solver-selection-production-attempt3.md"))
     paths.add(ENTRY)
     return sorted(paths)
 
@@ -78,11 +79,13 @@ def prepare(out, mode, development=False):
     out.mkdir(parents=True, exist_ok=False)
     # Native logs are scientific provenance; databases remain local scratch state.
     (out / ".gitignore").write_text("!*.log\n!**/*.log\nstores/\n", encoding="utf-8")
+    sweep = mode in ("sweep", "plan-sweep")
     manifest = dict(study=STUDY, mode=mode, development_only=development, created_at=utcnow(),
-                    execution_status="preparing", runner_cap_seconds=RUNNER_SECONDS,
+                    execution_status="preparing", runner_cap_seconds=SWEEP_RUNNER_SECONDS if sweep else RUNNER_SECONDS,
                     clock="Shared allocation-function allowance; separate complete-service and worker clocks",
-                    workers=THREADS, canonical_workers=1, inputs=frozen_inputs(out),
-                    jobs=schedule(), pilot_jobs=pilot_schedule(), environment=environment(out))
+                    workers=THREADS, canonicalize=False, inputs=frozen_inputs(out),
+                    jobs=sweep_schedule() if sweep else schedule(),
+                    pilot_jobs=sweep_pilot_schedule() if sweep else pilot_schedule(), environment=environment(out))
     manifest["execution_status"] = "planned"
     save(out / "manifest.json", manifest)
     for folder, jobs in (("runs", manifest["jobs"]), ("pilot/runs", manifest["pilot_jobs"])):
@@ -191,7 +194,7 @@ def worker(payload, output):
             result = dict(execution_status="completed", passed=True,
                           native_concurrency=concurrency_probe(out / "preflight"),
                           correctness=correctness(out / "preflight/oracles"),
-                          regeneration_bridge=bridge_check(out / "preflight/bridge"), inputs=certify_inputs(out))
+                          service_bridge=bridge_check(out / "preflight/bridge"), inputs=certify_inputs(out))
         elif payload["kind"] == "report":
             from .report import report
             info = report(out, plots=payload.get("plots", True))
@@ -203,13 +206,18 @@ def worker(payload, output):
             if digest(raw) != manifest["inputs"][trial["event"]]["input_sha256"]:
                 raise ValueError("Frozen trial input changed")
             request = request_for(raw, trial)
-            baseline = read(out / payload["baseline_response"]) if payload.get("baseline_response") else None
             root = out / ("pilot" if trial["batch"].startswith("pilot") else "main")
             response_path = root / "responses" / f"{trial['id']}.json"
             candidate_path = root / "candidates" / f"{trial['id']}.json"
+            pending_path = root / "candidates" / "pending" / f"{trial['id']}.json"
+            def checkpoint(candidate):
+                save(pending_path if candidate.get("validation_pending") else candidate_path, candidate)
+            cpu_before = psutil.Process().cpu_times()
             execution = invoke(request, trial["backend"], out / "stores" / trial["id"] / "plans.sqlite3",
-                               root / "native" / trial["id"], baseline=baseline, workers=trial["workers"],
-                               checkpoint=lambda candidate: save(candidate_path, candidate))
+                               root / "native" / trial["id"], workers=trial["workers"],
+                               checkpoint=checkpoint)
+            cpu_after = psutil.Process().cpu_times()
+            service_cpu_seconds = (cpu_after.user + cpu_after.system) - (cpu_before.user + cpu_before.system)
             save(response_path, execution.pop("response"))
             result = dict(**trial, execution_status="completed", **execution,
                           request_sha256=digest(request), semantic_input_sha256=semantic_hash(request),
@@ -217,8 +225,10 @@ def worker(payload, output):
                           response_file_sha256=file_digest(response_path),
                           candidate_path=candidate_path.relative_to(out).as_posix() if candidate_path.exists() else None,
                           candidate_file_sha256=file_digest(candidate_path) if candidate_path.exists() else None,
+                          pending_candidate_path=pending_path.relative_to(out).as_posix() if pending_path.exists() else None,
+                          pending_candidate_file_sha256=file_digest(pending_path) if pending_path.exists() else None,
                           native_log_directory=(root / "native" / trial["id"]).relative_to(out).as_posix(),
-                          baseline_source=payload.get("baseline_job"), memory=peak_memory())
+                          memory=peak_memory(), service_process_cpu_seconds=service_cpu_seconds)
         save(output, result)
         return 0
     except Exception as exc:
@@ -227,31 +237,10 @@ def worker(payload, output):
         return 1
 
 
-def find_baseline(out, trial, jobs, folder):
-    for previous in jobs:
-        if (previous["event"], previous["configuration"], previous["backend"]) != (trial["event"], trial["configuration"], trial["origin_backend"]):
-            continue
-        if previous["origin_backend"]:
-            continue
-        record = read(out / folder / f"{previous['id']}.json")
-        if record.get("returned_new_map"):
-            return record
-    return None
-
-
-def run_trial(out, trial, deadline, jobs, pilot=False):
+def run_trial(out, trial, deadline, pilot=False):
     folder = "pilot/runs" if pilot else "runs"
     output = out / folder / f"{trial['id']}.json"
     payload = dict(kind="trial", directory=str(out), job=trial)
-    if trial["origin_backend"]:
-        origins = jobs if pilot else [j for j in jobs if j["batch"] == "primary"]
-        baseline = find_baseline(out, trial, origins, folder)
-        if baseline is None:
-            result = {**trial, "execution_status": "unmet_prerequisite", "returned_new_map": False,
-                      "reason": "No canonical-complete primary baseline from the origin backend"}
-            save(output, result)
-            return result
-        payload.update(baseline_response=baseline["response_path"], baseline_job=baseline["id"])
     if deadline - time.perf_counter() < trial["budget_seconds"] + 30:
         result = {**trial, "execution_status": "not_started", "returned_new_map": False,
                   "reason": "Insufficient remaining time for the full unchanged allowance and watchdog margin"}
@@ -271,45 +260,47 @@ def defect(record):
     return bool(record.get("candidate") and not record["candidate"].get("valid"))
 
 
-def projection(pilot_rows, elapsed):
-    regular, regeneration = [], []
+def projection(pilot_rows, elapsed, jobs, runner_cap=RUNNER_SECONDS):
+    overheads = []
     for row in pilot_rows:
         if row.get("execution_status") != "completed":
             continue
         work = min(row["budget_seconds"], row.get("telemetry", {}).get("shared_work_elapsed_seconds", 0))
         overhead = max(0, row["worker_elapsed_seconds"] - work)
-        (regeneration if row["origin_backend"] else regular).append(overhead)
-    base = max([5.0, *regular])
-    regen = max(regeneration) if regeneration else 2 * base
-    overhead = 1.25 * (56 * base + 8 * regen)
-    projected = elapsed + 4800 + overhead + REPORT_SECONDS
-    return dict(nominal_measured_allowance_seconds=4800, elapsed_preparation_pilot_seconds=elapsed,
-                initial_diagnostic_overhead_seconds=base, regeneration_overhead_seconds=regen,
-                regeneration_overhead_measured=bool(regeneration), overhead_safety_factor=1.25,
+        overheads.append(overhead)
+    base = max([5.0, *overheads])
+    nominal = sum(row["budget_seconds"] for row in jobs)
+    overhead = 1.25 * len(jobs) * base
+    projected = elapsed + nominal + overhead + REPORT_SECONDS
+    return dict(nominal_measured_allowance_seconds=nominal, elapsed_preparation_pilot_seconds=elapsed,
+                per_job_overhead_seconds=base, overhead_safety_factor=1.25,
                 projected_measured_overhead_seconds=overhead, reporting_reserve_seconds=REPORT_SECONDS,
-                projected_runner_seconds=projected, fits=projected <= RUNNER_SECONDS and overhead <= 900,
-                method="Full 80-minute measured allowance, max observed overhead (5-second floor), 1.25 safety factor; unobserved regeneration uses twice initial overhead")
+                projected_runner_seconds=projected, runner_cap_seconds=runner_cap, fits=projected <= runner_cap,
+                method="Sum of every fixed job allowance plus max observed pilot overhead (5-second floor) per job, 1.25 safety factor")
 
 
 def check_consistency(records):
-    """Only completed canonical returns are comparable unique maps."""
+    """Equivalent inputs must retain identity and any proven weighted minimum."""
     groups = {}
     for row in records:
-        if not row.get("returned_new_map"):
+        if row.get("execution_status") != "completed":
             continue
         key = (row["event"], row["configuration"])
-        value = (row["semantic_input_sha256"], row["physical_map_sha256"], row["candidate"]["objective"])
-        if key in groups and groups[key] != value:
-            raise ValueError(f"Completed canonical outputs disagree for {key}: modeling/scoring/normalization defect")
-        groups[key] = value
-        if row["origin_backend"] and row.get("regeneration_same_map") is not True:
-            raise ValueError("Unchanged-input regeneration changed a canonical baseline")
+        value = groups.setdefault(key, dict(semantic=row["semantic_input_sha256"], proven=None))
+        if value["semantic"] != row["semantic_input_sha256"]:
+            raise ValueError(f"Equivalent inputs have different semantic hashes: {key}")
+        if row.get("returned_new_map") and row.get("telemetry", {}).get("weighted_proven"):
+            objective = row["candidate"]["objective"]
+            if value["proven"] is not None and value["proven"] != objective:
+                raise ValueError(f"Proven weighted minima disagree for {key}")
+            value["proven"] = objective
 
 
 def execute(out, mode, development=False, plots=True):
     require_windows11(development if mode == "check" else False)
     started = time.perf_counter()
-    deadline = started + RUNNER_SECONDS
+    runner_cap = SWEEP_RUNNER_SECONDS if mode == "sweep" else RUNNER_SECONDS
+    deadline = started + runner_cap
     manifest = prepare(out, mode, development)
     manifest["execution_status"] = "preflight"
     save(out / "manifest.json", manifest)
@@ -327,12 +318,12 @@ def execute(out, mode, development=False, plots=True):
         pilot_deadline = min(deadline - REPORT_SECONDS, time.perf_counter() + PILOT_SECONDS)
         pilot_rows = []
         for trial in manifest["pilot_jobs"]:
-            row = run_trial(out, trial, pilot_deadline, manifest["pilot_jobs"], pilot=True)
+            row = run_trial(out, trial, pilot_deadline, pilot=True)
             pilot_rows.append(row)
             if defect(row):
                 raise RuntimeError(f"Pilot defect/timeout: {trial['id']}")
         check_consistency(pilot_rows)
-        estimate = projection(pilot_rows, time.perf_counter() - started)
+        estimate = projection(pilot_rows, time.perf_counter() - started, manifest["jobs"], runner_cap)
         save(out / "pilot/projection.json", estimate)
         if not estimate["fits"]:
             raise RuntimeError("Pilot cannot demonstrate the fixed schedule fits; amend protocol explicitly before a fresh run")
@@ -345,7 +336,7 @@ def execute(out, mode, development=False, plots=True):
         for trial in manifest["jobs"]:
             if source_hashes() != manifest["environment"]["source_sha256"]:
                 raise RuntimeError("Source changed while running; no further jobs launched")
-            row = run_trial(out, trial, deadline - REPORT_SECONDS, manifest["jobs"])
+            row = run_trial(out, trial, deadline - REPORT_SECONDS)
             records.append(row)
             if defect(row):
                 raise RuntimeError(f"Measured defect/deadline: {trial['id']}; remaining jobs stay explicitly not_started")
@@ -361,6 +352,9 @@ def execute(out, mode, development=False, plots=True):
                         record_sha256={p.relative_to(out).as_posix(): file_digest(p)
                                        for folder in ("runs", "pilot/runs") for p in (out / folder).glob("*.json")
                                        if not p.name.endswith(".payload.json")},
+                        candidate_artifact_sha256={p.relative_to(out).as_posix(): file_digest(p)
+                                                   for folder in ("main/candidates", "pilot/candidates")
+                                                   for p in (out / folder).rglob("*.json")},
                         native_log_sha256={p.relative_to(out).as_posix(): file_digest(p) for p in out.rglob("*.log")})
         save(out / "manifest.json", manifest)
         report_deadline = min(deadline - 10, time.perf_counter() + REPORT_SECONDS)
@@ -381,12 +375,12 @@ def execute(out, mode, development=False, plots=True):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="mode", required=True)
-    for name in ("plan", "check", "pilot", "run", "report"):
+    for name in ("plan", "plan-sweep", "check", "pilot", "run", "sweep", "report"):
         command = sub.add_parser(name)
         command.add_argument("--out", type=Path, required=True, help="Fresh evidence directory, except report")
         if name == "check":
             command.add_argument("--development", action="store_true", help="Label non-Windows correctness validation; never measured evidence")
-        if name in ("check", "pilot", "run", "report"):
+        if name in ("check", "pilot", "run", "sweep", "report"):
             command.add_argument("--no-plots", action="store_true")
     worker_command = sub.add_parser("_worker", help=argparse.SUPPRESS)
     worker_command.add_argument("--payload", type=Path, required=True)
@@ -396,8 +390,8 @@ def main(argv=None):
         if args.mode == "_worker":
             return worker(read(args.payload), args.out)
         out = args.out.resolve()
-        if args.mode == "plan":
-            manifest = prepare(out, "plan")
+        if args.mode in ("plan", "plan-sweep"):
+            manifest = prepare(out, args.mode)
             print(json.dumps(dict(out=str(out), measured_jobs=len(manifest["jobs"]),
                                   batch_counts=dict(Counter(j["batch"] for j in manifest["jobs"])), solver_executions=0), indent=2))
         elif args.mode == "report":

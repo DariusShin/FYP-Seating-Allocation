@@ -8,7 +8,6 @@ function reference is restored before returning.
 from __future__ import annotations
 
 from contextlib import contextmanager
-import copy
 import json
 from pathlib import Path
 import time
@@ -46,9 +45,8 @@ class AllocationFunction:
     def __call__(self, raw):
         self.started = time.perf_counter()
         self.phases, self.choices, self.candidate = [], None, None
-        self.telemetry = dict(backend=self.backend, weighted_proven=False, canonicalization_complete=False,
-                              canonical_stages_required=0, canonical_stages_completed=0, stages=[],
-                              weighted_proof_reported_seconds=None, canonical_complete_seconds=None)
+        self.telemetry = dict(backend=self.backend, weighted_proven=False, stages=[],
+                              weighted_proof_reported_seconds=None, weighted_stage_return_seconds=None)
         result = None
         try:
             result = self.solve(raw)
@@ -72,7 +70,7 @@ class AllocationFunction:
             return None
         number = len(self.telemetry["stages"])
         log = self.log_directory / f"{number:03d}.log"
-        with self.phase("weighted_search" if name == "weighted_preferences" else "canonical_search"):
+        with self.phase("weighted_search"):
             model.run(log)
         returned = time.perf_counter() - self.started
         with self.phase("extraction"):
@@ -91,10 +89,10 @@ class AllocationFunction:
     def solve(self, raw):
         with self.phase("normalization"):
             request = normalize(validate_request(raw))
-            if request["generation_mode"] not in ("INITIAL", "REGENERATE_DRAFT"):
-                raise DomainError("INVALID_INPUT", "Study B covers initial allocation and unchanged-input regeneration only")
-            if not request["solver"]["canonicalize"] or request["solver"]["num_search_workers"] != self.workers:
-                raise DomainError("INVALID_INPUT", "Study B requires canonical selection and the declared worker configuration")
+            if request["generation_mode"] != "INITIAL":
+                raise DomainError("INVALID_INPUT", "Study B attempt 3 covers initial allocation only")
+            if request["solver"]["canonicalize"] or request["solver"]["num_search_workers"] != self.workers:
+                raise DomainError("INVALID_INPUT", "Study B attempt 3 requires canonical selection off and declared workers")
             cfg = policy()
             self.deadline = self.started + request["solver"]["max_time_seconds"]
             self.telemetry.update(budget_seconds=request["solver"]["max_time_seconds"],
@@ -112,33 +110,18 @@ class AllocationFunction:
         if weighted and weighted["api_status"] == "INFEASIBLE":
             self.telemetry["solver_status"] = "INFEASIBLE"
         self.telemetry["weighted_proven"] = bool(weighted and weighted["proven"])
-        if self.choices is not None and self.checkpoint:
-            self.checkpoint(dict(validation_pending=True, placements=physical_map(self.choices),
-                                 canonicalization_complete=False, weighted_stage=weighted))
-        required = [pid for pid in sorted(model.canonical) if len(model.options[pid]) > 1]
-        self.telemetry["canonical_stages_required"] = len(required)
+        self.telemetry["weighted_stage_return_seconds"] = weighted["returned_seconds"] if weighted else None
         if self.telemetry["weighted_proven"]:
             self.telemetry["weighted_proof_reported_seconds"] = weighted["returned_seconds"]
-            with self.phase("model_updates"):
-                model.fix(model.weighted, weighted["value"])
-            for pid in required:
-                report = self.stage(model, f"canonical:{pid}", model.canonical[pid], 1)
-                if report is None or not report["proven"]:
-                    if report and report["api_status"] == "INFEASIBLE":
-                        raise ValueError("Canonical stage made a proven feasible optimum infeasible")
-                    break
-                with self.phase("model_updates"):
-                    model.fix(model.canonical[pid], report["value"])
-                self.telemetry["canonical_stages_completed"] += 1
-            self.telemetry["canonicalization_complete"] = self.telemetry["canonical_stages_completed"] == len(required)
-            if self.telemetry["canonicalization_complete"]:
-                self.telemetry["canonical_complete_seconds"] = time.perf_counter() - self.started
+        if self.choices is not None and self.checkpoint:
+            self.checkpoint(dict(validation_pending=True, placements=physical_map(self.choices),
+                                 weighted_stage=weighted))
         self.telemetry["shared_work_elapsed_seconds"] = time.perf_counter() - self.started
-        self.telemetry["within_shared_allowance"] = bool(self.telemetry["canonical_complete_seconds"] is not None
-            and self.telemetry["canonical_complete_seconds"] <= request["solver"]["max_time_seconds"])
+        self.telemetry["within_shared_allowance"] = bool(weighted and
+            weighted["returned_seconds"] <= request["solver"]["max_time_seconds"])
         if self.choices is None:
             return error("SOLVER_UNKNOWN", "No candidate was established within the shared allowance",
-                         {"weighted_proven": False, "canonicalization_complete": False},
+                         {"weighted_proven": False},
                          weighted["api_status"] if weighted else "UNKNOWN")
         with self.phase("validation_scoring"):
             placements = physical_map(self.choices)
@@ -164,33 +147,28 @@ class AllocationFunction:
                 raise ValueError("Final candidate differs from weighted-stage objective")
             self.candidate = dict(valid=True, validation=audit, placements=placements, objective=objective,
                                   components=totals, weights=weights, physical_map_sha256=map_hash(placements),
-                                  weighted_proven=self.telemetry["weighted_proven"],
-                                  canonicalization_complete=self.telemetry["canonicalization_complete"])
+                                  weighted_proven=self.telemetry["weighted_proven"])
         if self.checkpoint:
             self.checkpoint(self.candidate)
-        if not self.telemetry["weighted_proven"] or not self.telemetry["canonicalization_complete"] or not self.telemetry["within_shared_allowance"]:
-            code = ("ALLOCATION_ALLOWANCE_EXCEEDED" if self.telemetry["canonicalization_complete"] else
-                    "CANONICALIZATION_INCOMPLETE" if self.telemetry["weighted_proven"] else "PREFERENCE_OPTIMUM_NOT_PROVEN")
-            return error(code,
-                         "No new map adopted: the canonical selection/allowance gate was not met",
-                         {"candidate_valid": True, "weighted_proven": self.telemetry["weighted_proven"],
-                          "canonicalization_complete": self.telemetry["canonicalization_complete"]}, weighted["api_status"])
-        proof = [{k: weighted[k] for k in ("stage", "value", "best_bound", "absolute_gap", "relative_gap")} | {"status": "OPTIMAL"}]
+        if not self.telemetry["within_shared_allowance"]:
+            return error("ALLOCATION_ALLOWANCE_EXCEEDED", "Weighted search returned after the shared allowance",
+                         {"candidate_valid": True, "weighted_proven": self.telemetry["weighted_proven"]}, weighted["api_status"])
+        proof = [{k: weighted[k] for k in ("stage", "value", "best_bound", "absolute_gap", "relative_gap")} |
+                 {"status": "OPTIMAL" if self.telemetry["weighted_proven"] else "FEASIBLE"}]
         stats = dict(engine="Google OR-Tools CP-SAT" if self.backend == "cp_sat" else model.model.SolverVersion(),
-                     status="OPTIMAL", proof=proof, canonicalization_complete=True, optimality_scope="full_model",
-                     wall_time_seconds=sum(p["duration_seconds"] for p in self.phases if p["name"] in ("weighted_search", "canonical_search")),
-                     canonical_stages_required=len(required), canonical_stages_completed=len(required),
-                     canonical_order="registration ID then lexicographic physical seat-ID bundle",
+                     status="OPTIMAL" if self.telemetry["weighted_proven"] else "FEASIBLE",
+                     proof=proof, canonicalization_complete=False, optimality_scope="full_model",
+                     wall_time_seconds=sum(p["duration_seconds"] for p in self.phases if p["name"] == "weighted_search"),
                      timing={name: sum(p["duration_seconds"] for p in self.phases if p["name"] == name)
                              for name in {p["name"] for p in self.phases}})
         with self.phase("format_response"):
             return format_result(request, self.choices, stats)
 
 
-def invoke(request, backend, store_path, logs, baseline=None, workers=8, checkpoint=None):
+def invoke(request, backend, store_path, logs, workers=8, checkpoint=None):
     """Include real service dispatch, validation, SQLite adoption and JSON encoding.
 
-    Interpreter imports and baseline hydration are outside the service clock;
+    Interpreter imports are outside the service clock;
     the parent worker clock records these separately. No browser/network is used.
     """
     from seat_solver.production import service
@@ -201,21 +179,7 @@ def invoke(request, backend, store_path, logs, baseline=None, workers=8, checkpo
     preparation = time.perf_counter()
     store = PlanStore(store_path)
     event = request["event_id"]
-    if baseline is not None:
-        if not baseline["solver"].get("canonicalization_complete") or not audit_result(baseline)["passed"]:
-            raise ValueError("Regeneration baseline must be independently valid and canonical-complete")
-        if semantic_hash(baseline["source_request"]) != semantic_hash(request):
-            raise ValueError("Regeneration request changes effective baseline inputs")
-        baseline = copy.deepcopy(baseline)
-        baseline["source_request"]["solver"] = copy.deepcopy(request["solver"])
-        store.save(baseline, "study-b-baseline")
-    prior = store.latest(event)
-    prior_id = prior["plan_version_id"] if prior else None
-    body = dict(command="solve", event_id=event, actor="study-b")
-    if baseline is None:
-        body["request"] = request
-    else:
-        body.update(generation_mode="REGENERATE_DRAFT", preferences=request["preferences"])
+    body = dict(command="solve", event_id=event, actor="study-b", request=request)
     engine = AllocationFunction(backend, logs, workers, checkpoint)
     original = service.solve
     service.solve = engine
@@ -229,17 +193,13 @@ def invoke(request, backend, store_path, logs, baseline=None, workers=8, checkpo
     response = json.loads(encoded)
     latest = store.latest(event)
     public_valid = response.get("status") == "success" and audit_result(response)["passed"]
-    adopted = bool(public_valid and response["solver"].get("canonicalization_complete"))
+    adopted = bool(public_valid and latest and latest["plan_version_id"] == response["plan_version_id"])
     if response.get("status") == "success" and not adopted:
-        raise ValueError("Service returned a success without a validated canonical map")
-    preserved = prior_id is not None and latest is not None and latest["plan_version_id"] == prior_id
-    if not adopted and prior_id is not None and not preserved:
-        raise ValueError("Rejected candidate changed the baseline map")
+        raise ValueError("Service returned success without a validated persisted map")
+    if not adopted and latest is not None:
+        raise ValueError("Rejected candidate was persisted")
     return dict(response=response, candidate=engine.candidate, telemetry=engine.telemetry,
-                returned_new_map=adopted, baseline_present=prior_id is not None,
-                prior_map_preserved=preserved, bridge_preparation_seconds=ready - preparation,
+                returned_new_map=adopted, bridge_preparation_seconds=ready - preparation,
                 complete_service_return_seconds=returned - ready,
                 response_bytes=len(encoded.encode("utf-8")),
-                physical_map_sha256=map_hash(response["assignments"]) if adopted else None,
-                baseline_map_sha256=map_hash(prior["assignments"]) if prior else None,
-                regeneration_same_map=(map_hash(response["assignments"]) == map_hash(prior["assignments"])) if adopted and prior else None)
+                physical_map_sha256=map_hash(response["assignments"]) if adopted else None)

@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("plan", "check", "pilot", "run", "report")]
+    [ValidateSet("plan", "plan-sweep", "check", "pilot", "run", "sweep", "report")]
     [string]$Mode = "plan",
     [Parameter(Mandatory = $true)]
     [string]$Out,
@@ -20,7 +20,7 @@ $env:PYTHONIOENCODING = "utf-8"
 Push-Location $Repo
 try {
     $RunArguments = @("research/experiments/production_solver_benchmark.py", $Mode, "--out", $Out)
-    if ($NoPlots -and $Mode -ne "plan") { $RunArguments += "--no-plots" }
+    if ($NoPlots -and $Mode -notin @("plan", "plan-sweep")) { $RunArguments += "--no-plots" }
     & $Python @RunArguments
     if ($LASTEXITCODE -ne 0) { throw "Study B stopped with exit code $LASTEXITCODE; inspect the output manifest and logs." }
 } finally {

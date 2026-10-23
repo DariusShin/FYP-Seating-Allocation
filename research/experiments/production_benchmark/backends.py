@@ -1,8 +1,4 @@
-"""Instrumented production encodings; weighted search may use eight workers.
-
-Canonical objectives always use one worker. SCIP parameters are re-applied on
-every solve because MPSolver resets native parameters after each invocation.
-"""
+"""Instrumented production encodings for one weighted solve per request."""
 
 from __future__ import annotations
 
@@ -187,11 +183,6 @@ class SCIP:
         self.model.EnableOutput()
         self.parameters = pywraplp.MPSolverParameters()
         self.parameters.SetDoubleParam(pywraplp.MPSolverParameters.RELATIVE_MIP_GAP, 0)
-        # Concurrent solves can leave native interruption/transform state behind.
-        # Re-extract the retained MPSolver model into a fresh SCIP instance for
-        # every stage, including the transition from eight threads to one.
-        self.parameters.SetIntegerParam(pywraplp.MPSolverParameters.INCREMENTALITY,
-                                        pywraplp.MPSolverParameters.INCREMENTALITY_OFF)
 
     def run(self, log):
         with native_log(log):

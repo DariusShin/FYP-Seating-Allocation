@@ -65,7 +65,8 @@ def oracle(request):
 
     Hard front/side packing fixes the occupied priority prefix. Check entitlements,
     approved physical pairs, accessibility, overlap and all pairwise order rules.
-    Break objective ties by the same declared physical-ID ordering, not variables.
+    The physical-ID order only makes the oracle deterministic; either solver
+    may return any equally optimal physical map.
     """
     people = eligible(request)
     cfg, weights = policy(), mapped_weights(request["preferences"])
@@ -135,7 +136,7 @@ def correctness(directory):
         for config in CONFIGS:
             request = copy.deepcopy(original)
             request["preferences"] = preferences(config)
-            request["solver"].update(max_time_seconds=3, num_search_workers=1, canonicalize=True, require_optimal=False)
+            request["solver"].update(max_time_seconds=3, num_search_workers=1, canonicalize=False, require_optimal=False)
             expected = oracle(request)
             for backend in BACKENDS:
                 engine = AllocationFunction(backend, Path(directory) / name / config / backend, workers=1)
@@ -146,11 +147,13 @@ def correctness(directory):
                     if response["error"]["code"] == "SOLVER_UNKNOWN" and response["error"]["solver_status"] != "INFEASIBLE":
                         raise ValueError("Tiny infeasible case timed out instead of establishing infeasibility")
                 else:
-                    if response["status"] != "success" or engine.candidate["objective"] != expected["objective"] or engine.candidate["physical_map_sha256"] != expected["physical_map_sha256"]:
-                        raise ValueError(f"Optimum/canonical oracle disagreement: {name}/{config}/{backend}: {response.get('error')}")
+                    if (response["status"] != "success" or not engine.candidate["valid"]
+                            or engine.candidate["objective"] != expected["objective"]
+                            or not engine.telemetry["weighted_proven"]):
+                        raise ValueError(f"Optimum/validity oracle disagreement: {name}/{config}/{backend}: {response.get('error')}")
                 records.append(dict(case=name, configuration=config, backend=backend,
                                     feasible=expected is not None, objective=expected["objective"] if expected else None,
-                                    canonical_match=expected is None or engine.candidate["physical_map_sha256"] == expected["physical_map_sha256"]))
+                                    valid_and_optimal=expected is None or (engine.candidate["valid"] and engine.telemetry["weighted_proven"])))
     return dict(passed=True, oracle_cases=records, executions=len(records),
                 scope="Tiny development/correctness oracles only; excluded from measured study denominators")
 
@@ -188,32 +191,38 @@ def certify_inputs(out):
 
 
 def bridge_check(directory):
-    """Actual service/SQLite round-trips on tiny inputs, never main observations."""
+    """Actual initial service/SQLite calls, including valid unproved adoption."""
     from unittest.mock import patch
     request = tiny()
     request["preferences"] = preferences("current")
-    request["solver"].update(max_time_seconds=10, num_search_workers=8, canonicalize=True, require_optimal=False)
+    request["solver"].update(max_time_seconds=10, num_search_workers=8, canonicalize=False, require_optimal=False)
     directory = Path(directory)
-    baselines, rows = {}, []
+    rows = []
     for backend in BACKENDS:
         initial = invoke(request, backend, directory / f"{backend}-initial.sqlite3", directory / f"{backend}-initial")
-        if not initial["returned_new_map"]:
+        if not initial["returned_new_map"] or not initial["candidate"]["valid"]:
             raise ValueError(f"Tiny configured production initial call failed: {backend}")
-        baselines[backend] = initial["response"]
-        regenerated = copy.deepcopy(request)
-        regenerated["generation_mode"] = "REGENERATE_DRAFT"
-        result = invoke(regenerated, "cp_sat", directory / f"{backend}-regen.sqlite3", directory / f"{backend}-regen", baseline=baselines[backend])
-        if not result["returned_new_map"] or not result["regeneration_same_map"]:
-            raise ValueError("Tiny production regeneration bridge failed")
-        rows.append(dict(origin_backend=backend, accepted=True, same_map=True))
+        rows.append(dict(backend=backend, adopted=True, status=initial["response"]["solver"]["status"]))
     original = AllocationFunction.stage
-
-    def incomplete(self, model, name, expression, workers):
-        return original(self, model, name, expression, workers) if name == "weighted_preferences" else None
-
-    with patch.object(AllocationFunction, "stage", incomplete):
-        rejected = invoke(regenerated, "cp_sat", directory / "reject.sqlite3", directory / "reject", baseline=baselines["scip"])
-    if rejected["returned_new_map"] or not rejected["prior_map_preserved"] or not rejected["candidate"]["valid"]:
-        raise ValueError("Incomplete canonical candidate was adopted or changed prior map")
-    return dict(passed=True, links=rows, forced_incomplete_canonical_preserves_baseline=True,
+    def unproved(self, model, name, expression, workers):
+        result = original(self, model, name, expression, workers)
+        if result and result["value"] is not None:
+            result["proven"] = False
+            result["api_status"] = "FEASIBLE"
+        return result
+    with patch.object(AllocationFunction, "stage", unproved):
+        feasible = invoke(request, "cp_sat", directory / "feasible.sqlite3", directory / "feasible")
+    if not feasible["returned_new_map"] or feasible["response"]["solver"]["status"] != "FEASIBLE":
+        raise ValueError("Valid unproved candidate was not adopted as FEASIBLE")
+    def invalid(self, model, name, expression, workers):
+        result = original(self, model, name, expression, workers)
+        if self.choices:
+            first = next(iter(self.choices))
+            self.choices[first] = ["NONEXISTENT-SEAT"]
+        return result
+    with patch.object(AllocationFunction, "stage", invalid):
+        rejected = invoke(request, "cp_sat", directory / "invalid.sqlite3", directory / "invalid")
+    if rejected["returned_new_map"] or rejected["candidate"]["valid"]:
+        raise ValueError("Invalid candidate was adopted")
+    return dict(passed=True, links=rows, valid_unproved_adopted=True, invalid_candidate_rejected=True,
                 scope="Tiny correctness tests only, not measured workload results")
