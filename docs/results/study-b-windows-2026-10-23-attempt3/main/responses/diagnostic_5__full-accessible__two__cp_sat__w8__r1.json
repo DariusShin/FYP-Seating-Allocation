@@ -1,0 +1,12 @@
+{
+  "schema_version": "2.0.0",
+  "status": "error",
+  "error": {
+    "code": "SOLVER_UNKNOWN",
+    "message": "No candidate was established within the shared allowance",
+    "details": {
+      "weighted_proven": false
+    },
+    "solver_status": "UNKNOWN"
+  }
+}

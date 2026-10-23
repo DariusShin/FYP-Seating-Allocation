@@ -1,0 +1,51 @@
+presolving:
+(round 1, fast)       0 del vars, 100 del conss, 0 add conss, 0 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 2068 clqs, 0 implints
+(round 2, exhaustive) 0 del vars, 890 del conss, 0 add conss, 0 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 2068 clqs, 0 implints
+(round 3, exhaustive) 0 del vars, 890 del conss, 0 add conss, 0 chg bounds, 0 chg sides, 0 chg coeffs, 1146 upgd conss, 0 impls, 2068 clqs, 0 implints
+   (7.0s) probing: 1000/9664 (10.3%) - 0 fixings, 0 aggregations, 999 implications, 0 bound changes
+   (7.0s) probing: 1001/9664 (10.4%) - 0 fixings, 0 aggregations, 1000 implications, 0 bound changes
+   (7.0s) probing aborted: 1000/1000 successive useless probings
+   Deactivated symmetry handling methods, since SCIP was built without symmetry detector (SYM=none).
+   Deactivated symmetry handling methods, since SCIP was built without symmetry detector (SYM=none).
+presolving (4 rounds: 4 fast, 3 medium, 3 exhaustive):
+ 0 deleted vars, 890 deleted constraints, 0 added constraints, 0 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 1000 implications, 2076 cliques, 0 implied integral variables (0 bin, 0 int, 0 cont)
+presolved problem has 9666 variables (9664 bin, 2 int, 0 cont) and 1354 constraints
+    838 constraints of type <knapsack>
+    308 constraints of type <setppc>
+    208 constraints of type <linear>
+transformed objective value is always integral (scale: 1)
+Presolving Time: 8.00
+initializing seeds to 1480925099 in concurrent solver 'scip-2'
+initializing seeds to 1330160338 in concurrent solver 'scip-3'
+initializing seeds to 14321799 in concurrent solver 'scip-4'
+initializing seeds to 853493091 in concurrent solver 'scip-5'
+initializing seeds to 699441076 in concurrent solver 'scip-6'
+initializing seeds to 1254621583 in concurrent solver 'scip-7'
+initializing seeds to 1463394392 in concurrent solver 'scip-8'
+starting solve in concurrent solver 'scip-3'
+starting solve in concurrent solver 'scip-7'
+starting solve in concurrent solver 'scip-8'
+starting solve in concurrent solver 'scip-1'
+starting solve in concurrent solver 'scip-2'
+starting solve in concurrent solver 'scip-5'
+starting solve in concurrent solver 'scip-6'
+starting solve in concurrent solver 'scip-4'
+concurrent solver 'scip-5' stopped with status optimal solution found
+concurrent solver 'scip-8' stopped with status optimal solution found
+concurrent solver 'scip-7' stopped with status optimal solution found
+concurrent solver 'scip-2' stopped with status optimal solution found
+concurrent solver 'scip-4' stopped with status optimal solution found
+concurrent solver 'scip-1' stopped with status optimal solution found
+concurrent solver 'scip-3' stopped with status optimal solution found
+concurrent solver 'scip-6' stopped with status time limit reached
+ time | mem |  dualbound   | primalbound  |  gap   
+ 36.0s| 124M| 0.000000e+00 | 0.000000e+00 |   0.00%
+ 36.0s| 124M| 0.000000e+00 | 0.000000e+00 |   0.00%
+
+SCIP Status        : problem is solved [optimal solution found]
+Solving Time (sec) : 36.00
+Solving Nodes      : 1
+Primal Bound       : +0.00000000000000e+00 (1 solutions)
+Dual Bound         : +0.00000000000000e+00
+Gap                : 0.00 %

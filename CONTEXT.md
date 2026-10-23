@@ -35,6 +35,26 @@ The distinct mixed-profile scenario with 99 Emperor, 19 Merit and 13 Bodhi regis
 **Matched solver case**:
 One event under one preference configuration, shared by all compared methods. Related patterns and accessibility derivatives are constructed scenarios rather than independent samples of real events.
 
+**Validity**:
+The requirement that every adopted allocation is a validated seating allocation. It is a pass-or-fail gate that every compared solver must meet, not a ranking measure.
+_Avoid_: Accuracy.
+
+**Coverage**:
+The share of scheduled runs that return an adopted validated seating allocation within the allowed time. It is the first measure for ranking solvers.
+_Avoid_: Accuracy, success rate pooled across different cohorts.
+
+**Infeasible request**:
+An event whose compulsory seating rules cannot all be satisfied by any allocation. A run that returns no map, or returns one too late, on an event known to be feasible is a coverage miss, not an infeasible result.
+_Avoid_: Infeasible map.
+
+**Complete service return**:
+The time from requesting a seating allocation until the full validated and saved response is returned. It is the time staff wait and the primary time measure. It is not the moment an optimal plan was first found.
+_Avoid_: Time to optimality, when referring to this measure.
+
+**Solver consistency**:
+Repeated and input-reordered runs of the same event giving the same coverage outcome and the same proven penalty, together with the observed spread of complete service return. It does not require identical physical seat maps.
+_Avoid_: Determinism, reproducible seating map.
+
 **Seating preference priority**:
 The relative importance of a seating preference in a compensatory trade-off: a higher-ranked preference has greater influence per comparable penalty unit, but improvements in other preferences may outweigh it.
 _Avoid_: Absolute preference priority, guaranteed first-preference satisfaction.

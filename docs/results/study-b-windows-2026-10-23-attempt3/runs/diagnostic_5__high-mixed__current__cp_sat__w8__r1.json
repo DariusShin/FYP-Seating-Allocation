@@ -1,0 +1,70 @@
+{
+  "id": "diagnostic_5__high-mixed__current__cp_sat__w8__r1",
+  "batch": "diagnostic_5",
+  "event": "high-mixed",
+  "configuration": "current",
+  "backend": "cp_sat",
+  "budget_seconds": 5,
+  "repetition": 1,
+  "permutation": false,
+  "workers": 8,
+  "search_seed": 20260918,
+  "execution_status": "completed",
+  "candidate": null,
+  "telemetry": {
+    "backend": "cp_sat",
+    "weighted_proven": false,
+    "stages": [],
+    "weighted_proof_reported_seconds": null,
+    "weighted_stage_return_seconds": null,
+    "budget_seconds": 5,
+    "raw_request_sha256": "1906a1ee846c37b897a39d3b7515173e0de918406a714dc0fea191cc00dd1191",
+    "semantic_input_sha256": "5bc5bee920e2ef3f3d9e6611080f1bb85095641743c1570182f746821b8689b5",
+    "normalized_request_sha256": "1906a1ee846c37b897a39d3b7515173e0de918406a714dc0fea191cc00dd1191",
+    "weights": {
+      "contribution_seat": 40,
+      "activeness": 30,
+      "category_zone": 20
+    },
+    "shared_work_elapsed_seconds": 5.187677899841219,
+    "within_shared_allowance": false,
+    "phases": [
+      {
+        "name": "normalization",
+        "start_seconds": 1.750001683831215e-05,
+        "end_seconds": 0.07109449990093708,
+        "duration_seconds": 0.07107699988409877
+      },
+      {
+        "name": "model_build",
+        "start_seconds": 0.07112850015982985,
+        "end_seconds": 5.187656300142407,
+        "duration_seconds": 5.116527799982578
+      }
+    ],
+    "function_return_seconds": 5.1889479998499155,
+    "unclassified_function_overhead_seconds": 0.0013431999832391739
+  },
+  "returned_new_map": false,
+  "bridge_preparation_seconds": 0.031119999941438437,
+  "complete_service_return_seconds": 5.206837700214237,
+  "response_bytes": 221,
+  "physical_map_sha256": null,
+  "request_sha256": "1906a1ee846c37b897a39d3b7515173e0de918406a714dc0fea191cc00dd1191",
+  "semantic_input_sha256": "5bc5bee920e2ef3f3d9e6611080f1bb85095641743c1570182f746821b8689b5",
+  "response_path": "main/responses/diagnostic_5__high-mixed__current__cp_sat__w8__r1.json",
+  "response_file_sha256": "aa5f6b9f7f3bfa255f7b856ccfd6386b94ca8724084fd798ad74149e88e2753b",
+  "candidate_path": null,
+  "candidate_file_sha256": null,
+  "pending_candidate_path": null,
+  "pending_candidate_file_sha256": null,
+  "native_log_directory": "main/native/diagnostic_5__high-mixed__current__cp_sat__w8__r1",
+  "memory": {
+    "bytes": 100843520,
+    "method": "Windows process lifetime peak working set; includes native solver threads"
+  },
+  "service_process_cpu_seconds": 5.15625,
+  "worker_elapsed_seconds": 7.166759600397199,
+  "worker_exit_code": 0,
+  "worker_log": "runs/diagnostic_5__high-mixed__current__cp_sat__w8__r1.log"
+}

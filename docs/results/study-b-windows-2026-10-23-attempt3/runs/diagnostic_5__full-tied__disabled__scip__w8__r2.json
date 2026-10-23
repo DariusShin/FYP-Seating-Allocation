@@ -1,0 +1,106 @@
+{
+  "id": "diagnostic_5__full-tied__disabled__scip__w8__r2",
+  "batch": "diagnostic_5",
+  "event": "full-tied",
+  "configuration": "disabled",
+  "backend": "scip",
+  "budget_seconds": 5,
+  "repetition": 2,
+  "permutation": false,
+  "workers": 8,
+  "search_seed": 20260918,
+  "execution_status": "completed",
+  "candidate": null,
+  "telemetry": {
+    "backend": "scip",
+    "weighted_proven": false,
+    "stages": [
+      {
+        "api_status": "UNKNOWN",
+        "value": null,
+        "best_bound": null,
+        "proven": false,
+        "absolute_gap": null,
+        "relative_gap": null,
+        "nodes": null,
+        "native_termination": null,
+        "concurrent_solver_ids": [],
+        "observed_concurrent_solvers": 0,
+        "gap_limit_reached": false,
+        "stage": "weighted_preferences",
+        "workers": 8,
+        "returned_seconds": 4.777556200046092,
+        "native_log": "000.log"
+      }
+    ],
+    "weighted_proof_reported_seconds": null,
+    "weighted_stage_return_seconds": 4.777556200046092,
+    "budget_seconds": 5,
+    "raw_request_sha256": "0c15f59ba2fa7ce7c1a83f8fde6acf03da326829c750b66ca9c0273bccb253c3",
+    "semantic_input_sha256": "2ba2fd8decaed38c57b6171c5929f84a42d6b542372bf47c859bd1298da7626a",
+    "normalized_request_sha256": "0c15f59ba2fa7ce7c1a83f8fde6acf03da326829c750b66ca9c0273bccb253c3",
+    "weights": {
+      "contribution_seat": 0,
+      "activeness": 0,
+      "category_zone": 0
+    },
+    "shared_work_elapsed_seconds": 4.792221500072628,
+    "within_shared_allowance": true,
+    "phases": [
+      {
+        "name": "normalization",
+        "start_seconds": 2.3599714040756226e-05,
+        "end_seconds": 0.08059899974614382,
+        "duration_seconds": 0.08057540003210306
+      },
+      {
+        "name": "model_build",
+        "start_seconds": 0.08062070002779365,
+        "end_seconds": 2.475652900058776,
+        "duration_seconds": 2.3950322000309825
+      },
+      {
+        "name": "model_updates",
+        "start_seconds": 2.4756868998520076,
+        "end_seconds": 2.479476199951023,
+        "duration_seconds": 0.003789300099015236
+      },
+      {
+        "name": "weighted_search",
+        "start_seconds": 2.479509999975562,
+        "end_seconds": 4.777546999976039,
+        "duration_seconds": 2.298037000000477
+      },
+      {
+        "name": "extraction",
+        "start_seconds": 4.777575399726629,
+        "end_seconds": 4.792144400067627,
+        "duration_seconds": 0.014569000340998173
+      }
+    ],
+    "function_return_seconds": 4.865779499989003,
+    "unclassified_function_overhead_seconds": 0.07377659948542714
+  },
+  "returned_new_map": false,
+  "bridge_preparation_seconds": 0.02662859996780753,
+  "complete_service_return_seconds": 4.885916800238192,
+  "response_bytes": 221,
+  "physical_map_sha256": null,
+  "request_sha256": "0c15f59ba2fa7ce7c1a83f8fde6acf03da326829c750b66ca9c0273bccb253c3",
+  "semantic_input_sha256": "2ba2fd8decaed38c57b6171c5929f84a42d6b542372bf47c859bd1298da7626a",
+  "response_path": "main/responses/diagnostic_5__full-tied__disabled__scip__w8__r2.json",
+  "response_file_sha256": "aa5f6b9f7f3bfa255f7b856ccfd6386b94ca8724084fd798ad74149e88e2753b",
+  "candidate_path": null,
+  "candidate_file_sha256": null,
+  "pending_candidate_path": null,
+  "pending_candidate_file_sha256": null,
+  "native_log_directory": "main/native/diagnostic_5__full-tied__disabled__scip__w8__r2",
+  "memory": {
+    "bytes": 233164800,
+    "method": "Windows process lifetime peak working set; includes native solver threads"
+  },
+  "service_process_cpu_seconds": 4.875,
+  "worker_elapsed_seconds": 6.970078099984676,
+  "worker_exit_code": 0,
+  "worker_log": "runs/diagnostic_5__full-tied__disabled__scip__w8__r2.log"
+}

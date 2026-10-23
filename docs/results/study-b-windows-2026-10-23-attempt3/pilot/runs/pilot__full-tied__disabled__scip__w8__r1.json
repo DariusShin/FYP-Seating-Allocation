@@ -1,0 +1,106 @@
+{
+  "id": "pilot__full-tied__disabled__scip__w8__r1",
+  "batch": "pilot",
+  "event": "full-tied",
+  "configuration": "disabled",
+  "backend": "scip",
+  "budget_seconds": 5,
+  "repetition": 1,
+  "permutation": false,
+  "workers": 8,
+  "search_seed": 20260918,
+  "execution_status": "completed",
+  "candidate": null,
+  "telemetry": {
+    "backend": "scip",
+    "weighted_proven": false,
+    "stages": [
+      {
+        "api_status": "UNKNOWN",
+        "value": null,
+        "best_bound": null,
+        "proven": false,
+        "absolute_gap": null,
+        "relative_gap": null,
+        "nodes": null,
+        "native_termination": null,
+        "concurrent_solver_ids": [],
+        "observed_concurrent_solvers": 0,
+        "gap_limit_reached": false,
+        "stage": "weighted_preferences",
+        "workers": 8,
+        "returned_seconds": 4.891171799972653,
+        "native_log": "000.log"
+      }
+    ],
+    "weighted_proof_reported_seconds": null,
+    "weighted_stage_return_seconds": 4.891171799972653,
+    "budget_seconds": 5,
+    "raw_request_sha256": "0c15f59ba2fa7ce7c1a83f8fde6acf03da326829c750b66ca9c0273bccb253c3",
+    "semantic_input_sha256": "2ba2fd8decaed38c57b6171c5929f84a42d6b542372bf47c859bd1298da7626a",
+    "normalized_request_sha256": "0c15f59ba2fa7ce7c1a83f8fde6acf03da326829c750b66ca9c0273bccb253c3",
+    "weights": {
+      "contribution_seat": 0,
+      "activeness": 0,
+      "category_zone": 0
+    },
+    "shared_work_elapsed_seconds": 4.906960499938577,
+    "within_shared_allowance": true,
+    "phases": [
+      {
+        "name": "normalization",
+        "start_seconds": 1.550000160932541e-05,
+        "end_seconds": 0.07645870000123978,
+        "duration_seconds": 0.07644319999963045
+      },
+      {
+        "name": "model_build",
+        "start_seconds": 0.07648500008508563,
+        "end_seconds": 2.368097699712962,
+        "duration_seconds": 2.2916126996278763
+      },
+      {
+        "name": "model_updates",
+        "start_seconds": 2.3681284999474883,
+        "end_seconds": 2.3720134999603033,
+        "duration_seconds": 0.0038850000128149986
+      },
+      {
+        "name": "weighted_search",
+        "start_seconds": 2.372048999648541,
+        "end_seconds": 4.89116430003196,
+        "duration_seconds": 2.519115300383419
+      },
+      {
+        "name": "extraction",
+        "start_seconds": 4.891188200097531,
+        "end_seconds": 4.90689679980278,
+        "duration_seconds": 0.01570859970524907
+      }
+    ],
+    "function_return_seconds": 5.0038173999637365,
+    "unclassified_function_overhead_seconds": 0.09705260023474693
+  },
+  "returned_new_map": false,
+  "bridge_preparation_seconds": 0.030514799989759922,
+  "complete_service_return_seconds": 5.020622600335628,
+  "response_bytes": 221,
+  "physical_map_sha256": null,
+  "request_sha256": "0c15f59ba2fa7ce7c1a83f8fde6acf03da326829c750b66ca9c0273bccb253c3",
+  "semantic_input_sha256": "2ba2fd8decaed38c57b6171c5929f84a42d6b542372bf47c859bd1298da7626a",
+  "response_path": "pilot/responses/pilot__full-tied__disabled__scip__w8__r1.json",
+  "response_file_sha256": "aa5f6b9f7f3bfa255f7b856ccfd6386b94ca8724084fd798ad74149e88e2753b",
+  "candidate_path": null,
+  "candidate_file_sha256": null,
+  "pending_candidate_path": null,
+  "pending_candidate_file_sha256": null,
+  "native_log_directory": "pilot/native/pilot__full-tied__disabled__scip__w8__r1",
+  "memory": {
+    "bytes": 232292352,
+    "method": "Windows process lifetime peak working set; includes native solver threads"
+  },
+  "service_process_cpu_seconds": 4.984375,
+  "worker_elapsed_seconds": 7.178479100111872,
+  "worker_exit_code": 0,
+  "worker_log": "pilot/runs/pilot__full-tied__disabled__scip__w8__r1.log"
+}

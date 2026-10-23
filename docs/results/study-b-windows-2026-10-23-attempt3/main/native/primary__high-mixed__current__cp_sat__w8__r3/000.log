@@ -1,0 +1,465 @@
+
+Starting CP-SAT solver v9.15.6755
+Parameters: random_seed: 20260918 max_time_in_seconds: 54.723538600374013 log_search_progress: true num_search_workers: 8 absolute_gap_limit: 0 relative_gap_limit: 0 log_to_stdout: true
+
+Initial optimization model '': (model_fingerprint: 0x9f2d661fbb6412f0)
+#Variables: 2'413 (#bools: 2'359 in objective) (2'289 primary variables)
+  - 2'398 Booleans in [0,1]
+  - 12 in [1,16]
+  - 2 in [1,256]
+  - 1 constants in {1} 
+#kAtMostOne: 184 (#literals: 3'628)
+#kBoolOr: 363 (#literals: 363)
+#kExactlyOne: 117 (#literals: 2'398)
+#kLinear0: 60
+#kLinearN: 1'559 (#terms: 57'198)
+
+Starting presolve at 0.02s
+  8.16e-03s  0.00e+00d  [DetectDominanceRelations] 
+  7.63e-02s  0.00e+00d  [operations_research::sat::CpModelPresolver::PresolveToFixPoint] #num_loops=2 #num_dual_strengthening=1 
+  4.46e-04s  0.00e+00d  [operations_research::sat::CpModelPresolver::ExtractEncodingFromLinear] #potential_supersets=301 
+  4.99e-03s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectDuplicateColumns] 
+  3.08e-03s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectDuplicateConstraints] #duplicates=606 
+[Symmetry] Graph for symmetry has 10'609 nodes and 48'214 arcs.
+[Symmetry] Symmetry computation done. time: 0.0053308 dtime: 0.00404161
+[Symmetry] #generators: 7, average support size: 47.4286
+[Symmetry] 166 orbits on 332 variables with sizes: 2,2,2,2,2,2,2,2,2,2,...
+[Symmetry] Num fixable by intersecting at_most_one with orbits: 5 largest_orbit: 2
+[Symmetry] Found orbitope of size 24 x 2
+  1.59e-03s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectDuplicateConstraintsWithDifferentEnforcements] #without_enforcements=22 
+  1.18e-01s  4.38e-02d  [operations_research::sat::CpModelPresolver::Probe] #probed=4'786 #new_binary_clauses=25'080 
+  2.63e-03s  2.72e-03d  [MaxClique] 
+  4.97e-03s  0.00e+00d  [DetectDominanceRelations] 
+  2.78e-02s  0.00e+00d  [operations_research::sat::CpModelPresolver::PresolveToFixPoint] #num_loops=1 #num_dual_strengthening=1 
+  6.25e-02s  0.00e+00d  [operations_research::sat::CpModelPresolver::ProcessAtMostOneAndLinear] #num_changes=763 
+  1.59e-03s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectDuplicateConstraints] #duplicates=13 
+  3.52e-03s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectDuplicateConstraintsWithDifferentEnforcements] #without_enforcements=544 
+  1.94e-02s  4.35e-04d  [operations_research::sat::CpModelPresolver::DetectDominatedLinearConstraints] #relevant_constraints=967 #num_inclusions=3'230 
+  1.26e-04s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectDifferentVariables] 
+  8.54e-03s  1.70e-04d  [operations_research::sat::CpModelPresolver::ProcessSetPPC] #relevant_constraints=1'303 #num_inclusions=1'101 
+  8.28e-04s  0.00e+00d  [operations_research::sat::CpModelPresolver::TransformClausesToExactlyOne] #num_amos=124 
+  1.52e-04s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectEncodedComplexDomains] 
+  1.15e-04s  0.00e+00d  [operations_research::sat::CpModelPresolver::FindAlmostIdenticalLinearConstraints] 
+  2.24e-02s  5.99e-03d  [operations_research::sat::CpModelPresolver::FindBigAtMostOneAndLinearOverlap] #blocks=54 #saved_nz=10'172 
+  6.52e-03s  2.70e-03d  [operations_research::sat::CpModelPresolver::FindBigVerticalLinearOverlap] #blocks=1 #saved_nz=82 
+  4.63e-03s  1.22e-03d  [operations_research::sat::CpModelPresolver::FindBigHorizontalLinearOverlap] #linears=410 
+  9.11e-05s  0.00e+00d  [operations_research::sat::CpModelPresolver::MergeClauses] 
+  6.05e-03s  0.00e+00d  [DetectDominanceRelations] 
+  2.66e-02s  0.00e+00d  [operations_research::sat::CpModelPresolver::PresolveToFixPoint] #num_loops=3 #num_dual_strengthening=2 
+  6.18e-03s  0.00e+00d  [DetectDominanceRelations] 
+  1.53e-02s  0.00e+00d  [operations_research::sat::CpModelPresolver::PresolveToFixPoint] #num_loops=1 #num_dual_strengthening=1 
+  7.71e-04s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectDuplicateColumns] 
+  1.33e-03s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectDuplicateConstraints] 
+[Symmetry] Graph for symmetry has 8'653 nodes and 32'376 arcs.
+[Symmetry] Symmetry computation done. time: 0.0036 dtime: 0.00262168
+[Symmetry] #generators: 2, average support size: 48
+[Symmetry] 48 orbits on 96 variables with sizes: 2,2,2,2,2,2,2,2,2,2,...
+[Symmetry] Num fixable by intersecting at_most_one with orbits: 1 largest_orbit: 2
+[SAT presolve] num removable Booleans: 0 / 2'429
+[SAT presolve] num trivial clauses: 0
+[SAT presolve] [0s] clauses:3'299 literals:65'507 vars:2'270 one_side_vars:1282 simple_definition:356 singleton_clauses:0
+[SAT presolve] [0.0013596s] clauses:3'239 literals:64'127 vars:2'270 one_side_vars:1282 simple_definition:356 singleton_clauses:0
+[SAT presolve] [0.0019252s] clauses:3'239 literals:64'127 vars:2'270 one_side_vars:1282 simple_definition:356 singleton_clauses:0
+  1.91e-03s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectDuplicateConstraintsWithDifferentEnforcements] #without_enforcements=14 
+  1.14e-01s  5.51e-02d  [operations_research::sat::CpModelPresolver::Probe] #probed=4'831 #fixed_bools=24 #new_binary_clauses=19'920 
+  1.16e-03s  4.44e-04d  [MaxClique] 
+  6.47e-03s  0.00e+00d  [DetectDominanceRelations] 
+  2.01e-02s  0.00e+00d  [operations_research::sat::CpModelPresolver::PresolveToFixPoint] #num_loops=1 #num_dual_strengthening=1 
+  4.05e-03s  0.00e+00d  [operations_research::sat::CpModelPresolver::ProcessAtMostOneAndLinear] #num_changes=26 
+  1.94e-03s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectDuplicateConstraints] #duplicates=65 
+  1.63e-03s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectDuplicateConstraintsWithDifferentEnforcements] 
+  3.87e-04s  1.23e-05d  [operations_research::sat::CpModelPresolver::DetectDominatedLinearConstraints] #relevant_constraints=192 
+  1.06e-04s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectDifferentVariables] 
+  9.38e-03s  3.66e-04d  [operations_research::sat::CpModelPresolver::ProcessSetPPC] #relevant_constraints=3'591 #num_inclusions=428 
+  1.42e-03s  2.96e-04d  [operations_research::sat::CpModelPresolver::TransformClausesToExactlyOne] #num_amos=41 #num_clauses=3'053 #num_checked=3'053 
+  1.62e-04s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectEncodedComplexDomains] 
+  8.66e-05s  0.00e+00d  [operations_research::sat::CpModelPresolver::FindAlmostIdenticalLinearConstraints] 
+  1.39e-02s  3.85e-03d  [operations_research::sat::CpModelPresolver::FindBigAtMostOneAndLinearOverlap] 
+  3.92e-03s  1.36e-03d  [operations_research::sat::CpModelPresolver::FindBigVerticalLinearOverlap] 
+  1.73e-03s  4.87e-04d  [operations_research::sat::CpModelPresolver::FindBigHorizontalLinearOverlap] #linears=167 
+  4.35e-03s  2.81e-04d  [operations_research::sat::CpModelPresolver::MergeClauses] #num_collisions=1'957 #num_merges=1'957 #num_saved_literals=33'174 
+  5.27e-03s  0.00e+00d  [DetectDominanceRelations] 
+  1.38e-02s  0.00e+00d  [operations_research::sat::CpModelPresolver::PresolveToFixPoint] #num_loops=1 #num_dual_strengthening=1 
+  5.41e-03s  0.00e+00d  [DetectDominanceRelations] 
+  1.38e-02s  0.00e+00d  [operations_research::sat::CpModelPresolver::PresolveToFixPoint] #num_loops=1 #num_dual_strengthening=1 
+  9.66e-04s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectDuplicateColumns] 
+  1.78e-03s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectDuplicateConstraints] 
+[Symmetry] Graph for symmetry has 8'119 nodes and 35'787 arcs.
+[Symmetry] Symmetry computation done. time: 0.0034013 dtime: 0.00254566
+[Symmetry] #generators: 1, average support size: 62
+[Symmetry] 31 orbits on 62 variables with sizes: 2,2,2,2,2,2,2,2,2,2,...
+[Symmetry] Num fixable by intersecting at_most_one with orbits: 1 largest_orbit: 2
+[SAT presolve] num removable Booleans: 0 / 2'389
+[SAT presolve] num trivial clauses: 0
+[SAT presolve] [0s] clauses:3'053 literals:56'137 vars:1'972 one_side_vars:1130 simple_definition:306 singleton_clauses:0
+[SAT presolve] [0.0009581s] clauses:3'053 literals:56'137 vars:1'972 one_side_vars:1130 simple_definition:306 singleton_clauses:0
+[SAT presolve] [0.001397s] clauses:3'053 literals:56'137 vars:1'972 one_side_vars:1130 simple_definition:306 singleton_clauses:0
+  2.86e-03s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectDuplicateConstraintsWithDifferentEnforcements] 
+  1.17e-01s  4.93e-02d  [operations_research::sat::CpModelPresolver::Probe] #probed=4'778 #new_binary_clauses=19'975 
+  1.03e-03s  2.08e-04d  [MaxClique] 
+  7.30e-03s  0.00e+00d  [DetectDominanceRelations] 
+  2.40e-02s  0.00e+00d  [operations_research::sat::CpModelPresolver::PresolveToFixPoint] #num_loops=1 #num_dual_strengthening=1 
+  2.95e-03s  0.00e+00d  [operations_research::sat::CpModelPresolver::ProcessAtMostOneAndLinear] 
+  1.73e-03s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectDuplicateConstraints] 
+  1.71e-03s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectDuplicateConstraintsWithDifferentEnforcements] 
+  3.99e-04s  1.06e-05d  [operations_research::sat::CpModelPresolver::DetectDominatedLinearConstraints] #relevant_constraints=186 
+  1.61e-04s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectDifferentVariables] 
+  7.82e-03s  3.57e-04d  [operations_research::sat::CpModelPresolver::ProcessSetPPC] #relevant_constraints=3'479 #num_inclusions=295 
+  1.47e-03s  2.96e-04d  [operations_research::sat::CpModelPresolver::TransformClausesToExactlyOne] #num_amos=41 #num_clauses=3'053 #num_checked=3'053 
+  2.20e-04s  0.00e+00d  [operations_research::sat::CpModelPresolver::DetectEncodedComplexDomains] 
+  1.08e-04s  0.00e+00d  [operations_research::sat::CpModelPresolver::FindAlmostIdenticalLinearConstraints] 
+  1.47e-02s  3.84e-03d  [operations_research::sat::CpModelPresolver::FindBigAtMostOneAndLinearOverlap] 
+  3.99e-03s  1.36e-03d  [operations_research::sat::CpModelPresolver::FindBigVerticalLinearOverlap] 
+  1.89e-03s  4.86e-04d  [operations_research::sat::CpModelPresolver::FindBigHorizontalLinearOverlap] #linears=167 
+  4.44e-03s  2.81e-04d  [operations_research::sat::CpModelPresolver::MergeClauses] #num_collisions=1'957 #num_merges=1'957 #num_saved_literals=33'172 
+  5.58e-03s  0.00e+00d  [DetectDominanceRelations] 
+  1.43e-02s  0.00e+00d  [operations_research::sat::CpModelPresolver::PresolveToFixPoint] #num_loops=1 #num_dual_strengthening=1 
+  6.53e-05s  0.00e+00d  [MergeNoOverlap] 
+  7.85e-05s  0.00e+00d  [MergeNoOverlap2D] 
+  5.26e-03s  0.00e+00d  [operations_research::sat::CpModelPresolver::ExpandObjective] #entries=87'412 #tight_variables=4'118 #tight_constraints=199 
+
+Presolve summary:
+  - 3 affine relations were detected.
+  - rule 'TODO dual: only one blocking constraint?' was applied 320 times.
+  - rule 'TODO linear matrix: reuse defining constraint' was applied 54 times.
+  - rule 'affine: new relation' was applied 3 times.
+  - rule 'at_most_one: removed literals' was applied 13 times.
+  - rule 'at_most_one: size one' was applied 54 times.
+  - rule 'bool_or: always true' was applied 377 times.
+  - rule 'bool_or: fixed literals' was applied 208 times.
+  - rule 'bool_or: removed enforcement literal' was applied 16 times.
+  - rule 'dual: fix variable' was applied 3 times.
+  - rule 'duplicate: removed constraint' was applied 684 times.
+  - rule 'duplicate: removed enforced constraint' was applied 36 times.
+  - rule 'enforcement: true literal' was applied 17 times.
+  - rule 'exactly_one: removed literals' was applied 57 times.
+  - rule 'exactly_one: simplified objective' was applied 132 times.
+  - rule 'linear + amo: extracted enforcement literal' was applied 15'391 times.
+  - rule 'linear + amo: fixed literal' was applied 15 times.
+  - rule 'linear + amo: removed enforcement literal' was applied 428 times.
+  - rule 'linear + amo: trivial linear constraint' was applied 21 times.
+  - rule 'linear matrix: common amo rectangle' was applied 54 times.
+  - rule 'linear matrix: common vertical rectangle' was applied 1 time.
+  - rule 'linear: always true' was applied 63 times.
+  - rule 'linear: divide by GCD' was applied 26 times.
+  - rule 'linear: empty' was applied 4 times.
+  - rule 'linear: extracted at most one (max)' was applied 84 times.
+  - rule 'linear: extracted enforcement literal' was applied 14 times.
+  - rule 'linear: fixed or dup variables' was applied 89 times.
+  - rule 'linear: negative reified and' was applied 168 times.
+  - rule 'linear: never in domain' was applied 46 times.
+  - rule 'linear: positive at most one' was applied 9 times.
+  - rule 'linear: positive clause' was applied 18 times.
+  - rule 'linear: positive equal one' was applied 1 time.
+  - rule 'linear: reduced variable domains' was applied 19 times.
+  - rule 'linear: reduced variable domains in derived constraint' was applied 30 times.
+  - rule 'linear: remapped using affine relations' was applied 27 times.
+  - rule 'new_bool: var with 2 values' was applied 3 times.
+  - rule 'new_bool: with clause' was applied 54 times.
+  - rule 'objective: shifted cost with exactly ones' was applied 154 times.
+  - rule 'presolve: 74 unused variables removed.' was applied 1 time.
+  - rule 'presolve: iteration' was applied 3 times.
+  - rule 'probing: simplified clauses' was applied 2'737 times.
+  - rule 'setppc: bool_or in at_most_one' was applied 80 times.
+  - rule 'setppc: exactly_one included in linear' was applied 255 times.
+  - rule 'setppc: reduced linear coefficients' was applied 192 times.
+  - rule 'setppc: removed dominated constraints' was applied 121 times.
+  - rule 'setppc: removed trivial linear constraint' was applied 63 times.
+  - rule 'symmetry: fixed to false in general orbit' was applied 7 times.
+  - rule 'variables with 2 values: create encoding literal' was applied 3 times.
+  - rule 'variables with 2 values: new affine relation' was applied 3 times.
+
+Presolved optimization model '': (model_fingerprint: 0xcdfc2177783912b9)
+#Variables: 2'394 (#bools: 2'090 in objective) (2'200 primary variables)
+  - 2'388 Booleans in [0,1]
+  - 1 in [1,3]
+  - 1 in [2,5]
+  - 1 in [3,8]
+  - 1 in [5,10]
+  - 1 in [118,159]
+  - 1 in [161,191]
+#kAtMostOne: 41 (#literals: 678)
+#kBoolAndClauses: 753 (#enforced: 753 #multi: 753) (#literals: 16'299)
+#kBoolOr: 343 (#literals: 6'666)
+#kExactlyOne: 199 (#literals: 4'118)
+#kLinear1: 1 (#enforced: 1 #multi: 1)
+#kLinearN: 186 (#enforced: 78 #multi: 58) (#terms: 3'410)
+[Symmetry] Graph for symmetry has 8'040 nodes and 35'780 arcs.
+[Symmetry] Symmetry computation done. time: 0.0032929 dtime: 0.00246101
+
+Preloading model.
+#Bound   0.95s best:inf   next:[75010,2744660] initial_domain
+#Model   0.96s var:2394/2394 constraints:1523/1523 compo:1397,997
+
+Starting search at 0.96s with 8 workers.
+6 full problem subsolvers: [core, default_lp, max_lp, no_lp, quick_restart, reduced_costs]
+2 first solution subsolvers: [fj, fs_random_no_lp]
+9 interleaved subsolvers: [feasibility_pump, graph_arc_lns, graph_cst_lns, graph_dec_lns, graph_var_lns, ls, rins/rens, rnd_cst_lns, rnd_var_lns]
+3 helper subsolvers: [neighborhood_helper, synchronization_agent, update_gap_integral]
+
+#1       1.03s best:245010 next:[75010,245000] fj_restart_compound(batch:1 lin{mvs:0 evals:38'717} gen{mvs:2'051 evals:0} comp{mvs:723 btracks:664} #w_updates:7 #perturb:0)
+#Bound   1.09s best:245010 next:[82360,245000] am1_presolve (num_literals=2090 num_am1=9 increase=735 work_done=17574)
+#Bound   1.10s best:245010 next:[92730,245000] default_lp (initial_propagation)
+#Bound   1.11s best:245010 next:[95150,245000] reduced_costs (initial_propagation)
+#Bound   1.25s best:245010 next:[166950,245000] quick_restart
+#Model   1.26s var:2385/2394 constraints:1523/1523 compo:1397,988
+#Bound   1.27s best:245010 next:[181710,245000] max_lp (initial_propagation)
+#Bound   1.31s best:245010 next:[182410,245000] max_lp
+#Model   1.36s var:2327/2394 constraints:1491/1523 compo:1339,988
+#2       1.40s best:191530 next:[182410,191520] max_lp
+#Model   1.47s var:2318/2394 constraints:1491/1523 compo:1330,988
+#Model   1.55s var:2316/2394 constraints:1491/1523 compo:1328,988
+#Model   1.71s var:2310/2394 constraints:1491/1523 compo:1323,987
+#Bound   1.72s best:191530 next:[184920,191520] max_lp
+#Model   1.82s var:2307/2394 constraints:1491/1523 compo:1321,986
+#Model   2.04s var:2306/2394 constraints:1491/1523 compo:1321,985
+#Model   2.19s var:2298/2394 constraints:1491/1523 compo:1313,985
+#Model   2.30s var:2296/2394 constraints:1490/1523 compo:1312,984
+#Model   2.40s var:2295/2394 constraints:1490/1523 compo:1312,983
+#Model   2.51s var:2294/2394 constraints:1490/1523 compo:1312,982
+#Bound   2.61s best:191530 next:[188430,191520] max_lp
+#Model   2.63s var:2293/2394 constraints:1490/1523 compo:1312,981
+#Model   2.75s var:2288/2394 constraints:1490/1523 compo:1312,976
+#3       2.77s best:191090 next:[188430,191080] reduced_costs
+#Model   2.97s var:2287/2394 constraints:1490/1523 compo:1312,975
+#Bound   2.98s best:191090 next:[188790,191080] reduced_costs
+#Bound   3.02s best:191090 next:[188800,191080] reduced_costs
+#Bound   3.05s best:191090 next:[188810,191080] reduced_costs
+#Model   3.07s var:2256/2394 constraints:1489/1523 compo:1302,954
+#Bound   3.09s best:191090 next:[188820,191080] reduced_costs
+#Model   3.10s var:2255/2394 constraints:1489/1523 compo:1302,953
+#Bound   3.14s best:191090 next:[188910,191080] max_lp
+#4       3.18s best:191020 next:[188910,191010] reduced_costs
+#Model   3.23s var:2247/2394 constraints:1487/1523 compo:1297,950
+#Model   3.34s var:2246/2394 constraints:1487/1523 compo:1297,949
+#Bound   3.38s best:191020 next:[189310,191010] reduced_costs
+#Model   3.39s var:2170/2394 constraints:1482/1523 compo:1266,904
+#Model   3.61s var:2169/2394 constraints:1482/1523 compo:1266,903
+#5       3.84s best:190930 next:[189310,190920] rins_lp_lns (d=2.93e-01 s=27 t=0.10 p=0.00 stall=1 h=base)
+#Bound   4.06s best:190930 next:[189510,190920] reduced_costs
+#Model   4.11s var:2087/2394 constraints:1475/1523 compo:1238,849
+#Bound   4.42s best:190930 next:[189620,190920] reduced_costs
+#Model   4.44s var:2048/2394 constraints:1467/1523 compo:1216,832
+#Model   4.59s var:2040/2394 constraints:1467/1523 compo:1216,824
+#Bound   4.67s best:190930 next:[189960,190920] reduced_costs
+#Model   4.76s var:1823/2394 constraints:1425/1523 compo:1096,727
+#Bound   4.91s best:190930 next:[190060,190920] reduced_costs
+#Model   4.98s var:1758/2394 constraints:1407/1523 compo:1062,696 [skipped_logs=0]
+#Bound   5.12s best:190930 next:[190250,190920] reduced_costs
+#Bound   5.14s best:190930 next:[190290,190920] reduced_costs
+#Bound   5.17s best:190930 next:[190310,190920] reduced_costs
+#Done    5.22s reduced_costs
+#Model   5.21s var:1488/2394 constraints:1324/1523 compo:912,576 [skipped_logs=1]
+
+Task timing                   n [     min,      max]      avg      dev     time         n [     min,      max]      avg      dev    dtime
+              'core':         1 [   4.27s,    4.27s]    4.27s   0.00ns    4.27s         2 [ 39.91ms,    1.98s]    1.01s 969.80ms    2.02s
+        'default_lp':         1 [   4.27s,    4.27s]    4.27s   0.00ns    4.27s         2 [ 40.79ms, 545.51ms] 293.15ms 252.36ms 586.30ms
+  'feasibility_pump':         8 [  3.70ms,  77.11ms]  16.39ms  23.65ms 131.11ms         7 [ 73.00us,  13.62ms]   2.01ms   4.74ms  14.06ms
+                'fj':         1 [ 41.01ms,  41.01ms]  41.01ms   0.00ns  41.01ms         1 [ 18.10ms,  18.10ms]  18.10ms   0.00ns  18.10ms
+   'fs_random_no_lp':         1 [ 67.47ms,  67.47ms]  67.47ms   0.00ns  67.47ms         1 [ 16.99ms,  16.99ms]  16.99ms   0.00ns  16.99ms
+     'graph_arc_lns':         2 [460.96ms, 698.82ms] 579.89ms 118.93ms    1.16s         2 [100.00ms, 100.02ms] 100.01ms  10.04us 200.02ms
+     'graph_cst_lns':         2 [186.14ms, 753.13ms] 469.64ms 283.49ms 939.28ms         2 [ 22.12ms, 100.02ms]  61.07ms  38.95ms 122.14ms
+     'graph_dec_lns':         2 [396.83ms, 452.94ms] 424.89ms  28.05ms 849.78ms         2 [100.00ms, 100.01ms] 100.01ms   4.23us 200.02ms
+     'graph_var_lns':         2 [441.58ms, 628.25ms] 534.92ms  93.33ms    1.07s         2 [100.01ms, 100.03ms] 100.02ms  13.62us 200.04ms
+                'ls':         4 [130.47ms, 298.48ms] 222.82ms  62.96ms 891.28ms         4 [ 60.50ms, 100.06ms]  90.16ms  17.13ms 360.66ms
+            'max_lp':         1 [   4.27s,    4.27s]    4.27s   0.00ns    4.27s         2 [ 84.24ms,    1.09s] 588.67ms 504.43ms    1.18s
+             'no_lp':         1 [   4.27s,    4.27s]    4.27s   0.00ns    4.27s         2 [ 39.91ms,    1.38s] 710.33ms 670.41ms    1.42s
+     'quick_restart':         1 [   4.27s,    4.27s]    4.27s   0.00ns    4.27s         2 [ 40.86ms, 438.77ms] 239.81ms 198.95ms 479.62ms
+     'reduced_costs':         1 [   4.26s,    4.26s]    4.26s   0.00ns    4.26s         2 [ 41.46ms, 753.50ms] 397.48ms 356.02ms 794.96ms
+         'rins/rens':         3 [ 29.64ms, 549.08ms] 366.46ms 238.45ms    1.10s         3 [241.01us, 100.01ms]  66.75ms  47.03ms 200.25ms
+       'rnd_cst_lns':         3 [ 31.40ms, 557.41ms] 349.36ms 228.37ms    1.05s         3 [133.36us, 100.02ms]  66.72ms  47.08ms 200.16ms
+       'rnd_var_lns':         4 [ 21.23ms, 561.46ms] 285.73ms 252.90ms    1.14s         4 [561.00ns, 100.04ms]  50.09ms  49.94ms 200.37ms
+
+Search stats          Bools  Conflicts  Branches  Restarts  BacktrackToRoot  Backtrack  BoolPropag  IntegerPropag
+             'core':  2'398     38'435   132'428        68            4'918     42'186   1'316'726        609'527
+       'default_lp':  2'390        383    97'887         4           13'796     15'181     628'870        796'626
+  'fs_random_no_lp':  2'389          0     2'716         0            2'716      2'716      55'830         61'045
+           'max_lp':  2'389         46   124'769         0           19'335     20'772     727'081      1'158'074
+            'no_lp':  2'389     43'209   255'151        72           20'619     64'256   2'428'749      1'920'753
+    'quick_restart':  2'389        293    99'813         8           13'826     15'106     630'165        830'494
+    'reduced_costs':  2'389        321   104'096         2           13'735     15'076     636'635        874'431
+
+SAT formula           Fixed  Equiv  Total  VarLeft  BinaryClauses  PermanentClauses  TemporaryClauses
+             'core':    906      0  2'398    1'492         10'578             1'589             4'158
+       'default_lp':    638      0  2'390    1'752         29'782             1'901                84
+  'fs_random_no_lp':      0      0  2'389    2'389          2'544             3'253                 0
+           'max_lp':    586      0  2'389    1'803         11'578             1'046                 6
+            'no_lp':    905      0  2'389    1'484         15'842             1'396             5'437
+    'quick_restart':    905      0  2'389    1'484         29'368             1'891                66
+    'reduced_costs':    948      0  2'389    1'441         30'894             1'836                61
+
+SAT stats             ClassicMinim  LitRemoved  LitRemovedBinary  LitLearned  LitForgotten  Subsumed
+             'core':        27'575     247'035           102'045   4'094'510       624'516    21'135
+       'default_lp':            80         323             1'753      15'921             0        71
+  'fs_random_no_lp':             0           0                 0           0             0         0
+           'max_lp':            19         486               487         340             0         9
+            'no_lp':        35'337     195'610           136'820   2'446'207     1'268'507    11'261
+    'quick_restart':            38         186             4'315       8'243             0        41
+    'reduced_costs':            55         615             3'452       5'970             0        47
+
+Vivification          Clauses  Decisions  LitTrue  Subsumed  LitRemoved  DecisionReused  Conflicts
+             'core':        0          0        0         0           0               0          0
+       'default_lp':    5'460     86'231       56     1'282      28'446           2'691         29
+  'fs_random_no_lp':        0          0        0         0           0               0          0
+           'max_lp':    7'747    110'868        0     1'922      37'058           4'496          0
+            'no_lp':    8'765    131'821       56     1'682      34'890           4'048         25
+    'quick_restart':    5'461     86'332       56     1'280      28'453           2'613         31
+    'reduced_costs':    5'396     86'088       33     1'383      29'449           2'874         68
+
+Clause deletion       at_true  l_and_not(l)  to_binary  sub_conflict  sub_extra  sub_decisions  sub_eager  sub_vivify  sub_probing  sub_inpro  blocked  eliminated  forgotten  promoted  conflicts
+             'core':    1'449           203          1        20'591      1'175              0        544           0            0      3'880        0           0      7'463    98'948     38'435
+       'default_lp':       57             0          1            68          1             72          3       1'282            0          0        0           0          0       205        383
+  'fs_random_no_lp':        0             0          0             0          0              0          0           0            0          0        0           0          0         0          0
+           'max_lp':      243            28          0             9          0              0          0       1'922            8         14        0           0          0        29         46
+            'no_lp':    2'131           962          0        10'831      1'128             77        430       1'682            0         12        0           0     22'222    92'070     43'209
+    'quick_restart':       58             0          0            39          1             72          2       1'280            0          0        0           0          0       112        293
+    'reduced_costs':       33             0          0            38          2             51          9       1'383            0          6        0           0          0       206        321
+
+Lp stats            Component  Iterations  AddedCuts  OPTIMAL  DUAL_F.  DUAL_U.
+     'default_lp':          2       6'060        757      726        1       95
+         'max_lp':          2       7'916        968      423       41        6
+  'quick_restart':          2       5'348        873      979        0       19
+  'reduced_costs':          2       9'948        821      657       79       29
+
+Lp dimension          Final dimension of first component
+     'default_lp':  182 rows, 1385 columns, 3312 entries
+         'max_lp':  262 rows, 1397 columns, 5362 entries
+  'quick_restart':  175 rows, 1385 columns, 3188 entries
+  'reduced_costs':  161 rows, 1397 columns, 2290 entries
+
+Lp debug            CutPropag  CutEqPropag  Adjust  Overflow     Bad  BadScaling
+     'default_lp':          0           19     814         0  11'425           0
+         'max_lp':          0            5     470         0  11'120           0
+  'quick_restart':          1           76     984         0  12'140           0
+  'reduced_costs':          0           28     643         0   9'425           0
+
+Lp pool             Constraints  Updates  Simplif  Merged  Shortened  Split  Strengthened  Cuts/Call
+     'default_lp':        1'105      235    4'699       0      4'134     64            18  757/1'275
+         'max_lp':        2'841      411    6'368       0      5'851     22           424  968/1'332
+  'quick_restart':        1'221      211    6'462       0      4'222     55         1'558  873/1'645
+  'reduced_costs':        2'694      259   14'846       0     12'789     33           376  821/1'154
+
+Lp Cut            reduced_costs  default_lp  max_lp  quick_restart
+          CG_FF:             35          45      52             68
+           CG_K:             20          13      32             45
+          CG_KL:              6           2      21             20
+           CG_R:             66         123      58            210
+          CG_RB:             28          76      20             93
+         CG_RBP:              2          11       2              9
+         Clique:            100           -     103              -
+             IB:            104         148       -            149
+       MIR_1_FF:             13          15      21             16
+        MIR_1_K:             17          33      23             30
+       MIR_1_KL:             13          17      21             20
+        MIR_1_R:              6           4      18              6
+       MIR_1_RB:             18          21      18             29
+      MIR_1_RBP:              1           -       7              -
+       MIR_2_FF:             12           9      33              7
+        MIR_2_K:              4           3      20              7
+       MIR_2_KL:              9           1      23              3
+        MIR_2_R:             25           9      45              6
+       MIR_2_RB:              3           5      12              2
+      MIR_2_RBP:              4           2       7              5
+       MIR_3_FF:             14           3      26              2
+        MIR_3_K:             10           2      11              2
+       MIR_3_KL:             12           1      13              1
+        MIR_3_R:             23           5      46              4
+       MIR_3_RB:              9           5       3              3
+      MIR_3_RBP:              2           1       9              -
+       MIR_4_FF:              5           -      20              -
+        MIR_4_K:              3           2      12              2
+       MIR_4_KL:              4           1       3              -
+        MIR_4_R:              6           4      27              1
+       MIR_4_RB:              9           7       9              2
+      MIR_4_RBP:              3           -       3              -
+       MIR_5_FF:              8           -      23              1
+        MIR_5_K:              1           2       6              1
+       MIR_5_KL:              -           1       6              1
+        MIR_5_R:             11           3      24              1
+       MIR_5_RB:              5          10       8              2
+      MIR_5_RBP:              -           1       3              -
+       MIR_6_FF:              5           -      11              -
+        MIR_6_K:              2           -       5              3
+       MIR_6_KL:              1           -       9              1
+        MIR_6_R:              9           4      16              3
+       MIR_6_RB:             11           3       6              4
+      MIR_6_RBP:              -           -       5              -
+   ZERO_HALF_FF:             43          82       5             29
+    ZERO_HALF_K:              4           3      23              7
+   ZERO_HALF_KL:              -          11      12              9
+    ZERO_HALF_R:            128          66      72             59
+   ZERO_HALF_RB:              5           3       3              9
+  ZERO_HALF_RBP:              2           -      13              1
+
+LNS stats           Improv/Calls  Closed  Difficulty  TimeLimit
+  'graph_arc_lns':           0/2      0%    1.86e-01       0.10
+  'graph_cst_lns':           0/2      0%    1.86e-01       0.10
+  'graph_dec_lns':           0/2      0%    1.86e-01       0.10
+  'graph_var_lns':           0/2      0%    1.86e-01       0.10
+      'rins/rens':           1/3     33%    3.08e-01       0.10
+    'rnd_cst_lns':           1/3     33%    3.08e-01       0.10
+    'rnd_var_lns':           1/4     50%    4.81e-01       0.10
+
+LS stats                        Batches  Restarts/Perturbs  LinMoves  GenMoves  CompoundMoves  Bactracks  WeightUpdates  ScoreComputed
+        'fj_restart_compound':        1                  1         0     2'051            723        664              7         51'528
+                 'ls_restart':        1                  1     3'081         0              0          0          2'154          2'747
+           'ls_restart_decay':        1                  1     1'809         0              0          0            151          2'900
+  'ls_restart_decay_compound':        1                  1         0     2'283            188      1'047              7         63'392
+         'ls_restart_perturb':        1                  1     4'106         0              0          0          2'359          4'575
+
+Solutions (5)             Num   Rank
+  'fj_restart_compound':    2  [0,1]
+               'max_lp':    2  [1,2]
+        'reduced_costs':    4  [2,4]
+          'rins_lp_lns':    2  [4,5]
+
+Objective bounds     Num
+    'am1_presolve':    1
+      'default_lp':    1
+  'initial_domain':    1
+          'max_lp':    5
+   'quick_restart':    1
+   'reduced_costs':   13
+
+Solution repositories    Added  Queried  Synchro
+    'alternative_path':      1        0        1
+      'best_solutions':     11       25       10
+   'fj solution hints':      0        0        0
+        'lp solutions':     91        3       24
+                'pump':      0        0
+
+Improving bounds shared    Num  Sym
+            'default_lp':   35    0
+                'max_lp':   22    0
+                 'no_lp':   73    0
+         'quick_restart':    9    0
+         'reduced_costs':  813    0
+
+Clauses shared        #Exported  #Imported  #BinaryRead  #BinaryTotal
+             'core':          0          0          185           186
+       'default_lp':         43          0          185           186
+  'fs_random_no_lp':          0          0            0           186
+           'max_lp':         19          0          185           186
+            'no_lp':         92          0          185           186
+    'quick_restart':          0          0          185           186
+    'reduced_costs':         34          0          186           186
+
+LRAT_status: NA
+CpSolverResponse summary:
+status: OPTIMAL
+objective: 190930
+best_bound: 190930
+integers: 2412
+booleans: 2389
+conflicts: 0
+branches: 2716
+propagations: 55830
+integer_propagations: 61045
+restarts: 0
+lp_iterations: 0
+walltime: 5.29997
+usertime: 5.29997
+deterministic_time: 8.38644
+gap_integral: 21.4155
+solution_fingerprint: 0x14d2f73cfaba185
+

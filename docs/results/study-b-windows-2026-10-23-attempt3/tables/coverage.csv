@@ -1,0 +1,7 @@
+batch,budget_seconds,workers,backend,scheduled,completed,valid_maps,proof_maps,optimal_map,feasible_map,no_map,late_candidate,invalid_candidate,execution_error,not_started
+diagnostic_30,30,8,cp_sat,24,24,24,24,24,0,0,0,0,0,0
+diagnostic_30,30,8,scip,24,24,17,17,17,0,0,7,0,0,0
+diagnostic_5,5,8,cp_sat,24,24,0,0,0,0,21,3,0,0,0
+diagnostic_5,5,8,scip,24,24,0,0,0,0,24,0,0,0,0
+primary,60,8,cp_sat,24,24,24,24,24,0,0,0,0,0,0
+primary,60,8,scip,24,24,24,24,24,0,0,0,0,0,0

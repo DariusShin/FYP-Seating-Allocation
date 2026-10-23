@@ -1,0 +1,12 @@
+{
+  "nominal_measured_allowance_seconds": 4560,
+  "elapsed_preparation_pilot_seconds": 112.03714119968936,
+  "per_job_overhead_seconds": 5.219263200182468,
+  "overhead_safety_factor": 1.25,
+  "projected_measured_overhead_seconds": 939.4673760328442,
+  "reporting_reserve_seconds": 300,
+  "projected_runner_seconds": 5911.5045172325335,
+  "runner_cap_seconds": 7200,
+  "fits": true,
+  "method": "Sum of every fixed job allowance plus max observed pilot overhead (5-second floor) per job, 1.25 safety factor"
+}

@@ -1,0 +1,104 @@
+{
+  "id": "diagnostic_5__full-accessible__two__cp_sat__w8__r3",
+  "batch": "diagnostic_5",
+  "event": "full-accessible",
+  "configuration": "two",
+  "backend": "cp_sat",
+  "budget_seconds": 5,
+  "repetition": 3,
+  "permutation": true,
+  "workers": 8,
+  "search_seed": 20260918,
+  "execution_status": "completed",
+  "candidate": null,
+  "telemetry": {
+    "backend": "cp_sat",
+    "weighted_proven": false,
+    "stages": [
+      {
+        "api_status": "UNKNOWN",
+        "native_termination": "UNKNOWN",
+        "value": null,
+        "best_bound": null,
+        "proven": false,
+        "absolute_gap": null,
+        "relative_gap": null,
+        "branches": 0,
+        "conflicts": 0,
+        "stage": "weighted_preferences",
+        "workers": 8,
+        "returned_seconds": 4.97576060006395,
+        "native_log": "000.log"
+      }
+    ],
+    "weighted_proof_reported_seconds": null,
+    "weighted_stage_return_seconds": 4.97576060006395,
+    "budget_seconds": 5,
+    "raw_request_sha256": "4882048b61c855637d3a18485a9b2cb686a5535face68a64e842ea55597c987f",
+    "semantic_input_sha256": "64c7264c1b37df9ed2ccca55f911b24fda50f01555a505d959b02f7e016e27df",
+    "normalized_request_sha256": "71a0c47de44c0d8bc7f45056696fd80f43e90e4687f995fd5c8442ecf2d9bae7",
+    "weights": {
+      "contribution_seat": 40,
+      "activeness": 0,
+      "category_zone": 30
+    },
+    "shared_work_elapsed_seconds": 4.975945100188255,
+    "within_shared_allowance": true,
+    "phases": [
+      {
+        "name": "normalization",
+        "start_seconds": 2.4100299924612045e-05,
+        "end_seconds": 0.09877909999340773,
+        "duration_seconds": 0.09875499969348311
+      },
+      {
+        "name": "model_build",
+        "start_seconds": 0.09881400037556887,
+        "end_seconds": 4.472029100172222,
+        "duration_seconds": 4.373215099796653
+      },
+      {
+        "name": "model_updates",
+        "start_seconds": 4.472064699977636,
+        "end_seconds": 4.4949214002117515,
+        "duration_seconds": 0.022856700234115124
+      },
+      {
+        "name": "weighted_search",
+        "start_seconds": 4.494964900426567,
+        "end_seconds": 4.975752199999988,
+        "duration_seconds": 0.4807872995734215
+      },
+      {
+        "name": "extraction",
+        "start_seconds": 4.975776900071651,
+        "end_seconds": 4.975872900336981,
+        "duration_seconds": 9.600026533007622e-05
+      }
+    ],
+    "function_return_seconds": 4.978964900132269,
+    "unclassified_function_overhead_seconds": 0.003254800569266081
+  },
+  "returned_new_map": false,
+  "bridge_preparation_seconds": 0.03377640014514327,
+  "complete_service_return_seconds": 5.000580899883062,
+  "response_bytes": 221,
+  "physical_map_sha256": null,
+  "request_sha256": "4882048b61c855637d3a18485a9b2cb686a5535face68a64e842ea55597c987f",
+  "semantic_input_sha256": "64c7264c1b37df9ed2ccca55f911b24fda50f01555a505d959b02f7e016e27df",
+  "response_path": "main/responses/diagnostic_5__full-accessible__two__cp_sat__w8__r3.json",
+  "response_file_sha256": "aa5f6b9f7f3bfa255f7b856ccfd6386b94ca8724084fd798ad74149e88e2753b",
+  "candidate_path": null,
+  "candidate_file_sha256": null,
+  "pending_candidate_path": null,
+  "pending_candidate_file_sha256": null,
+  "native_log_directory": "main/native/diagnostic_5__full-accessible__two__cp_sat__w8__r3",
+  "memory": {
+    "bytes": 113819648,
+    "method": "Windows process lifetime peak working set; includes native solver threads"
+  },
+  "service_process_cpu_seconds": 5.015625,
+  "worker_elapsed_seconds": 6.954314200207591,
+  "worker_exit_code": 0,
+  "worker_log": "runs/diagnostic_5__full-accessible__two__cp_sat__w8__r3.log"
+}

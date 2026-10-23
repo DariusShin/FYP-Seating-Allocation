@@ -1,0 +1,56 @@
+
+Starting CP-SAT solver v9.15.6755
+Parameters: random_seed: 20260918 max_time_in_seconds: 0.054419700056314468 log_search_progress: true num_search_workers: 8 absolute_gap_limit: 0 relative_gap_limit: 0 log_to_stdout: true
+
+Initial optimization model '': (model_fingerprint: 0x9f2d661fbb6412f0)
+#Variables: 2'413 (#bools: 2'359 in objective) (2'289 primary variables)
+  - 2'398 Booleans in [0,1]
+  - 12 in [1,16]
+  - 2 in [1,256]
+  - 1 constants in {1} 
+#kAtMostOne: 184 (#literals: 3'628)
+#kBoolOr: 363 (#literals: 363)
+#kExactlyOne: 117 (#literals: 2'398)
+#kLinear0: 60
+#kLinearN: 1'559 (#terms: 57'198)
+
+Starting presolve at 0.02s
+  1.04e-05s  0.00e+00d  [MergeNoOverlap] 
+  1.90e-06s  0.00e+00d  [MergeNoOverlap2D] 
+
+Presolve summary:
+  - 0 affine relations were detected.
+  - rule 'bool_or: always true' was applied 363 times.
+  - rule 'linear: always true' was applied 60 times.
+  - rule 'objective: shifted cost with exactly ones' was applied 107 times.
+  - rule 'presolve: 1 unused variables removed.' was applied 1 time.
+
+Presolved optimization model '': (model_fingerprint: 0x9ace2f4717d2dccd)
+#Variables: 2'412 (#bools: 2'180 in objective) (2'288 primary variables)
+  - 2'398 Booleans in [0,1]
+  - 12 in [1,16]
+  - 2 in [1,256]
+#kAtMostOne: 184 (#literals: 3'628)
+#kExactlyOne: 117 (#literals: 2'398)
+#kLinearN: 1'559 (#terms: 57'198)
+Stopped after presolve.
+PresolvedNumVariables: 2412
+PresolvedNumConstraints: 1860
+PresolvedNumTerms: 63224
+CpSolverResponse summary:
+status: UNKNOWN
+objective: 0
+best_bound: 0
+integers: 0
+booleans: 0
+conflicts: 0
+branches: 0
+propagations: 0
+integer_propagations: 0
+restarts: 0
+lp_iterations: 0
+walltime: 0.0594051
+usertime: 0.0594052
+deterministic_time: 0
+gap_integral: 0
+

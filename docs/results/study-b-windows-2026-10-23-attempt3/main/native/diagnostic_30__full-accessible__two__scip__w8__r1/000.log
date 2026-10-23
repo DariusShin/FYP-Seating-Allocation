@@ -1,0 +1,55 @@
+presolving:
+(round 1, fast)       0 del vars, 100 del conss, 0 add conss, 1 chg bounds, 16 chg sides, 0 chg coeffs, 0 upgd conss, 9 impls, 650 clqs, 0 implints
+(round 2, fast)       3 del vars, 100 del conss, 0 add conss, 1 chg bounds, 26 chg sides, 0 chg coeffs, 0 upgd conss, 9 impls, 650 clqs, 0 implints
+(round 3, exhaustive) 3 del vars, 925 del conss, 0 add conss, 1 chg bounds, 26 chg sides, 0 chg coeffs, 0 upgd conss, 9 impls, 650 clqs, 0 implints
+(round 4, exhaustive) 3 del vars, 925 del conss, 0 add conss, 1 chg bounds, 26 chg sides, 0 chg coeffs, 1146 upgd conss, 9 impls, 650 clqs, 0 implints
+   (0.0s) sparsify aborted: 784/49580 (1.6%) nonzeros canceled - in total 784 canceled nonzeros, 784 changed coefficients, 0 added nonzeros
+(round 5, exhaustive) 3 del vars, 925 del conss, 0 add conss, 1 chg bounds, 26 chg sides, 784 chg coeffs, 1146 upgd conss, 9 impls, 658 clqs, 0 implints
+(round 6, fast)       3 del vars, 927 del conss, 0 add conss, 1 chg bounds, 26 chg sides, 784 chg coeffs, 1146 upgd conss, 9 impls, 658 clqs, 0 implints
+   (2.0s) probing: 1000/2862 (34.9%) - 0 fixings, 0 aggregations, 2591 implications, 1 bound changes
+   (2.0s) probing: 1001/2862 (35.0%) - 0 fixings, 0 aggregations, 2593 implications, 1 bound changes
+   (2.0s) probing aborted: 1000/1000 successive useless probings
+   Deactivated symmetry handling methods, since SCIP was built without symmetry detector (SYM=none).
+   Deactivated symmetry handling methods, since SCIP was built without symmetry detector (SYM=none).
+presolving (7 rounds: 7 fast, 4 medium, 4 exhaustive):
+ 3 deleted vars, 927 deleted constraints, 0 added constraints, 2 tightened bounds, 0 added holes, 26 changed sides, 784 changed coefficients
+ 2602 implications, 658 cliques, 0 implied integral variables (0 bin, 0 int, 0 cont)
+presolved problem has 2873 variables (2862 bin, 11 int, 0 cont) and 1564 constraints
+    838 constraints of type <knapsack>
+    308 constraints of type <setppc>
+    418 constraints of type <linear>
+transformed objective value is always integral (scale: 10)
+Presolving Time: 2.00
+initializing seeds to 1480925099 in concurrent solver 'scip-2'
+initializing seeds to 1330160338 in concurrent solver 'scip-3'
+initializing seeds to 14321799 in concurrent solver 'scip-4'
+initializing seeds to 853493091 in concurrent solver 'scip-5'
+initializing seeds to 699441076 in concurrent solver 'scip-6'
+initializing seeds to 1254621583 in concurrent solver 'scip-7'
+initializing seeds to 1463394392 in concurrent solver 'scip-8'
+starting solve in concurrent solver 'scip-1'
+starting solve in concurrent solver 'scip-3'
+starting solve in concurrent solver 'scip-2'
+starting solve in concurrent solver 'scip-6'
+starting solve in concurrent solver 'scip-7'
+starting solve in concurrent solver 'scip-8'
+starting solve in concurrent solver 'scip-4'
+starting solve in concurrent solver 'scip-5'
+concurrent solver 'scip-1' stopped with status optimal solution found
+concurrent solver 'scip-7' stopped with status optimal solution found
+concurrent solver 'scip-5' stopped with status user interrupt
+concurrent solver 'scip-4' stopped with status user interrupt
+concurrent solver 'scip-6' stopped with status user interrupt
+concurrent solver 'scip-8' stopped with status user interrupt
+concurrent solver 'scip-2' stopped with status user interrupt
+ time | mem |  dualbound   | primalbound  |  gap   
+ 17.0s|  46M| 1.788700e+05 | 1.788700e+05 |   0.00%
+concurrent solver 'scip-3' stopped with status user interrupt
+ 17.0s|  46M| 1.788700e+05 | 1.788700e+05 |   0.00%
+
+SCIP Status        : problem is solved [optimal solution found]
+Solving Time (sec) : 17.00
+Solving Nodes      : 1
+Primal Bound       : +1.78870000000000e+05 (1 solutions)
+Dual Bound         : +1.78870000000000e+05
+Gap                : 0.00 %

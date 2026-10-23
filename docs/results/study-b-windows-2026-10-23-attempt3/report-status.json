@@ -1,0 +1,17 @@
+{
+  "execution_status": "completed",
+  "passed": true,
+  "report": {
+    "figures": 3,
+    "passed": true,
+    "model_defects": [],
+    "candidates_independently_rescored": 99,
+    "invalid_adopted": 0,
+    "completed_records": 144,
+    "scheduled_records": 144,
+    "record_checksums_verified": true
+  },
+  "worker_elapsed_seconds": 75.41254079993814,
+  "worker_exit_code": 0,
+  "worker_log": "report-status.log"
+}

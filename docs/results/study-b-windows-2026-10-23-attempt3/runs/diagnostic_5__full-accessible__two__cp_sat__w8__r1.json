@@ -1,0 +1,104 @@
+{
+  "id": "diagnostic_5__full-accessible__two__cp_sat__w8__r1",
+  "batch": "diagnostic_5",
+  "event": "full-accessible",
+  "configuration": "two",
+  "backend": "cp_sat",
+  "budget_seconds": 5,
+  "repetition": 1,
+  "permutation": false,
+  "workers": 8,
+  "search_seed": 20260918,
+  "execution_status": "completed",
+  "candidate": null,
+  "telemetry": {
+    "backend": "cp_sat",
+    "weighted_proven": false,
+    "stages": [
+      {
+        "api_status": "UNKNOWN",
+        "native_termination": "UNKNOWN",
+        "value": null,
+        "best_bound": null,
+        "proven": false,
+        "absolute_gap": null,
+        "relative_gap": null,
+        "branches": 0,
+        "conflicts": 0,
+        "stage": "weighted_preferences",
+        "workers": 8,
+        "returned_seconds": 5.040652499999851,
+        "native_log": "000.log"
+      }
+    ],
+    "weighted_proof_reported_seconds": null,
+    "weighted_stage_return_seconds": 5.040652499999851,
+    "budget_seconds": 5,
+    "raw_request_sha256": "71a0c47de44c0d8bc7f45056696fd80f43e90e4687f995fd5c8442ecf2d9bae7",
+    "semantic_input_sha256": "64c7264c1b37df9ed2ccca55f911b24fda50f01555a505d959b02f7e016e27df",
+    "normalized_request_sha256": "71a0c47de44c0d8bc7f45056696fd80f43e90e4687f995fd5c8442ecf2d9bae7",
+    "weights": {
+      "contribution_seat": 40,
+      "activeness": 0,
+      "category_zone": 30
+    },
+    "shared_work_elapsed_seconds": 5.040856899693608,
+    "within_shared_allowance": false,
+    "phases": [
+      {
+        "name": "normalization",
+        "start_seconds": 2.2999942302703857e-05,
+        "end_seconds": 0.09882469987496734,
+        "duration_seconds": 0.09880169993266463
+      },
+      {
+        "name": "model_build",
+        "start_seconds": 0.09885129984468222,
+        "end_seconds": 4.467765799723566,
+        "duration_seconds": 4.368914499878883
+      },
+      {
+        "name": "model_updates",
+        "start_seconds": 4.467798499856144,
+        "end_seconds": 4.490803099703044,
+        "duration_seconds": 0.02300459984689951
+      },
+      {
+        "name": "weighted_search",
+        "start_seconds": 4.490869199857116,
+        "end_seconds": 5.040645299945027,
+        "duration_seconds": 0.5497761000879109
+      },
+      {
+        "name": "extraction",
+        "start_seconds": 5.0406698998995125,
+        "end_seconds": 5.04077719990164,
+        "duration_seconds": 0.00010730000212788582
+      }
+    ],
+    "function_return_seconds": 5.044276000000536,
+    "unclassified_function_overhead_seconds": 0.0036718002520501614
+  },
+  "returned_new_map": false,
+  "bridge_preparation_seconds": 0.030500300228595734,
+  "complete_service_return_seconds": 5.061996199656278,
+  "response_bytes": 221,
+  "physical_map_sha256": null,
+  "request_sha256": "71a0c47de44c0d8bc7f45056696fd80f43e90e4687f995fd5c8442ecf2d9bae7",
+  "semantic_input_sha256": "64c7264c1b37df9ed2ccca55f911b24fda50f01555a505d959b02f7e016e27df",
+  "response_path": "main/responses/diagnostic_5__full-accessible__two__cp_sat__w8__r1.json",
+  "response_file_sha256": "aa5f6b9f7f3bfa255f7b856ccfd6386b94ca8724084fd798ad74149e88e2753b",
+  "candidate_path": null,
+  "candidate_file_sha256": null,
+  "pending_candidate_path": null,
+  "pending_candidate_file_sha256": null,
+  "native_log_directory": "main/native/diagnostic_5__full-accessible__two__cp_sat__w8__r1",
+  "memory": {
+    "bytes": 112877568,
+    "method": "Windows process lifetime peak working set; includes native solver threads"
+  },
+  "service_process_cpu_seconds": 5.03125,
+  "worker_elapsed_seconds": 7.087039100006223,
+  "worker_exit_code": 0,
+  "worker_log": "runs/diagnostic_5__full-accessible__two__cp_sat__w8__r1.log"
+}

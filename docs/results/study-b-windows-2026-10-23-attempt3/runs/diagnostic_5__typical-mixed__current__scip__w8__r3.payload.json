@@ -1,0 +1,16 @@
+{
+  "kind": "trial",
+  "directory": "D:\\web-projects\\FYP-Seating-Allocation\\docs\\results\\study-b-windows-2026-10-23-attempt3",
+  "job": {
+    "id": "diagnostic_5__typical-mixed__current__scip__w8__r3",
+    "batch": "diagnostic_5",
+    "event": "typical-mixed",
+    "configuration": "current",
+    "backend": "scip",
+    "budget_seconds": 5,
+    "repetition": 3,
+    "permutation": true,
+    "workers": 8,
+    "search_seed": 20260918
+  }
+}

@@ -1,0 +1,54 @@
+presolving:
+(round 1, fast)       0 del vars, 116 del conss, 0 add conss, 0 chg bounds, 9 chg sides, 0 chg coeffs, 0 upgd conss, 17 impls, 649 clqs, 0 implints
+(round 2, fast)       3 del vars, 116 del conss, 0 add conss, 0 chg bounds, 9 chg sides, 0 chg coeffs, 0 upgd conss, 17 impls, 649 clqs, 0 implints
+(round 3, exhaustive) 3 del vars, 1110 del conss, 0 add conss, 0 chg bounds, 9 chg sides, 0 chg coeffs, 0 upgd conss, 17 impls, 649 clqs, 0 implints
+(round 4, exhaustive) 3 del vars, 1110 del conss, 0 add conss, 0 chg bounds, 9 chg sides, 0 chg coeffs, 925 upgd conss, 17 impls, 649 clqs, 0 implints
+   (0.0s) sparsify aborted: 240/46745 (0.5%) nonzeros canceled - in total 240 canceled nonzeros, 240 changed coefficients, 0 added nonzeros
+(round 5, exhaustive) 3 del vars, 1110 del conss, 0 add conss, 0 chg bounds, 9 chg sides, 240 chg coeffs, 925 upgd conss, 17 impls, 657 clqs, 0 implints
+   (3.0s) probing: 1000/3156 (31.7%) - 0 fixings, 0 aggregations, 2656 implications, 0 bound changes
+   (3.0s) probing: 1001/3156 (31.7%) - 0 fixings, 0 aggregations, 2658 implications, 0 bound changes
+   (3.0s) probing aborted: 1000/1000 successive useless probings
+   Deactivated symmetry handling methods, since SCIP was built without symmetry detector (SYM=none).
+   Deactivated symmetry handling methods, since SCIP was built without symmetry detector (SYM=none).
+presolving (6 rounds: 6 fast, 4 medium, 4 exhaustive):
+ 3 deleted vars, 1110 deleted constraints, 0 added constraints, 0 tightened bounds, 0 added holes, 9 changed sides, 240 changed coefficients
+ 2675 implications, 658 cliques, 0 implied integral variables (0 bin, 0 int, 0 cont)
+presolved problem has 3166 variables (3156 bin, 10 int, 0 cont) and 1282 constraints
+    654 constraints of type <knapsack>
+    272 constraints of type <setppc>
+    356 constraints of type <linear>
+transformed objective value is always integral (scale: 10)
+Presolving Time: 3.00
+initializing seeds to 1480925099 in concurrent solver 'scip-2'
+initializing seeds to 1330160338 in concurrent solver 'scip-3'
+initializing seeds to 14321799 in concurrent solver 'scip-4'
+initializing seeds to 853493091 in concurrent solver 'scip-5'
+initializing seeds to 699441076 in concurrent solver 'scip-6'
+initializing seeds to 1254621583 in concurrent solver 'scip-7'
+initializing seeds to 1463394392 in concurrent solver 'scip-8'
+starting solve in concurrent solver 'scip-2'
+starting solve in concurrent solver 'scip-6'
+starting solve in concurrent solver 'scip-5'
+starting solve in concurrent solver 'scip-7'
+starting solve in concurrent solver 'scip-3'
+starting solve in concurrent solver 'scip-4'
+starting solve in concurrent solver 'scip-1'
+starting solve in concurrent solver 'scip-8'
+concurrent solver 'scip-1' stopped with status optimal solution found
+concurrent solver 'scip-2' stopped with status optimal solution found
+concurrent solver 'scip-5' stopped with status optimal solution found
+concurrent solver 'scip-3' stopped with status optimal solution found
+concurrent solver 'scip-7' stopped with status optimal solution found
+concurrent solver 'scip-4' stopped with status optimal solution found
+concurrent solver 'scip-8' stopped with status optimal solution found
+concurrent solver 'scip-6' stopped with status optimal solution found
+ time | mem |  dualbound   | primalbound  |  gap   
+ 18.0s|  48M| 2.051500e+05 | 2.051500e+05 |   0.00%
+ 18.0s|  48M| 2.051500e+05 | 2.051500e+05 |   0.00%
+
+SCIP Status        : problem is solved [optimal solution found]
+Solving Time (sec) : 18.00
+Solving Nodes      : 9
+Primal Bound       : +2.05150000000000e+05 (3 solutions)
+Dual Bound         : +2.05150000000000e+05
+Gap                : 0.00 %

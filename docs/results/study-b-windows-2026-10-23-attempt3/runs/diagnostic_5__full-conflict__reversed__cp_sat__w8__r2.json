@@ -1,0 +1,70 @@
+{
+  "id": "diagnostic_5__full-conflict__reversed__cp_sat__w8__r2",
+  "batch": "diagnostic_5",
+  "event": "full-conflict",
+  "configuration": "reversed",
+  "backend": "cp_sat",
+  "budget_seconds": 5,
+  "repetition": 2,
+  "permutation": false,
+  "workers": 8,
+  "search_seed": 20260918,
+  "execution_status": "completed",
+  "candidate": null,
+  "telemetry": {
+    "backend": "cp_sat",
+    "weighted_proven": false,
+    "stages": [],
+    "weighted_proof_reported_seconds": null,
+    "weighted_stage_return_seconds": null,
+    "budget_seconds": 5,
+    "raw_request_sha256": "777ccd9aa14b7ef31d880f6356335642f7502c65faae1e279c9dda31db59760f",
+    "semantic_input_sha256": "9bb67c5feaee5bc92d9745189b443ef0c151c86d5655873f59590206a425abc0",
+    "normalized_request_sha256": "777ccd9aa14b7ef31d880f6356335642f7502c65faae1e279c9dda31db59760f",
+    "weights": {
+      "contribution_seat": 20,
+      "activeness": 30,
+      "category_zone": 40
+    },
+    "shared_work_elapsed_seconds": 6.455674800090492,
+    "within_shared_allowance": false,
+    "phases": [
+      {
+        "name": "normalization",
+        "start_seconds": 1.620035618543625e-05,
+        "end_seconds": 0.07751790015026927,
+        "duration_seconds": 0.07750169979408383
+      },
+      {
+        "name": "model_build",
+        "start_seconds": 0.07754440000280738,
+        "end_seconds": 6.4556233999319375,
+        "duration_seconds": 6.37807899992913
+      }
+    ],
+    "function_return_seconds": 6.457754100207239,
+    "unclassified_function_overhead_seconds": 0.0021734004840254784
+  },
+  "returned_new_map": false,
+  "bridge_preparation_seconds": 0.02652199985459447,
+  "complete_service_return_seconds": 6.474440000019968,
+  "response_bytes": 221,
+  "physical_map_sha256": null,
+  "request_sha256": "777ccd9aa14b7ef31d880f6356335642f7502c65faae1e279c9dda31db59760f",
+  "semantic_input_sha256": "9bb67c5feaee5bc92d9745189b443ef0c151c86d5655873f59590206a425abc0",
+  "response_path": "main/responses/diagnostic_5__full-conflict__reversed__cp_sat__w8__r2.json",
+  "response_file_sha256": "aa5f6b9f7f3bfa255f7b856ccfd6386b94ca8724084fd798ad74149e88e2753b",
+  "candidate_path": null,
+  "candidate_file_sha256": null,
+  "pending_candidate_path": null,
+  "pending_candidate_file_sha256": null,
+  "native_log_directory": "main/native/diagnostic_5__full-conflict__reversed__cp_sat__w8__r2",
+  "memory": {
+    "bytes": 101928960,
+    "method": "Windows process lifetime peak working set; includes native solver threads"
+  },
+  "service_process_cpu_seconds": 6.453125,
+  "worker_elapsed_seconds": 8.446561200078577,
+  "worker_exit_code": 0,
+  "worker_log": "runs/diagnostic_5__full-conflict__reversed__cp_sat__w8__r2.log"
+}
