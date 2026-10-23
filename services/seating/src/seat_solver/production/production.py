@@ -86,7 +86,11 @@ def build(request, cfg, domains=None):
         pid = p["participant_id"]
         opts = options(request, p)
         if domains is not None:
-            opts = [o for o in opts if tuple(sorted(s["seat_id"] for s in o)) in domains[pid]]
+            opts = [
+                o
+                for o in opts
+                if tuple(sorted(s["seat_id"] for s in o)) in domains[pid]
+            ]
         if allowed is not None:
             opts = [o for o in opts if o[0]["row_number"] in allowed[pid]]
         opts = sorted(opts, key=lambda o: tuple(s["seat_id"] for s in o))
@@ -94,7 +98,11 @@ def build(request, cfg, domains=None):
         option_by[pid] = opts
         for j, o in enumerate(opts):
             # Frozen registrations are constants, not decision variables.
-            v = 1 if domains is not None and len(opts) == 1 else model.NewBoolVar(f"assign[{pid},{j}]")
+            v = (
+                1
+                if domains is not None and len(opts) == 1
+                else model.NewBoolVar(f"assign[{pid},{j}]")
+            )
             vs.append(v)
             for s in o:
                 occupants[s["seat_id"]].append(v)
@@ -104,8 +112,10 @@ def build(request, cfg, domains=None):
         rowexpr[pid] = sum(v * o[0]["row_number"] for v, o in zip(vs, opts))
         # Row-major priority includes BOTH physical seats of an Emperor option.
         orders = [
-            [(s["row_number"] - 1) * layout["seats_per_row"] + s["priority_rank"]
-             for s in o]
+            [
+                (s["row_number"] - 1) * layout["seats_per_row"] + s["priority_rank"]
+                for s in o
+            ]
             for o in opts
         ]
         bestexpr[pid] = sum(v * min(order) for v, order in zip(vs, orders))
@@ -125,15 +135,19 @@ def build(request, cfg, domains=None):
                 )
         ordered = sorted(levels)
         for i, (a, b) in enumerate(zip(ordered, ordered[1:])):
-            boundary = model.NewIntVar(1, layout["row_count"], f"row_boundary[{tier},{i}]")
+            boundary = model.NewIntVar(
+                1, layout["row_count"], f"row_boundary[{tier},{i}]"
+            )
             for expr in levels[a]:
                 model.Add(expr <= boundary)
             for expr in levels[b]:
                 model.Add(expr >= boundary)
     # C12: all seats of a higher tier precede every seat of the next nonempty
     # tier. Adjacent nonempty boundaries imply every cross-tier comparison.
-    tiers = [[p["participant_id"] for p in ps if p["contribution_tier"] == tier]
-             for tier in TIERS]
+    tiers = [
+        [p["participant_id"] for p in ps if p["contribution_tier"] == tier]
+        for tier in TIERS
+    ]
     tiers = [members for members in tiers if members]
     for i, (higher, lower) in enumerate(zip(tiers, tiers[1:])):
         boundary = model.NewIntVar(
@@ -147,7 +161,9 @@ def build(request, cfg, domains=None):
         model.Add(occ[outer] <= occ[inner])
     demand = sum(2 if p["contribution_tier"] == "EMPEROR" else 1 for p in ps)
     for r in range(1, layout["row_count"] + 1):
-        seats = [s for s in layout["seats"] if s["row_number"] == r and not s["is_blocked"]]
+        seats = [
+            s for s in layout["seats"] if s["row_number"] == r and not s["is_blocked"]
+        ]
         target = min(demand, len(seats))
         demand -= target
         model.Add(sum(occ[s["seat_id"]] for s in seats) == target)
@@ -161,7 +177,10 @@ def solve(request):
     try:
         request = validate_request(request)
         if request["generation_mode"] == "REPAIR_ABSENCE":
-            raise DomainError("INVALID_INPUT", "Absence repair requires the separate saved-workspace repair operation")
+            raise DomainError(
+                "INVALID_INPUT",
+                "Absence repair requires the separate saved-workspace repair operation",
+            )
         cfg = policy()
         timing["input_validation"] = time.perf_counter() - started
         ps = eligible(request)
@@ -183,9 +202,7 @@ def solve(request):
         deadline = started + request["solver"]["max_time_seconds"]
         t = time.perf_counter()
         model, variables, opts, stages, canon = build(request, cfg)
-        timing["model_build"] = (
-            timing.get("model_build", 0) + time.perf_counter() - t
-        )
+        timing["model_build"] = timing.get("model_build", 0) + time.perf_counter() - t
         solutions = None
         proof = []
         status_name = "UNKNOWN"
@@ -301,7 +318,7 @@ def solve(request):
                 {"participant_id": pid, "seat_ids": ids}
                 for pid, ids in solutions.items()
             ],
-            )
+        )
         timing["independent_validation"] = time.perf_counter() - t
         if not audit["passed"]:
             return error(
@@ -315,7 +332,7 @@ def solve(request):
             "proof": proof,
             "canonicalization_complete": canonical_complete,
             "optimality_scope": "full_model",
-        "wall_time_seconds": timing.get("solver", 0),
+            "wall_time_seconds": timing.get("solver", 0),
             "timing": timing,
             "end_to_end_seconds": time.perf_counter() - started,
             "num_boolean_variables": sum(len(v) for v in variables.values()),
@@ -509,7 +526,12 @@ def format_result(request, placements, stats):
             s for s in lookup if s not in seat_owner and not lookup[s]["is_blocked"]
         ],
         "excluded_participants": [
-            {"participant_id": p["participant_id"], "reason": "ABSENT" if request.get("attendance", {}).get(p["participant_id"]) == "ABSENT" else p["registration_status"]}
+            {
+                "participant_id": p["participant_id"],
+                "reason": "ABSENT"
+                if request.get("attendance", {}).get(p["participant_id"]) == "ABSENT"
+                else p["registration_status"],
+            }
             for p in request["participants"]
             if p not in ps
         ],

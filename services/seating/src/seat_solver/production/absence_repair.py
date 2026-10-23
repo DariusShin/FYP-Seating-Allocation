@@ -11,6 +11,7 @@ The generation solver is never called. Registrations outside the current row
 neighbourhood remain constants in the shared hard-rule model. Optimality is
 scoped to the first feasible neighbourhood, not claimed for the entire hall.
 """
+
 import copy
 import time
 
@@ -31,10 +32,14 @@ def movement(ids, previous, seats):
         return 1, 0
     if set(ids) == set(previous):
         return 0, 0
+
     def centre(bundle, key):
         return 2 * sum(seats[s][key] for s in bundle) // len(bundle)
-    return 1, sum(abs(centre(ids, k) - centre(previous, k))
-                  for k in ("row_number", "physical_position"))
+
+    return 1, sum(
+        abs(centre(ids, k) - centre(previous, k))
+        for k in ("row_number", "physical_position")
+    )
 
 
 def shift_forward_solutions(request, people, baseline, absent, state, seats):
@@ -54,7 +59,9 @@ def shift_forward_solutions(request, people, baseline, absent, state, seats):
     tier seated behind the hole. Emperor units move as whole approved pairs
     only. Returns (placements, scope_rows) or None to decline to CP-SAT.
     """
-    previous = {pid: state["items"][pid].get("previous_seat_ids") or [] for pid in absent}
+    previous = {
+        pid: state["items"][pid].get("previous_seat_ids") or [] for pid in absent
+    }
     if any(not ids for ids in previous.values()):
         return None
     cells = sorted(
@@ -83,8 +90,11 @@ def shift_forward_solutions(request, people, baseline, absent, state, seats):
                 return None
             meta[pid] = {**info, "origin": frozenset(home), "span": set(home)}
         else:
-            old = [index_of[s] for s in state["items"][pid].get("previous_seat_ids") or []
-                   if s in index_of]
+            old = [
+                index_of[s]
+                for s in state["items"][pid].get("previous_seat_ids") or []
+                if s in index_of
+            ]
             docked.append({**info, "pid": pid, "origin": old})
     docked.sort(key=lambda d: (TIERS.index(d["tier"]), d["pid"]))
     occupied = set().union(*(m["span"] for m in meta.values())) if meta else set()
@@ -121,17 +131,20 @@ def shift_forward_solutions(request, people, baseline, absent, state, seats):
         return True
 
     def gate(d, target):
-        return overtakes(target, min(d["origin"]) if d["origin"] else 0,
-                         d["tier"], d["amount"]) and c13_fits(
-            d["tier"], d["amount"], row_of([target]))
+        return overtakes(
+            target, min(d["origin"]) if d["origin"] else 0, d["tier"], d["amount"]
+        ) and c13_fits(d["tier"], d["amount"], row_of([target]))
 
     def occupied_now():
         return set().union(*(m["span"] for m in meta.values())) if meta else set()
 
     def take(mover, span):
         if isinstance(mover, dict):
-            meta[mover["pid"]] = {**mover, "origin": frozenset(mover["origin"]),
-                                  "span": set(span)}
+            meta[mover["pid"]] = {
+                **mover,
+                "origin": frozenset(mover["origin"]),
+                "span": set(span),
+            }
             docked.remove(mover)
         else:
             meta[mover]["span"] = set(span)
@@ -148,41 +161,69 @@ def shift_forward_solutions(request, people, baseline, absent, state, seats):
         mover = None
         span = None
         if a + 1 < len(cells) and a + 1 not in occ:
-            key = tuple(sorted((cells[a]["physical_position"], cells[a + 1]["physical_position"])))
+            key = tuple(
+                sorted(
+                    (cells[a]["physical_position"], cells[a + 1]["physical_position"])
+                )
+            )
             if key in approved:
-                pair_accessible = cells[a]["is_accessible"] and cells[a + 1]["is_accessible"]
-                mover = next((d for d in docked
-                              if d["emperor"]
-                              and (not d["accessible"] or pair_accessible)
-                              and tier_rank[d["tier"]] <= floor_tier
-                              and gate(d, a)), None)
+                pair_accessible = (
+                    cells[a]["is_accessible"] and cells[a + 1]["is_accessible"]
+                )
+                mover = next(
+                    (
+                        d
+                        for d in docked
+                        if d["emperor"]
+                        and (not d["accessible"] or pair_accessible)
+                        and tier_rank[d["tier"]] <= floor_tier
+                        and gate(d, a)
+                    ),
+                    None,
+                )
                 if mover is None:
                     candidates = [
-                        pid for pid in behind
+                        pid
+                        for pid in behind
                         if meta[pid]["emperor"]
                         and (not meta[pid]["accessible"] or pair_accessible)
                         and tier_rank[meta[pid]["tier"]] <= floor_tier
-                        and overtakes(a, min(meta[pid]["span"]),
-                                      meta[pid]["tier"], meta[pid]["amount"])
+                        and overtakes(
+                            a,
+                            min(meta[pid]["span"]),
+                            meta[pid]["tier"],
+                            meta[pid]["amount"],
+                        )
                     ]
                     if candidates:
                         mover = max(candidates, key=lambda pid: min(meta[pid]["span"]))
                 if mover is not None:
                     span = (a, a + 1)
         if mover is None:
-            mover = next((d for d in docked
-                          if not d["emperor"]
-                          and (not d["accessible"] or cells[a]["is_accessible"])
-                          and tier_rank[d["tier"]] <= floor_tier
-                          and gate(d, a)), None)
+            mover = next(
+                (
+                    d
+                    for d in docked
+                    if not d["emperor"]
+                    and (not d["accessible"] or cells[a]["is_accessible"])
+                    and tier_rank[d["tier"]] <= floor_tier
+                    and gate(d, a)
+                ),
+                None,
+            )
             if mover is None:
                 candidates = [
-                    pid for pid in behind
+                    pid
+                    for pid in behind
                     if not meta[pid]["emperor"]
                     and (not meta[pid]["accessible"] or cells[a]["is_accessible"])
                     and tier_rank[meta[pid]["tier"]] <= floor_tier
-                    and overtakes(a, min(meta[pid]["span"]),
-                                  meta[pid]["tier"], meta[pid]["amount"])
+                    and overtakes(
+                        a,
+                        min(meta[pid]["span"]),
+                        meta[pid]["tier"],
+                        meta[pid]["amount"],
+                    )
                 ]
                 if not candidates:
                     return None
@@ -195,22 +236,37 @@ def shift_forward_solutions(request, people, baseline, absent, state, seats):
             span = None
             if d["emperor"]:
                 if a + 1 < len(cells) and a + 1 not in occupied_now():
-                    key = tuple(sorted((cells[a]["physical_position"],
-                                        cells[a + 1]["physical_position"])))
-                    if (key in approved
-                            and (not d["accessible"]
-                                 or (cells[a]["is_accessible"] and cells[a + 1]["is_accessible"]))):
+                    key = tuple(
+                        sorted(
+                            (
+                                cells[a]["physical_position"],
+                                cells[a + 1]["physical_position"],
+                            )
+                        )
+                    )
+                    if key in approved and (
+                        not d["accessible"]
+                        or (cells[a]["is_accessible"] and cells[a + 1]["is_accessible"])
+                    ):
                         span = (a, a + 1)
-            elif a not in occupied_now() and (not d["accessible"] or cells[a]["is_accessible"]):
+            elif a not in occupied_now() and (
+                not d["accessible"] or cells[a]["is_accessible"]
+            ):
                 span = (a,)
             if span is None:
                 continue
             occ = occupied_now()
-            if any(tier_rank[m["tier"]] < tier_rank[d["tier"]]
-                   and max(m["span"]) >= span[0] for m in meta.values()):
+            if any(
+                tier_rank[m["tier"]] < tier_rank[d["tier"]]
+                and max(m["span"]) >= span[0]
+                for m in meta.values()
+            ):
                 continue
-            if any(tier_rank[m["tier"]] > tier_rank[d["tier"]]
-                   and min(m["span"]) <= span[-1] for m in meta.values()):
+            if any(
+                tier_rank[m["tier"]] > tier_rank[d["tier"]]
+                and min(m["span"]) <= span[-1]
+                for m in meta.values()
+            ):
                 continue
             if not gate(d, span[0]):
                 continue
@@ -231,14 +287,16 @@ def shift_forward_solutions(request, people, baseline, absent, state, seats):
             solutions[pid] = list(baseline[pid])
         else:
             solutions[pid] = [cells[i]["seat_id"] for i in sorted(m["span"])]
-    audit = validate_placements(request, [
-        {"participant_id": pid, "seat_ids": ids} for pid, ids in solutions.items()
-    ])
+    audit = validate_placements(
+        request,
+        [{"participant_id": pid, "seat_ids": ids} for pid, ids in solutions.items()],
+    )
     if not audit["passed"]:
         return None
     moved_rows = {
         cells[i]["row_number"]
-        for m in meta.values() if m["span"] != m["origin"]
+        for m in meta.values()
+        if m["span"] != m["origin"]
         for i in m["span"] | set(m["origin"])
     }
     return solutions, sorted(moved_rows | {cells[i]["row_number"] for i in gap})
@@ -251,24 +309,49 @@ def repair(plan, state, preferences=None):
     if preferences is not None:
         request["preferences"] = copy.deepcopy(preferences)
     from seat_solver.production.policy import validate_request
+
     validate_request(request)
     seats = {s["seat_id"]: s for s in request["layout"]["seats"]}
     people = eligible(request)
-    baseline = {p["participant_id"]: state["items"][p["participant_id"]]["seat_ids"] for p in people}
-    docked_present = [p["participant_id"] for p in people if not baseline[p["participant_id"]]]
+    baseline = {
+        p["participant_id"]: state["items"][p["participant_id"]]["seat_ids"]
+        for p in people
+    }
+    docked_present = [
+        p["participant_id"] for p in people if not baseline[p["participant_id"]]
+    ]
     if any(state["items"][pid].get("dock_reason") for pid in docked_present):
-        raise DomainError("INVALID_INPUT", "Seat present registrations from the temporary dock before absence repair")
-    absent = [pid for pid, item in state["items"].items() if item.get("attendance_status", "PRESENT") == "ABSENT"]
+        raise DomainError(
+            "INVALID_INPUT",
+            "Seat present registrations from the temporary dock before absence repair",
+        )
+    absent = [
+        pid
+        for pid, item in state["items"].items()
+        if item.get("attendance_status", "PRESENT") == "ABSENT"
+    ]
     if not absent:
-        raise DomainError("INVALID_INPUT", "Absence repair requires an absent registration")
-    seeds = {seats[s]["row_number"] for pid in absent for s in state["items"][pid]["previous_seat_ids"]}
+        raise DomainError(
+            "INVALID_INPUT", "Absence repair requires an absent registration"
+        )
+    seeds = {
+        seats[s]["row_number"]
+        for pid in absent
+        for s in state["items"][pid]["previous_seat_ids"]
+    }
     for pid in docked_present:
-        seeds.update(seats[s]["row_number"] for s in state["items"][pid].get("previous_seat_ids") or [])
+        seeds.update(
+            seats[s]["row_number"]
+            for s in state["items"][pid].get("previous_seat_ids") or []
+        )
     seeds = seeds or {1}
     deadline = started + request["solver"]["max_time_seconds"]
     attempts = []
     solutions = baseline
-    audit = validate_placements(request, [{"participant_id": pid, "seat_ids": ids} for pid, ids in baseline.items()])
+    audit = validate_placements(
+        request,
+        [{"participant_id": pid, "seat_ids": ids} for pid, ids in baseline.items()],
+    )
     proof = []
     scope = []
     variable_count = 0
@@ -281,45 +364,73 @@ def repair(plan, state, preferences=None):
     if fast is not None:
         solutions, fast_rows = fast
         scope = fast_rows
-        attempts.append({"rows": fast_rows, "status": "OPTIMAL", "engine": "shift-forward"})
+        attempts.append(
+            {"rows": fast_rows, "status": "OPTIMAL", "engine": "shift-forward"}
+        )
     elif not audit["passed"]:
         solutions = None
         for radius in range(request["layout"]["row_count"]):
-            scope = sorted(r for r in range(1, request["layout"]["row_count"] + 1)
-                           if min(abs(r - seed) for seed in seeds) <= radius)
+            scope = sorted(
+                r
+                for r in range(1, request["layout"]["row_count"] + 1)
+                if min(abs(r - seed) for seed in seeds) <= radius
+            )
             domains = {}
             for p in people:
                 pid = p["participant_id"]
                 if not baseline[pid]:
-                    domains[pid] = {tuple(sorted(s["seat_id"] for s in o)) for o in options(request, p)
-                                    if o[0]["row_number"] in scope}
+                    domains[pid] = {
+                        tuple(sorted(s["seat_id"] for s in o))
+                        for o in options(request, p)
+                        if o[0]["row_number"] in scope
+                    }
                 elif seats[baseline[pid][0]]["row_number"] in scope:
-                    domains[pid] = {tuple(sorted(s["seat_id"] for s in o)) for o in options(request, p) if o[0]["row_number"] in scope}
+                    domains[pid] = {
+                        tuple(sorted(s["seat_id"] for s in o))
+                        for o in options(request, p)
+                        if o[0]["row_number"] in scope
+                    }
                 else:
                     domains[pid] = {tuple(sorted(baseline[pid]))}
-            model, variables, opts, preference_stages, _ = build(request, policy(), domains)
-            variable_count = sum(not isinstance(v, int) for vs in variables.values() for v in vs)
+            model, variables, opts, preference_stages, _ = build(
+                request, policy(), domains
+            )
+            variable_count = sum(
+                not isinstance(v, int) for vs in variables.values() for v in vs
+            )
             integer_count = len(model.Proto().variables) - variable_count
             constraint_count = len(model.Proto().constraints)
             moved = distance = 0
             for pid, vs in variables.items():
                 for v, option in zip(vs, opts[pid]):
-                    m, d = movement([s["seat_id"] for s in option], baseline[pid], seats)
+                    m, d = movement(
+                        [s["seat_id"] for s in option], baseline[pid], seats
+                    )
                     moved += v * m
                     distance += v * d
             proof = []
             infeasible = False
-            for name, expr in [("moved_registrations", moved), ("movement_distance_doubled", distance), *preference_stages]:
+            for name, expr in [
+                ("moved_registrations", moved),
+                ("movement_distance_doubled", distance),
+                *preference_stages,
+            ]:
                 remaining = deadline - time.perf_counter()
                 if remaining <= 0:
                     if solutions is None:
-                        return error("REPAIR_TIMEOUT", "Repair time limit reached before finding a valid seating plan; saved and published maps are unchanged", {"attempts": attempts})
+                        return error(
+                            "REPAIR_TIMEOUT",
+                            "Repair time limit reached before finding a valid seating plan; saved and published maps are unchanged",
+                            {"attempts": attempts},
+                        )
                     business_optimal = False
                     stopped_stage = name
                     break
                 engine = cp_model.CpSolver()
                 engine.parameters.max_time_in_seconds = remaining
-                engine.parameters.num_search_workers = request["solver"]["num_search_workers"]
+                engine.parameters.num_search_workers = request["solver"][
+                    "num_search_workers"
+                ]
                 engine.parameters.random_seed = request["solver"]["random_seed"]
                 model.Minimize(expr)
                 status = engine.Solve(model)
@@ -329,24 +440,45 @@ def repair(plan, state, preferences=None):
                     break
                 if status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
                     if status == cp_model.MODEL_INVALID:
-                        return error("REPAIR_MODEL_INVALID", "Repair model could not be solved", {"attempts": attempts, "stage": name})
+                        return error(
+                            "REPAIR_MODEL_INVALID",
+                            "Repair model could not be solved",
+                            {"attempts": attempts, "stage": name},
+                        )
                     if solutions is None:
-                        return error("REPAIR_NO_SOLUTION", "Repair search ended before finding a valid seating plan; try again", {"attempts": attempts, "stage": name})
+                        return error(
+                            "REPAIR_NO_SOLUTION",
+                            "Repair search ended before finding a valid seating plan; try again",
+                            {"attempts": attempts, "stage": name},
+                        )
                     # A later stage may time out without an incumbent of its own.
                     # Keep the valid placement captured by the preceding stage.
                     business_optimal = False
                     stopped_stage = name
                     break
                 solutions = {
-                    pid: [s["seat_id"] for v, option in zip(variables[pid], opts[pid])
-                          if engine.Value(v) for s in option]
+                    pid: [
+                        s["seat_id"]
+                        for v, option in zip(variables[pid], opts[pid])
+                        if engine.Value(v)
+                        for s in option
+                    ]
                     for pid in variables
                 }
                 conflicts, branches = engine.NumConflicts(), engine.NumBranches()
                 value = int(engine.Value(expr))
                 bound = engine.BestObjectiveBound()
-                proof.append({"stage": name, "status": "OPTIMAL" if status == cp_model.OPTIMAL else "FEASIBLE",
-                              "value": value, "best_bound": bound, "absolute_gap": max(0, value - bound)})
+                proof.append(
+                    {
+                        "stage": name,
+                        "status": "OPTIMAL"
+                        if status == cp_model.OPTIMAL
+                        else "FEASIBLE",
+                        "value": value,
+                        "best_bound": bound,
+                        "absolute_gap": max(0, value - bound),
+                    }
+                )
                 if status == cp_model.FEASIBLE:
                     # Movement remains the active objective throughout this search.
                     # Return the best valid incumbent without requiring a proof or
@@ -357,41 +489,88 @@ def repair(plan, state, preferences=None):
                 model.Add(expr == value)
             if infeasible:
                 continue
-            attempts.append({"rows": scope, "status": "OPTIMAL" if business_optimal else "FEASIBLE"})
+            attempts.append(
+                {"rows": scope, "status": "OPTIMAL" if business_optimal else "FEASIBLE"}
+            )
             break
     if solutions is None:
-        return error("REPAIR_INFEASIBLE", "No repair satisfies compulsory seating rules, even after expanding across the hall", {"attempts": attempts})
-    audit = validate_placements(request, [{"participant_id": pid, "seat_ids": ids} for pid, ids in solutions.items()])
+        return error(
+            "REPAIR_INFEASIBLE",
+            "No repair satisfies compulsory seating rules, even after expanding across the hall",
+            {"attempts": attempts},
+        )
+    audit = validate_placements(
+        request,
+        [{"participant_id": pid, "seat_ids": ids} for pid, ids in solutions.items()],
+    )
     if not audit["passed"]:
-        return error("OUTPUT_VALIDATION_FAILED", "Independent repair validation failed", audit)
-    engine_name = ("Deterministic shift-forward repair" if fast is not None
-                   else "Google OR-Tools CP-SAT incremental repair")
+        return error(
+            "OUTPUT_VALIDATION_FAILED", "Independent repair validation failed", audit
+        )
+    engine_name = (
+        "Deterministic shift-forward repair"
+        if fast is not None
+        else "Google OR-Tools CP-SAT incremental repair"
+    )
     # Preference delta over the population seated both before and after, so
     # restored registrations without a baseline never skew the comparison.
     seated_before = {pid: ids for pid, ids in baseline.items() if ids}
+
     def weighted_total(placements):
         return sum(
-            candidate_cost(request, policy(), p, [seats[s] for s in placements[p["participant_id"]]])["weighted"]["total"]
-            for p in people if p["participant_id"] in placements)
+            candidate_cost(
+                request,
+                policy(),
+                p,
+                [seats[s] for s in placements[p["participant_id"]]],
+            )["weighted"]["total"]
+            for p in people
+            if p["participant_id"] in placements
+        )
+
     preference_before = weighted_total(seated_before)
     preference_after = weighted_total({pid: solutions[pid] for pid in seated_before})
-    changes = [{"participant_id": pid, "from_seat_ids": baseline[pid], "to_seat_ids": ids,
-                "distance_doubled": movement(ids, baseline[pid], seats)[1]}
-               for pid, ids in solutions.items() if set(ids) != set(baseline[pid])]
-    stats = {"engine": engine_name, "status": "OPTIMAL" if business_optimal else "FEASIBLE", "proof": proof,
-             "canonicalization_complete": False, "optimality_scope": "repair_neighbourhood", "wall_time_seconds": time.perf_counter() - started,
-             "num_boolean_variables": variable_count, "num_integer_variables": integer_count,
-             "num_constraints": constraint_count, "num_conflicts": conflicts, "num_branches": branches}
+    changes = [
+        {
+            "participant_id": pid,
+            "from_seat_ids": baseline[pid],
+            "to_seat_ids": ids,
+            "distance_doubled": movement(ids, baseline[pid], seats)[1],
+        }
+        for pid, ids in solutions.items()
+        if set(ids) != set(baseline[pid])
+    ]
+    stats = {
+        "engine": engine_name,
+        "status": "OPTIMAL" if business_optimal else "FEASIBLE",
+        "proof": proof,
+        "canonicalization_complete": False,
+        "optimality_scope": "repair_neighbourhood",
+        "wall_time_seconds": time.perf_counter() - started,
+        "num_boolean_variables": variable_count,
+        "num_integer_variables": integer_count,
+        "num_constraints": constraint_count,
+        "num_conflicts": conflicts,
+        "num_branches": branches,
+    }
     result = format_result(request, solutions, stats)
     result["repair_baseline"] = copy.deepcopy(baseline)
-    result["repair_summary"] = {"baseline_plan_version_id": plan["plan_version_id"], "absent_registration_ids": absent,
-                                "moved_registrations": len(changes), "moved_physical_seats": sum(len(c["to_seat_ids"]) for c in changes),
-                                "distance_doubled": sum(c["distance_doubled"] for c in changes), "changes": changes, "attempts": attempts,
-                                "scope_rows": scope, "optimality_scope": "repair_neighbourhood",
-                                "optimality_proven": business_optimal, "stopped_stage": stopped_stage,
-                                "engine": engine_name,
-                                "preference_cost_before": preference_before,
-                                "preference_cost_after": preference_after}
+    result["repair_summary"] = {
+        "baseline_plan_version_id": plan["plan_version_id"],
+        "absent_registration_ids": absent,
+        "moved_registrations": len(changes),
+        "moved_physical_seats": sum(len(c["to_seat_ids"]) for c in changes),
+        "distance_doubled": sum(c["distance_doubled"] for c in changes),
+        "changes": changes,
+        "attempts": attempts,
+        "scope_rows": scope,
+        "optimality_scope": "repair_neighbourhood",
+        "optimality_proven": business_optimal,
+        "stopped_stage": stopped_stage,
+        "engine": engine_name,
+        "preference_cost_before": preference_before,
+        "preference_cost_after": preference_after,
+    }
     result["operations"] = copy.deepcopy(state["items"])
     for pid, ids in solutions.items():
         item = result["operations"][pid]
@@ -402,5 +581,6 @@ def repair(plan, state, preferences=None):
         item["seat_ids"] = ids
         item["dock_reason"] = ""
     from seat_solver.production.workspace import apply_display
+
     apply_display(result, result["operations"])
     return result

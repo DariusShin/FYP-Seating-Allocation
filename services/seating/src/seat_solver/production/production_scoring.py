@@ -5,8 +5,13 @@ from seat_solver.production.policy import ELIGIBLE, mapped_weights
 
 def eligible(request):
     return sorted(
-        (p for p in request["participants"] if p["registration_status"] in ELIGIBLE
-         and request.get("attendance", {}).get(p["participant_id"], "PRESENT") != "ABSENT"),
+        (
+            p
+            for p in request["participants"]
+            if p["registration_status"] in ELIGIBLE
+            and request.get("attendance", {}).get(p["participant_id"], "PRESENT")
+            != "ABSENT"
+        ),
         key=lambda p: p["participant_id"],
     )
 
@@ -99,11 +104,17 @@ def packing_pairs(layout):
     for r in range(1, layout["row_count"] + 1):
         ordered = []
         for side, reverse in [("RIGHT", False), ("LEFT", True)]:
-            ordered.extend(sorted(
-                (s for s in available if s["row_number"] == r and s["side"] == side),
-                key=lambda s: s["physical_position"],
-                reverse=reverse,
-            ))
+            ordered.extend(
+                sorted(
+                    (
+                        s
+                        for s in available
+                        if s["row_number"] == r and s["side"] == side
+                    ),
+                    key=lambda s: s["physical_position"],
+                    reverse=reverse,
+                )
+            )
         # All inversions, including east-before-west, for audit diagnostics.
         comparisons.extend(
             (a["seat_id"], b["seat_id"])
