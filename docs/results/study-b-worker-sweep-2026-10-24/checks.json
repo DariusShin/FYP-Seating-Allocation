@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "model_defects": [],
+  "candidates_independently_rescored": 96,
+  "invalid_adopted": 0,
+  "completed_records": 96,
+  "scheduled_records": 96,
+  "record_checksums_verified": true
+}

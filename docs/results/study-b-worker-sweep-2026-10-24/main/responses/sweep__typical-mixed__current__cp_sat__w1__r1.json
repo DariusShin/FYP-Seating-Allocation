@@ -1,0 +1,13 @@
+{
+  "schema_version": "2.0.0",
+  "status": "error",
+  "error": {
+    "code": "ALLOCATION_ALLOWANCE_EXCEEDED",
+    "message": "Weighted search returned after the shared allowance",
+    "details": {
+      "candidate_valid": true,
+      "weighted_proven": false
+    },
+    "solver_status": "FEASIBLE"
+  }
+}

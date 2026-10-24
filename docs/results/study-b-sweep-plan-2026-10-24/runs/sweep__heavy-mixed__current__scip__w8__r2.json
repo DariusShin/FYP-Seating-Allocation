@@ -1,0 +1,15 @@
+{
+  "id": "sweep__heavy-mixed__current__scip__w8__r2",
+  "batch": "sweep",
+  "event": "heavy-mixed",
+  "configuration": "current",
+  "backend": "scip",
+  "budget_seconds": 60,
+  "repetition": 2,
+  "permutation": false,
+  "workers": 8,
+  "search_seed": 20260918,
+  "execution_status": "not_started",
+  "returned_new_map": false,
+  "reason": "Not executed (plan-sweep)"
+}

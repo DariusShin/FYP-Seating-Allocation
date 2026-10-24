@@ -1,0 +1,774 @@
+{
+  "id": "sweep__typical-mixed__current__scip__w2__r2",
+  "batch": "sweep",
+  "event": "typical-mixed",
+  "configuration": "current",
+  "backend": "scip",
+  "budget_seconds": 60,
+  "repetition": 2,
+  "permutation": false,
+  "workers": 2,
+  "search_seed": 20260918,
+  "execution_status": "completed",
+  "candidate": {
+    "valid": true,
+    "validation": {
+      "passed": true,
+      "issues": []
+    },
+    "placements": [
+      {
+        "participant_id": "P0001",
+        "seat_ids": [
+          "R01-S13",
+          "R01-S14"
+        ]
+      },
+      {
+        "participant_id": "P0002",
+        "seat_ids": [
+          "R02-S03",
+          "R02-S04"
+        ]
+      },
+      {
+        "participant_id": "P0003",
+        "seat_ids": [
+          "R02-S15",
+          "R02-S16"
+        ]
+      },
+      {
+        "participant_id": "P0004",
+        "seat_ids": [
+          "R05-S05",
+          "R05-S06"
+        ]
+      },
+      {
+        "participant_id": "P0005",
+        "seat_ids": [
+          "R08-S03",
+          "R08-S04"
+        ]
+      },
+      {
+        "participant_id": "P0006",
+        "seat_ids": [
+          "R07-S03",
+          "R07-S04"
+        ]
+      },
+      {
+        "participant_id": "P0007",
+        "seat_ids": [
+          "R05-S01",
+          "R05-S02"
+        ]
+      },
+      {
+        "participant_id": "P0008",
+        "seat_ids": [
+          "R07-S07",
+          "R07-S08"
+        ]
+      },
+      {
+        "participant_id": "P0009",
+        "seat_ids": [
+          "R04-S09",
+          "R04-S10"
+        ]
+      },
+      {
+        "participant_id": "P0010",
+        "seat_ids": [
+          "R03-S15",
+          "R03-S16"
+        ]
+      },
+      {
+        "participant_id": "P0011",
+        "seat_ids": [
+          "R05-S07",
+          "R05-S08"
+        ]
+      },
+      {
+        "participant_id": "P0012",
+        "seat_ids": [
+          "R09-S09",
+          "R09-S10"
+        ]
+      },
+      {
+        "participant_id": "P0013",
+        "seat_ids": [
+          "R01-S01",
+          "R01-S02"
+        ]
+      },
+      {
+        "participant_id": "P0014",
+        "seat_ids": [
+          "R02-S05",
+          "R02-S06"
+        ]
+      },
+      {
+        "participant_id": "P0015",
+        "seat_ids": [
+          "R04-S13",
+          "R04-S14"
+        ]
+      },
+      {
+        "participant_id": "P0016",
+        "seat_ids": [
+          "R09-S13",
+          "R09-S14"
+        ]
+      },
+      {
+        "participant_id": "P0017",
+        "seat_ids": [
+          "R01-S09",
+          "R01-S10"
+        ]
+      },
+      {
+        "participant_id": "P0018",
+        "seat_ids": [
+          "R05-S09",
+          "R05-S10"
+        ]
+      },
+      {
+        "participant_id": "P0019",
+        "seat_ids": [
+          "R04-S11",
+          "R04-S12"
+        ]
+      },
+      {
+        "participant_id": "P0020",
+        "seat_ids": [
+          "R07-S15",
+          "R07-S16"
+        ]
+      },
+      {
+        "participant_id": "P0021",
+        "seat_ids": [
+          "R04-S05",
+          "R04-S06"
+        ]
+      },
+      {
+        "participant_id": "P0022",
+        "seat_ids": [
+          "R03-S07",
+          "R03-S08"
+        ]
+      },
+      {
+        "participant_id": "P0023",
+        "seat_ids": [
+          "R06-S13",
+          "R06-S14"
+        ]
+      },
+      {
+        "participant_id": "P0024",
+        "seat_ids": [
+          "R06-S15",
+          "R06-S16"
+        ]
+      },
+      {
+        "participant_id": "P0025",
+        "seat_ids": [
+          "R03-S13",
+          "R03-S14"
+        ]
+      },
+      {
+        "participant_id": "P0026",
+        "seat_ids": [
+          "R06-S03",
+          "R06-S04"
+        ]
+      },
+      {
+        "participant_id": "P0027",
+        "seat_ids": [
+          "R03-S05",
+          "R03-S06"
+        ]
+      },
+      {
+        "participant_id": "P0028",
+        "seat_ids": [
+          "R08-S13",
+          "R08-S14"
+        ]
+      },
+      {
+        "participant_id": "P0029",
+        "seat_ids": [
+          "R05-S15",
+          "R05-S16"
+        ]
+      },
+      {
+        "participant_id": "P0030",
+        "seat_ids": [
+          "R05-S03",
+          "R05-S04"
+        ]
+      },
+      {
+        "participant_id": "P0031",
+        "seat_ids": [
+          "R08-S01",
+          "R08-S02"
+        ]
+      },
+      {
+        "participant_id": "P0032",
+        "seat_ids": [
+          "R03-S11",
+          "R03-S12"
+        ]
+      },
+      {
+        "participant_id": "P0033",
+        "seat_ids": [
+          "R04-S07",
+          "R04-S08"
+        ]
+      },
+      {
+        "participant_id": "P0034",
+        "seat_ids": [
+          "R02-S09",
+          "R02-S10"
+        ]
+      },
+      {
+        "participant_id": "P0035",
+        "seat_ids": [
+          "R04-S03",
+          "R04-S04"
+        ]
+      },
+      {
+        "participant_id": "P0036",
+        "seat_ids": [
+          "R08-S15",
+          "R08-S16"
+        ]
+      },
+      {
+        "participant_id": "P0037",
+        "seat_ids": [
+          "R01-S15",
+          "R01-S16"
+        ]
+      },
+      {
+        "participant_id": "P0038",
+        "seat_ids": [
+          "R03-S01",
+          "R03-S02"
+        ]
+      },
+      {
+        "participant_id": "P0039",
+        "seat_ids": [
+          "R01-S03",
+          "R01-S04"
+        ]
+      },
+      {
+        "participant_id": "P0040",
+        "seat_ids": [
+          "R07-S01",
+          "R07-S02"
+        ]
+      },
+      {
+        "participant_id": "P0041",
+        "seat_ids": [
+          "R06-S01",
+          "R06-S02"
+        ]
+      },
+      {
+        "participant_id": "P0042",
+        "seat_ids": [
+          "R02-S01",
+          "R02-S02"
+        ]
+      },
+      {
+        "participant_id": "P0043",
+        "seat_ids": [
+          "R03-S03",
+          "R03-S04"
+        ]
+      },
+      {
+        "participant_id": "P0044",
+        "seat_ids": [
+          "R07-S13",
+          "R07-S14"
+        ]
+      },
+      {
+        "participant_id": "P0045",
+        "seat_ids": [
+          "R05-S13",
+          "R05-S14"
+        ]
+      },
+      {
+        "participant_id": "P0046",
+        "seat_ids": [
+          "R01-S07",
+          "R01-S08"
+        ]
+      },
+      {
+        "participant_id": "P0047",
+        "seat_ids": [
+          "R02-S13",
+          "R02-S14"
+        ]
+      },
+      {
+        "participant_id": "P0048",
+        "seat_ids": [
+          "R02-S11",
+          "R02-S12"
+        ]
+      },
+      {
+        "participant_id": "P0049",
+        "seat_ids": [
+          "R02-S07",
+          "R02-S08"
+        ]
+      },
+      {
+        "participant_id": "P0050",
+        "seat_ids": [
+          "R03-S09",
+          "R03-S10"
+        ]
+      },
+      {
+        "participant_id": "P0051",
+        "seat_ids": [
+          "R01-S11",
+          "R01-S12"
+        ]
+      },
+      {
+        "participant_id": "P0052",
+        "seat_ids": [
+          "R05-S11",
+          "R05-S12"
+        ]
+      },
+      {
+        "participant_id": "P0053",
+        "seat_ids": [
+          "R04-S15",
+          "R04-S16"
+        ]
+      },
+      {
+        "participant_id": "P0054",
+        "seat_ids": [
+          "R07-S09",
+          "R07-S10"
+        ]
+      },
+      {
+        "participant_id": "P0055",
+        "seat_ids": [
+          "R01-S05",
+          "R01-S06"
+        ]
+      },
+      {
+        "participant_id": "P0056",
+        "seat_ids": [
+          "R04-S01",
+          "R04-S02"
+        ]
+      },
+      {
+        "participant_id": "P0057",
+        "seat_ids": [
+          "R10-S10"
+        ]
+      },
+      {
+        "participant_id": "P0058",
+        "seat_ids": [
+          "R10-S13"
+        ]
+      },
+      {
+        "participant_id": "P0059",
+        "seat_ids": [
+          "R10-S02"
+        ]
+      },
+      {
+        "participant_id": "P0060",
+        "seat_ids": [
+          "R10-S09"
+        ]
+      },
+      {
+        "participant_id": "P0061",
+        "seat_ids": [
+          "R10-S14"
+        ]
+      },
+      {
+        "participant_id": "P0062",
+        "seat_ids": [
+          "R09-S04"
+        ]
+      },
+      {
+        "participant_id": "P0063",
+        "seat_ids": [
+          "R09-S02"
+        ]
+      },
+      {
+        "participant_id": "P0064",
+        "seat_ids": [
+          "R10-S05"
+        ]
+      },
+      {
+        "participant_id": "P0065",
+        "seat_ids": [
+          "R09-S08"
+        ]
+      },
+      {
+        "participant_id": "P0066",
+        "seat_ids": [
+          "R10-S15"
+        ]
+      },
+      {
+        "participant_id": "P0067",
+        "seat_ids": [
+          "R10-S03"
+        ]
+      },
+      {
+        "participant_id": "P0068",
+        "seat_ids": [
+          "R09-S03"
+        ]
+      },
+      {
+        "participant_id": "P0069",
+        "seat_ids": [
+          "R10-S11"
+        ]
+      },
+      {
+        "participant_id": "P0070",
+        "seat_ids": [
+          "R09-S07"
+        ]
+      },
+      {
+        "participant_id": "P0071",
+        "seat_ids": [
+          "R10-S06"
+        ]
+      },
+      {
+        "participant_id": "P0072",
+        "seat_ids": [
+          "R09-S16"
+        ]
+      },
+      {
+        "participant_id": "P0073",
+        "seat_ids": [
+          "R10-S08"
+        ]
+      },
+      {
+        "participant_id": "P0074",
+        "seat_ids": [
+          "R10-S01"
+        ]
+      },
+      {
+        "participant_id": "P0075",
+        "seat_ids": [
+          "R09-S15"
+        ]
+      },
+      {
+        "participant_id": "P0076",
+        "seat_ids": [
+          "R10-S16"
+        ]
+      },
+      {
+        "participant_id": "P0077",
+        "seat_ids": [
+          "R10-S04"
+        ]
+      },
+      {
+        "participant_id": "P0078",
+        "seat_ids": [
+          "R09-S01"
+        ]
+      },
+      {
+        "participant_id": "P0079",
+        "seat_ids": [
+          "R10-S12"
+        ]
+      },
+      {
+        "participant_id": "P0080",
+        "seat_ids": [
+          "R10-S07"
+        ]
+      },
+      {
+        "participant_id": "P0081",
+        "seat_ids": [
+          "R11-S02"
+        ]
+      },
+      {
+        "participant_id": "P0082",
+        "seat_ids": [
+          "R11-S01"
+        ]
+      },
+      {
+        "participant_id": "P0083",
+        "seat_ids": [
+          "R11-S05"
+        ]
+      },
+      {
+        "participant_id": "P0084",
+        "seat_ids": [
+          "R11-S04"
+        ]
+      },
+      {
+        "participant_id": "P0085",
+        "seat_ids": [
+          "R11-S03"
+        ]
+      },
+      {
+        "participant_id": "P0086",
+        "seat_ids": [
+          "R11-S16"
+        ]
+      },
+      {
+        "participant_id": "P0087",
+        "seat_ids": [
+          "R11-S11"
+        ]
+      },
+      {
+        "participant_id": "P0088",
+        "seat_ids": [
+          "R11-S12"
+        ]
+      },
+      {
+        "participant_id": "P0089",
+        "seat_ids": [
+          "R11-S14"
+        ]
+      },
+      {
+        "participant_id": "P0090",
+        "seat_ids": [
+          "R11-S13"
+        ]
+      },
+      {
+        "participant_id": "P0091",
+        "seat_ids": [
+          "R11-S15"
+        ]
+      },
+      {
+        "participant_id": "P0092",
+        "seat_ids": [
+          "R11-S07"
+        ]
+      },
+      {
+        "participant_id": "P0093",
+        "seat_ids": [
+          "R11-S06"
+        ]
+      },
+      {
+        "participant_id": "P0094",
+        "seat_ids": [
+          "R11-S09"
+        ]
+      },
+      {
+        "participant_id": "P0095",
+        "seat_ids": [
+          "R11-S08"
+        ]
+      },
+      {
+        "participant_id": "P0096",
+        "seat_ids": [
+          "R11-S10"
+        ]
+      }
+    ],
+    "objective": 154960,
+    "components": {
+      "contribution_seat": 1565,
+      "activeness": 1882,
+      "category_zone": 1795
+    },
+    "weights": {
+      "contribution_seat": 40,
+      "activeness": 30,
+      "category_zone": 20
+    },
+    "physical_map_sha256": "bfd093ad8c43b29e23ea560a286603ce8fffd066120103495cc6ab64bddc0290",
+    "weighted_proven": true
+  },
+  "telemetry": {
+    "backend": "scip",
+    "weighted_proven": true,
+    "stages": [
+      {
+        "api_status": "OPTIMAL",
+        "value": 154960,
+        "best_bound": 154960.0,
+        "proven": true,
+        "absolute_gap": 0,
+        "relative_gap": 0.0,
+        "nodes": 1,
+        "native_termination": "problem is solved [optimal solution found]",
+        "concurrent_solver_ids": [
+          "scip-1",
+          "scip-2"
+        ],
+        "observed_concurrent_solvers": 2,
+        "gap_limit_reached": false,
+        "stage": "weighted_preferences",
+        "workers": 2,
+        "returned_seconds": 8.953078499995172,
+        "native_log": "000.log"
+      }
+    ],
+    "weighted_proof_reported_seconds": 8.953078499995172,
+    "weighted_stage_return_seconds": 8.953078499995172,
+    "budget_seconds": 60,
+    "raw_request_sha256": "ddc4cc19ab5ad61f7345743cdfa3a7070b9f940f52f3c861efd82a9a9a0ab646",
+    "semantic_input_sha256": "3675d62e2a35908ddaa1ba69d95da31cb5a9f192c6e50bd448ccef6f45f648c3",
+    "normalized_request_sha256": "ddc4cc19ab5ad61f7345743cdfa3a7070b9f940f52f3c861efd82a9a9a0ab646",
+    "weights": {
+      "contribution_seat": 40,
+      "activeness": 30,
+      "category_zone": 20
+    },
+    "shared_work_elapsed_seconds": 8.974789900239557,
+    "within_shared_allowance": true,
+    "phases": [
+      {
+        "name": "normalization",
+        "start_seconds": 1.7000362277030945e-05,
+        "end_seconds": 0.06983960000798106,
+        "duration_seconds": 0.06982259964570403
+      },
+      {
+        "name": "model_build",
+        "start_seconds": 0.06986520020291209,
+        "end_seconds": 3.178380799945444,
+        "duration_seconds": 3.1085155997425318
+      },
+      {
+        "name": "model_updates",
+        "start_seconds": 3.1784065002575517,
+        "end_seconds": 3.181371200364083,
+        "duration_seconds": 0.0029647001065313816
+      },
+      {
+        "name": "weighted_search",
+        "start_seconds": 3.181398299988359,
+        "end_seconds": 8.953072499949485,
+        "duration_seconds": 5.771674199961126
+      },
+      {
+        "name": "extraction",
+        "start_seconds": 8.95309119997546,
+        "end_seconds": 8.968055500183254,
+        "duration_seconds": 0.014964300207793713
+      },
+      {
+        "name": "validation_scoring",
+        "start_seconds": 8.97480700025335,
+        "end_seconds": 9.226063000038266,
+        "duration_seconds": 0.25125599978491664
+      },
+      {
+        "name": "format_response",
+        "start_seconds": 9.232636000029743,
+        "end_seconds": 9.401841000188142,
+        "duration_seconds": 0.16920500015839934
+      }
+    ],
+    "function_return_seconds": 9.49676309991628,
+    "unclassified_function_overhead_seconds": 0.10836070030927658
+  },
+  "returned_new_map": true,
+  "bridge_preparation_seconds": 0.032368399668484926,
+  "complete_service_return_seconds": 10.159464000258595,
+  "response_bytes": 278913,
+  "physical_map_sha256": "bfd093ad8c43b29e23ea560a286603ce8fffd066120103495cc6ab64bddc0290",
+  "request_sha256": "ddc4cc19ab5ad61f7345743cdfa3a7070b9f940f52f3c861efd82a9a9a0ab646",
+  "semantic_input_sha256": "3675d62e2a35908ddaa1ba69d95da31cb5a9f192c6e50bd448ccef6f45f648c3",
+  "response_path": "main/responses/sweep__typical-mixed__current__scip__w2__r2.json",
+  "response_file_sha256": "12e624ca11c20ca1da79db1bb1529a313f6530aefb119848f38c40f98c95fb92",
+  "candidate_path": "main/candidates/sweep__typical-mixed__current__scip__w2__r2.json",
+  "candidate_file_sha256": "eab850acca4f1b429af8083f87a5a693f5e16ba9a4103e08245eb165a7c4cfea",
+  "pending_candidate_path": "main/candidates/pending/sweep__typical-mixed__current__scip__w2__r2.json",
+  "pending_candidate_file_sha256": "f56b48a4710f92aba6c8c9c96c7dc97e44e512a183012eea6ffa2e1a1c9fcda1",
+  "native_log_directory": "main/native/sweep__typical-mixed__current__scip__w2__r2",
+  "memory": {
+    "bytes": 288489472,
+    "method": "Windows process lifetime peak working set; includes native solver threads"
+  },
+  "service_process_cpu_seconds": 14.9375,
+  "worker_elapsed_seconds": 12.887026699725538,
+  "worker_exit_code": 0,
+  "worker_log": "runs/sweep__typical-mixed__current__scip__w2__r2.log"
+}

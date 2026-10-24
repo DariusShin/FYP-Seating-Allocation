@@ -1,0 +1,15 @@
+{
+  "id": "sweep__full-accessible__two__scip__w4__r3",
+  "batch": "sweep",
+  "event": "full-accessible",
+  "configuration": "two",
+  "backend": "scip",
+  "budget_seconds": 60,
+  "repetition": 3,
+  "permutation": true,
+  "workers": 4,
+  "search_seed": 20260918,
+  "execution_status": "not_started",
+  "returned_new_map": false,
+  "reason": "Not executed (plan-sweep)"
+}

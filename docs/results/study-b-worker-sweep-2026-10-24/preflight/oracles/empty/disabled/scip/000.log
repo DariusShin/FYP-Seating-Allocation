@@ -1,0 +1,15 @@
+feasible solution found by trivial heuristic after 0.0 seconds, objective value 0.000000e+00
+presolving:
+presolving (1 rounds: 1 fast, 0 medium, 0 exhaustive):
+ 0 deleted vars, 0 deleted constraints, 0 added constraints, 0 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 0 implications, 0 cliques, 0 implied integral variables (0 bin, 0 int, 0 cont)
+transformed 1/1 original solutions to the transformed problem space
+presolving solved problem
+Presolving Time: 0.00
+
+SCIP Status        : problem is solved [optimal solution found]
+Solving Time (sec) : 0.00
+Solving Nodes      : 0
+Primal Bound       : +0.00000000000000e+00 (1 solutions)
+Dual Bound         : +0.00000000000000e+00
+Gap                : 0.00 %

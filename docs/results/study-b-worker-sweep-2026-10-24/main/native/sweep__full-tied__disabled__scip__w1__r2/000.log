@@ -1,0 +1,31 @@
+presolving:
+(round 1, fast)       0 del vars, 100 del conss, 0 add conss, 0 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 2068 clqs, 0 implints
+(round 2, exhaustive) 0 del vars, 890 del conss, 0 add conss, 0 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 2068 clqs, 0 implints
+(round 3, exhaustive) 0 del vars, 890 del conss, 0 add conss, 0 chg bounds, 0 chg sides, 0 chg coeffs, 1146 upgd conss, 0 impls, 2068 clqs, 0 implints
+   (6.0s) probing: 1000/9664 (10.3%) - 0 fixings, 0 aggregations, 999 implications, 0 bound changes
+   (6.0s) probing: 1001/9664 (10.4%) - 0 fixings, 0 aggregations, 1000 implications, 0 bound changes
+   (6.0s) probing aborted: 1000/1000 successive useless probings
+   Deactivated symmetry handling methods, since SCIP was built without symmetry detector (SYM=none).
+   Deactivated symmetry handling methods, since SCIP was built without symmetry detector (SYM=none).
+presolving (4 rounds: 4 fast, 3 medium, 3 exhaustive):
+ 0 deleted vars, 890 deleted constraints, 0 added constraints, 0 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 1000 implications, 2076 cliques, 0 implied integral variables (0 bin, 0 int, 0 cont)
+presolved problem has 9666 variables (9664 bin, 2 int, 0 cont) and 1354 constraints
+    838 constraints of type <knapsack>
+    308 constraints of type <setppc>
+    208 constraints of type <linear>
+transformed objective value is always integral (scale: 1)
+Presolving Time: 6.00
+
+ time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
+  7.0s|     1 |     0 |  4471 |     - |   146M |   0 |9666 |1553 |1354 |   0 |  0 | 198 |   0 | 0.000000e+00 |      --      |    Inf | unknown
+  8.0s|     1 |     0 |  5081 |     - |   152M |   0 |9666 |1551 |1356 |   2 |  1 | 198 |   0 | 0.000000e+00 |      --      |    Inf | unknown
+* 9.0s|     1 |     0 |  5133 |     - |strongbr|   0 |9666 |1557 |1356 |   2 |  2 | 205 |   1 | 0.000000e+00 | 0.000000e+00 |   0.00%| unknown
+  9.0s|     1 |     0 |  5133 |     - |   153M |   0 |9666 |1557 |1356 |   2 |  2 | 205 |   2 | 0.000000e+00 | 0.000000e+00 |   0.00%| unknown
+
+SCIP Status        : problem is solved [optimal solution found]
+Solving Time (sec) : 9.00
+Solving Nodes      : 1
+Primal Bound       : +0.00000000000000e+00 (1 solutions)
+Dual Bound         : +0.00000000000000e+00
+Gap                : 0.00 %

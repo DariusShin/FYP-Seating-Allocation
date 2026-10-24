@@ -1,0 +1,15 @@
+{
+  "id": "pilot__heavy-mixed__current__cp_sat__w2__r1",
+  "batch": "pilot",
+  "event": "heavy-mixed",
+  "configuration": "current",
+  "backend": "cp_sat",
+  "budget_seconds": 60,
+  "repetition": 1,
+  "permutation": false,
+  "workers": 2,
+  "search_seed": 20260918,
+  "execution_status": "not_started",
+  "returned_new_map": false,
+  "reason": "Not executed (plan-sweep)"
+}

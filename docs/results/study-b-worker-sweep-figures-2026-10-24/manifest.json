@@ -1,0 +1,76 @@
+{
+  "package": "pjkit-study-b-worker-sweep-figures-v1",
+  "solver_executions": 0,
+  "source": {
+    "path": "docs/results/study-b-worker-sweep-2026-10-24/tables/run-records.csv",
+    "sha256": "c5d5eb2d08f682fbf91f15538962253a75c72f6237dccb5519a3ba4fc7869efb"
+  },
+  "best_setting_comparison": {
+    "time": {
+      "cp_sat_w8": {
+        "mean": 6.851,
+        "median": 6.829,
+        "min": 5.426,
+        "max": 8.869
+      },
+      "scip_w1": {
+        "mean": 12.141,
+        "median": 12.773,
+        "min": 7.857,
+        "max": 14.843
+      },
+      "cp_sat_lower_in": 12,
+      "pairs": 12,
+      "median_scip_minus_cp_sat": 6.169
+    },
+    "cpu": {
+      "cp_sat_w8": {
+        "mean": 11.812,
+        "median": 11.023,
+        "min": 9.562,
+        "max": 15.969
+      },
+      "scip_w1": {
+        "mean": 12.462,
+        "median": 13.016,
+        "min": 8.172,
+        "max": 15.281
+      },
+      "cp_sat_lower_in": 6,
+      "pairs": 12,
+      "median_scip_minus_cp_sat": 0.539
+    },
+    "mem": {
+      "cp_sat_w8": {
+        "mean": 177.689,
+        "median": 177.521,
+        "min": 157.684,
+        "max": 196.602
+      },
+      "scip_w1": {
+        "mean": 239.949,
+        "median": 212.312,
+        "min": 174.742,
+        "max": 360.367
+      },
+      "cp_sat_lower_in": 12,
+      "pairs": 12,
+      "median_scip_minus_cp_sat": 34.189
+    },
+    "cpu_per_wall_second": {
+      "cp_sat_w8": 1.72,
+      "scip_w1": 1.03
+    }
+  },
+  "pre_registered": false,
+  "files": {
+    "figures/b5-sweep-time-cpu-memory.pdf": "c6a0b984ccad2f93af3da7f3c84bb5cb7eceda1ef0387d1bb8e06bf8d6013af0",
+    "figures/b5-sweep-time-cpu-memory.png": "552cb5a40edcc43f0db2872621052e6e55c433b6f7d2630c8d3473191988eda7",
+    "figures/b5-sweep-time-cpu-memory.svg": "d6f362ab14efc5fa4f1d4e749fd2d34ab28577cfb2b57779368fc0a3162b7598",
+    "figures/b6-best-setting-comparison.pdf": "38ebfb4aac302efa3868ce1124cfbe799a8f5d6bc1f994ebb0601d0bf7c1467d",
+    "figures/b6-best-setting-comparison.png": "6004b00c6e3d6aabe628c1d6a707a10cff837b2efa560823dc594727895a90b1",
+    "figures/b6-best-setting-comparison.svg": "b8b15ffa9ff17ae320b0396609e2ff2225a7f34f1f23b360a5837ab2e67e1c7e",
+    "tables/best-setting-pairs.csv": "286162c224a561b7dfc170463741fd471add9434feeb9790745a25e604763ede",
+    "tables/level-summary.csv": "5c43ac7b6b2378d2fb3e53ba26e9a96e1ba33b9e2b135eb6be5d8bcdaa236fce"
+  }
+}

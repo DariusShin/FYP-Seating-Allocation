@@ -1,0 +1,15 @@
+{
+  "id": "sweep__full-tied__disabled__cp_sat__w8__r1",
+  "batch": "sweep",
+  "event": "full-tied",
+  "configuration": "disabled",
+  "backend": "cp_sat",
+  "budget_seconds": 60,
+  "repetition": 1,
+  "permutation": false,
+  "workers": 8,
+  "search_seed": 20260918,
+  "execution_status": "not_started",
+  "returned_new_map": false,
+  "reason": "Not executed (plan-sweep)"
+}

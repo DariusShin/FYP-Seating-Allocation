@@ -1,0 +1,741 @@
+{
+  "execution_status": "completed",
+  "passed": true,
+  "native_concurrency": {
+    "passed": true,
+    "requested_workers": 8,
+    "set_num_threads_accepted": true,
+    "solver_version": "SCIP 10.0.0 [LP solver: SoPlex 8.0.0]",
+    "probe_api_status": 0,
+    "oracle_objective": 758,
+    "concurrent_optimum_verified": true,
+    "verification": "Eight distinct native 'starting solve in concurrent solver' messages",
+    "log": "scip-concurrency.log",
+    "native_termination": "problem is solved [optimal solution found]",
+    "concurrent_solver_ids": [
+      "scip-1",
+      "scip-2",
+      "scip-3",
+      "scip-4",
+      "scip-5",
+      "scip-6",
+      "scip-7",
+      "scip-8"
+    ],
+    "observed_concurrent_solvers": 8,
+    "gap_limit_reached": false
+  },
+  "correctness": {
+    "passed": true,
+    "oracle_cases": [
+      {
+        "case": "singles",
+        "configuration": "current",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 730,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "singles",
+        "configuration": "current",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 730,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "singles",
+        "configuration": "reversed",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 1180,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "singles",
+        "configuration": "reversed",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 1180,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "singles",
+        "configuration": "two",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 780,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "singles",
+        "configuration": "two",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 780,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "singles",
+        "configuration": "disabled",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "singles",
+        "configuration": "disabled",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "mixed_tiers",
+        "configuration": "current",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 520,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "mixed_tiers",
+        "configuration": "current",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 520,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "mixed_tiers",
+        "configuration": "reversed",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 1040,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "mixed_tiers",
+        "configuration": "reversed",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 1040,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "mixed_tiers",
+        "configuration": "two",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 780,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "mixed_tiers",
+        "configuration": "two",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 780,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "mixed_tiers",
+        "configuration": "disabled",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "mixed_tiers",
+        "configuration": "disabled",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "two_pairs",
+        "configuration": "current",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 1150,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "two_pairs",
+        "configuration": "current",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 1150,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "two_pairs",
+        "configuration": "reversed",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 1470,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "two_pairs",
+        "configuration": "reversed",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 1470,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "two_pairs",
+        "configuration": "two",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 900,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "two_pairs",
+        "configuration": "two",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 900,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "two_pairs",
+        "configuration": "disabled",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "two_pairs",
+        "configuration": "disabled",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "two_rows",
+        "configuration": "current",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 1350,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "two_rows",
+        "configuration": "current",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 1350,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "two_rows",
+        "configuration": "reversed",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 2270,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "two_rows",
+        "configuration": "reversed",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 2270,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "two_rows",
+        "configuration": "two",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 1650,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "two_rows",
+        "configuration": "two",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 1650,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "two_rows",
+        "configuration": "disabled",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "two_rows",
+        "configuration": "disabled",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "empty",
+        "configuration": "current",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "empty",
+        "configuration": "current",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "empty",
+        "configuration": "reversed",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "empty",
+        "configuration": "reversed",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "empty",
+        "configuration": "two",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "empty",
+        "configuration": "two",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "empty",
+        "configuration": "disabled",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "empty",
+        "configuration": "disabled",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "capacity_infeasible",
+        "configuration": "current",
+        "backend": "cp_sat",
+        "feasible": false,
+        "objective": null,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "capacity_infeasible",
+        "configuration": "current",
+        "backend": "scip",
+        "feasible": false,
+        "objective": null,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "capacity_infeasible",
+        "configuration": "reversed",
+        "backend": "cp_sat",
+        "feasible": false,
+        "objective": null,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "capacity_infeasible",
+        "configuration": "reversed",
+        "backend": "scip",
+        "feasible": false,
+        "objective": null,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "capacity_infeasible",
+        "configuration": "two",
+        "backend": "cp_sat",
+        "feasible": false,
+        "objective": null,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "capacity_infeasible",
+        "configuration": "two",
+        "backend": "scip",
+        "feasible": false,
+        "objective": null,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "capacity_infeasible",
+        "configuration": "disabled",
+        "backend": "cp_sat",
+        "feasible": false,
+        "objective": null,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "capacity_infeasible",
+        "configuration": "disabled",
+        "backend": "scip",
+        "feasible": false,
+        "objective": null,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "accessibility_infeasible",
+        "configuration": "current",
+        "backend": "cp_sat",
+        "feasible": false,
+        "objective": null,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "accessibility_infeasible",
+        "configuration": "current",
+        "backend": "scip",
+        "feasible": false,
+        "objective": null,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "accessibility_infeasible",
+        "configuration": "reversed",
+        "backend": "cp_sat",
+        "feasible": false,
+        "objective": null,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "accessibility_infeasible",
+        "configuration": "reversed",
+        "backend": "scip",
+        "feasible": false,
+        "objective": null,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "accessibility_infeasible",
+        "configuration": "two",
+        "backend": "cp_sat",
+        "feasible": false,
+        "objective": null,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "accessibility_infeasible",
+        "configuration": "two",
+        "backend": "scip",
+        "feasible": false,
+        "objective": null,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "accessibility_infeasible",
+        "configuration": "disabled",
+        "backend": "cp_sat",
+        "feasible": false,
+        "objective": null,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "accessibility_infeasible",
+        "configuration": "disabled",
+        "backend": "scip",
+        "feasible": false,
+        "objective": null,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "accessible_pair",
+        "configuration": "current",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 260,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "accessible_pair",
+        "configuration": "current",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 260,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "accessible_pair",
+        "configuration": "reversed",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 520,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "accessible_pair",
+        "configuration": "reversed",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 520,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "accessible_pair",
+        "configuration": "two",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 390,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "accessible_pair",
+        "configuration": "two",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 390,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "accessible_pair",
+        "configuration": "disabled",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "accessible_pair",
+        "configuration": "disabled",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "equal_scores",
+        "configuration": "current",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 520,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "equal_scores",
+        "configuration": "current",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 520,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "equal_scores",
+        "configuration": "reversed",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 1040,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "equal_scores",
+        "configuration": "reversed",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 1040,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "equal_scores",
+        "configuration": "two",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 780,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "equal_scores",
+        "configuration": "two",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 780,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "equal_scores",
+        "configuration": "disabled",
+        "backend": "cp_sat",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      },
+      {
+        "case": "equal_scores",
+        "configuration": "disabled",
+        "backend": "scip",
+        "feasible": true,
+        "objective": 0,
+        "valid_and_optimal": true
+      }
+    ],
+    "executions": 72,
+    "scope": "Tiny development/correctness oracles only; excluded from measured study denominators"
+  },
+  "service_bridge": {
+    "passed": true,
+    "links": [
+      {
+        "backend": "cp_sat",
+        "adopted": true,
+        "status": "OPTIMAL"
+      },
+      {
+        "backend": "scip",
+        "adopted": true,
+        "status": "OPTIMAL"
+      }
+    ],
+    "valid_unproved_adopted": true,
+    "invalid_candidate_rejected": true,
+    "scope": "Tiny correctness tests only, not measured workload results"
+  },
+  "inputs": {
+    "passed": true,
+    "events": {
+      "typical-mixed": {
+        "passed": true,
+        "checked_option_vectors": 1718,
+        "production_weights": {
+          "contribution_seat": 40,
+          "activeness": 30,
+          "category_zone": 20
+        },
+        "witness_validation": {
+          "passed": true,
+          "issues": []
+        }
+      },
+      "high-mixed": {
+        "passed": true,
+        "checked_option_vectors": 2398,
+        "production_weights": {
+          "contribution_seat": 40,
+          "activeness": 30,
+          "category_zone": 20
+        },
+        "witness_validation": {
+          "passed": true,
+          "issues": []
+        }
+      },
+      "near-mixed": {
+        "passed": true,
+        "checked_option_vectors": 2868,
+        "production_weights": {
+          "contribution_seat": 40,
+          "activeness": 30,
+          "category_zone": 20
+        },
+        "witness_validation": {
+          "passed": true,
+          "issues": []
+        }
+      },
+      "full-mixed": {
+        "passed": true,
+        "checked_option_vectors": 3088,
+        "production_weights": {
+          "contribution_seat": 40,
+          "activeness": 30,
+          "category_zone": 20
+        },
+        "witness_validation": {
+          "passed": true,
+          "issues": []
+        }
+      },
+      "heavy-mixed": {
+        "passed": true,
+        "checked_option_vectors": 3156,
+        "production_weights": {
+          "contribution_seat": 40,
+          "activeness": 30,
+          "category_zone": 20
+        },
+        "witness_validation": {
+          "passed": true,
+          "issues": []
+        }
+      },
+      "full-conflict": {
+        "passed": true,
+        "checked_option_vectors": 3088,
+        "production_weights": {
+          "contribution_seat": 20,
+          "activeness": 30,
+          "category_zone": 40
+        },
+        "witness_validation": {
+          "passed": true,
+          "issues": []
+        }
+      },
+      "full-tied": {
+        "passed": true,
+        "checked_option_vectors": 9664,
+        "production_weights": {
+          "contribution_seat": 0,
+          "activeness": 0,
+          "category_zone": 0
+        },
+        "witness_validation": {
+          "passed": true,
+          "issues": []
+        }
+      },
+      "full-accessible": {
+        "passed": true,
+        "checked_option_vectors": 2862,
+        "production_weights": {
+          "contribution_seat": 40,
+          "activeness": 0,
+          "category_zone": 30
+        },
+        "witness_validation": {
+          "passed": true,
+          "issues": []
+        }
+      }
+    }
+  },
+  "worker_elapsed_seconds": 51.707594299688935,
+  "worker_exit_code": 0,
+  "worker_log": "preflight.log"
+}

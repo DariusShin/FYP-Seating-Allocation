@@ -1,0 +1,19 @@
+presolving:
+(round 1, fast)       2 del vars, 14 del conss, 0 add conss, 2 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 6 clqs, 0 implints
+(round 2, exhaustive) 2 del vars, 14 del conss, 0 add conss, 2 chg bounds, 0 chg sides, 0 chg coeffs, 13 upgd conss, 0 impls, 6 clqs, 0 implints
+(round 3, medium)     8 del vars, 25 del conss, 5 add conss, 2 chg bounds, 4 chg sides, 10 chg coeffs, 13 upgd conss, 0 impls, 3 clqs, 0 implints
+(round 4, fast)       12 del vars, 32 del conss, 5 add conss, 5 chg bounds, 4 chg sides, 10 chg coeffs, 13 upgd conss, 0 impls, 0 clqs, 0 implints
+   Deactivated symmetry handling methods, since SCIP was built without symmetry detector (SYM=none).
+presolving (5 rounds: 5 fast, 3 medium, 2 exhaustive):
+ 12 deleted vars, 35 deleted constraints, 5 added constraints, 5 tightened bounds, 0 added holes, 4 changed sides, 10 changed coefficients
+ 0 implications, 0 cliques, 0 implied integral variables (0 bin, 0 int, 0 cont)
+transformed 1/1 original solutions to the transformed problem space
+presolving solved problem
+Presolving Time: 0.00
+
+SCIP Status        : problem is solved [optimal solution found]
+Solving Time (sec) : 0.00
+Solving Nodes      : 0
+Primal Bound       : +0.00000000000000e+00 (1 solutions)
+Dual Bound         : +0.00000000000000e+00
+Gap                : 0.00 %

@@ -1,0 +1,57 @@
+{
+  "package": "pjkit-study-b-attempt3-map-figure-v1",
+  "solver_executions": 0,
+  "event": "heavy-mixed",
+  "configuration": "current",
+  "batch": "primary",
+  "execution": 1,
+  "registration_units": 131,
+  "units_with_different_seats": 65,
+  "backends": {
+    "cp_sat": {
+      "job": "primary__heavy-mixed__current__cp_sat__w8__r1",
+      "objective": 205150,
+      "components": {
+        "contribution_seat": 2266,
+        "activeness": 2025,
+        "category_zone": 2688
+      },
+      "complete_service_return_seconds": 10.09671529987827,
+      "physical_map_sha256": "b1ff96d6ba3269688f02fbbf7d85d23ef4550e1229336e69f64ee32e9d866065"
+    },
+    "scip": {
+      "job": "primary__heavy-mixed__current__scip__w8__r1",
+      "objective": 205150,
+      "components": {
+        "contribution_seat": 2263,
+        "activeness": 2021,
+        "category_zone": 2700
+      },
+      "complete_service_return_seconds": 27.330992199946195,
+      "physical_map_sha256": "4eaea626f95ae6d5a9e1b050d8fb7df8fa79175212d40a537ce843dc0382ff25"
+    }
+  },
+  "sources": {
+    "input": {
+      "path": "docs/results/study-b-windows-2026-10-23-attempt3/inputs/heavy-mixed.json",
+      "sha256": "ec8d31bfd0e40a09febb930682bf91d5707a075e0df9749fb90a706d463704e1"
+    },
+    "run_records": {
+      "path": "docs/results/study-b-windows-2026-10-23-attempt3/tables/run-records.csv",
+      "sha256": "a69121eaba2664d6fccf139b4a95f1891626e89f688e4f3ce2af69a4ca32bb13"
+    },
+    "cp_sat": {
+      "path": "docs/results/study-b-windows-2026-10-23-attempt3/main/candidates/primary__heavy-mixed__current__cp_sat__w8__r1.json",
+      "sha256": "d3cfcb404b170b76072c28cb0d1243cb4dc967ef1fc196534139effd55f0554d"
+    },
+    "scip": {
+      "path": "docs/results/study-b-windows-2026-10-23-attempt3/main/candidates/primary__heavy-mixed__current__scip__w8__r1.json",
+      "sha256": "2935cd661afa79be0751f0f4f957b7dedcef3b74f3009c166a775d34708ed916"
+    }
+  },
+  "figures": {
+    "pdf": "6f18cabc279699e8e2fed5413bb1c5391c9ffcff373ab3f5e1bdb8047688b378",
+    "svg": "4bcc420940673dc09f4bba1832e27a5a8d0aa79914b237b2d1ea1fe4a6a7ef8f",
+    "png": "1955d692023969eaf19d2c608b0605c3dbcd2e288e1106b41dace61396299d5a"
+  }
+}

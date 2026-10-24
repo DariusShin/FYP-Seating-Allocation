@@ -1,0 +1,16 @@
+{
+  "kind": "trial",
+  "directory": "D:\\web-projects\\FYP-Seating-Allocation\\docs\\results\\study-b-worker-sweep-2026-10-24",
+  "job": {
+    "id": "sweep__full-accessible__two__scip__w2__r1",
+    "batch": "sweep",
+    "event": "full-accessible",
+    "configuration": "two",
+    "backend": "scip",
+    "budget_seconds": 60,
+    "repetition": 1,
+    "permutation": false,
+    "workers": 2,
+    "search_seed": 20260918
+  }
+}

@@ -1,0 +1,9 @@
+batch,budget_seconds,workers,backend,scheduled,completed,valid_maps,proof_maps,optimal_map,feasible_map,no_map,late_candidate,invalid_candidate,execution_error,not_started
+sweep,60,1,cp_sat,12,12,3,3,3,0,0,9,0,0,0
+sweep,60,1,scip,12,12,12,12,12,0,0,0,0,0,0
+sweep,60,2,cp_sat,12,12,4,4,4,0,0,8,0,0,0
+sweep,60,2,scip,12,12,12,12,12,0,0,0,0,0,0
+sweep,60,4,cp_sat,12,12,4,4,4,0,0,8,0,0,0
+sweep,60,4,scip,12,12,12,12,12,0,0,0,0,0,0
+sweep,60,8,cp_sat,12,12,12,12,12,0,0,0,0,0,0
+sweep,60,8,scip,12,12,12,12,12,0,0,0,0,0,0
